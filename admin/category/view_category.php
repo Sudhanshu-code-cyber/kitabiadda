@@ -82,7 +82,7 @@
                       ?>
                       <!-- delete work end -->
 
-                      <a href="?edit_category=<?= $cat_detail['id']; ?>" class="btn btn-warning btn-sm"><i
+                      <a href="edit_category.php?edit_cat=<?= $cat_detail['id']; ?>" class="btn btn-warning btn-sm"><i
                           class="bi bi-pencil-square"></i></a>
                     </td>
 

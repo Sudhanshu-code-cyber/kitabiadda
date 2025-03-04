@@ -1,4 +1,4 @@
-<?php include_once "../../config/connect.php"; ?>
+<?php include_once 'C:\xampp\htdocs\ReadRainbow\config\connect.php'; ?>
 <style>
   /* Sticky Navbar */
   .navbar {
