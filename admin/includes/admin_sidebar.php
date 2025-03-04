@@ -47,19 +47,19 @@
     <li class="nav-item">
       <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse3"
         aria-expanded="false" aria-controls="manageOrderCollapse">
-        <i class="bi bi-suitcase-lg me-2"></i>Manage Item
+        <i class="bi bi-suitcase-lg me-2"></i>Manage Books
       </a>
       <div class="collapse" id="manageOrderCollapse3">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="#">View item</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/books/view_books.php">View Books</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Insert item</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/books/insert_books.php">Insert Books</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit item</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </li>
