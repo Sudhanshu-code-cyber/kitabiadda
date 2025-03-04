@@ -55,8 +55,35 @@
                     <td><?= $cat_detail['subcat_title'] ?></td>
                     <td><?= $cat_detail['cat_description'] ?>.</td>
 
-                    <td><a href="?delete_category=<?= $cat_detail['id']; ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i></a>
-                      <a href="?edit_category=<?= $cat_detail['id']; ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                    <td><a href="?delete_cat=<?= $cat_detail['id']; ?>" class="btn btn-danger btn-sm"><i
+                          class="bi bi-trash3"></i></a>
+                      <!-- delete work start -->
+                      <?php
+                      if (isset($_GET['delete_cat'])) {
+                        $id = $_GET['delete_cat'];
+                        $delete_cat_query = mysqli_query($connect, "DELETE FROM category where id='$id'");
+                        if ($delete_cat_query) {
+                          echo "<script>
+                              Swal.fire({
+                                  title: 'Category DELETE Successfully!',
+                                  text: 'Click OK to go back to the category list.',
+                                  icon: 'success',
+                                  confirmButtonText: 'OK'
+                              }).then((result) => {
+                                  if (result.isConfirmed) {
+                                      // Redirect to your desired page (change 'your_page.php' to the actual page you want)
+                                      window.location.href = 'view_category.php';
+                                  }
+                              });
+                            </script>";
+                        }
+                      }
+
+                      ?>
+                      <!-- delete work end -->
+
+                      <a href="?edit_category=<?= $cat_detail['id']; ?>" class="btn btn-warning btn-sm"><i
+                          class="bi bi-pencil-square"></i></a>
                     </td>
 
                   </tr>
