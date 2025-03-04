@@ -29,7 +29,7 @@
         </div>
     </button>
 
-    <a href="sell.php" class="border p-2 rounded-full text-[#FBFFE4]">Sell Used Book</a>
+    <a href="sell/sell.php" class="border p-2 rounded-full text-[#FBFFE4]">Sell Used Book</a>
 
 
     <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
