@@ -59,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="mrp" class="form-label">MRP</label>
-                                    <input type="number" class="form-control" id="mrp" name="mrp" required>
+                                    <input type="text" class="form-control" id="mrp" name="mrp" required>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sellingPrice" class="form-label">Selling Price</label>
-                                    <input type="number" class="form-control" id="sellingPrice" name="selling_price"
+                                    <input type="text" class="form-control" id="sellingPrice" name="selling_price"
                                         required>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="pages" class="form-label">Pages</label>
-                                    <input type="number" class="form-control" id="pages" name="pages" required>
+                                    <input type="text" class="form-control" id="pages" name="pages" required>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +100,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <!-- Category -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="ebookAvailable" name="ebook_available" required>
+                                    <option value="">Chose Category</option>
+                                        <?php
+                                        $call_cat = mysqli_query($connect,"SELECT * FROM category");
+                                        while($cat_row = mysqli_fetch_array($call_cat)){ ?>
+                                        <option value=" <?= $cat_row['cat_title'] ?> " > <?= $cat_row['cat_title'] ?> </option>
+
+                                        <?php } ?>
+                                        
+                                    </select>
+                                </div>
+                               </div>
+
+                            <!-- Language -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Sub-Category</label>
+                                    <select class="form-select" id="ebookAvailable" name="ebook_available" required>
+                                    <option value="">Chose Sub-Category</option>
+                                        <?php
+                                        
+                                        $call_sub_cat = mysqli_query($connect,"SELECT * FROM category");
+                                        while($sub_cat_row = mysqli_fetch_array($call_sub_cat)){ ?>
+                                        <option value="<?= $sub_cat_row['subcat_title'] ?>"><?= $sub_cat_row['subcat_title'] ?></option>
+
+                                        <?php } ?>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <!-- ISBN -->
@@ -114,7 +150,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="publishYear" class="form-label">Publish Year</label>
-                                    <input type="number" class="form-control" id="publishYear" name="publish_year"
+                                    <input type="text" class="form-control" id="publishYear" name="publish_year"
                                         required>
                                 </div>
                             </div>
@@ -155,7 +191,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="rating" class="form-label">Rating</label>
-                                    <input type="number" class="form-control" id="rating" name="rating" min="1" max="5"
+                                    <input type="text" class="form-control" id="rating" name="rating" min="1" max="5"
                                         step="0.1" required>
                                 </div>
                             </div>
