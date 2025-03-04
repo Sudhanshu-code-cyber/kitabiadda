@@ -101,11 +101,11 @@
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller FirstName</label>
-                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Mo.Number">
+                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname">
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller LastNumber</label>
-                    <input type="text" name="lastname" class="form-control" placeholder="Enter Your Mo.Number">
+                    <input type="text" name="lastname" class="form-control" placeholder="Enter Your Lastname">
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
