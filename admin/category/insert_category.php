@@ -28,53 +28,67 @@
         <!-- <p>Manage all foods and orders efficiently</p> -->
 
         <!-- Responsive Section -->
-        <div class="container mt-5">
-          <div class="row">
-            <!-- Category Section -->
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header bg-primary text-white">
-                  <h4>Category</h4>
+        <form action="" method="post">
+          <div class="container mt-5">
+            <div class="row">
+              <!-- Category Section -->
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header bg-primary text-white">
+                    <h4>Category</h4>
+                  </div>
+                  <div class="card-body">
+                    <input type="text" class="form-control" placeholder="Enter Category" name="cat_title">
+                  </div>
                 </div>
-                <div class="card-body">
-                  <input type="text" class="form-control" placeholder="Enter Category" name="cat_title">
+              </div>
+
+              <!-- Sub-category Section -->
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header bg-info text-white">
+                    <h4>Sub-category</h4>
+                  </div>
+                  <div class="card-body">
+                    <input type="text" class="form-control" placeholder="Enter Sub-category" name="subcat_title">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description Section -->
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header bg-success text-white">
+                    <h4>Description</h4>
+                  </div>
+                  <div class="card-body">
+                    <textarea class="form-control" rows="4" placeholder="Enter description here..."
+                      name="cat_description"></textarea>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Sub-category Section -->
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header bg-info text-white">
-                  <h4>Sub-category</h4>
-                </div>
-                <div class="card-body">
-                  <input type="text" class="form-control" placeholder="Enter Sub-category" name="subcat_title">
-                </div>
-              </div>
-            </div>
-
-            <!-- Description Section -->
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header bg-success text-white">
-                  <h4>Description</h4>
-                </div>
-                <div class="card-body">
-                  <textarea class="form-control" rows="4" placeholder="Enter description here..."
-                    name="cat_description"></textarea>
-                </div>
+            <!-- Submit Button -->
+            <div class="row mt-3">
+              <div class="col text-center">
+                <button class="btn btn-primary" name="cat_submit">Submit </button>
               </div>
             </div>
           </div>
+        </form>
+        <?php
+        if (isset($_POST['cat_submit'])) {
+          $cat_title = $_POST['cat_title'];
+          $subcat_title = $_POST['subcat_title'];
+          $cat_description = $_POST['cat_description'];
+          $insert_category = mysqli_query($connect, "INSERT INTO category (cat_title,subcat_title,cat_description) VALUE ('$cat_title','$subcat_title','$cat_description')");
+          if ($insert_category) {
+            echo "<script>Swal.fire('Category Inserted Successfully !'); </script>";
+          }
+        }
 
-          <!-- Submit Button -->
-          <div class="row mt-3">
-            <div class="col text-center">
-              <button class="btn btn-primary">Submit </button>
-            </div>
-          </div>
-        </div>
+        ?>
       </div>
     </div>
 
@@ -93,6 +107,8 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <script>
