@@ -25,7 +25,6 @@
     <div class="main-content col-8">
       <div class="content flex-grow-1 p-4">
         <h2>ONLY VIEW INSERTED CATEGORies...</h2>
-        <!-- <p>Manage all foods and orders efficiently</p> -->
 
         <!-- Table Section inside Horizontal Slider -->
         <div class="container mt-5">
@@ -91,7 +90,6 @@
                 <?php } ?>
 
 
-                <!-- Add more rows here as needed -->
               </tbody>
             </table>
           </div>

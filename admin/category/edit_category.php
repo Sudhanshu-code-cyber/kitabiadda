@@ -25,7 +25,6 @@
         <div class="main-content">
             <div class="content flex-grow-1 p-4">
                 <h2>INSERT ONLY CATEGORY DETAILs...</h2>
-                <!-- <p>Manage all foods and orders efficiently</p> -->
 
                 <!-- call edit item jo uska id hai  -->
                 <?php
@@ -53,7 +52,6 @@
                 ?>
 
 
-                <!-- Responsive Section -->
                 <form action="" method="post">
                     <div class="container mt-5">
                         <div class="row">

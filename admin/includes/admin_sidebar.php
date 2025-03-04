@@ -3,8 +3,8 @@
   <h4>Manage..</h4>
   <hr>
   <ul class="nav flex-column">
-    <!-- Manage Order with Pending Badge -->
-    <li class="nav-item">
+
+  <li class="nav-item">
       <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse1"
         aria-expanded="false" aria-controls="manageOrderCollapse">
         <i class="bi bi-box-seam-fill me-2"></i>Manage Order

@@ -24,8 +24,8 @@
     <div class="main-content">
       <div class="content flex-grow-1 p-4">
         <h2>Welcome to Read Rainbow</h2>
-        <!-- <p>Manage all foods and orders efficiently</p> -->
 
+        
         <div class="row mt-4">
           <!-- Cards -->
           <div class="col-lg-3 col-md-6 mb-3">
