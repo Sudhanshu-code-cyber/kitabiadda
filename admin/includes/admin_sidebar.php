@@ -32,14 +32,14 @@
       <div class="collapse" id="manageOrderCollapse2">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="#">View Category</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/category/view_category.php">View Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Insert Category</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/category/insert_category.php">Insert Category</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit Category</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </li>
@@ -108,11 +108,11 @@
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse5"
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse6"
         aria-expanded="false" aria-controls="manageOrderCollapse">
         <i class="bi bi-shield-fill-exclamation me-2"></i>Users Complains
       </a>
-      <div class="collapse" id="manageOrderCollapse5">
+      <div class="collapse" id="manageOrderCollapse6">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
             <a class="nav-link" href="#">Complain </a>
