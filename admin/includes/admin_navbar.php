@@ -87,6 +87,11 @@
       display: none;
     }
   }
+  .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+    }
 </style>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -97,7 +102,7 @@
     </button>
 
     <!-- Admin Panel Text in the Center -->
-    <a class="navbar-brand " href="index.php">Admin Panel</a>
+    <a class="navbar-brand " href="http://localhost/readrainbow/admin/index.php">Admin Panel</a>
 
     <!-- Logout Button on Right -->
     <ul class="navbar-nav">
