@@ -24,15 +24,15 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <label class="form-label h6">Subject</label>
-                    <input type="text" name="Subject" class="form-control" placeholder="Enter book name">
+                    <input type="text" name="Subject" class="form-control" placeholder="Enter book name" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Book Name</label>
-                    <input type="text" name="book_name" class="form-control" placeholder="Enter author name">
+                    <input type="text" name="book_name" class="form-control" placeholder="Enter author name" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Author</label>
-                    <input type="text" name="author" class="form-control" placeholder="Enter author name">
+                    <input type="text" name="author" class="form-control" placeholder="Enter author name" required>
                 </div>
 
                 <div class="col-md-4">
@@ -41,11 +41,11 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">MRP</label>
-                    <input type="number" name="mrp" class="form-control" placeholder="Enter MRP">
+                    <input type="number" name="mrp" class="form-control" placeholder="Enter MRP" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Selling Price</label>
-                    <input type="number" name="selling_price" class="form-control" placeholder="Enter selling price">
+                    <input type="number" name="selling_price" class="form-control" placeholder="Enter selling price" required>
                 </div>
 
                 <div class="col-md-4">
@@ -75,7 +75,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label h6">Language</label>
-                    <input type="text" name="language" class="form-control" placeholder="Book language">
+                    <input type="text" name="language" class="form-control" placeholder="Book language" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">ISBN</label>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Publish Year</label>
-                    <input type="number" name="publish_year" class="form-control" placeholder="Enter publish year">
+                    <input type="number" name="publish_year" class="form-control" placeholder="Enter publish year" required>
                 </div>
 
                 <div class="col-6">
@@ -97,15 +97,15 @@
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Contact Number</label>
-                    <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number">
+                    <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number" required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller FirstName</label>
-                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname">
+                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname" required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller LastNumber</label>
-                    <input type="text" name="lastname" class="form-control" placeholder="Enter Your Lastname">
+                    <input type="text" name="lastname" class="form-control" placeholder="Enter Your Lastname" required>
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
