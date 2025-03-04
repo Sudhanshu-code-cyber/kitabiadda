@@ -5,74 +5,124 @@
   <ul class="nav flex-column">
     <!-- Manage Order with Pending Badge -->
     <li class="nav-item">
-      <div class="position-relative">
-        <a class="nav-link" href="#">Manage Order</a>
-        <!-- <span class="badge bg-danger rounded-pill position-absolute" style="top: 8px; right: 105px; font-size: 0.75rem;">30</span> -->
-      </div>
-      <ul class="nav flex-column sub-category">
-        <li>
-          <div class="position-relative">
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse1"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-box-seam-fill me-2"></i>Manage Order
+      </a>
+      <div class="collapse" id="manageOrderCollapse1">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
             <a class="nav-link" href="#">Pending Order</a>
-            <!-- <span class="badge bg-danger rounded-pill position-absolute" style="top: 8px; right: 85px; font-size: 0.75rem;">2</span> -->
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Cancelled Order</a>
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Order Placed</a>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </li>
     <hr>
     <li class="nav-item">
-      <div class="position-relative">
-        <a class="nav-link" href="#">Manage Order</a>
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse2"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-diagram-3 me-2"></i>Manage Category
+      </a>
+      <div class="collapse" id="manageOrderCollapse2">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">View Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Insert Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Edit Category</a>
+          </li>
+        </ul>
       </div>
-      <ul class="nav flex-column sub-category">
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Pending Order</a>
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Cancelled Order</a>
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Order Placed</a>
-          </div>
-        </li>
-      </ul>
     </li>
     <hr>
     <li class="nav-item">
-      <div class="position-relative">
-        <a class="nav-link" href="#">Manage Order</a>
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse3"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-suitcase-lg me-2"></i>Manage Item
+      </a>
+      <div class="collapse" id="manageOrderCollapse3">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">View item</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Insert item</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Edit item</a>
+          </li>
+        </ul>
       </div>
-      <ul class="nav flex-column sub-category">
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Pending Order</a>
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Cancelled Order</a>
-          </div>
-        </li>
-        <li>
-          <div class="position-relative">
-            <a class="nav-link" href="#">Order Placed</a>
-          </div>
-        </li>
-      </ul>
+    </li>
+    <hr>
+    <li class="nav-item">
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse4"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-bank me-2"></i>Finence
+      </a>
+      <div class="collapse" id="manageOrderCollapse4">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">total sale</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Total Profit</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Spend & </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <hr>
+    <li class="nav-item">
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse5"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-person-bounding-box me-2"></i>Manage Users
+      </a>
+      <div class="collapse" id="manageOrderCollapse5">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Users </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Blocked Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reviue Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Spam Users</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <hr>
+    <li class="nav-item">
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse5"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-shield-fill-exclamation me-2"></i>Users Complains
+      </a>
+      <div class="collapse" id="manageOrderCollapse5">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Complain </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Bug Complain</a>
+          </li>
+          
+        </ul>
+      </div>
     </li>
     <hr>
 
