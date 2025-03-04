@@ -7,20 +7,16 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        .preview-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        .img>upload{
+            width: 120px;
+            height:50px;
         }
 
-        .preview-container img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-        }
+
+
+
     </style>
 </head>
 
@@ -89,47 +85,105 @@
                     <textarea name="description" class="form-control" rows="4"
                         placeholder="Describe the book"></textarea>
                 </div>
-
-                <div class="d-flex justify-content-center">
-                    <div class="card" style="width: 200px; cursor: pointer;"
-                        onclick="document.getElementById('fileInput').click()">
-                        <div class="card-body text-center">
-                            <img id="previewImage" src="" alt="Preview" class="img-fluid d-none rounded">
-                            <div id="uploadText" class="text-muted">
-                                <i class="bi bi-camera fs-1"></i>
-                                <p class="mt-2">Add Photo</p>
+                <div class="row gap-2 mt-2">
+                    <div class="col-sm-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="card" style="width: 120px; cursor: pointer;"
+                                onclick="document.getElementById('fileInput1').click()">
+                                <div class="card-body text-center">
+                                    <div id="imagePreviewContainer1" class="d-flex flex-wrap gap-2"></div>
+                                    <div id="uploadText1" class="text-muted">
+                                        <i class="bi bi-camera fs-1"></i>
+                                        <p class="mt-2">Add Photos 1</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <input type="file" id="fileInput1" accept="image/*" class="d-none upload" multiple
+                        onchange="previewImages(event, 'imagePreviewContainer1', 'uploadText1')">
+                    <br>
 
-                <input type="file" id="fileInput" accept="image/*" class="d-none" onchange="previewImage(event)">
-                <script>
-                    function previewImage(event) {
-                        const file = event.target.files[0];
-                        const previewImage = document.getElementById('previewImage');
-                        const uploadText = document.getElementById('uploadText');
+                    <!-- Second Upload Section -->
+                    <div class="col-sm-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="card" style="width: 120px; cursor: pointer;"
+                                onclick="document.getElementById('fileInput2').click()">
+                                <div class="card-body text-center">
+                                    <div id="imagePreviewContainer2" class="d-flex flex-wrap gap-2"></div>
+                                    <div id="uploadText2" class="text-muted">
+                                        <i class="bi bi-camera fs-1"></i>
+                                        <p class="mt-2">Add Photos 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput2" accept="image/*" class="d-none upload" multiple
+                        onchange="previewImages(event, 'imagePreviewContainer2', 'uploadText2')">
+                    <br>
 
-                        if (file && file.type.startsWith('image/')) {
-                            const reader = new FileReader();
+                    <!-- Third Upload Section -->
 
-                            reader.onload = function (e) {
-                                previewImage.src = e.target.result;
-                                previewImage.classList.remove('d-none');
-                                uploadText.classList.add('d-none');
-                            };
+                    <div class="col-sm-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="card" style="width: 120px; cursor: pointer;"
+                                onclick="document.getElementById('fileInput3').click()">
+                                <div class="card-body text-center">
+                                    <div id="imagePreviewContainer3" class="d-flex flex-wrap gap-2"></div>
+                                    <div id="uploadText3" class="text-muted">
+                                        <i class="bi bi-camera fs-1"></i>
+                                        <p class="mt-2">Add Photos 3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                            reader.readAsDataURL(file);
+                        <input type="file" id="fileInput3" accept="image/*" class="d-none upload" multiple
+                            onchange="previewImages(event, 'imagePreviewContainer3', 'uploadText3')">
+                    </div>
+
+                    <script>
+                        function previewImages(event, previewContainerId, uploadTextId) {
+                            const files = event.target.files;
+                            const imagePreviewContainer = document.getElementById(previewContainerId);
+                            const uploadText = document.getElementById(uploadTextId);
+
+                            imagePreviewContainer.innerHTML = ''; // Purane previews clear karne ke liye
+
+                            if (files.length > 0) {
+                                uploadText.classList.add('d-none'); // "Add Photos" text hide karna
+
+                                Array.from(files).forEach((file) => {
+                                    if (file && file.type.startsWith('image/')) {
+                                        const reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            const img = document.createElement('img');
+                                            img.src = e.target.result;
+                                            img.className = 'img-fluid rounded';
+                                            img.style.maxWidth = '100px';
+                                            img.style.maxHeight = '100px';
+                                            img.style.objectFit = 'cover';
+                                            imagePreviewContainer.appendChild(img);
+                                        };
+
+                                        reader.readAsDataURL(file);
+                                    }
+                                });
+                            }
                         }
-                    }
-                </script>
-
-                <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-2">Submit</button>
-                    <a href="sell.php" class="btn btn-primary me-2">Reset</a>
+                    </script>
                 </div>
             </div>
-        </form>
+
+
+            <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <a href="sell.php" class="btn btn-primary me-2">Reset</a>
+            </div>
+    </div>
+    </form>
     </div>
 
     <!-- Add Bootstrap CSS -->
