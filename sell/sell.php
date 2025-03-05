@@ -1,6 +1,4 @@
-<?php
-include "../config/connect.php";
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,13 +60,7 @@ include "../config/connect.php";
 
                     <select name="" id="" class="form-select">
                         <option value="">Select book category</option>
-                        <?php
-                        $callingCat = mysqli_query($connect, "select * from category");
-                        while ($cat = mysqli_fetch_array($callingCat)) {
-                            echo "<option value='" . $cat['id'] . "'>" . $cat['cat_title'] . "</option>";
-                        }
-
-                        ?>
+                        
                     </select>
                 </div>
                 <div class="col-md-4">
