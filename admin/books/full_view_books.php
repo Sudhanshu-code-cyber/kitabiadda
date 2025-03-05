@@ -204,19 +204,19 @@
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 1</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img2'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 2</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img3'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 3</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img4'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         
@@ -225,7 +225,7 @@
 
                     <div class="row mt-3">
                         <!-- <div class="col text-center"> -->
-                            <a  class="btn btn-primary" name="insert_book"><i class="bi bi-pencil-square me-2"></i>Edit Book Detail</a>
+                            <a href="edit_books.php?edit_book=<?= $books_row['id'] ?>" class="btn btn-primary" name="insert_book"><i class="bi bi-pencil-square me-2"></i>Edit Book Detail</a>
                         <!-- </div> -->
                     </div>
 
