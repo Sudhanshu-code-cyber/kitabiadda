@@ -55,8 +55,8 @@
                 </div>
             </div>
 
-            <div class="p-4 bg-[#A3D1C6]">
-                <div class="flex justify-between items-center border p-3 rounded-lg bg-white">
+            <div class=" p-2">
+                <div class="flex justify-between items-center border p-3 rounded-lg bg-[#A3D1C6]">
                     <div class="flex items-center gap-4">
                         <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-20 border border-gray-300 rounded-lg" />
                         <div>
@@ -84,13 +84,20 @@
                 </div>
             </div>
         </div>
-        <!-- Chat Window -->
-        <div class="w-8/12 bg-white flex flex-col">
-            <div class="flex items-center p-4 border-b">
-                <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-14 w-14 border border-gray-300 rounded-full">
-                <div class="ml-3">
+        <div class="w-8/12 bg-white flex flex-col h-[500px] overflow-y-auto">
+            <div class="flex items-center justify-between p-6 border-b">
+                <div class="flex items-center gap-4 ml-3">
+                    <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-14 w-14 border border-gray-300 rounded-full">
+
                     <h2 class="text-lg font-semibold">Raju Singh</h2>
+
                 </div>
+                <button class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                    </svg>
+                </button>
+
             </div>
             <div class="p-4 flex justify-between mx-6">
                 <h2 class="text-xl font-semibold"> Science Book :-</h2>
@@ -123,12 +130,15 @@
             </div>
 
             <div class="p-4 border-t flex items-center gap-2 bg-white">
-                <input type="text" placeholder="Type a message..." class="flex-1 p-3 border rounded-lg outline-none focus:ring focus:ring-green-200">
-                <button class="bg-green-500 text-white p-3 rounded-lg shadow hover:bg-green-600 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m-15 0 7.5-7.5m-7.5 7.5 7.5 7.5" />
-                    </svg>
-                </button>
+                <form action="" method="" class="flex w-full gap-2">
+                    <input type="text" placeholder="Type a message..." class="flex-1 p-3 border rounded-lg outline-none focus:ring focus:ring-green-200">
+                    <button class="bg-green-500 text-white p-3 rounded-lg shadow hover:bg-green-600 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                        </svg>
+
+                    </button>
+                </form>
             </div>
         </div>
 
