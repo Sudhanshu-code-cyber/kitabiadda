@@ -55,8 +55,7 @@ if (isset($_SESSION['user'])) {
     <div id="dropdownAvatarName"
         class="z-10 hidden bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
         <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div class="font-medium ">Pro User</div>
-            <div class="truncate">name@flowbite.com</div>
+            <div class="truncate"><?= $user['email'];?></div>
         </div>
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
@@ -77,7 +76,6 @@ if (isset($_SESSION['user'])) {
     </div>
     <?php else:?>
         <a href="login.php">Login</a>
-        <?php echo $_SESSION['user'];?>
         <?php endif;?>
 
 </div>
