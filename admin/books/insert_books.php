@@ -85,7 +85,7 @@
 
                         <div class="row">
                             <!-- Category -->
-                            
+
 
                             <!-- Language -->
                             <div class="col-md-6">
@@ -105,33 +105,35 @@
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
                                     <select class="form-select" id="ebookAvailable" name="book_category" required>
-                                    <option value="">Chose Category</option>
+                                        <option value="">Chose Category</option>
                                         <?php
-                                        $call_cat = mysqli_query($connect,"SELECT * FROM category");
-                                        while($cat_row = mysqli_fetch_array($call_cat)){ ?>
-                                        <option value="<?= $cat_row['cat_title'] ?>"><?= $cat_row['cat_title'] ?></option>
-
+                                        $call_cat = mysqli_query($connect, "SELECT * FROM category");
+                                        while ($cat_row = mysqli_fetch_array($call_cat)) { ?>
+                                            <option value="<?= $cat_row['cat_title'] ?>"><?= $cat_row['cat_title'] ?>
+                                            </option>
 
                                         <?php } ?>
-                                        
+
                                     </select>
                                 </div>
-                               </div>
+                            </div>
 
                             <!-- Language -->
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Sub-Category</label>
                                     <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
-                                    <option value="">Chose Sub-Category</option>
+                                        <option value="">Chose Sub-Category</option>
                                         <?php
-                                        
-                                        $call_sub_cat = mysqli_query($connect,"SELECT * FROM category");
-                                        while($sub_cat_row = mysqli_fetch_array($call_sub_cat)){ ?>
-                                        <option value="<?= $sub_cat_row['subcat_title'] ?>"><?= $sub_cat_row['subcat_title'] ?></option>
+
+                                        $call_sub_cat = mysqli_query($connect, "SELECT * FROM category");
+                                        while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
+                                            <option value="<?= $sub_cat_row['subcat_title'] ?>">
+                                                <?= $sub_cat_row['subcat_title'] ?>
+                                            </option>
 
                                         <?php } ?>
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -186,7 +188,7 @@
                                 <div class="mb-3">
                                     <label for="ebookAvailable" class="form-label">E-book Available</label>
                                     <select class="form-select" id="ebookAvailable" name="e_book_avl" required>
-                                    <option value="No">No</option>
+                                        <option value="No">No</option>
                                         <option value="Yes">Yes</option>
                                     </select>
                                 </div>
@@ -196,8 +198,8 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="rating" class="form-label">Rating</label>
-                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1" max="5"
-                                        step="0.1" required>
+                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1"
+                                        max="5" step="0.1" required>
                                 </div>
                             </div>
                         </div>
@@ -242,6 +244,50 @@
 
                     </div>
                 </form>
+                <?php
+                if (isset($_POST['insert_book'])) {
+                    $book_name = $_POST['book_name'];
+                    $book_author = $_POST['book_author'];
+                    $book_binding = $_POST['book_binding'];
+                    $mrp = $_POST['mrp'];
+                    $sell_price = $_POST['sell_price'];
+                    $book_pages = $_POST['book_pages'];
+                    $book_category = $_POST['book_category'];
+                    $book_sub_category = $_POST['book_sub_category'];
+                    $language = $_POST['language'];
+                    $isbn = $_POST['isbn'];
+                    $publish_year = $_POST['publish_year'];
+                    $quality = $_POST['quality'];
+                    $book_description = $_POST['book_description'];
+                    $e_book_avl = $_POST['e_book_avl'];
+                    $book_rating = $_POST['book_rating'];
+
+                    // image 1 working
+                    $image1 = $_FILES['img1']['name'];
+                    $tmp_image1 = $_FILES['img1']['tmp_name'];
+                    move_uploaded_file($tmp_image1, "../../images/$image1");
+
+                    // image 2 working
+                    $image2 = $_FILES['img2']['name'];
+                    $tmp_image2 = $_FILES['img2']['tmp_name'];
+                    move_uploaded_file($tmp_image2, "../../images/$image2");
+
+                    // image 3 working
+                    $image3 = $_FILES['img3']['name'];
+                    $tmp_image3 = $_FILES['img3']['tmp_name'];
+                    move_uploaded_file($tmp_image3, "../../images/$image3");
+
+                    // image 4 working
+                    $image4 = $_FILES['img4']['name'];
+                    $tmp_image4 = $_FILES['img4']['tmp_name'];
+                    move_uploaded_file($tmp_image4, "../../images/$image4");
+
+                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_description,e_book_avl,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_description','$e_book_avl','$book_rating','$image1','$image2','$image3','$image4')");
+
+                }
+
+
+                ?>
             </div>
         </div>
 
