@@ -1,11 +1,11 @@
 <div class="flex justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
-    <h1 class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</h1>
+    <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
     <form action="" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
             class="p-2 bg-white rounded-l w-[35rem] text-black ">
         <button type="submit" class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
     </form>
-    <a href="">
+    <a href="wishlist.php">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-8 text-[#FBFFE4]">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -33,7 +33,7 @@
 
 
     <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
-        class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full  dark:hover:text-blue-500 md:me-0 border p-1 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
+        class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full  md:me-0 border p-1 focus:ring-gray-100 "
         type="button">
         <span class="sr-only">Open user menu</span>
         <img class="w-8 h-8 me-2 rounded-full" src="assets/defaultUser.webp" alt="user photo">
@@ -46,7 +46,7 @@
     </button>
 
     <div id="dropdownAvatarName"
-        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+        class="z-10 hidden bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
         <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
             <div class="font-medium ">Pro User</div>
             <div class="truncate">name@flowbite.com</div>
@@ -64,8 +64,8 @@
         </ul>
         <div class="py-2">
             <a href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                out</a> what
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Sign
+                out</a>
         </div>
     </div>
 
