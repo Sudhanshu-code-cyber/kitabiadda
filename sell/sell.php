@@ -60,16 +60,16 @@ include "../config/connect.php";
                 <div class="col-md-4">
                     <label class="form-label h6">Category</label>
 
-                    <select name="category_id" id="category_id" class="form-select">
-    <option value="">Select book category</option>
-    <?php
-    $callingCat = mysqli_query($connect, "SELECT * FROM category");
-    while ($cat = mysqli_fetch_array($callingCat, MYSQLI_ASSOC)) {
-        echo "<option value='" . htmlspecialchars($cat['id']) . "'>" . htmlspecialchars($cat['cat_title']) . "</option>";
-    }
-    ?>
-</select>
+                    <select name="" id="" class="form-select">
+                        <option value="">Select book category</option>
+                        <?php
+                        $callingCat = mysqli_query($connect, "select * from category");
+                        while ($cat = mysqli_fetch_array($callingCat)) {
+                            echo "<option value='" . $cat['id'] . "'>" . $cat['cat_title'] . "</option>";
+                        }
 
+                        ?>
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Sub Category</label>
