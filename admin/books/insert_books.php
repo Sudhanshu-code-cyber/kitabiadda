@@ -100,6 +100,14 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1"
+                                        max="5" step="0.1" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <!-- Category -->
@@ -127,7 +135,7 @@
                                     <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
                                         <option value="">Chose Sub-Category</option>
                                         <?php
-                                        
+
 
                                         $call_sub_cat = mysqli_query($connect, "SELECT * FROM category");
                                         while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
@@ -200,9 +208,8 @@
                             <!-- Rating -->
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="rating" class="form-label">Rating</label>
-                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1"
-                                        max="5" step="0.1" required>
+                                    <label for="rating" class="form-label">E-Book Price</label>
+                                    <input type="text" class="form-control" name="e_book_price" required>
                                 </div>
                             </div>
                         </div>
@@ -263,6 +270,7 @@
                     $quality = $_POST['quality'];
                     $book_description = $_POST['book_description'];
                     $e_book_avl = $_POST['e_book_avl'];
+                    $e_book_price = $_POST['e_book_price'];
                     $book_rating = $_POST['book_rating'];
 
                     // image 1 working
@@ -285,7 +293,12 @@
                     $tmp_image4 = $_FILES['img4']['tmp_name'];
                     move_uploaded_file($tmp_image4, "../../images/$image4");
 
-                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_description,e_book_avl,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_description','$e_book_avl','$book_rating','$image1','$image2','$image3','$image4')");
+                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_description,e_book_avl,e_book_price,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_description','$e_book_avl','$e_book_price','$book_rating','$image1','$image2','$image3','$image4')");
+
+                    if ($insert_books) {
+                        echo "<script>Swal.fire('Book Inserted Successfully !'); </script>";
+
+                    }
 
                 }
 
