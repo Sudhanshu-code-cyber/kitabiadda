@@ -1,3 +1,7 @@
+<?php
+include "../config/connect.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +49,8 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Selling Price</label>
-                    <input type="number" name="selling_price" class="form-control" placeholder="Enter selling price" required>
+                    <input type="number" name="selling_price" class="form-control" placeholder="Enter selling price"
+                        required>
                 </div>
 
                 <div class="col-md-4">
@@ -55,12 +60,16 @@
                 <div class="col-md-4">
                     <label class="form-label h6">Category</label>
 
-                    <select name="" id="" class="form-select">
-                        <option value="">Select book category</option>
-                        <option value="">science</option>
-                        <option value="">science</option>
-                        <option value="">science</option>
-                    </select>
+                    <select name="category_id" id="category_id" class="form-select">
+    <option value="">Select book category</option>
+    <?php
+    $callingCat = mysqli_query($connect, "SELECT * FROM category");
+    while ($cat = mysqli_fetch_array($callingCat, MYSQLI_ASSOC)) {
+        echo "<option value='" . htmlspecialchars($cat['id']) . "'>" . htmlspecialchars($cat['cat_title']) . "</option>";
+    }
+    ?>
+</select>
+
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Sub Category</label>
@@ -83,7 +92,8 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Publish Year</label>
-                    <input type="number" name="publish_year" class="form-control" placeholder="Enter publish year" required>
+                    <input type="number" name="publish_year" class="form-control" placeholder="Enter publish year"
+                        required>
                 </div>
 
                 <div class="col-6">
@@ -97,11 +107,13 @@
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Contact Number</label>
-                    <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number" required>
+                    <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number"
+                        required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller FirstName</label>
-                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname" required>
+                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname"
+                        required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller LastNumber</label>
