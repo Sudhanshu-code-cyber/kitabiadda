@@ -130,6 +130,7 @@
                         <div class="card_graph">
                             <h5>Project Status</h5>
                             <canvas id="projectChart"></canvas>
+                            
                         </div>
                     </div>
                 </div>
