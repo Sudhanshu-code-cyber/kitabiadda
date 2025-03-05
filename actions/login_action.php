@@ -11,7 +11,7 @@
         if($count){
             if($data['isAdmin'] == 1){
                 $_SESSION['admin'] = $email;
-                redirect("admin/index.php");
+                redirect("../admin/index.php");
             }
             else{
             if($count > 0){
