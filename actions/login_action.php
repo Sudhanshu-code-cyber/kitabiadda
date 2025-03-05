@@ -6,12 +6,27 @@
         $password = md5($_POST["password"]);
 
         $query = $connect->query("select * from users where email='$email' and password='$password'");
-
-        if($query){
-            redirect("../index.php");
+        $data = $query->fetch_array();
+        $count = $query->num_rows;
+        if($count){
+            if($data['isAdmin'] == 1){
+                $_SESSION['admin'] = $email;
+                redirect("admin/index.php");
+            }
+            else{
+            if($count > 0){
+               $_SESSION['user'] = $email;
+            redirect('../index.php');
+            }
+            else{
+                message("username or password is incorrect");
+                redirect("../login.php");
+            }
+            }
         }
         else{
-            message("Something Went Wrong");
+            message("username or password is incorrect");
+            redirect("../login.php");
         }
     }
 ?>
