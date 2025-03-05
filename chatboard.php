@@ -84,20 +84,56 @@
                 </div>
             </div>
         </div>
-
         <!-- Chat Window -->
-        <div class="w-8/12 bg-white">
-            <div class="flex p-2 border-b gap-2">
-                <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-20 border border-gray-300 rounded-lg" />
-                <div class="p-4">
+        <div class="w-8/12 bg-white flex flex-col">
+            <div class="flex items-center p-4 border-b">
+                <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-14 w-14 border border-gray-300 rounded-full">
+                <div class="ml-3">
                     <h2 class="text-lg font-semibold">Raju Singh</h2>
                 </div>
             </div>
+            <div class="p-4">
+                <h2 class="text-xl font-semibold"> Science Book :-</h2>
+                <p class="text-xl font-semibold text-gray-600"></p>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto h-[400px] bg-gray-100">
+                <div class="flex items-start space-x-3 mb-4">
+                    <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-10 w-10 rounded-full border">
+                    <div class="bg-white p-3 rounded-lg shadow max-w-xs">
+                        <p class="text-gray-700">Hello, is this item still available?</p>
+                        <span class="text-xs text-gray-500">10:30 AM</span>
+                    </div>
+                </div>
 
+                <div class="flex items-end justify-end space-x-3 mb-4">
+                    <div class="bg-green-500 text-white p-3 rounded-lg shadow max-w-xs">
+                        <p>Yes, it's available!</p>
+                        <span class="text-xs text-white">10:32 AM</span>
+                    </div>
+                    <img src="https://img.icons8.com/color/48/user.png" class="h-10 w-10 rounded-full border">
+                </div>
+
+                <div class="flex items-start space-x-3 mb-4">
+                    <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-10 w-10 rounded-full border">
+                    <div class="bg-white p-3 rounded-lg shadow max-w-xs">
+                        <p class="text-gray-700">Can you provide more details?</p>
+                        <span class="text-xs text-gray-500">10:35 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t flex items-center space-x-2 bg-white">
+                <input type="text" placeholder="Type a message..." class="flex-1 p-3 border rounded-lg outline-none focus:ring focus:ring-green-200">
+                <button class="bg-green-500 text-white p-3 rounded-lg shadow hover:bg-green-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m-15 0 7.5-7.5m-7.5 7.5 7.5 7.5" />
+                    </svg>
+                </button>
+            </div>
         </div>
+
     </div>
 
-    <!-- Flowbite Script -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
