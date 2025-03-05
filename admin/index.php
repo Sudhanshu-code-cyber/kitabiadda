@@ -12,7 +12,32 @@
   <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+  <style>
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .icon-box {
+            background-color: #eef2ff;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .up {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .down {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
 
+  
 </head>
 
 <body>
@@ -26,79 +51,68 @@
     <div class="main-content">
       <div class="content flex-grow-1 p-4">
         <h2>Welcome to Read Rainbow</h2>
-
-        <!-- count working    -->
-        <?php
-        $count_category = mysqli_num_rows(mysqli_query($connect,"SELECT * FROM category")) ;
-        $count_books = mysqli_num_rows(mysqli_query($connect,"SELECT * FROM books")) ;
-
-
-        ?>
-
-
-        <div class="row mt-4">
-          <!-- Cards -->
-
-          <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-              <div class="card-body text-center p-4">
-                <h1 class="fw-bold text-primary"><?= $count_category ?><span
-                    class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                </h1>
-                <h5 class="text-secondary mb-3">Manage Item Category</h5>
-                <div class="d-flex justify-content-center gap-2">
-                  <a href="http://localhost/readrainbow/admin/category/view_category.php" class="btn btn-outline-primary btn-sm px-3 shadow-sm">View</a>
-                  <a href="http://localhost/readrainbow/admin/category/insert_category.php" class="btn btn-success btn-sm px-3 shadow-sm">Insert</a>
+        <div class="container py-5">
+    <div class="row g-4">
+        <!-- Customers -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Customers</span>
+                    <div class="icon-box">
+                        👥
+                    </div>
                 </div>
-              </div>
+                <h3 class="fw-bold mt-2">36,254</h3>
+                <span class="up">⬆ 5.27%</span> <small class="text-muted">Since last month</small>
             </div>
-          </div>
-          <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-              <div class="card-body text-center p-4">
-                <h1 class="fw-bold text-primary"><?= $count_books ?><span
-                    class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                </h1>
-                <h5 class="text-secondary mb-3">Manage Item Name</h5>
-                <div class="d-flex justify-content-center gap-2">
-                  <a href="http://localhost/readrainbow/admin/books/view_books.php" class="btn btn-outline-primary btn-sm px-3 shadow-sm">View</a>
-                  <a href="http://localhost/readrainbow/admin/books/insert_books.php" class="btn btn-success btn-sm px-3 shadow-sm">Insert</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-              <div class="card-body text-center p-4">
-                <h1 class="fw-bold text-primary">*<span
-                    class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                </h1>
-                <h5 class="text-secondary mb-3">Manage Orders</h5>
-                <div class="d-flex justify-content-center gap-2">
-                  <a href="#" class="btn btn-outline-primary btn-sm px-3 shadow-sm">View</a>
-                  <a href="#" class="btn btn-success btn-sm px-3 shadow-sm">Insert</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-              <div class="card-body text-center p-4">
-                <h1 class="fw-bold text-primary">*<span
-                    class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle"></span>
-                </h1>
-                <h5 class="text-secondary mb-3">Manage Users</h5>
-                <div class="d-flex justify-content-center gap-2">
-                  <a href="#" class="btn btn-outline-primary btn-sm px-3 shadow-sm">View</a>
-                  <a href="#" class="btn btn-success btn-sm px-3 shadow-sm">Insert</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
         </div>
+
+        <!-- Orders -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Orders</span>
+                    <div class="icon-box">
+                        🛒
+                    </div>
+                </div>
+                <h3 class="fw-bold mt-2">5,543</h3>
+                <span class="down">⬇ 1.08%</span> <small class="text-muted">Since last month</small>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Revenue</span>
+                    <div class="icon-box">
+                        💲
+                    </div>
+                </div>
+                <h3 class="fw-bold mt-2">$6,254</h3>
+                <span class="down">⬇ 7.00%</span> <small class="text-muted">Since last month</small>
+            </div>
+        </div>
+
+        <!-- Growth -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Growth</span>
+                    <div class="icon-box">
+                        📈
+                    </div>
+                </div>
+                <h3 class="fw-bold mt-2">+30.56%</h3>
+                <span class="up">⬆ 4.87%</span> <small class="text-muted">Since last month</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
       </div>
     </div>
   </div>
