@@ -1,4 +1,4 @@
-<?php include_once 'C:\xampp\htdocs\ReadRainbow\config\connect.php'; ?>
+<?php include_once '../../config/connect.php'; ?>
 <style>
   /* Sticky Navbar */
   .navbar {
@@ -97,15 +97,13 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <!-- Sidebar Toggler for Mobile -->
-    <button class="sidebar-toggler d-lg-none" id="sidebar-toggler">
+
+  <button class="sidebar-toggler d-lg-none" id="sidebar-toggler">
       <i class="bi bi-layout-sidebar-inset"></i>
     </button>
 
-    <!-- Admin Panel Text in the Center -->
     <a class="navbar-brand " href="http://localhost/readrainbow/admin/index.php">Admin Panel</a>
 
-    <!-- Logout Button on Right -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="btn btn-danger" href="#">Logout</a>
