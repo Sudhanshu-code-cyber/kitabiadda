@@ -92,9 +92,9 @@
                     <h2 class="text-lg font-semibold">Raju Singh</h2>
                 </div>
             </div>
-            <div class="p-4">
+            <div class="p-4 flex justify-between mx-6">
                 <h2 class="text-xl font-semibold"> Science Book :-</h2>
-                <p class="text-xl font-semibold text-gray-600"></p>
+                <p class="text-xl font-semibold text-gray-600">₹ 100</p>
             </div>
             <div class="flex-1 p-4 overflow-y-auto h-[400px] bg-gray-100">
                 <div class="flex items-start space-x-3 mb-4">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-end justify-end space-x-3 mb-4">
+                <div class="flex items-end justify-end gap- mb-4">
                     <div class="bg-green-500 text-white p-3 rounded-lg shadow max-w-xs">
                         <p>Yes, it's available!</p>
                         <span class="text-xs text-white">10:32 AM</span>
@@ -113,7 +113,7 @@
                     <img src="https://img.icons8.com/color/48/user.png" class="h-10 w-10 rounded-full border">
                 </div>
 
-                <div class="flex items-start space-x-3 mb-4">
+                <div class="flex items-start gap-3 mb-4">
                     <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-10 w-10 rounded-full border">
                     <div class="bg-white p-3 rounded-lg shadow max-w-xs">
                         <p class="text-gray-700">Can you provide more details?</p>
@@ -122,7 +122,7 @@
                 </div>
             </div>
 
-            <div class="p-4 border-t flex items-center space-x-2 bg-white">
+            <div class="p-4 border-t flex items-center gap-2 bg-white">
                 <input type="text" placeholder="Type a message..." class="flex-1 p-3 border rounded-lg outline-none focus:ring focus:ring-green-200">
                 <button class="bg-green-500 text-white p-3 rounded-lg shadow hover:bg-green-600 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
