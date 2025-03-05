@@ -41,7 +41,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="author" class="form-label">Author</label>
-                                    <input type="text" class="form-control" id="author" name="author" required>
+                                    <input type="text" class="form-control" id="author" name="book_author" required>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="binding" class="form-label">Binding</label>
-                                    <input type="text" class="form-control" id="binding" name="binding" required>
+                                    <input type="text" class="form-control" id="binding" name="book_binding" required>
                                 </div>
                             </div>
 
@@ -69,7 +69,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sellingPrice" class="form-label">Selling Price</label>
-                                    <input type="text" class="form-control" id="sellingPrice" name="selling_price"
+                                    <input type="text" class="form-control" id="sellingPrice" name="sell_price"
                                         required>
                                 </div>
                             </div>
@@ -78,25 +78,24 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="pages" class="form-label">Pages</label>
-                                    <input type="text" class="form-control" id="pages" name="pages" required>
+                                    <input type="text" class="form-control" id="pages" name="book_pages" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <!-- Category -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="category" class="form-label">Category</label>
-                                    <input type="text" class="form-control" id="category" name="category" required>
-                                </div>
-                            </div>
+                            
 
                             <!-- Language -->
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="language" class="form-label">Language</label>
-                                    <input type="text" class="form-control" id="language" name="language" required>
+                                    <select class="form-select" id="ebookAvailable" name="language" required>
+                                        <option value="">Choose Language</option>
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -105,12 +104,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" id="ebookAvailable" name="ebook_available" required>
+                                    <select class="form-select" id="ebookAvailable" name="book_category" required>
                                     <option value="">Chose Category</option>
                                         <?php
                                         $call_cat = mysqli_query($connect,"SELECT * FROM category");
                                         while($cat_row = mysqli_fetch_array($call_cat)){ ?>
-                                        <option value=" <?= $cat_row['cat_title'] ?> " > <?= $cat_row['cat_title'] ?> </option>
+                                        <option value="<?= $cat_row['cat_title'] ?>"><?= $cat_row['cat_title'] ?></option>
+
 
                                         <?php } ?>
                                         
@@ -122,7 +122,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Sub-Category</label>
-                                    <select class="form-select" id="ebookAvailable" name="ebook_available" required>
+                                    <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
                                     <option value="">Chose Sub-Category</option>
                                         <?php
                                         
@@ -161,7 +161,12 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="quality" class="form-label">Quality</label>
-                                    <input type="text" class="form-control" id="quality" name="quality" required>
+                                    <select class="form-select" id="ebookAvailable" name="quality" required>
+                                        <option value="">Quality</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Good">Good</option>
+                                        <option value="Superb">Superb</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -169,7 +174,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" id="description" name="description" rows="4"
+                                    <textarea class="form-control" id="description" name="book_description" rows="4"
                                         required></textarea>
                                 </div>
                             </div>
@@ -180,9 +185,9 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ebookAvailable" class="form-label">E-book Available</label>
-                                    <select class="form-select" id="ebookAvailable" name="ebook_available" required>
+                                    <select class="form-select" id="ebookAvailable" name="e_book_avl" required>
+                                    <option value="No">No</option>
                                         <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -191,7 +196,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="rating" class="form-label">Rating</label>
-                                    <input type="text" class="form-control" id="rating" name="rating" min="1" max="5"
+                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1" max="5"
                                         step="0.1" required>
                                 </div>
                             </div>
@@ -201,28 +206,28 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="image1" class="form-label">Image 1</label>
-                                <input type="file" class="form-control" id="image1" name="image1" accept="image/*"
+                                <input type="file" class="form-control" id="image1" name="img1" accept="image/*"
                                     onchange="previewImage(1)" required>
                                 <img id="preview1" src="" alt="Image 1 Preview" class="img-fluid mt-2"
                                     style="display:none;">
                             </div>
                             <div class="col-md-3">
                                 <label for="image2" class="form-label">Image 2</label>
-                                <input type="file" class="form-control" id="image2" name="image2" accept="image/*"
+                                <input type="file" class="form-control" id="image2" name="img2" accept="image/*"
                                     onchange="previewImage(2)" required>
                                 <img id="preview2" src="" alt="Image 2 Preview" class="img-fluid mt-2"
                                     style="display:none;">
                             </div>
                             <div class="col-md-3">
                                 <label for="image3" class="form-label">Image 3</label>
-                                <input type="file" class="form-control" id="image3" name="image3" accept="image/*"
+                                <input type="file" class="form-control" id="image3" name="img3" accept="image/*"
                                     onchange="previewImage(3)" required>
                                 <img id="preview3" src="" alt="Image 3 Preview" class="img-fluid mt-2"
                                     style="display:none;">
                             </div>
                             <div class="col-md-3">
                                 <label for="image4" class="form-label">Image 4</label>
-                                <input type="file" class="form-control" id="image4" name="image4" accept="image/*"
+                                <input type="file" class="form-control" id="image4" name="img4" accept="image/*"
                                     onchange="previewImage(4)" required>
                                 <img id="preview4" src="" alt="Image 4 Preview" class="img-fluid mt-2"
                                     style="display:none;">
