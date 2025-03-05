@@ -971,7 +971,7 @@
                         <p class="flex gap-2 items-center ">
                             <span class="font-semibold text-lg text-[#rgb(5 54 40)]">₹ 500-/</span>
                             <del class="text-gray-500 text-sm "> ₹ 600-/</del>
-                           
+                           <span class="font-semibold text-sm">eBook:₹45/-</span>
 
                         </p>
                         <a href=""
