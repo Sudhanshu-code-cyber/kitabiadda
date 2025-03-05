@@ -1,3 +1,4 @@
+<?php include_once 'C:\xampp\htdocs\ReadRainbow\config\connect.php'; ?>
 <style>
   /* Sticky Navbar */
   .navbar {
@@ -112,3 +113,4 @@
     </ul>
   </div>
 </nav>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
