@@ -120,6 +120,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Bug Complain</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost/readrainbow/admin/setting.php">Setting</a>
+          </li>
           
         </ul>
       </div>

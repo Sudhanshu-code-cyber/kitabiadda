@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION['user'])) {
+    $user = getUser();
+  }
+?>
 <div class="flex justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
     <form action="" method="get" class="flex border rounded">
@@ -31,13 +36,15 @@
 
     <a href="sell/sell.php" class="border p-2 rounded-full text-[#FBFFE4]">Sell Used Book</a>
 
-
+  <?php
+  if (isset($_SESSION['user'])):
+    ?>
     <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
         class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full  md:me-0 border p-1 focus:ring-gray-100 "
         type="button">
         <span class="sr-only">Open user menu</span>
         <img class="w-8 h-8 me-2 rounded-full" src="assets/defaultUser.webp" alt="user photo">
-        Bonnie Green
+        <?= $user['name'];?>
         <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -48,8 +55,7 @@
     <div id="dropdownAvatarName"
         class="z-10 hidden bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
         <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div class="font-medium ">Pro User</div>
-            <div class="truncate">name@flowbite.com</div>
+            <div class="truncate"><?= $user['email'];?></div>
         </div>
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
@@ -68,5 +74,8 @@
                 out</a>
         </div>
     </div>
+    <?php else:?>
+        <a href="login.php">Login</a>
+        <?php endif;?>
 
 </div>
