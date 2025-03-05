@@ -1,5 +1,6 @@
-
-
+<?php
+include "../config/connect.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -19,10 +21,16 @@
 </head>
 
 <body style="background-color:#FBFFE4;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid ">
+            <a class="navbar-brand mx-5 h6" href="../index.php">ReadRainbow</a>
+            <a href="" class="btn btn-primary">Goback</a>
+        </div>
+    </nav>
 
     <div id="bookDetails" class="container py-5">
         <h2 class="mb-4 text-info">Book Details</h2>
-        <form>
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="row g-4">
                 <div class="col-md-4">
                     <label class="form-label h6">Subject</label>
@@ -58,14 +66,20 @@
                 <div class="col-md-4">
                     <label class="form-label h6">Category</label>
 
-                    <select name="" id="" class="form-select">
+                    <select name="category" class="form-select" name="category">
                         <option value="">Select book category</option>
-                        
+                        <?php
+                        $callingCat = mysqli_query($connect, "select * from category");
+                        while ($cat = mysqli_fetch_array($callingCat)) {
+                            echo "<option value='" . $cat['id'] . "'>" . $cat['cat_title'] . "</option>";
+                        }
+
+                        ?>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Sub Category</label>
-                    <select name="" id="" class="form-select">
+                    <select name="sub_category" class="form-select" name="sub_category">
                         <option value="">Select Sub category</option>
                         <option value="">Biology</option>
                         <option value="">Chemistry</option>
@@ -90,7 +104,7 @@
 
                 <div class="col-6">
                     <label class="form-label h6">Quality</label>
-                    <select name="quality" class="form-select">
+                    <select name="quality" class="form-select" name="quality">
                         <option value="New">New</option>
                         <option value="Like New">Like New</option>
                         <option value="Good">Good</option>
@@ -135,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="file" id="fileInput1" accept="image/*" class="d-none upload" multiple
+                    <input type="file" id="fileInput1" accept="image/*" class="d-none upload" multiple name="img1"
                         onchange="previewImages(event, 'imagePreviewContainer1', 'uploadText1')">
                     <br>
 
@@ -154,7 +168,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="file" id="fileInput2" accept="image/*" class="d-none upload" multiple
+                    <input type="file" id="fileInput2" accept="image/*" class="d-none upload" multiple name="img2"
                         style="width:100px; height:40px;"
                         onchange="previewImages(event, 'imagePreviewContainer2', 'uploadText2')">
                     <br>
@@ -175,7 +189,7 @@
                             </div>
                         </div>
 
-                        <input type="file" id="fileInput3" accept="image/*" class="d-none upload" multiple
+                        <input type="file" id="fileInput3" accept="image/*" class="d-none upload" multiple name="=img3"
                             onchange="previewImages(event, 'imagePreviewContainer3', 'uploadText3')">
                     </div>
 
@@ -215,11 +229,59 @@
 
 
             <div class="col-12 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <button type="submit" class="btn btn-primary me-2" name="submit">Sell</button>
                 <a href="sell.php" class="btn btn-primary me-2">Reset</a>
             </div>
     </div>
     </form>
+    <?php
+    if (isset($_POST['submit'])) {
+        $subject = $_POST['Subject'];
+        $book_name = $_POST['book_name'];
+        $book_author = $_POST['author'];
+        $book_binding = $_POST['binding'];
+        $mrp = $_POST['mrp'];
+        $price = $_POST['selling_price'];
+        $pages = $_POST['pages'];
+        $category = $_POST['category'];
+        $sub_category = $_POST['sub_category'];
+        $language = $_POST['language'];
+        $isbn = $_POST['isbn'];
+        $publish_year = $_POST['publish_year'];
+        $quality = $_POST['quality'];
+        $contact = $_POST['contact'];
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $address = $_POST['address'];
+        $sbook_description = $_POST['description'];
+
+        $img1 = $_FILES['img1']['name'];
+        $tmp_image1 = $_FILES['img1']['tmp_name'];
+        $img2 = $_FILES['img2']['name'];
+        $tmp_image2 = $_FILES['img2']['tmp_name'];
+        $img3 = $_FILES['img3']['name'];
+        $tmp_image3 = $_FILES['img3']['tmp_name'];
+        if ($img1 && $tmp_image1) {
+            move_uploaded_file($tmp_image1, "../sell/sell_images/$img1");
+        }
+        if ($img2 && $tmp_image2) {
+            move_uploaded_file($tmp_image2, "../sell/sell_images/$img2");
+        }
+        if ($img3 && $tmp_image3) {
+            move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
+        }
+       
+
+        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, seller_lastname, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
+    VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$lastname', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
+
+        if ($query) {
+            echo "<script>window.open('../index.php','_self')</script>";
+        } else {
+            echo "<div class='alert alert-danger'><strong>Oops!</strong> Book insertion failed</div>";
+        }
+    }
+    ?>
     </div>
 
     <!-- Add Bootstrap CSS -->
