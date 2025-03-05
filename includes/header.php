@@ -14,7 +14,7 @@
     </a>
 
 
-    <button type="button"
+    <a href="chatboard.php"
         class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white rounded-lg ">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-6">
@@ -27,7 +27,7 @@
             class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
             2
         </div>
-    </button>
+    </a>
 
     <a href="sell/sell.php" class="border p-2 rounded-full text-[#FBFFE4]">Sell Used Book</a>
 
