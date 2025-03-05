@@ -106,7 +106,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" id="ebookAvailable" name="book_category" required>
+                                    <select class="form-select" id="book_category" name="book_category" required>
                                         <option value="">Chose Category</option>
                                         <?php
                                         $call_cat = mysqli_query($connect, "SELECT * FROM category");
@@ -127,6 +127,7 @@
                                     <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
                                         <option value="">Chose Sub-Category</option>
                                         <?php
+                                        
 
                                         $call_sub_cat = mysqli_query($connect, "SELECT * FROM category");
                                         while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
