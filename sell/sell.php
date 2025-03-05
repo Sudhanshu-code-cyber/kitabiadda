@@ -1,5 +1,6 @@
-
-
+<?php include "../includes/header.php";
+include "../config/connect.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -60,7 +62,13 @@
 
                     <select name="" id="" class="form-select">
                         <option value="">Select book category</option>
-                        
+                        <?php
+                        $callingCat = mysqli_query($connect, "select * from category");
+                        while ($cat = mysqli_fetch_array($callingCat)) {
+                            echo "<option value='" . $cat['id'] . "'>" . $cat['cat_title'] . "</option>";
+                        }
+
+                        ?>
                     </select>
                 </div>
                 <div class="col-md-4">

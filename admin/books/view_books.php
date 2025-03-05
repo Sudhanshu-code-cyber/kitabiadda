@@ -91,9 +91,9 @@
                       ?>
                       <!-- delete work end -->
 
-                      <a href="edit_category.php?edit_book=<?= $cat_detail['id']; ?>" class="btn btn-warning btn-sm"><i
+                      <a href="edit_category.php?edit_book=<?= $book_detail['id']; ?>" class="btn btn-warning btn-sm"><i
                           class="bi bi-pencil-square"></i></a>
-                      <a href="edit_category.php?edit_book=<?= $cat_detail['id']; ?>" class="btn btn-success btn-sm">Full_view</a>
+                      <a href="full_view_books.php?full_view_books=<?= $book_detail['id']; ?>" class="btn btn-success btn-sm">Full_view</a>
                     </td>
 
                   </tr>
