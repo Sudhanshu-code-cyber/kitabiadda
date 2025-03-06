@@ -82,19 +82,13 @@
 </head>
 <body>
     <?php include_once "../includes/admin_navbar.php"; ?>
-    <div class="full-screen d-flex">
+    <div class="full-screen">
         <?php include_once "../includes/admin_sidebar.php"; ?>
-        <div class="main-content flex-grow-1 p-4">
-            <h2>Welcome to Read Rainbow</h2>
+        <div class="main-content flex-grow-1 ">
+            <h2>WORK NOT DONE..</h2>
             <div class="container mt-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Projects</li>
-                    </ol>
-                </nav>
-                <h4 class="mb-3">Projects</h4>
+                
+                <h4 class="mb-3">Pending Work</h4>
                 <div class="row g-4">
                     <div class="col-md-3 col-12">
                         <div class="card">

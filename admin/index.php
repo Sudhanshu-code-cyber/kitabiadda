@@ -90,7 +90,7 @@
                         💲
                     </div>
                 </div>
-                <h3 class="fw-bold mt-2">$6,254</h3>
+                <h3 class="fw-bold mt-2">₹6,254</h3>
                 <span class="down">⬇ 7.00%</span> <small class="text-muted">Since last month</small>
             </div>
         </div>
