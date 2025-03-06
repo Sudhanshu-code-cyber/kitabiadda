@@ -79,7 +79,7 @@ include "../config/connect.php";
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Sub Category</label>
-                    <select name="sub_category" class="form-select" name="sub_category">
+                    <select name="sub_category" class="form-select">
                         <option value="">Select Sub category</option>
                         <option value="">Biology</option>
                         <option value="">Chemistry</option>
