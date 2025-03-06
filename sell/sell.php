@@ -24,7 +24,7 @@ include "../config/connect.php";
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container-fluid ">
             <a class="navbar-brand mx-5 h6" href="../index.php">ReadRainbow</a>
-            <a href="" class="btn btn-primary">Goback</a>
+            <a href="../index.php" class="btn btn-primary">Goback</a>
         </div>
     </nav>
 
