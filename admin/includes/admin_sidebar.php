@@ -1,16 +1,40 @@
 <div class="sidebar mt-5"
-  style="position: fixed; top: 0; left: 0; bottom: 0; width: 250px; background-color: #343a40; color: white; padding-top: 20px;">
+  style="position: fixed; top: 0; left: 0; bottom: 0; width: 250px; background-color: #343a40; color: white; padding-top: 30px;">
+  <hr>
   <h4>Manage..</h4>
   <hr>
   <ul class="nav flex-column">
 
-  <li class="nav-item">
+    <li class="nav-item">
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse0"
+        aria-expanded="false" aria-controls="manageOrderCollapse">
+        <i class="bi bi-house-dash me-2"></i>Dashboard
+      </a>
+      <div class="collapse" id="manageOrderCollapse0">
+        <ul class="nav flex-column ms-3">
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost/readrainbow/admin/index.php">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost/readrainbow/admin/dashboard/left_work.php">Works NOT Done</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Order Placed</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <hr>
+    <li class="nav-item">
       <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#manageOrderCollapse1"
         aria-expanded="false" aria-controls="manageOrderCollapse">
         <i class="bi bi-box-seam-fill me-2"></i>Manage Order
       </a>
       <div class="collapse" id="manageOrderCollapse1">
         <ul class="nav flex-column ms-3">
+        <li class="nav-item">
+            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/recent_order.php">Recent Order</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Pending Order</a>
           </li>
@@ -35,7 +59,8 @@
             <a class="nav-link" href="http://localhost/readrainbow/admin/category/view_category.php">View Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/category/insert_category.php">Insert Category</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/category/insert_category.php">Insert
+              Category</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit Category</a>
@@ -92,7 +117,7 @@
       <div class="collapse" id="manageOrderCollapse5">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="#">Users </a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/users/user_custmer.php">Users </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Blocked Users</a>
@@ -120,14 +145,19 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Bug Complain</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/setting.php">Setting</a>
-          </li>
-          
+
+
         </ul>
       </div>
     </li>
     <hr>
+    <a class="nav-link" href="setting.php">
+    <i class="bi bi-gear-wide-connected me-2"></i>Setting
+    </a>
+
+    </li>
+    <hr>
+
 
 
 

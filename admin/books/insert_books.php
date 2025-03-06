@@ -181,6 +181,12 @@
                                         <option value="Superb">Superb</option>
                                     </select>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="quality" class="form-label">Book Quantity</label>
+                                    <input type="text" class="form-control" id="publishYear" name="book_quantity"
+                                        required>
+                                    
+                                </div>
                             </div>
 
                             <!-- Description -->
@@ -268,6 +274,7 @@
                     $isbn = $_POST['isbn'];
                     $publish_year = $_POST['publish_year'];
                     $quality = $_POST['quality'];
+                    $book_quantity = $_POST['book_quantity'];
                     $book_description = $_POST['book_description'];
                     $e_book_avl = $_POST['e_book_avl'];
                     $e_book_price = $_POST['e_book_price'];
@@ -293,7 +300,7 @@
                     $tmp_image4 = $_FILES['img4']['tmp_name'];
                     move_uploaded_file($tmp_image4, "../../images/$image4");
 
-                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_description,e_book_avl,e_book_price,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_description','$e_book_avl','$e_book_price','$book_rating','$image1','$image2','$image3','$image4')");
+                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_quantity,book_description,e_book_avl,e_book_price,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_quantity','$book_description','$e_book_avl','$e_book_price','$book_rating','$image1','$image2','$image3','$image4')");
 
                     if ($insert_books) {
                         echo "<script>Swal.fire('Book Inserted Successfully !'); </script>";

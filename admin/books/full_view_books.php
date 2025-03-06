@@ -28,7 +28,6 @@
             <div class="content flex-grow-1 p-4">
                 <h2>VIEW FULL BOOK DETAILs...</h2>
 
-                <!-- <form action="" method="post" enctype="multipart/form-data"> -->
                 <?php
                 if (isset($_GET['full_view_books'])) {
                     $id = $_GET['full_view_books'];
@@ -204,19 +203,19 @@
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 1</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img2'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 2</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img3'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 3</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../images/<?= $books_row['img4'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         
@@ -225,73 +224,19 @@
 
                     <div class="row mt-3">
                         <!-- <div class="col text-center"> -->
-                            <a  class="btn btn-primary" name="insert_book"><i class="bi bi-pencil-square me-2"></i>Edit Book Detail</a>
+                            <a href="edit_books.php?edit_book=<?= $books_row['id'] ?>" class="btn btn-primary" name="insert_book"><i class="bi bi-pencil-square me-2"></i>Edit Book Detail</a>
                         <!-- </div> -->
                     </div>
 
                 </div>
-                <!-- </form> -->
-                <?php
-                // if (isset($_POST['insert_book'])) {
-                //     $book_name = $_POST['book_name'];
-                //     $book_author = $_POST['book_author'];
-                //     $book_binding = $_POST['book_binding'];
-                //     $mrp = $_POST['mrp'];
-                //     $sell_price = $_POST['sell_price'];
-                //     $book_pages = $_POST['book_pages'];
-                //     $book_category = $_POST['book_category'];
-                //     $book_sub_category = $_POST['book_sub_category'];
-                //     $language = $_POST['language'];
-                //     $isbn = $_POST['isbn'];
-                //     $publish_year = $_POST['publish_year'];
-                //     $quality = $_POST['quality'];
-                //     $book_description = $_POST['book_description'];
-                //     $e_book_avl = $_POST['e_book_avl'];
-                //     $book_rating = $_POST['book_rating'];
                 
-                //     // image 1 working
-                //     $image1 = $_FILES['img1']['name'];
-                //     $tmp_image1 = $_FILES['img1']['tmp_name'];
-                //     move_uploaded_file($tmp_image1, "../../images/$image1");
-                
-                //     // image 2 working
-                //     $image2 = $_FILES['img2']['name'];
-                //     $tmp_image2 = $_FILES['img2']['tmp_name'];
-                //     move_uploaded_file($tmp_image2, "../../images/$image2");
-                
-                //     // image 3 working
-                //     $image3 = $_FILES['img3']['name'];
-                //     $tmp_image3 = $_FILES['img3']['tmp_name'];
-                //     move_uploaded_file($tmp_image3, "../../images/$image3");
-                
-                //     // image 4 working
-                //     $image4 = $_FILES['img4']['name'];
-                //     $tmp_image4 = $_FILES['img4']['tmp_name'];
-                //     move_uploaded_file($tmp_image4, "../../images/$image4");
-                
-                //     $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_description,e_book_avl,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_description','$e_book_avl','$book_rating','$image1','$image2','$image3','$image4')");
-                
-                // }
                 
 
-                ?>
+            
             </div>
         </div>
 
-        <script>
-            // Function to preview image before uploading
-            // function previewImage(imageNumber) {
-            //     var file = document.getElementById('image' + imageNumber).files[0];
-            //     var reader = new FileReader();
-            //     reader.onloadend = function () {
-            //         document.getElementById('preview' + imageNumber).src = reader.result;
-            //         document.getElementById('preview' + imageNumber).style.display = 'block';
-            //     };
-            //     if (file) {
-            //         reader.readAsDataURL(file);
-            //     }
-            // }
-        </script>
+        
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
