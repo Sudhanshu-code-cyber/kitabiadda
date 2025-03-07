@@ -268,9 +268,16 @@ include "../config/connect.php";
             move_uploaded_file($tmp_image2, "../sell/sell_images/$img2");
         }
         if ($img3 && $tmp_image3) {
-            move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
+            if (move_uploaded_file($tmp_image3, "../sell/sell_images/$img3")) {
+                echo "Image 3 uploaded successfully!";
+            } else {
+                echo "Failed to upload Image 3!";
+            }
+        } else {
+            echo "Image 3 or tmp_image3 not set properly!";
         }
-       
+
+
 
         $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, seller_lastname, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
     VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$lastname', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
