@@ -146,9 +146,14 @@
                     <p class="text-blue-600">Ambedkar Puram, Kanpur, Uttar Pradesh</p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-300">
+                    <?php
+                    // Dynamic Latitude & Longitude
+                    $latitude = 25.5940947;  // Replace with database value
+                    $longitude = 85.1375645; // Replace with database value
+                    ?>
                     <!-- Google Maps Embed -->
                     <iframe class="w-full h-60 rounded-lg"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.091807829648!2d81.001703214981!3d26.85359298315586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd5c5e5c6e7b%3A0x6d1e0b7f7d0d73e9!2sAwas%20Vikas%20Ambedkar%20Puram!5e0!3m2!1sen!2sin!4v1709823421692"
+                        src="https://www.google.com/maps?q=25°47'38.2, 87°06'26.5&output=embed"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
