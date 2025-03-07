@@ -130,6 +130,12 @@
                                         <p class="text-sm text-gray-500">Dimension (mm)</p>
                                         <p class="text-lg font-semibold">134x22x216</p>
                                     </div>
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <div class="text-center mt-6">
+                                            <a href="#" class="text-blue-600 text-sm font-semibold hover:underline">See
+                                                all details</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -140,9 +146,7 @@
                         </div>
 
                         <!-- "See all details" Link at Last -->
-                        <div class="text-center mt-4">
-                            <a href="#" class="text-blue-600 text-sm font-semibold hover:underline">See all details</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -317,7 +321,419 @@
                 });
             </script>
         </div>
+
     </div>
+
+    <div class="w-[85%] mx-auto mt-6">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center   p-5">
+            <h1 class="text-xl font-bold text-gray-800">Related Books</h1>
+            <a href="https://example.com/all-books" class="text-orange-500 font-semibold hover:underline">View All</a>
+        </div>
+        <hr>
+
+        <!-- Book Slider Section -->
+        <div class="relative w-full">
+            <!-- Left Button -->
+            <button id="bookPrevBtn"
+                class="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-800 transition">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+
+            <!-- Slider Container -->
+            <div id="bookSlider" class="flex overflow-x-scroll gap-4 book-scrollbar-hide scroll-smooth p-4">
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
+
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <a href="https://example.com/book-details" target="_blank">
+                            <img src="https://picsum.photos/160/220" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </a>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold">The Warning</h2>
+                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">Rs. 499</p>
+                            <p class="text-black font-bold text-lg">Rs. 199</p>
+                        </div>
+
+                        <!-- Type -->
+                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Button -->
+            <button id="bookNextBtn"
+                class="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-3 rounded-full shadow-md hover:bg-gray-800 transition">
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript for Slider -->
+    <script>
+        const bookSlider = document.getElementById("bookSlider");
+        document.getElementById("bookNextBtn").addEventListener("click", () => {
+            bookSlider.scrollBy({ left: 300, behavior: "smooth" });
+        });
+        document.getElementById("bookPrevBtn").addEventListener("click", () => {
+            bookSlider.scrollBy({ left: -300, behavior: "smooth" });
+        });
+    </script>
+
+    <!-- Hide scrollbar -->
+    <style>
+        .book-scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .book-scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+
+
 
 </body>
 
