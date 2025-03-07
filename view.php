@@ -22,24 +22,35 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
             <!-- Small Images -->
             <div class="md:col-span-1 flex flex-col gap-2 items-center">
-                <img src="images/color palatte.png?random=1"
-                    class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
-                    onclick="changeImage(this.src)">
-                <img src="images/Screenshot 2024-05-19 19195.png"
-                    class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
-                    onclick="changeImage(this.src)">
+                <img src="images/navbar.png?random=1"
+                    class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
+                    onclick="changeImage(0)">
+                <img src="images/navbar.png?random=2"
+                    class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
+                    onclick="changeImage(1)"> 
                 <img src="images/navbar.png?random=3"
-                    class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
-                    onclick="changeImage(this.src)">
+                    class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
+                    onclick="changeImage(2)">
                 <img src="images/20221013_211226.jpg?random=4"
-                    class="w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
-                    onclick="changeImage(this.src)">
+                    class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
+                    onclick="changeImage(3)">
             </div>
 
             <!-- Main Image -->
-            <div class="md:col-span-7 flex justify-center">
-                <img id="mainImage" src="images/color palatte.png?random=1"
-                    class="w-full  max-h-100 object-cover rounded-lg shadow-lg border border-gray-300" alt="Main Image">
+            <div class="md:col-span-7 flex justify-center relative">
+                <button onclick="prevImage()"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
+                    ⬅️
+                </button>
+
+                <img id="mainImage" src="images/navbar.png?random=1"
+                    class="w-full max-h-100 object-cover rounded-lg shadow-lg border border-gray-300 cursor-pointer"
+                    alt="Main Image" onclick="openFullScreen()">
+
+                <button onclick="nextImage()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
+                    ➡️
+                </button>
             </div>
 
             <!-- Details Section -->
@@ -123,6 +134,66 @@
 
 
             </div>
+            <div id="fullscreenModal"
+                class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center hidden">
+                <button onclick="prevImage()"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
+                    ⬅️
+                </button>
+
+                <img id="fullscreenImage" class="max-w-full max-h-full rounded-lg">
+
+                <button onclick="nextImage()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
+                    ➡️
+                </button>
+
+                <button onclick="closeFullScreen()"
+                    class="absolute top-4 right-4 text-white text-3xl font-bold">&times;</button>
+            </div>
+
+            <script>
+                const images = [
+                    "images/navbar.png?random=1",
+                    "images/navbar.png?random=2",
+                    "images/navbar.png?random=3",
+                    "images/20221013_211226.jpg?random=4"
+                ];
+
+                let currentIndex = 0;
+
+                function changeImage(index) {
+                    currentIndex = index;
+                    document.getElementById("mainImage").src = images[currentIndex];
+                }
+
+                function prevImage() {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    document.getElementById("mainImage").src = images[currentIndex];
+                    document.getElementById("fullscreenImage").src = images[currentIndex];
+                }
+
+                function nextImage() {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    document.getElementById("mainImage").src = images[currentIndex];
+                    document.getElementById("fullscreenImage").src = images[currentIndex];
+                }
+
+                function openFullScreen() {
+                    document.getElementById("fullscreenImage").src = images[currentIndex];
+                    document.getElementById("fullscreenModal").classList.remove("hidden");
+                }
+
+                function closeFullScreen() {
+                    document.getElementById("fullscreenModal").classList.add("hidden");
+                }
+
+                document.addEventListener("keydown", function (event) {
+                    if (event.key === "ArrowLeft") prevImage();
+                    if (event.key === "ArrowRight") nextImage();
+                    if (event.key === "Escape") closeFullScreen();
+                });
+            </script>
         </div>
     </div>
 
