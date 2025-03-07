@@ -33,7 +33,7 @@
                             <i class="bi bi-arrow-left"></i>
                         </button>
 
-                        <img id="mainImage" src="images/color palatte.png?random=1"
+                        <img id="mainImage" src="images/Screenshot 2024-12-06 211134.png?random=1"
                             class="w-full h-120 object-cover rounded-lg shadow-lg border border-gray-300 cursor-pointer"
                             alt="Main Image" onclick="openFullScreen()">
 
@@ -46,7 +46,7 @@
                 </div>
                 <hr>
                 <div class="md:col-span-3 flex  gap-2 items-center">
-                    <img src="images/color palatte.png?random=1"
+                    <img src="images/Screenshot 2024-12-06 211134.png?random=1"
                         class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
                         onclick="changeImage(0)">
                     <img src="images/defaultUser.webp?random=2"
@@ -280,7 +280,7 @@
 
             <script>
                 const images = [
-                    "images/color palatte.png?random=1",
+                    "images/Screenshot 2024-12-06 211134.png?random=1",
                     "images/defaultUser.webp?random=2",
                     "images/navbar.png?random=3",
                     "images/20221013_211226.jpg?random=4"
@@ -732,9 +732,81 @@
         }
     </style>
 
+<div class=" p-8 rounded-md  w-4/5 mx-auto">
+    <h2 class="text-2xl font-semibold text-center mb-4">Customer Reviews</h2>
+    
+    <div class="flex justify-center items-center gap-6">
+        <!-- Rating + Review Text -->
+        <div class="flex flex-col items-center">
+            <div class="flex text-orange-500 text-xl">
+                ★★★☆☆
+            </div>
+            <p class="text-gray-700 text-sm">Be the first to write a review</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-px h-8 bg-gray-400"></div>
+
+        <!-- Write a Review Button -->
+        <button id="reviewBtn" class="bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition">
+            Write a review
+        </button>
+    </div>
+
+    <!-- Hidden Review Form -->
+    <div id="reviewForm" class="hidden mt-6 bg-white p-6 rounded-md shadow-md">
+        <h3 class="text-lg font-semibold mb-3">Write Your Review</h3>
+        
+        <!-- Rating Selection -->
+        <label class="block text-sm font-medium text-gray-700">Your Rating:</label>
+        <div class="flex text-yellow-500 text-xl cursor-pointer my-2">
+            ★★★★★
+        </div>
+
+        <!-- Name Input -->
+        <label class="block text-sm font-medium text-gray-700 mt-2">Name:</label>
+        <input type="text" class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 outline-none">
+
+        <!-- Email Input -->
+        <label class="block text-sm font-medium text-gray-700 mt-2">Email:</label>
+        <input type="email" class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 outline-none">
+
+        <!-- Review Text Area -->
+        <label class="block text-sm font-medium text-gray-700 mt-2">Your Review:</label>
+        <textarea rows="4" class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+
+        <!-- Submit Button -->
+        <button class="mt-4 w-full bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition">
+            Submit Review
+        </button>
+    </div>
+</div>
+
+<!-- JavaScript to Show/Hide Form -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("reviewBtn").addEventListener("click", function () {
+            let reviewForm = document.getElementById("reviewForm");
+            if (reviewForm.classList.contains("hidden")) {
+                reviewForm.classList.remove("hidden");
+            } else {
+                reviewForm.classList.add("hidden");
+            }
+        });
+    });
+</script>
+
+
 
 
 
 </body>
 
 </html>
+<br>
+<br>
+<br>
+<br>
+
+
+<?php include_once "includes/footer.php"; ?>
