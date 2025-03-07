@@ -22,10 +22,10 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
             <!-- Small Images -->
             <div class="md:col-span-1 flex flex-col gap-2 items-center">
-                <img src="images/navbar.png?random=1"
+                <img src="images/color palatte.png?random=1"
                     class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
                     onclick="changeImage(0)">
-                <img src="images/navbar.png?random=2"
+                <img src="images/defaultUser.webp?random=2"
                     class="thumbnail w-20 h-20 object-cover rounded-lg cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition"
                     onclick="changeImage(1)"> 
                 <img src="images/navbar.png?random=3"
@@ -43,7 +43,7 @@
                     ⬅️
                 </button>
 
-                <img id="mainImage" src="images/navbar.png?random=1"
+                <img id="mainImage" src="images/color palatte.png?random=1"
                     class="w-full max-h-100 object-cover rounded-lg shadow-lg border border-gray-300 cursor-pointer"
                     alt="Main Image" onclick="openFullScreen()">
 
@@ -154,8 +154,8 @@
 
             <script>
                 const images = [
-                    "images/navbar.png?random=1",
-                    "images/navbar.png?random=2",
+                    "images/color palatte.png?random=1",
+                    "images/defaultUser.webp?random=2",
                     "images/navbar.png?random=3",
                     "images/20221013_211226.jpg?random=4"
                 ];
