@@ -153,7 +153,7 @@
                     ?>
                     <!-- Google Maps Embed -->
                     <iframe class="w-full h-60 rounded-lg"
-                        src="https://www.google.com/maps?q=25°47'38.2, 87°06'26.5&output=embed"
+                        src="https://www.google.com/maps?q=25°47'44.1,87°06'36.1&output=embed"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
