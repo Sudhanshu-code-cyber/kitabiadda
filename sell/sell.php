@@ -125,9 +125,9 @@ include "../config/connect.php";
                     <label class="form-label h6">Location
                         <i class="bi bi-geo-alt-fill"></i>
                     </label>
-                    <input type="hidden" id="latitude" name="latitude" name="location">
-                    <input type="hidden" id="longitude" name="longitude" name="location">
-                        <br>
+                    <input type="hidden" id="latitude" name="latitude" >
+                    <input type="hidden" id="longitude" name="longitude" >
+                    <br>
                     <button type="button" onclick="getLocation()">Get Location</button>
                 </div>
                 <div class="col-12">
@@ -272,7 +272,8 @@ include "../config/connect.php";
         $quality = $_POST['quality'];
         $contact = $_POST['contact'];
         $firstname = $_POST['firstname'];
-        $Location = $_POST['Location'];
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
         $address = $_POST['address'];
         $sbook_description = $_POST['description'];
 
@@ -300,8 +301,9 @@ include "../config/connect.php";
 
 
 
-        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, Location, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
-    VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$Location', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
+        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, latitude, longitude, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
+        VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
+        
 
         if ($query) {
             echo "<script>window.open('../index.php','_self')</script>";
