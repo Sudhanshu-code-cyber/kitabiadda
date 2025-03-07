@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Detail</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script>
         function changeImage(src) {
             document.getElementById("mainImage").src = src;
@@ -29,7 +30,7 @@
                     <div class="md:col-span-12 flex justify-center relative">
                         <button onclick="prevImage()"
                             class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
-                            ⬅️
+                            <i class="bi bi-arrow-left"></i>
                         </button>
 
                         <img id="mainImage" src="images/color palatte.png?random=1"
@@ -38,7 +39,7 @@
 
                         <button onclick="nextImage()"
                             class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition">
-                            ➡️
+                            <i class="bi bi-arrow-right"></i>
                         </button>
                     </div>
 
@@ -69,6 +70,100 @@
                         </p>
                     </div>
                 </div>
+                <div class="md:col-span-12 flex justify-center relative">
+                    <div class="bg-white p-4 rounded-lg shadow-md border border-gray-300 w-full max-w-4xl">
+                        <div class="flex items-center text-gray-700 px-4">
+                            <!-- Previous Arrow -->
+                            <button id="prevBtn" class="text-gray-500 hover:text-gray-700 text-2xl">
+                                &#10094;
+                            </button>
+
+                            <!-- Content Container (Slider) -->
+                            <div id="sliderWrapper" class="overflow-hidden w-full px-2">
+                                <div id="sliderContent" class="flex space-x-6 transition-transform duration-300">
+
+                                    <!-- ITEM 1 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">📚</span>
+                                        <p class="text-sm text-gray-500">ISBN-10</p>
+                                        <p class="text-lg font-semibold">0857197681</p>
+                                    </div>
+
+                                    <!-- ITEM 2 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">📚</span>
+                                        <p class="text-sm text-gray-500">ISBN-13</p>
+                                        <p class="text-lg font-semibold">9780857197689</p>
+                                    </div>
+
+                                    <!-- ITEM 3 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">📖</span>
+                                        <p class="text-sm text-gray-500">Page Number</p>
+                                        <p class="text-lg font-semibold">256</p>
+                                    </div>
+
+                                    <!-- ITEM 4 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">🌐</span>
+                                        <p class="text-sm text-gray-500">Language</p>
+                                        <p class="text-lg font-semibold">English</p>
+                                    </div>
+
+                                    <!-- ITEM 5 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">📰</span>
+                                        <p class="text-sm text-gray-500">Imprint</p>
+                                        <p class="text-lg font-semibold">Harriman House</p>
+                                    </div>
+
+                                    <!-- ITEM 6 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">⚖️</span>
+                                        <p class="text-sm text-gray-500">Weight (gr)</p>
+                                        <p class="text-lg font-semibold">272</p>
+                                    </div>
+
+                                    <!-- ITEM 7 -->
+                                    <div class="flex flex-col items-center min-w-[140px]">
+                                        <span class="text-2xl">📏</span>
+                                        <p class="text-sm text-gray-500">Dimension (mm)</p>
+                                        <p class="text-lg font-semibold">134x22x216</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Arrow -->
+                            <button id="nextBtn" class="text-gray-500 hover:text-gray-700 text-2xl">
+                                &#10095;
+                            </button>
+                        </div>
+
+                        <!-- "See all details" Link at Last -->
+                        <div class="text-center mt-4">
+                            <a href="#" class="text-blue-600 text-sm font-semibold hover:underline">See all details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    let slider = document.getElementById("sliderContent");
+                    let wrapper = document.getElementById("sliderWrapper");
+                    let position = 0;
+                    const step = 160; // Scroll step
+
+                    document.getElementById("prevBtn").addEventListener("click", () => {
+                        position = Math.min(position + step, 0);
+                        slider.style.transform = `translateX(${position}px)`;
+                    });
+
+                    document.getElementById("nextBtn").addEventListener("click", () => {
+                        let maxScroll = wrapper.clientWidth - slider.scrollWidth;
+                        position = Math.max(position - step, maxScroll);
+                        slider.style.transform = `translateX(${position}px)`;
+                    });
+                </script>
+
 
             </div>
 
@@ -153,8 +248,8 @@
                     ?>
                     <!-- Google Maps Embed -->
                     <iframe class="w-full h-60 rounded-lg"
-                        src="https://www.google.com/maps?q=25°47'44.1,87°06'36.1&output=embed"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        src="https://www.google.com/maps?q=25°47'44.1,87°06'36.1&output=embed" allowfullscreen=""
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
 
