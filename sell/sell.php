@@ -117,13 +117,18 @@ include "../config/connect.php";
                         required>
                 </div>
                 <div class="col-6">
-                    <label class="form-label h6">Seller FirstName</label>
-                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your Firstname"
+                    <label class="form-label h6">Seller Name</label>
+                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your full Name"
                         required>
                 </div>
                 <div class="col-6">
-                    <label class="form-label h6">Seller LastNumber</label>
-                    <input type="text" name="lastname" class="form-control" placeholder="Enter Your Lastname" required>
+                    <label class="form-label h6">Location
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </label>
+                    <input type="hidden" id="latitude" name="latitude" name="location">
+                    <input type="hidden" id="longitude" name="longitude" name="location">
+                        <br>
+                    <button type="button" onclick="getLocation()">Get Location</button>
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
@@ -229,11 +234,27 @@ include "../config/connect.php";
 
 
             <div class="col-12 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary me-2" name="submit">Sell</button>
-                <a href="sell.php" class="btn btn-primary me-2">Reset</a>
+
+                <a href="sell.php" class="btn btn-warning me-2 mt-4">Reset</a>
+                <button type="submit" class="btn btn-success me-2 w-25 mt-4" name="submit">Sell</button>
             </div>
     </div>
     </form>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    alert("Location captured!");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
     <?php
     if (isset($_POST['submit'])) {
         $subject = $_POST['Subject'];
@@ -251,7 +272,7 @@ include "../config/connect.php";
         $quality = $_POST['quality'];
         $contact = $_POST['contact'];
         $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
+        $Location = $_POST['Location'];
         $address = $_POST['address'];
         $sbook_description = $_POST['description'];
 
@@ -279,8 +300,8 @@ include "../config/connect.php";
 
 
 
-        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, seller_lastname, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
-    VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$lastname', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
+        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, Location, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
+    VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$Location', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
 
         if ($query) {
             echo "<script>window.open('../index.php','_self')</script>";
