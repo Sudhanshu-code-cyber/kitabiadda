@@ -30,7 +30,8 @@ include "../config/connect.php";
 
     <div id="bookDetails" class="container py-5">
         <h2 class="mb-4 text-info">Book Details</h2>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+
             <div class="row g-4">
                 <div class="col-md-4">
                     <label class="form-label h6">Subject</label>
@@ -125,10 +126,10 @@ include "../config/connect.php";
                     <label class="form-label h6">Location
                         <i class="bi bi-geo-alt-fill"></i>
                     </label>
-                    <input type="hidden" id="latitude" name="latitude" >
-                    <input type="hidden" id="longitude" name="longitude" >
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
                     <br>
-                    <button type="button" onclick="getLocation()">Get Location</button>
+                    <button type="button" onclick="getLocation()" class="btn btn-success">Get Location</button>
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
@@ -303,7 +304,7 @@ include "../config/connect.php";
 
         $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, seller_firstname, latitude, longitude, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
         VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
-        
+
 
         if ($query) {
             echo "<script>window.open('../index.php','_self')</script>";
