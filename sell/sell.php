@@ -17,18 +17,22 @@ include "../config/connect.php";
             width: 120px;
             height: 50px;
         }
+        .nav{
+            background: #3d8d7a;
+        }
     </style>
 </head>
 
 <body style="background-color:#FBFFE4;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid ">
-            <a class="navbar-brand mx-5 h6" href="../index.php">ReadRainbow</a>
-            <a href="../index.php" class="btn btn-primary">Goback</a>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand mx-5h6" href="../index.php">ReadRainbow</a>
+        <a href="../index.php" class="btn btn-primary">Go back</a>
+    </div>
+</nav>
 
-    <div id="bookDetails" class="container py-5">
+
+    <div id="bookDetails" class="container py-5 mt-4">
         <h2 class="mb-4 text-info">Book Details</h2>
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
@@ -237,7 +241,7 @@ include "../config/connect.php";
             <div class="col-12 d-flex justify-content-end">
 
                 <a href="sell.php" class="btn btn-warning me-2 mt-4">Reset</a>
-                <button type="submit" class="btn btn-success me-2 w-25 mt-4" name="submit">Sell</button>
+                <button type="submit" class="btn  me-2 w-25 mt-4" style="background: #a3a1c6;" name="submit">Sell</button>
             </div>
     </div>
     </form>
