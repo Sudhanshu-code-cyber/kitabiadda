@@ -329,7 +329,7 @@
         <!-- Header Section -->
         <div class="flex justify-between items-center   p-5">
             <h1 class="text-xl font-bold text-gray-800">Related Books</h1>
-            <a href="https://example.com/all-books" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <a href="https://example.com/all-books" class="text-[#2E5077] font-semibold hover:underline">View All</a>
         </div>
         <hr>
 
