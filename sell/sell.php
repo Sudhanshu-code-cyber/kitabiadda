@@ -52,8 +52,11 @@ include "../config/connect.php";
 
                 <div class="col-md-4">
                     <label class="form-label h6">Binding</label>
-                    <input type="text" name="binding" class="form-control" placeholder="e.g., Paperback, Hardcover">
-                </div>
+                    <select name="sub_category" class="form-select">
+                        <option value="">Select binding</option>
+                        <option value="">Paperwork</option>
+                        <option value="">hardpaper</option>
+                    </select>                </div>
                 <div class="col-md-4">
                     <label class="form-label h6">MRP</label>
                     <input type="number" name="mrp" class="form-control" placeholder="Enter MRP" required>
