@@ -3,7 +3,7 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
   }
 ?>
-<div class="flex justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
+<div class="flex fixed w-full z-10 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
     <form action="" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
@@ -60,8 +60,12 @@ if (isset($_SESSION['user'])) {
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
             <li>
+                <a href="profile.php"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Profile</a>
+            </li>
+            <li>
                 <a href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Help</a>
             </li>
             <li>
                 <a href="#"
@@ -70,8 +74,7 @@ if (isset($_SESSION['user'])) {
         </ul>
         <div class="py-2">
             <a href="logout.php"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Sign
-                out</a>
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Logout</a>
         </div>
     </div>
     <?php else:?>
