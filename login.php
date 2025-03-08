@@ -32,7 +32,7 @@
                 <button type="submit" name="login"
                     class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">login</button>
                 <p class="text-lg text-center font-semibold text-gray-100 mt-3">
-                    Don't have an account? <a href="login.php" class="text-blue-500 hover:underline">Register Now</a>
+                    Don't have an account? <a href="register.php" class="text-blue-500 hover:underline">Register Now</a>
                 </p>
             </form>
         </div>
