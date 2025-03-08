@@ -346,7 +346,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -360,8 +360,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-sm font-semibold text-gray-500">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -370,12 +370,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -397,7 +397,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -411,8 +411,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -421,12 +421,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -448,7 +448,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -462,8 +462,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -472,12 +472,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -499,7 +499,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -513,8 +513,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -523,12 +523,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -550,7 +550,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -564,8 +564,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -574,12 +574,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -601,7 +601,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -615,8 +615,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -625,12 +625,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
@@ -652,7 +652,7 @@
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge (60% Off) -->
                     <div
-                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        class="absolute top-2 left-2 bg-[#3D8D7A] text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         60% OFF
                     </div>
 
@@ -666,8 +666,8 @@
 
                     <!-- Book Info -->
                     <div class="mt-4">
-                        <h2 class="text-lg font-semibold">The Warning</h2>
-                        <p class="text-orange-600 text-sm font-semibold">by James Patterson</p>
+                        <h2 class="text-lg font-semibold text-[#3D8D7A]">The Warning</h2>
+                        <p class="text-gray-500 text-sm font-semibold">by James Patterson</p>
 
                         <!-- Price -->
                         <div class="flex items-center space-x-2 mt-1">
@@ -676,12 +676,12 @@
                         </div>
 
                         <!-- Type -->
-                        <p class="text-gray-600 text-sm mt-1">Paperback</p>
+                        <p class="text-[#4F959D] text-sm mt-1">Paperback</p>
                     </div>
 
                     <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                     <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                        <button class="text-orange-500 text-sm font-semibold hover:underline">Add to cart</button>
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
                         <!-- Dynamic Rating -->
                         <div class="flex">
