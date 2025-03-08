@@ -1,6 +1,6 @@
 <footer class="bg-gray-900 text-white py-10">
     <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        
+
         <!-- Quick Links -->
         <div>
             <h2 class="text-lg font-semibold text-orange-400 mb-3">Quick Links</h2>
@@ -40,12 +40,16 @@
         <div>
             <h2 class="text-lg font-semibold text-orange-400 mb-3">Subscribe</h2>
             <p>Get the latest updates and offers.</p>
-            <div class="mt-3 flex">
-                <input type="email" placeholder="Your Email" class="w-full px-3 py-2 rounded-l-md focus:outline-none text-gray-900">
-                <button class="bg-orange-500 px-4 py-2 rounded-r-md text-white font-semibold hover:bg-orange-600 transition">
+            <div class="flex w-full max-w-sm mt-3">
+                <input type="email" placeholder="Your Email"
+                    class="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#B3D8A8]">
+
+                <button
+                    class="bg-[#B3D8A8] px-4 py-2 rounded-r-md text-gray-800 font-semibold hover:bg-[#9CCB91] transition">
                     Subscribe
                 </button>
             </div>
+
         </div>
 
     </div>

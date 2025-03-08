@@ -178,7 +178,8 @@
                 <div class="bg-white p-4 rounded-lg shadow-md border border-gray-300 flex flex-col space-y-2">
                     <!-- Price and Icons -->
                     <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-bold text-blue-600">₹3,000</h3>
+                    <h3 class="text-2xl font-bold text-[#3D8D7A]">₹3,000</h3>
+
                         <div class="flex space-x-3">
                             <!-- Share Icon -->
                             <button class="text-gray-500 hover:text-gray-700">
@@ -748,7 +749,7 @@
         <div class="w-px h-8 bg-gray-400"></div>
 
         <!-- Write a Review Button -->
-        <button id="reviewBtn" class="bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition">
+        <button id="reviewBtn" class="bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition" style="background-color: #3D8D7A; ">
             Write a review
         </button>
     </div>
