@@ -23,7 +23,7 @@
                     <div>
                         <label class="text-gray-100 text-lg">Full Name</label>
                         <input type="text" name="name"
-                            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 " required>
                     </div>
                     <div>
                         <label class="text-gray-100 text-lg">Email Address</label>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="flex flex-col gap-">
                         <label for="" class="text-gray-100 text-lg">Gender</label>
-                        <select name="gender" id="" class="p-2 rounded">
+                        <select name="gender" id="" class="p-2 rounded" >
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
