@@ -777,7 +777,7 @@
         <textarea rows="4" class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
 
         <!-- Submit Button -->
-        <button class="mt-4 w-full bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition">
+        <button class="mt-4 w-full bg-orange-600 text-white px-6 py-2 rounded-md font-semibold shadow-md hover:bg-orange-700 transition"  style="background-color: #3D8D7A; ">
             Submit Review
         </button>
     </div>
