@@ -1,3 +1,4 @@
+
 <?php include_once "config/connect.php";?>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,7 +149,7 @@
 
   <?php include_once "includes/oldBook.php";?>
 
-  <?php include_once "includes/rentBook.php";?>
+ 
     
   <?php include_once "includes/e-book.php";?>
 

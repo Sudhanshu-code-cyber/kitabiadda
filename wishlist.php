@@ -9,7 +9,9 @@
 </head>
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php";?>
+    <div class="pt-10">
     <h1 class="font-bold text-gray-300 text-3xl text-center mt-[15%]">Wishlist Is Empty</h1>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 </html>
