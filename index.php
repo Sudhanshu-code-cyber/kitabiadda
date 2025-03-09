@@ -18,7 +18,7 @@
     <!-- body section -->
 
 
-    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+    <div id="default-carousel" class="relative mt-30 w-full" data-carousel="slide">
         <!-- Carousel wrapper -->
         <div class="relative z-5 h-56 overflow-hidden  md:h-96">
             <!-- Item 1 -->
@@ -152,10 +152,12 @@
  
     
   <?php include_once "includes/e-book.php";?>
+  
 
 
-
+  <?php include_once "includes/footer2.php";?>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
 </body>
 
 </html>

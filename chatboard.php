@@ -16,9 +16,11 @@ if (isset($_SESSION['user'])) {
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
+    <div class="mt-32">
+        <?php include_once "includes/subheader.php";  ?>
 
-    <div class="flex mt-6 border-t border-gray-300">
+    </div>
+    <div class="flex  mt-6 border-t border-gray-300">
         <div class="w-4/12 border-r border-gray-300 bg-white">
             <div class="flex justify-between items-center bg-[#B3D8A8] border-b p-4 border-gray-300">
                 <h2 class="text-xl font-bold text-gray-900">INBOX</h2>
