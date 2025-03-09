@@ -95,7 +95,7 @@ if (isset($_SESSION['user'])) {
                         </div>
 
                         <button name="save_change"
-                            class="py-2 px-4 cursor-pointer w-[65vh] bg-blue-600 font-semibold  text-center rounded text-white">
+                            class="py-2 px-4 cursor-pointer bg-blue-600 font-semibold  text-center rounded text-white">
                             Save Changes
                         </button>
                     </div>
