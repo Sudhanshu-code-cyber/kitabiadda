@@ -1,4 +1,4 @@
-<div class="flex fixed w-full mt-6.5 shadow border-b border-blue-300 top-9 z-50 px-6 top-10 items-center bg-[#FBFFE4] shadow-lg">
+<div class="flex fixed w-full mt-7 shadow border-b border-blue-300 top-9 z-50 px-6 top-10 items-center bg-[#FBFFE4] shadow-lg">
 
     <!-- Dropdown Section -->
     <div class="flex items-center w-full">

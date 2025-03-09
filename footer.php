@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +8,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
 <body class="bg-[#FBFFE4]">
-    <footer class="bg-[#B3D8A8] border-t border-gray-200 py-10">
+    <footer class="bg-[#443627] border-t border-gray-200 py-10">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
                 <!-- Company Section -->
                 <div>
                     <h2 class="text-lg font-semibold text-red-600">Company</h2>
-                    <ul class="mt-3 space-y-2 text-gray-600">
-                        <li><a href="#" class="hover:text-red-500 hover:underline">About Us</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Career</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Blog</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">YT Featured Video</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Contact Us</a></li>
+                    <ul class="mt-3 space-y-2 text-white">
+                        <li><a href="#" class="hover:text-red-400 hover:underline">About Us</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Career</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Blog</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">YT Featured Video</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Contact Us</a></li>
                     </ul>
                 </div>
                 <!-- Policies Section -->
                 <div>
                     <h2 class="text-lg font-semibold text-red-600">Policies</h2>
-                    <ul class="mt-3 space-y-2 text-gray-600">
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Privacy Policies</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Terms of Use</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Secure Shopping</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Copyright Policy</a></li>
+                    <ul class="mt-3 space-y-2 text-white">
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Privacy Policies</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Secure Shopping</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Copyright Policy</a></li>
                     </ul>
                 </div>
                 <!-- Help Section -->
                 <div>
                     <h2 class="text-lg font-semibold text-red-600">Help</h2>
-                    <ul class="mt-3 space-y-2 text-gray-600">
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Payment</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Shipping</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Return</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">FAQ</a></li>
+                    <ul class="mt-3 space-y-2 text-white">
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Payment</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Shipping</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Return</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">FAQ</a></li>
                     </ul>
                 </div>
                 <!-- Misc Section -->
                 <div>
                     <h2 class="text-lg font-semibold text-red-600">Misc</h2>
-                    <ul class="mt-3 space-y-2 text-gray-600">
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Affiliate</a></li>
-                        <li><a href="#" class="hover:text-red-500 hover:underline">Sitemap</a></li>
+                    <ul class="mt-3 space-y-2 text-white">
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Affiliate</a></li>
+                        <li><a href="#" class="hover:text-red-400 hover:underline">Sitemap</a></li>
                     </ul>
                 </div>
             </div>
@@ -68,8 +70,9 @@
                 </a>
             </div>
             <!-- Copyright -->
-            <p class="text-center text-gray-500 mt-4">&copy; 2025 ReaddRainbow.com. All Rights Reserved.</p>
+            <p class="text-center text-white mt-4">&copy; 2025 ReaddRainbow.com. All Rights Reserved.</p>
         </div>
     </footer>
 </body>
+
 </html>
