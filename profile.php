@@ -55,7 +55,7 @@ if (isset($_SESSION['user'])) {
                         </label>
 
                         </label>
-                        <div class="grid grid-cols-3 gap-5">
+                        <div class="grid grid-cols-2 gap-5">
                             <div class="flex flex-col gap-1">
                                 <label class="font-semibold">Full Name</label>
                                 <input type="text" name="name" value="<?= $user['name']; ?>" class="border rounded p-2">
@@ -83,7 +83,7 @@ if (isset($_SESSION['user'])) {
                         </div>
 
                         <h1 class="text-2xl font-semibold text-red-500 underline">Change Password</h1>
-                        <div class="grid grid-cols-2 w-[80vh] gap-5">
+                        <div class="grid grid-cols-2  gap-5">
                             <div class="flex flex-col gap-1">
                                 <label class="font-semibold">Old Password</label>
                                 <input type="password" name="password" class="border rounded p-2">
@@ -95,7 +95,7 @@ if (isset($_SESSION['user'])) {
                         </div>
 
                         <button name="save_change"
-                            class="py-2 px-4 bg-blue-600 font-semibold w-[100vh] text-center rounded text-white">
+                            class="py-2 px-4 bg-blue-600 font-semibold  text-center rounded text-white">
                             Save Changes
                         </button>
                     </div>
