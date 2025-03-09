@@ -83,7 +83,7 @@ if (isset($_SESSION['user'])) {
                         </div>
 
                         <h1 class="text-2xl font-semibold text-red-500 underline">Change Password</h1>
-                        <div class="grid grid-cols-2 w-[100vh] gap-5">
+                        <div class="grid grid-cols-2 w-[80vh] gap-5">
                             <div class="flex flex-col gap-1">
                                 <label class="font-semibold">Old Password</label>
                                 <input type="password" name="password" class="border rounded p-2">
