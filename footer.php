@@ -1,75 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Website Footer</title>
+    <title>Book Store Footer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-
-<body class="bg-gray-100">
-
-    <footer class="bg-gray-900 text-white py-10">
+<body class="bg-[#FBFFE4]">
+    <footer class="bg-[#B3D8A8] border-t border-gray-200 py-10">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- About Section -->
-                <div class="fade-in">
-                    <h2 class="text-xl font-semibold">About Us</h2>
-                    <p class="mt-2 text-gray-400">Discover a vast collection of books across all genres and enjoy a seamless reading experience.</p>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="fade-in">
-                    <h2 class="text-xl font-semibold">Quick Links</h2>
-                    <ul class="mt-2 space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">Home</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">Categories</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">Best Sellers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">Contact</a></li>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+                <!-- Company Section -->
+                <div>
+                    <h2 class="text-lg font-semibold text-red-600">Company</h2>
+                    <ul class="mt-3 space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-red-500 hover:underline">About Us</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Career</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Blog</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">YT Featured Video</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Contact Us</a></li>
                     </ul>
                 </div>
-
-                <!-- Social Links -->
-                <div class="fade-in">
-                    <h2 class="text-xl font-semibold">Follow Us</h2>
-                    <div class="flex space-x-4 mt-2">
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition text-2xl">📘</a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition text-2xl">🐦</a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition text-2xl">📸</a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition text-2xl">🎥</a>
-                    </div>
+                <!-- Policies Section -->
+                <div>
+                    <h2 class="text-lg font-semibold text-red-600">Policies</h2>
+                    <ul class="mt-3 space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Privacy Policies</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Secure Shopping</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Copyright Policy</a></li>
+                    </ul>
                 </div>
-
-                <!-- Newsletter Subscription -->
-                <div class="fade-in">
-                    <h2 class="text-xl font-semibold">Newsletter</h2>
-                    <p class="mt-2 text-gray-400">Subscribe to get updates on new arrivals and offers.</p>
-                    <form class="mt-4">
-                        <input type="email" placeholder="Enter your email" class="w-full p-2 text-gray-800 rounded-md">
-                        <button class="w-full mt-2 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition">Subscribe</button>
-                    </form>
+                <!-- Help Section -->
+                <div>
+                    <h2 class="text-lg font-semibold text-red-600">Help</h2>
+                    <ul class="mt-3 space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Payment</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Shipping</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Return</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">FAQ</a></li>
+                    </ul>
+                </div>
+                <!-- Misc Section -->
+                <div>
+                    <h2 class="text-lg font-semibold text-red-600">Misc</h2>
+                    <ul class="mt-3 space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Affiliate</a></li>
+                        <li><a href="#" class="hover:text-red-500 hover:underline">Sitemap</a></li>
+                    </ul>
                 </div>
             </div>
-
-            <hr class="my-6 border-gray-700">
-
+            <hr class="my-6 border-gray-300">
+            <!-- Social Media Links -->
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-10 h-10 hover:scale-110 transition transform">
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" class="w-10 h-10 hover:scale-110 transition transform">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="w-10 h-10 hover:scale-110 transition transform">
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="w-10 h-10 hover:scale-110 transition transform">
+                </a>
+            </div>
             <!-- Copyright -->
-            <p class="text-center text-gray-400">&copy; 2025 BookStore. All rights reserved.</p>
+            <p class="text-center text-gray-500 mt-4">&copy; 2025 ReaddRainbow.com. All Rights Reserved.</p>
         </div>
     </footer>
-
-    <script>
-        gsap.from(".fade-in", {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            stagger: 0.3,
-            ease: "power2.out"
-        });
-    </script>
-
 </body>
-
 </html>
