@@ -21,61 +21,69 @@
                 while ($book = $callNewBook->fetch_array()) {
                     ?>
                     <a href="view.php?book_id=<?= $book['id']; ?>">
-                        <div
-                            class="flex bg-white p-4  rounded-lg shadow-lg hover:shadow-xl transition border border-gray-200  rounded  w-58 justify-center border  items-center flex-col">
-                            <div class=" p-2 hover:scale-105 transition  rounded  relative rounded  w-45 flex    ">
-                                <span
-                                    class="absolute top-2 -m-4 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">10%
-                                    OFF</span>
-                                <p
-                                    class="absolute right-2 -m-3  border-[#A3D1C6] rounded-full bg-white flex p-1 cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6 text-[#3D8D7A]">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                    </svg>
-                                </p>
-                                <img src="images/<?= $book['img1']; ?>" alt="" class=" h-[95%] object-cover rounded w-45">
-                            </div>
-                            <p class="w-50 py-1 text-[#rgb(5 54 40)] truncate font-medium"><?= $book['book_name']; ?>
-                            </p>
 
-                            <p class="text-sm text-orange-600 font-medium text-start w-full ">by <?= $book['book_author']; ?>
-                            </p>
+                    <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <!-- Discount Badge (60% Off) -->
+                    <div
+                        class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                        60% OFF
+                    </div>
 
-                            <p class="flex gap-1  justify-start w-full items-center ">
-                                <span class="font-bold text-lg text-[#053628]">₹<?= $book['sell_price']; ?>-/</span>
-                                <del class="text-gray-500 text-sm "> ₹<?= $book['mrp']; ?>-/</del>
-                                <span class="text-sm text-gray-800 font-medium"><span
-                                        class="text-sm text-red-800 font-medium">eBook</span>:₹45-/</span>
-                            </p>
-                            <button
-                                class="flex items-center justify-center gap-2 w-52 py-2 mt-3 rounded-lg bg-[#3D8D7A] text-[#FBFFE4] border border-transparent 
-                        shadow-md hover:bg-[#2E6D5F] hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                                </svg>
+                    <!-- Book Image (Clickable Link) -->
+                    <div class="flex justify-center">
+                        <button target="_blank">
+                            <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
+                                class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                        </button>
+                    </div>
 
-                                <span class="font-medium text-sm">Quick Add</span>
-                            </button>
+                    <!-- Book Info -->
+                    <div class="mt-4">
+                        <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
+                        <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?></p>
 
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mt-1">
+                            <p class="text-gray-500 line-through text-sm">₹<?= $book['mrp']; ?>/-</p>
+                            <p class="text-black font-bold text-lg">₹<?= $book['sell_price']; ?>/-</p>
                         </div>
+
+                        <!-- Type -->
+                        <p class="text-red-400 font-semibold sm mt-1">E-BOOK :  <?php 
+                        if ($book['e_book_avl'] == "Yes") {
+                            echo $book['e_book_price'];
+                        }else{
+                            echo "Not Available";
+                        }
+                        
+                        ?></p>
+                    </div>
+
+                    <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                    <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                        <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
+
+                        <!-- Dynamic Rating -->
+                        <div class="flex">
+                            <?php
+                            $rating = rand(2, 5); // Random Rating for demo
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= floor($rating)) {
+                                    echo '<span class="text-orange-500 text-lg">★</span>';
+                                } elseif ($i - $rating < 1) {
+                                    echo '<span class="text-orange-500 text-lg">☆</span>';
+                                } else {
+                                    echo '<span class="text-gray-400 text-lg">★</span>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
                     </a>
                     <?php
                 }
                 ?>
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
         <!-- Item 2 -->
@@ -119,12 +127,6 @@
 
                     </a>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
         <!-- Item 3 -->
@@ -168,16 +170,6 @@
 
                     </a>
                 </div>
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
         <!-- Item 4 -->
@@ -221,17 +213,6 @@
 
                     </a>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
         <!-- Item 5 -->
@@ -275,14 +256,6 @@
 
                     </a>
                 </div>
-
-
-
-
-
-
-
-
             </div>
         </div>
     </div>
@@ -312,5 +285,54 @@
             </svg>
             <span class="sr-only">Next</span>
         </span>
+    </button>
+</div>
+
+
+
+
+
+
+<div
+    class="flex bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition border border-gray-200 w-58 justify-center items-center flex-col h-[350px] overflow-hidden">
+
+    <!-- Image Container with Fixed Height -->
+    <div class="p-2 hover:scale-105 transition rounded relative w-45 flex h-[150px] overflow-hidden">
+        <span class="absolute top-2 -m-4 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+            10% OFF
+        </span>
+        <p class="absolute right-2 -m-3 border-[#A3D1C6] rounded-full bg-white flex p-1 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6 text-[#3D8D7A]">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            </svg>
+        </p>
+        <img src="images/<?= $book['img1']; ?>" alt="Book Image" class="h-full w-full object-fit rounded">
+    </div>
+
+    <!-- Book Details -->
+    <p class="w-50 py-1 text-[#053628] truncate font-medium text-center"><?= $book['book_name']; ?>
+    </p>
+    <p class="text-sm text-orange-600 font-medium text-center">by <?= $book['book_author']; ?></p>
+
+    <!-- Pricing Details -->
+    <p class="flex gap-1 justify-center items-center">
+        <span class="font-bold text-lg text-[#053628]">₹<?= $book['sell_price']; ?>/-</span>
+        <del class="text-gray-500 text-sm">₹<?= $book['mrp']; ?>/-</del>
+        <span class="text-sm text-gray-800 font-medium">
+            <span class="text-sm text-red-800 font-medium">eBook</span>:₹45-/</span>
+    </p>
+
+    <!-- Quick Add Button -->
+    <button
+        class="flex items-center justify-center gap-2 w-52 py-2 mt-3 rounded-lg bg-[#3D8D7A] text-[#FBFFE4] border border-transparent 
+            shadow-md hover:bg-[#2E6D5F] hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+        </svg>
+        <span class="font-medium text-sm">Quick Add</span>
     </button>
 </div>
