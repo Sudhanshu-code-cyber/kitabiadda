@@ -1,4 +1,4 @@
-<footer class="bg-[#443627] border-t border-gray-200 py-10">
+<footer class="bg-[#3D8D7A] border-t border-gray-200 py-10">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <!-- Company Section -->
