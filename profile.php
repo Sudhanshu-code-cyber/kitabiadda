@@ -50,8 +50,8 @@ if (isset($_SESSION['user'])) {
                     <div class="flex flex-col gap-5 justify-center items-center">
                         <label for="dp_image" class="cursor-pointer">
                             <input type="file" onchange="this.form.submit()" name="dp_image" id="dp_image" hidden>
-                            <img src="<?= ($user['dp']) ? "" . $user['dp'] : "assets/defaultUser.webp"; ?>"
-                                alt="" class="h-32 w-32  border-2 border-red-700 bg-white rounded-full">
+                            <img src="<?= !empty($user['dp']) ? $user['dp'] : 'assets/defaultUser.webp'; ?>"
+                                alt="Profile Picture" class="h-32 w-32 border-2 border-red-700 bg-white rounded-full">
                         </label>
 
                         </label>
