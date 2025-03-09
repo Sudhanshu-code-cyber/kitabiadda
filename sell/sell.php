@@ -17,19 +17,20 @@ include "../config/connect.php";
             width: 120px;
             height: 50px;
         }
-        .nav{
+
+        .nav {
             background: #3d8d7a;
         }
     </style>
 </head>
 
 <body style="background-color:#FBFFE4;">
-<nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand mx-5h6" href="../index.php">ReadRainbow</a>
-        <a href="../index.php" class="btn btn-primary">Go back</a>
-    </div>
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-5h6" href="../index.php">ReadRainbow</a>
+            <a href="../index.php" class="btn btn-primary">Go back</a>
+        </div>
+    </nav>
 
 
     <div id="bookDetails" class="container py-5 mt-4">
@@ -52,11 +53,12 @@ include "../config/connect.php";
 
                 <div class="col-md-4">
                     <label class="form-label h6">Binding</label>
-                    <select name="sub_category" class="form-select">
+                    <select name="book_binding" class="form-select">
                         <option value="">Select binding</option>
-                        <option value="">Paperwork</option>
-                        <option value="">hardpaper</option>
-                    </select>                </div>
+                        <option value="Paperwork">Paperwork</option>
+                        <option value="Hardcover">Hardcover</option>
+                    </select>
+                </div>
                 <div class="col-md-4">
                     <label class="form-label h6">MRP</label>
                     <input type="number" name="mrp" class="form-control" placeholder="Enter MRP" required>
@@ -126,8 +128,7 @@ include "../config/connect.php";
                 </div>
                 <div class="col-4">
                     <label class="form-label h6">Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Enter Your Email"
-                        required>
+                    <input type="text" name="email" class="form-control" placeholder="Enter Your Email" required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller Name</label>
@@ -207,8 +208,9 @@ include "../config/connect.php";
                             </div>
                         </div>
 
-                        <input type="file" id="fileInput3" accept="image/*" class="d-none upload" multiple name="=img3"
+                        <input type="file" id="fileInput3" accept="image/*" class="d-none upload" multiple name="img3"
                             onchange="previewImages(event, 'imagePreviewContainer3', 'uploadText3')">
+
                     </div>
 
                     <script>
@@ -249,7 +251,8 @@ include "../config/connect.php";
             <div class="col-12 d-flex justify-content-end">
 
                 <a href="sell.php" class="btn btn-warning me-2 mt-4">Reset</a>
-                <button type="submit" class="btn  me-2 w-25 mt-4" style="background: #a3a1c6;" name="submit">Sell</button>
+                <button type="submit" class="btn  me-2 w-25 mt-4" style="background: #a3a1c6;"
+                    name="submit">Sell</button>
             </div>
     </div>
     </form>
@@ -273,7 +276,7 @@ include "../config/connect.php";
         $subject = $_POST['Subject'];
         $book_name = $_POST['book_name'];
         $book_author = $_POST['author'];
-        $book_binding = $_POST['binding'];
+        $book_binding = $_POST['book_binding'] ?? '';
         $mrp = $_POST['mrp'];
         $price = $_POST['selling_price'];
         $pages = $_POST['pages'];
@@ -295,37 +298,37 @@ include "../config/connect.php";
         $tmp_image1 = $_FILES['img1']['tmp_name'];
         $img2 = $_FILES['img2']['name'];
         $tmp_image2 = $_FILES['img2']['tmp_name'];
-        $img3 = $_FILES['img3']['name'];
-        $tmp_image3 = $_FILES['img3']['tmp_name'];
-        if ($img1 && $tmp_image1) {
+        $img3 = $_FILES['img3']['name'] ?? null;
+        $tmp_image3 = $_FILES['img3']['tmp_name'] ?? null;
+
+        // Upload images
+        if ($img1 && $tmp_image1)
             move_uploaded_file($tmp_image1, "../sell/sell_images/$img1");
-        }
-        if ($img2 && $tmp_image2) {
+        if ($img2 && $tmp_image2)
             move_uploaded_file($tmp_image2, "../sell/sell_images/$img2");
-        }
-        if ($img3 && $tmp_image3) {
-            if (move_uploaded_file($tmp_image3, "../sell/sell_images/$img3")) {
-                echo "Image 3 uploaded successfully!";
+        if ($img3 && $tmp_image3)
+            move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
+
+        $role = $_SESSION['user_id'] ?? 'public';
+        $newBookUserId = 2;
+        $status = ($role == $newBookUserId) ? 'new' : 'old';
+
+        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, email, fullname, latitude, longitude, address, book_description, img1, img2, img3, status) VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$email', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$status')";
+
+        $result = mysqli_query($connect, $query);
+
+        if ($result) {
+            if ($status === 'new') {
+                echo "<script>alert('New book added successfully!'); window.location.href='../index.php';</script>";
             } else {
-                echo "Failed to upload Image 3!";
+                echo "<script>alert('Old book added successfully!'); window.location.href='../includes/oldBook.php';</script>";
             }
         } else {
-            echo "Image 3 or tmp_image3 not set properly!";
-        }
-
-
-
-        $query = mysqli_query($connect, "INSERT INTO sellbook (subject, sbook_name, sbook_author, sbook_binding, sbook_mrp, sbook_price, sbook_pages, sbook_category, sbook_subcategory, sbook_language, sbook_isbn, sbook_pubyear, sbook_quality, seller_contact, email, seller_firstname, latitude, longitude, seller_address, sbook_description, sbook_img1, sbook_img2, sbook_img3) 
-        VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact','$email', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')");
-
-
-        if ($query) {
-            echo "<script>window.open('../index.php','_self')</script>";
-        } else {
-            echo "<div class='alert alert-danger'><strong>Oops!</strong> Book insertion failed</div>";
+            echo "<div class='alert alert-danger'><strong>Error:</strong> " . mysqli_error($connect) . "</div>";
         }
     }
     ?>
+
     </div>
 
     <!-- Add Bootstrap CSS -->
