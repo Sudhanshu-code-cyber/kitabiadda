@@ -309,20 +309,14 @@ include "../config/connect.php";
         if ($img3 && $tmp_image3)
             move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
 
-        $role = $_SESSION['user_id'] ?? 'public';
-        $newBookUserId = 2;
-        $status = ($role == $newBookUserId) ? 'new' : 'old';
+
 
         $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, email, fullname, latitude, longitude, address, book_description, img1, img2, img3, status) VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$email', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$status')";
 
         $result = mysqli_query($connect, $query);
 
         if ($result) {
-            if ($status === 'new') {
-                echo "<script>alert('New book added successfully!'); window.location.href='../index.php';</script>";
-            } else {
-                echo "<script>alert('Old book added successfully!'); window.location.href='../includes/oldBook.php';</script>";
-            }
+            echo "<script>alert('Old book added successfully!'); window.location.href='../includes/oldBook.php';</script>";
         } else {
             echo "<div class='alert alert-danger'><strong>Error:</strong> " . mysqli_error($connect) . "</div>";
         }
