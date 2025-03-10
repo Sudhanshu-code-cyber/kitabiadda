@@ -146,12 +146,10 @@
 
 
   <?php include_once "includes/newRelease.php";?>
-
   <?php include_once "includes/oldBook.php";?>
-
- 
-    
   <?php include_once "includes/e-book.php";?>
+ 
+ 
   
 
 
