@@ -1,5 +1,10 @@
 <?php
 include "../config/connect.php";
+if(!isset($_SESSION['user'])){
+    redirect("../login.php");
+}else{
+    $user=getUser();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,10 +96,10 @@ include "../config/connect.php";
                     <label class="form-label h6">Sub Category</label>
                     <select name="sub_category" class="form-select">
                         <option value="">Select Sub category</option>
-                        <option value="">Biology</option>
-                        <option value="">Chemistry</option>
-                        <option value="">Botany</option>
-                        <option value="">Zeology</option>
+                        <option value="biology">Biology</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="botany">Botany</option>
+                        <option value="zeology">Zeology</option>
                     </select>
                 </div>
 
@@ -122,13 +127,16 @@ include "../config/connect.php";
                     </select>
                 </div>
                 <div class="col-4">
+                    <label class="form-label h6">Version</label>
+                    <select name="version" class="form-select" >
+                    <option value="">select version of book</option>
+                        <option value="old">Old</option>
+                    </select>
+                </div>
+                <div class="col-4">
                     <label class="form-label h6">Contact Number</label>
                     <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number"
                         required>
-                </div>
-                <div class="col-4">
-                    <label class="form-label h6">Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Enter Your Email" required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller Name</label>
@@ -286,13 +294,14 @@ include "../config/connect.php";
         $isbn = $_POST['isbn'];
         $publish_year = $_POST['publish_year'];
         $quality = $_POST['quality'];
+        $version = $_POST['version'];
         $contact = $_POST['contact'];
-        $email = $_POST['email'];
         $firstname = $_POST['firstname'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
         $address = $_POST['address'];
         $sbook_description = $_POST['description'];
+        $seller_id=$user['user_id'];
 
         $img1 = $_FILES['img1']['name'];
         $tmp_image1 = $_FILES['img1']['tmp_name'];
@@ -303,22 +312,23 @@ include "../config/connect.php";
 
         // Upload images
         if ($img1 && $tmp_image1)
-            move_uploaded_file($tmp_image1, "../sell/sell_images/$img1");
+            move_uploaded_file($tmp_image1, "../assets/sell_images/$img1");
         if ($img2 && $tmp_image2)
-            move_uploaded_file($tmp_image2, "../sell/sell_images/$img2");
+            move_uploaded_file($tmp_image2, "../assets/sell_images/$img2");
         if ($img3 && $tmp_image3)
-            move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
+            move_uploaded_file($tmp_image3, "../assets/sell_images/$img3");
 
 
 
-        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, email, fullname, latitude, longitude, address, book_description, img1, img2, img3, status) VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$email', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$status')";
-
+            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, seller_id) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3','$seller_id')";
+            
         $result = mysqli_query($connect, $query);
 
         if ($result) {
-            echo "<script>alert('Old book added successfully!'); window.location.href='../includes/oldBook.php';</script>";
+            echo "<script>alert('Old book added successfully!'); window.location.href='../index.php';</script>";
         } else {
-            echo "<div class='alert alert-danger'><strong>Error:</strong> " . mysqli_error($connect) . "</div>";
+            echo "<div class='alert alert-danger'><strong>Error:</strong> </div>";
         }
     }
     ?>

@@ -11,6 +11,24 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
+<style>
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+#bookScroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+#bookScroll {
+    scrollbar-width: none;
+}
+
+/* Container styling for smooth scrolling */
+#bookScroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+</style>
+
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
