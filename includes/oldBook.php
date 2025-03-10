@@ -4,7 +4,7 @@
 
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Book Sets</h2>
+                <h2 class="text-2xl font-bold">Old Book</h2>
                 <a href="#" class="text-orange-500 font-semibold hover:underline">View All</a>
             </div>
 
@@ -27,7 +27,7 @@
                 
 
                 ?>
-                <a href="view.php?book_id=<?= $book['id']; ?>">
+                <a href="view2.php?book_id=<?= $book['id']; ?>">
 
                     <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                         <!-- Discount Badge (60% Off) -->
