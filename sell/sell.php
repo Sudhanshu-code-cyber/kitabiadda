@@ -91,10 +91,10 @@ include "../config/connect.php";
                     <label class="form-label h6">Sub Category</label>
                     <select name="sub_category" class="form-select">
                         <option value="">Select Sub category</option>
-                        <option value="">Biology</option>
-                        <option value="">Chemistry</option>
-                        <option value="">Botany</option>
-                        <option value="">Zeology</option>
+                        <option value="biology">Biology</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="botany">Botany</option>
+                        <option value="zeology">Zeology</option>
                     </select>
                 </div>
 
@@ -112,7 +112,7 @@ include "../config/connect.php";
                         required>
                 </div>
 
-                <div class="col-6">
+                <div class="col-4">
                     <label class="form-label h6">Quality</label>
                     <select name="quality" class="form-select" name="quality">
                         <option value="New">New</option>
@@ -121,7 +121,14 @@ include "../config/connect.php";
                         <option value="Acceptable">Acceptable</option>
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
+                    <label class="form-label h6">Version</label>
+                    <select name="version" class="form-select" >
+                    <option value="">select version of book</option>
+                        <option value="old">Old</option>
+                    </select>
+                </div>
+                <div class="col-4">
                     <label class="form-label h6">Contact Number</label>
                     <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number"
                         required>
@@ -282,6 +289,7 @@ include "../config/connect.php";
         $isbn = $_POST['isbn'];
         $publish_year = $_POST['publish_year'];
         $quality = $_POST['quality'];
+        $version = $_POST['version'];
         $contact = $_POST['contact'];
         $firstname = $_POST['firstname'];
         $latitude = $_POST['latitude'];
@@ -306,8 +314,8 @@ include "../config/connect.php";
 
 
 
-            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3) 
-            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')";
+            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')";
             
         $result = mysqli_query($connect, $query);
 
