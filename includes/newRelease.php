@@ -22,7 +22,7 @@
                     <!-- Book Card -->
                     <?php
                 
-                $callNewBook = $connect->query("select * from books");
+                $callNewBook = $connect->query("select * from books where version='new'");
                 while ($book = $callNewBook->fetch_array()) {
                    
 
