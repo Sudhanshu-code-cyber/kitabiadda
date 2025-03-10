@@ -112,7 +112,7 @@ include "../config/connect.php";
                         required>
                 </div>
 
-                <div class="col-4">
+                <div class="col-6">
                     <label class="form-label h6">Quality</label>
                     <select name="quality" class="form-select" name="quality">
                         <option value="New">New</option>
@@ -121,14 +121,10 @@ include "../config/connect.php";
                         <option value="Acceptable">Acceptable</option>
                     </select>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <label class="form-label h6">Contact Number</label>
                     <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number"
                         required>
-                </div>
-                <div class="col-4">
-                    <label class="form-label h6">Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Enter Your Email" required>
                 </div>
                 <div class="col-6">
                     <label class="form-label h6">Seller Name</label>
@@ -287,7 +283,6 @@ include "../config/connect.php";
         $publish_year = $_POST['publish_year'];
         $quality = $_POST['quality'];
         $contact = $_POST['contact'];
-        $email = $_POST['email'];
         $firstname = $_POST['firstname'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
@@ -311,14 +306,15 @@ include "../config/connect.php";
 
 
 
-        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, email, fullname, latitude, longitude, address, book_description, img1, img2, img3, status) VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$email', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$status')";
-
+            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')";
+            
         $result = mysqli_query($connect, $query);
 
         if ($result) {
-            echo "<script>alert('Old book added successfully!'); window.location.href='../includes/oldBook.php';</script>";
+            echo "<script>alert('Old book added successfully!'); window.location.href='../index.php';</script>";
         } else {
-            echo "<div class='alert alert-danger'><strong>Error:</strong> " . mysqli_error($connect) . "</div>";
+            echo "<div class='alert alert-danger'><strong>Error:</strong> </div>";
         }
     }
     ?>
