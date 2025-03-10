@@ -1,5 +1,10 @@
 <?php
 include "../config/connect.php";
+if(!isset($_SESSION['user'])){
+    redirect("../login.php");
+}else{
+    $user=getUser();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -296,6 +301,7 @@ include "../config/connect.php";
         $longitude = $_POST['longitude'];
         $address = $_POST['address'];
         $sbook_description = $_POST['description'];
+        $seller_id=$user['user_id'];
 
         $img1 = $_FILES['img1']['name'];
         $tmp_image1 = $_FILES['img1']['tmp_name'];
@@ -314,8 +320,8 @@ include "../config/connect.php";
 
 
 
-            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3) 
-            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3')";
+            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, seller_id) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3','$seller_id')";
             
         $result = mysqli_query($connect, $query);
 
