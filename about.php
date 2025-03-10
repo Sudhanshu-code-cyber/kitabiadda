@@ -6,55 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About Us - ReadRainbow</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-image: url('https://www.transparenttextures.com/patterns/white-wall-3.png');
-            background-color: #FBFFE4;
-        }
-
-        .ribbon {
-            background: #3D8D7A;
-            color: white;
-            padding: 12px 30px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: inline-block;
-            border-radius: 0 0.5rem 0.5rem 0;
-            position: relative;
-        }
-
-        .ribbon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -20px;
-            width: 0;
-            height: 0;
-            border-top: 40px solid #3D8D7A;
-            border-left: 20px solid transparent;
-        }
-
-        .frame-box {
-            border: 6px solid #B3D8A8;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
 
-<body class="text-gray-800 font-sans">
+<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
-    <!-- Header (Ribbon Style) -->
-    <div class="text-center mt-10">
-        <div class="ribbon">About ReadRainbow</div>
-        <p class="text-sm mt-2 text-gray-700">Your One-Stop Destination to Buy & Sell New and Pre-Loved Books</p>
+    <!-- Ribbon Header -->
+    <div class="relative w-fit mx-auto mt-40">
+        <div class="bg-[#3D8D7A] text-white text-2xl font-bold py-3 px-8 rounded-r-lg relative z-10">
+            About ReadRainbow
+        </div>
+        <div class="absolute left-[-20px] top-0 w-0 h-0 border-t-[48px] border-t-[#3D8D7A] border-l-[20px] border-l-transparent z-0"></div>
+        <p class="text-sm mt-2 text-center text-gray-700">Your One-Stop Destination to Buy & Sell New and Pre-Loved Books</p>
     </div>
 
-    <!-- Framed Main Content -->
+    <!-- Main Content -->
     <main class="max-w-5xl mx-auto px-4 py-12 space-y-12">
 
-        <section class="frame-box p-6">
+        <!-- Section: Who We Are -->
+        <section class="border-4 border-[#B3D8A8] bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] text-center">Who We Are</h2>
             <p class="mt-4 text-lg leading-relaxed text-center">
                 ReadRainbow is a book lover's paradise. We provide a platform where you can discover new books,
@@ -63,7 +34,8 @@
             </p>
         </section>
 
-        <section class="frame-box p-6">
+        <!-- Section: What We Do -->
+        <section class="border-4 border-[#B3D8A8] bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] text-center">What We Do</h2>
             <ul class="mt-4 list-disc list-inside space-y-2 text-lg text-gray-800">
                 <li>📚 Sell brand new books across all genres</li>
@@ -73,7 +45,8 @@
             </ul>
         </section>
 
-        <section class="frame-box p-6">
+        <!-- Section: Our Mission -->
+        <section class="border-4 border-[#B3D8A8] bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] text-center">Our Mission</h2>
             <p class="mt-4 text-lg text-center leading-relaxed">
                 We aim to make reading affordable, sustainable, and accessible to everyone.
@@ -82,7 +55,8 @@
             </p>
         </section>
 
-        <section class="frame-box p-6">
+        <!-- Section: Why Choose Us -->
+        <section class="border-4 border-[#B3D8A8] bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] text-center">Why Choose ReadRainbow?</h2>
             <ul class="mt-4 list-disc list-inside space-y-2 text-lg text-gray-800">
                 <li>Affordable book prices</li>
@@ -93,7 +67,8 @@
             </ul>
         </section>
 
-        <section class="frame-box p-6">
+        <!-- Section: Join Us -->
+        <section class="border-4 border-[#B3D8A8] bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] text-center">Join the ReadRainbow Journey</h2>
             <p class="mt-4 text-lg text-center leading-relaxed">
                 Whether you want to sell the books you’ve already read or find your next favorite novel, ReadRainbow is here for you.
@@ -102,12 +77,8 @@
         </section>
 
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-[#3D8D7A] text-white text-center py-6 mt-10">
-        <p>&copy; 2025 ReadRainbow. All rights reserved.</p>
-    </footer>
-
+    
+    <?php include_once "includes/footer2.php"; ?>
 </body>
 
 </html>

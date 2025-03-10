@@ -9,9 +9,13 @@
             </svg>
 
         </button>
+        <?php
+        $catcalling = $connect->query("select * from category");
+        
+        ?>
 
         <!-- Dropdown menu -->
-        <div id="multi-dropdown" class="z-10 hidden bg-white border border-gray-200 rounded-lg shadow-md w-56 mt-2 absolute">
+        <div id="multi-dropdown" class="z-50 hidden bg-white border border-gray-200 rounded-lg shadow-md w-56 mt-2 absolute">
             <ul class="py-3 text-base text-gray-700">
                 <li>
                     <a href="#" class="block px-4 py-3 hover:bg-gray-100">Fiction</a>

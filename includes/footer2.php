@@ -3,18 +3,18 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <!-- Company Section -->
             <div>
-                <h2 class="text-lg font-semibold text-red-600">Company</h2>
+                <h2 class="text-lg font-semibold text-black">Company</h2>
                 <ul class="mt-3 space-y-2 text-white">
-                    <li><a href="#" class="hover:text-red-400 hover:underline">About Us</a></li>
+                    <li><a href="about.php" class="hover:text-red-400 hover:underline">About Us</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">Career</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">Blog</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">YT Featured Video</a></li>
-                    <li><a href="#" class="hover:text-red-400 hover:underline">Contact Us</a></li>
+                    <li><a href="contact.php" class="hover:text-red-400 hover:underline">Contact Us</a></li>
                 </ul>
             </div>
             <!-- Policies Section -->
             <div>
-                <h2 class="text-lg font-semibold text-red-600">Policies</h2>
+                <h2 class="text-lg font-semibold text-black">Policies</h2>
                 <ul class="mt-3 space-y-2 text-white">
                     <li><a href="#" class="hover:text-red-400 hover:underline">Privacy Policies</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">Terms of Use</a></li>
@@ -24,7 +24,7 @@
             </div>
             <!-- Help Section -->
             <div>
-                <h2 class="text-lg font-semibold text-red-600">Help</h2>
+                <h2 class="text-lg font-semibold text-black">Help</h2>
                 <ul class="mt-3 space-y-2 text-white">
                     <li><a href="#" class="hover:text-red-400 hover:underline">Payment</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">Shipping</a></li>
@@ -34,7 +34,7 @@
             </div>
             <!-- Misc Section -->
             <div>
-                <h2 class="text-lg font-semibold text-red-600">Misc</h2>
+                <h2 class="text-lg font-semibold text-black">Misc</h2>
                 <ul class="mt-3 space-y-2 text-white">
                     <li><a href="#" class="hover:text-red-400 hover:underline">Affiliate</a></li>
                     <li><a href="#" class="hover:text-red-400 hover:underline">Sitemap</a></li>

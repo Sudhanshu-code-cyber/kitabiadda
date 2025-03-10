@@ -16,7 +16,7 @@ if (isset($_SESSION['user'])) {
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
-    <div class="mt-32">
+    <div class="">
         <?php include_once "includes/subheader.php";  ?>
 
     </div>
