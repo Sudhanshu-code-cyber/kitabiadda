@@ -43,7 +43,7 @@ if (isset($_SESSION['user'])) {
         class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full  md:me-0 border p-1 focus:ring-gray-100 "
         type="button">
         <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 me-2 rounded-full" src="assets/defaultUser.webp" alt="user photo">
+        <img class="w-8 h-8 me-2 rounded-full" src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="user photo">
         <?= $user['name'];?>
         <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 10 6">
