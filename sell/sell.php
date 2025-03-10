@@ -306,11 +306,11 @@ include "../config/connect.php";
 
         // Upload images
         if ($img1 && $tmp_image1)
-            move_uploaded_file($tmp_image1, "../sell/sell_images/$img1");
+            move_uploaded_file($tmp_image1, "../assets/sell_images/$img1");
         if ($img2 && $tmp_image2)
-            move_uploaded_file($tmp_image2, "../sell/sell_images/$img2");
+            move_uploaded_file($tmp_image2, "../assets/sell_images/$img2");
         if ($img3 && $tmp_image3)
-            move_uploaded_file($tmp_image3, "../sell/sell_images/$img3");
+            move_uploaded_file($tmp_image3, "../assets/sell_images/$img3");
 
 
 
