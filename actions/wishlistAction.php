@@ -23,6 +23,7 @@ if (isset($_POST['toggle_wishlist'])) {
         // Add to wishlist
         $connect->query("INSERT INTO wishlist (user_id, book_id) VALUES ('$userId', '$bookId')");
     }
+    
 }
 
 // Redirect back to the same page
