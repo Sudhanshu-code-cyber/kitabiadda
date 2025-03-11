@@ -1,71 +1,43 @@
-<div class="flex fixed w-full mt-7 shadow border-b border-blue-300 top-9 z-50 px-6 top-10 items-center bg-[#FBFFE4] shadow-lg">
+<div class="fixed top-16 w-full bg-[#FBFFE4] shadow border-b border-blue-300 z-50 px-6 py-2">
+    <div class="flex items-center justify-between">
 
-    <!-- Dropdown Section -->
-    <div class="flex items-center w-full">
-        <button id="multiLevelDropdownButton" data-dropdown-toggle="multi-dropdown" class="text-black w-full font-medium text-lg font-semibold rounded-md px-6 py-3 flex justify-between items-center whitespace-nowrap" type="button">
-            All Books
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-            </svg>
+        <!-- Dropdown -->
+        <div class="relative">
+            <button id="multiLevelDropdownButton" data-dropdown-toggle="multi-dropdown" class="text-black ml-4 font-semibold text-lg px-4 py-2 flex items-center gap-2">
+                All Books
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
 
-        </button>
-        <?php
-        $catcalling = $connect->query("select * from category");
-        
-        ?>
-
-        <!-- Dropdown menu -->
-        <div id="multi-dropdown" class="z-50 hidden bg-white border border-gray-200 rounded-lg shadow-md w-56 mt-2 absolute">
-            <ul class="py-3 text-base text-gray-700">
-                <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-gray-100">Fiction</a>
-                </li>
-                <li>
-                    <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-3 hover:bg-gray-100">
-                        Categories
-                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                        </svg>
-                    </button>
-                    <div id="doubleDropdown" class="z-10 hidden bg-white border border-gray-200 rounded-lg shadow-md w-56 mt-2 absolute">
-                        <ul class="py-3 text-base text-gray-700">
-                            <li>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">Overview</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">My Downloads</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">Billing</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">Rewards</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-gray-100">Earnings</a>
-                </li>
-                <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-gray-100">Sign Out</a>
-                </li>
-            </ul>
+            <!-- Dropdown menu -->
+            <div id="multi-dropdown" class="hidden absolute ml-6 bg-white border border-gray-200 rounded-md shadow-xl w-60 z-60">
+                <ul class="py-2 text-xl text-gray-700">
+                    <?php
+                    $catcalling = $connect->query("SELECT * FROM category");
+                    while ($cat = $catcalling->fetch_array()):
+                    ?>
+                        <a href="#">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100"><?= $cat['cat_title']; ?></a>
+                        </a>
+                    <?php endwhile; ?>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <!-- Divider and Category Section -->
-    <div class="flex space-x-4 pl-4">
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Science</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Technology</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Engineering</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Mathematics</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Arts</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Mathematics</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Science</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Technology</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Engineering</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Mathematics</h2>
-        <h2 class="border-l border-[#105242] px-4 font-semibold text-gray-700">Arts</h2>
+        <!-- Scrollable Categories -->
+        <div class="overflow-x-auto whitespace-nowrap ml-4">
+            <div class="flex space-x-4">
+                <?php
+                $categoryFetch = $connect->query("SELECT * FROM category");
+                while ($cat = $categoryFetch->fetch_assoc()):
+                ?>
+                    <a href="#" class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700">
+                        <?= htmlspecialchars($cat['cat_title']); ?>
+                    </a>
+                <?php endwhile; ?>
+            </div>
+        </div>
+
     </div>
 </div>
