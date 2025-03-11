@@ -26,22 +26,32 @@
                 $callNewBook = $connect->query("select * from books where version='new'");
                 while ($book = $callNewBook->fetch_array()) {
 
-                    if($book['e_book_avl'] == "Yes"){
+                    if($book['e_book_avl'] != NULL){
                     ?>
                     <a href="view2.php?book_id=<?= $book['id']; ?>">
 
                         <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                             <!-- Discount Badge (60% Off) -->
-                            <div
-                                class="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                                60% OFF
-                            </div>
+                           
 
                             <!-- Book Image (Clickable Link) -->
-                            <div class="flex justify-center">
+                            <div class="flex relative hover:scale-105 transition justify-center">
+                            <div
+                                    class="absolute  left-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+
+                                    60% OFF
+                                </div>
+                                <p class="absolute right-10 bg-white rounded-full -mr-5 p-1 ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="hover:text-red-500 font-bold text-[#3D8D7A] size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                    </svg>
+
+                                </p>
                                 <button target="_blank">
                                     <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
-                                        class="w-40 h-56 object-cover shadow-md rounded-md hover:scale-105 transition">
+                                        class="w-40 h-56 object-cover shadow-md rounded-md ">
                                 </button>
                             </div>
 
@@ -68,8 +78,12 @@
                             </div>
 
                             <!-- Footer Section (Add to Cart + Dynamic Rating) -->
+                           
+
                             <div class="mt-4 border-t pt-2 flex justify-between items-center">
+                            <a href="view2.php?book_id=<?= $book['id']; ?>">
                                 <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
+                                </a>
 
                                 <!-- Dynamic Rating -->
                                 <div class="flex">
@@ -88,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                   
                     <?php
                 }
             }
