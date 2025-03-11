@@ -28,7 +28,7 @@
 
 
                     ?>
-                   
+                    <a href="view2.php?book_id=<?= $book['id']; ?>">
 
                         <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                             <!-- Discount Badge (60% Off) -->
@@ -71,9 +71,10 @@
 
                             <!-- Footer Section (Add to Cart + Dynamic Rating) -->
                             <div class="mt-4 border-t pt-2 flex justify-between items-center">
-                            <a href="view2.php?book_id=<?= $book['id']; ?>">
-                            <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
-                            </a>
+                                <a href="view2.php?book_id=<?= $book['id']; ?>">
+                                    <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to
+                                        cart</button>
+                                </a>
 
 
                                 <!-- Dynamic Rating -->
@@ -93,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                  
+                    </a>
                     <?php
                 }
                 ?>
