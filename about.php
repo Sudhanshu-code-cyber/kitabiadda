@@ -1,3 +1,4 @@
+<?php include_once "config/connect.php";?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +6,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About Us - ReadRainbow</title>
+    <link rel="icon" href="favicon.ico" />
+    <meta name="description" content="Learn about ReadRainbow - your destination to buy and sell books." />
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 
 <body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+
+    <!-- Header -->
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
@@ -77,7 +87,8 @@
         </section>
 
     </main>
-    
+
+    <!-- Footer -->
     <?php include_once "includes/footer2.php"; ?>
 </body>
 
