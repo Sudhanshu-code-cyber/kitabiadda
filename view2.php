@@ -31,18 +31,23 @@ $book = $query->fetch_array();
     <div class="flex p-10 bg-white mt-30">
         <div class="flex gap-20 items-center w-5/12 border-gray-300 border-r-2 space-x-4 p-6">
             <div class="flex flex-col space-y-2">
-                <img src="images/<?= $book['img1']; ?>" alt="Thumbnail 1"
+                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/sell_images/' . $book['img1']; ?>"
+                    alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('images/<?= $book['img1']; ?>')">
-                <img src="images/<?= $book['img2']; ?>" alt="Thumbnail 2"
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/sell_images/' . $book['img1']; ?>')">
+
+                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/sell_images/' . $book['img2']; ?>"
+                    alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('images/<?= $book['img2']; ?>')">
-                <img src="images/<?= $book['img3']; ?>" alt="Thumbnail 3"
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img2'] : 'assets/sell_images/' . $book['img2']; ?>')">
+                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/sell_images/' . $book['img3']; ?>"
+                    alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('images/<?= $book['img3']; ?>')">
-                <img src="images/<?= $book['img4']; ?>" alt="Thumbnail 3"
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img3'] : 'assets/sell_images/' . $book['img3']; ?>')">
+                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/sell_images/' . $book['img4']; ?>"
+                    alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('images/<?= $book['img4']; ?>')">
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img4'] : 'assets/sell_images/' . $book['img4']; ?>')">
             </div>
 
             <div class="w-64 rounded-lg overflow-hidden shadow-lg">
@@ -78,8 +83,10 @@ $book = $query->fetch_array();
                 <div
                     class="border-2 border-orange-300 hover:border-orange-500 h-22 w-42 flex flex-col rounded pt-1 px-2">
                     <p class="text-lg p-0 font-semibold">E-BOOK</p>
-                    <p class="text-gray-700 font-semibold">Price: <span
-                            class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
+                    <?php if ($book['version'] != 'old'): ?>
+                        <p class="text-gray-700 font-semibold">Price: <span
+                                class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
+                    <?php endif; ?>
                     <?=
                         $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
                     ?>
@@ -107,7 +114,7 @@ $book = $query->fetch_array();
 
                     </div>
                     <div class="flex items-center border-r gap-1 border-gray-300  px-3 flex-col ">
-                        <p class="text-sm text-gray-500">Print Length</p>
+                        <p class="text-sm text-gray-500">Total Pages</p>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -146,25 +153,45 @@ $book = $query->fetch_array();
                         <p><?= $book['book_binding'] ?></p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
-                        Cart</button>
-                    <button class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</button>
-                </div>
+                <?php
+                if ($book['version'] == "new"):
+                    ?>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
+                            Cart</button>
+                        <button class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</button>
+                    </div><?php else: ?>
+                    <?php if ($book['version'] != 'new'): ?>
+                        <a href="chatboard.php?chat_seller=<?= $book['seller_id']; ?>" target="_blank"
+                            class="py-2 px-4 bg-blue-500 font-semibold text-center text-white rounded">
+                            Chat With Seller
+                        </a>
+
+                    <?php endif; ?>
+                <?php endif; ?>
 
             </div>
 
-           
-           
+
+
             <script>
                 function changeImage(src) {
                     document.getElementById("mainBookImage").src = src;
                 }
             </script>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
 </body>
 
 </html>
+<?php
+if (isset($_GET['chat_seller']) && $_GET['chat_seller'] == $user['user_id']) {
+    redirect("chatboard.php");
+    exit(); // Always use exit() after a redirect
+}
+
+?>
