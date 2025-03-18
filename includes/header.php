@@ -1,7 +1,7 @@
 <?php
 if (isset($_SESSION['user'])) {
     $user = getUser();
-  }
+}
 ?>
 <div class="flex fixed w-full z-50 top-0 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
@@ -18,7 +18,6 @@ if (isset($_SESSION['user'])) {
         </svg>
     </a>
 
-
     <a href="chatboard.php"
         class="relative inline-flex items-center p-1 text-sm font-medium text-center text-white rounded-lg ">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -26,59 +25,48 @@ if (isset($_SESSION['user'])) {
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
         </svg>
-
         <span class="sr-only">Notifications</span>
-        <div
-            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
             2
         </div>
     </a>
 
     <a href="sell/sell.php" class="border p-2 rounded-full text-[#FBFFE4]">Sell Used Book</a>
 
-  <?php
-  if (isset($_SESSION['user'])):
-    ?>
-    <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
-        class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full  md:me-0 border p-1 focus:ring-gray-100 "
-        type="button">
-        <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 me-2 rounded-full" src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="user photo">
-        <?= $user['name'];?>
-        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 4 4 4-4" />
-        </svg>
-    </button>
+    <?php if (isset($_SESSION['user'])): ?>
+        <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
+            class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] rounded-full md:me-0 border p-1 focus:ring-gray-100 relative"
+            type="button">
+            <span class="sr-only">Open user menu</span>
+            <img class="w-8 h-8 me-2 rounded-full" src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="user photo">
+            <?= $user['name']; ?>
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 4 4 4-4" />
+            </svg>
+        </button>
 
-    <div id="dropdownAvatarName"
-        class="z-10 hidden bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
-        <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div class="truncate"><?= $user['email'];?></div>
+        <div id="dropdownAvatarName" class="absolute right-5 mt-2 hidden bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow-sm w-44 z-50">
+            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                <div class="truncate"><?= $user['email']; ?></div>
+            </div>
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                <li>
+                    <a href="profile.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Profile</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Help</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                </li>
+            </ul>
+            <div class="py-2">
+                <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+            </div>
         </div>
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-            <li>
-                <a href="profile.php"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Profile</a>
-            </li>
-            <li>
-                <a href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Help</a>
-            </li>
-            <li>
-                <a href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-            </li>
-        </ul>
-        <div class="py-2">
-            <a href="logout.php"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Logout</a>
-        </div>
-    </div>
-    <?php else:?>
+    <?php else: ?>
         <a href="login.php">Login</a>
-        <?php endif;?>
-
+    <?php endif; ?>
 </div>
