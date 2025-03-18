@@ -169,11 +169,7 @@ $book = $query->fetch_array();
 
                     <?php endif; ?>
                 <?php endif; ?>
-
             </div>
-
-
-
             <script>
                 function changeImage(src) {
                     document.getElementById("mainBookImage").src = src;
@@ -181,6 +177,21 @@ $book = $query->fetch_array();
             </script>
         </div>
     </div>
+    <div class="bg-white flex flex-col gap-1 mt-10 px-[5%] py-5 w-full flex">
+        <div>
+            <h1 class="font-semibold border-b border-gray-300 w-full py-3 text-xl">Description :-</h1>
+            <p class="text-gray-700 border-b border-gray-300 py-2"><?= $book['book_description']; ?></p>
+        </div>
+        <div>
+            <h1 class="font-semibold border-b border-gray-300 w-full py-3 text-xl">Author :-</h1>
+            <p class="text-gray-700 border-b border-gray-300 py-2"><?= $book['book_author'];?></p>
+        </div>
+    </div>
+    <div class="bg-white flex flex-col gap-1 mt-10 px-[5%] w-full flex">
+       <h1 class="font-semibold border-b border-gray-300 w-full py-3 text-xl">Recomended Books :-</h1>
+       
+    </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
