@@ -161,8 +161,8 @@ $book = $query->fetch_array();
                 if ($book['version'] == "new"):
                     ?>
                     <div class="grid grid-cols-2 gap-2">
-                        <button class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
-                            Cart</button>
+                        <a href="cart.php?add_book=<?= $book['id'] ?>" class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
+                            Cart</a>
                         <button class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</button>
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
