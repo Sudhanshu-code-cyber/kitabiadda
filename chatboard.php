@@ -7,6 +7,7 @@ $seller_id = mysqli_fetch_array($callingseller_id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +15,10 @@ $seller_id = mysqli_fetch_array($callingseller_id);
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
+
 <body class="bg-[#FBFFE4]">
-    <?php include_once "includes/header.php";?>
-    <?php include_once "includes/subheader.php";?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
     <div class="flex  mt-36 border-t border-gray-300">
         <div class="w-4/12 border-r border-gray-300 bg-white">
             <div class="flex justify-between items-center bg-[#B3D8A8] border-b p-4 border-gray-300">
@@ -87,7 +89,7 @@ $seller_id = mysqli_fetch_array($callingseller_id);
             <div class="flex items-center justify-between p-6 border-b">
                 <div class="flex items-center gap-4 ml-3">
                     <img src="https://img.bookchor.com/images/cover/bc/9780670095940.jpg" class="h-14 w-14 border border-gray-300 rounded-full">
-                    <h2 class="text-lg font-semibold"><?= $seller_id['fullname'];?></h2>
+                    <h2 class="text-lg font-semibold"><?= $seller_id['fullname']; ?></h2>
                 </div>
                 <div class="relative">
                     <button id="callDropdownButton" data-dropdown-toggle="callDropdown" class="p-2 rounded-full hover:bg-gray-200">
@@ -110,42 +112,44 @@ $seller_id = mysqli_fetch_array($callingseller_id);
                 <p class="text-xl font-semibold text-gray-600">₹ 100</p>
             </div>
             <div class="flex-1 p-4 overflow-y-auto h-[400px] bg-gray-100">
-                <?php
-                $user_id = $user['user_id'];
-                $callingchat = $connect->query("SELECT * FROM message WHERE receiver_id = '$user_id'");
-                while ($sendermsg = $callingchat->fetch_array()):
-                ?>
-                    <div class="flex items-start space-x-3 mb-4">
-                        <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
-                            alt="" class="h-10 w-10 rounded-full border">
-                        <div class="bg-white p-3 rounded-lg shadow max-w-xs">
-                            <p class="text-gray-700"><?= $sendermsg['message'];?></p>
-                            <span class="text-xs text-gray-500">10:30 AM</span>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-                <div class="flex items-end justify-end gap- mb-4">
-                    <div class=" gap-4 grid grid-cols-1 ">
+                <?php if ($seller_id['seller_id'] == $user['user_id']): ?>
+                    <!-- Seller viewing their own messages (optional content here) -->
+                <?php else: ?>
+                    <a href="">
                         <?php
                         $user_id = $user['user_id'];
+                        $seller = $seller_id['seller_id'];
 
-                        $callingchat = $connect->query("SELECT * FROM message WHERE sender_id = '$user_id'");
+                        // Show messages where seller is receiver and user is sender (Left Side)
+                        $callingchat = $connect->query("SELECT * FROM message WHERE sender_id = '$user_id' AND receiver_id = '$seller'");
                         while ($msg = $callingchat->fetch_array()):
-
                         ?>
-
-                            <div class="bg-green-500  text-white p-3 rounded-lg shadow max-w-xs">
-                                <p><?= $msg['message']; ?></p>
-                                <span class="text-xs text-white">10:32 AM</span>
+                            <div class="flex items-end justify-end mb-4">
+                                <div class="gap-4 grid grid-cols-1">
+                                    <div class="bg-green-500 text-white p-3 rounded-lg shadow max-w-xs">
+                                        <p><?= $msg['message']; ?></p>
+                                        <span class="text-xs text-white">10:32 AM</span>
+                                    </div>
+                                </div>
+                                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="" class="h-10 w-10 rounded-full border">
                             </div>
                         <?php endwhile; ?>
-                    </div>
 
-                    <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
-                        alt="" class="h-10 w-10 rounded-full border">
-                </div>
-
-               
+                        <?php
+                        // Show messages where seller is sender and user is receiver (Right Side)
+                        $callingchat = $connect->query("SELECT * FROM message WHERE sender_id = '$seller' AND receiver_id = '$user_id'");
+                        while ($msg = $callingchat->fetch_array()):
+                        ?>
+                            <div class="flex items-start space-x-3 mb-4">
+                                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="" class="h-10 w-10 rounded-full border">
+                                <div class="bg-white p-3 rounded-lg shadow max-w-xs">
+                                    <p class="text-gray-700"><?= $msg['message']; ?></p>
+                                    <span class="text-xs text-gray-500">10:30 AM</span>
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </a>
+                <?php endif; ?>
             </div>
 
             <div class="p-4 border-t flex items-center gap-2 bg-white">
@@ -160,7 +164,7 @@ $seller_id = mysqli_fetch_array($callingseller_id);
                     <?php
                     if (isset($_POST['send_msg'])) {
                         $product_id = $seller_id['id'];
-                        $sender_id = $user['user_id']; 
+                        $sender_id = $user['user_id'];
                         $reciver_id = $seller_id['seller_id'];
                         $msg = $_POST['message'];
 
