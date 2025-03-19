@@ -1,3 +1,4 @@
+
 <?php
 include_once "config/connect.php";
 
@@ -12,37 +13,30 @@ $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 
 // Fetch books
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
+$count = $booksQuery->num_rows;
 ?>
 
 
+<?php include_once "config/connect.php"; ?>
+<!DOCTYPE html>
+<html lang="en">
 
-
-<!-- Book Sets Section -->
-<section class="bg-white  py-10 px-[2%]">
-    <div class=" w-full px-[5%]  mx-auto px-4">
-
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">New Book</h2>
-            <a href="booksets1.php" class="text-orange-500 font-semibold hover:underline">View All</a>
-        </div>
-
-        <!-- Carousel Container -->
-        <div class="relative">
-
-            <!-- Left Arrow -->
-            <button id="scrollLeft"
-                class="absolute z-10 left-0 top-1/2 -translate-y-1/2 bg-white border rounded-full shadow p-2 hover:bg-gray-100">
-                &#8592;
-            </button>
-
-            <!-- Scrollable Book Cards -->
-            <div id="bookScroll" class="flex space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
-
-                <!-- Book Card -->
-
-
-                <?php
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class=" bg-[#f6f7f5]">
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
+<div class=" mt-30   bg-[#f6f7f5] p-10 ">
+    <div class="bg-white border-b  border-gray-200 py-5 px-5 shadow  ">
+    <h1 class="text-xl font-semibold">Showing of <?=$count;?> results for "book sets"</h1>
+    </div>
+    <div class="grid grid-cols-5 gap-5 p-10 bg-white h-auto">
+    <?php
                 while ($book = $booksQuery->fetch_assoc()):
                     // Check if the book is already in the wishlist
                     $bookId = $book['id'];
@@ -116,33 +110,12 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 
                 <?php endwhile; ?>
 
-                <!-- Book Card 2 -->
-
-
-            </div>
-
-            <!-- Right Arrow -->
-            <button id="scrollRight"
-                class="absolute z-10 right-0 top-1/2 -translate-y-1/2 bg-white border rounded-full shadow p-2 hover:bg-gray-100">
-                &#8594;
-            </button>
-        </div>
     </div>
-</section>
-
-<!-- Scroll Script -->
-<script>
-    const scrollContainer = document.getElementById("bookScroll");
-    document.getElementById("scrollLeft").onclick = () => scrollContainer.scrollBy({
-        left: -300,
-        behavior: 'smooth'
-    });
-    document.getElementById("scrollRight").onclick = () => scrollContainer.scrollBy({
-        left: 300,
-        behavior: 'smooth'
-    });
-</script>
+</div>
 
 
 
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <?php include_once "includes/footer2.php";?>
+</body>
+</html>
