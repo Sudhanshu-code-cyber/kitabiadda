@@ -167,7 +167,7 @@ $book = $query->fetch_array();
                         
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
-                        <a href="chatboard.php?id=<?= $book['id']; ?>" target="_blank"
+                        <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
                             class="py-2 px-4 bg-blue-500 font-semibold text-center text-white rounded">
                             Chat With Seller
                         </a>
@@ -305,6 +305,7 @@ $book = $query->fetch_array();
             </div>
         </div>
     </section>
+    <?php include_once "includes/footer2.php"?>
 
 
     <script>
