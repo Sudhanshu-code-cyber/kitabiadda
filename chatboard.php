@@ -143,7 +143,7 @@ $seller_id = mysqli_fetch_array($callingseller_id);
                             <div class="flex items-start space-x-3 mb-4">
                                 <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt="" class="h-10 w-10 rounded-full border">
                                 <div class="bg-white p-3 rounded-lg shadow max-w-xs">
-                                    <p class="text-gray-700"><?= $msg['message']; ?></p>
+                                    <p class="text-gray-700"><?= $msg['message']; ?>hello</p>
                                     <span class="text-xs text-gray-500">10:30 AM</span>
                                 </div>
                             </div>
