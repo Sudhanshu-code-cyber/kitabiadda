@@ -1,9 +1,10 @@
 <?php
 include_once "config/connect.php";
+$user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
-$userId = $user['user_id'];
+$userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 $booksQuery = $connect->query("select * from wishlist join books on books.id=wishlist.book_id where user_id='$userId'");
 
 $count = $connect->query("select * from wishlist where user_id='$userId'");
