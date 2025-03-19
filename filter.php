@@ -62,7 +62,7 @@ $booksQuery = $connect->query($sql);
     <?php if (!empty($_GET['filter'])): ?>
         <div class="px-6 mt-2">
             <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-medium">
-                Showing results for: <span class="font-bold"><?= htmlspecialchars($_GET['filter']); ?></span>
+                Showing results for: <span class="font-bold"><?= $_GET['filter']; ?></span>
                 <a href="filter.php" class="ml-4 text-sm text-red-500 hover:underline">Clear Filter</a>
             </div>
         </div>
@@ -70,7 +70,7 @@ $booksQuery = $connect->query($sql);
 
     <div class="flex mt-24 flex-col lg:flex-row gap-6 p-4">
         <!-- Sidebar Filters -->
-        <div class="w-[70vh] max-w-md">
+        <div class="w-[50vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
                 <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
@@ -107,10 +107,10 @@ $booksQuery = $connect->query($sql);
 
                 <!-- Preserve category if set -->
                 <?php if (isset($_GET['filter'])): ?>
-                    <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
+                    <input type="hidden" name="filter" value="<?= $_GET['filter']; ?>">
                 <?php endif; ?>
 
-                <button type="submit" class="mt-4 flex w-full bg-blue-500 py-2 px-4 rounded text-white font-semibold items-center justify-center">
+                <button type="submit" class="mt-4 flex w-full bg-[#3D8D7A] curosor-pointer py-2 px-4 rounded text-white font-semibold items-center justify-center">
                     Apply Filter
                 </button>
             </form>

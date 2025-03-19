@@ -11,13 +11,13 @@
     }
 </style>
 
-<div class="fixed top-16 w-full bg-[#FBFFE4] shadow border-b border-blue-300 z-50 px-6 py-2">
+<div class="fixed top-16 w-full bg-[#FBFFE4] shadow border-b border-blue-300 z-30 px-2 py-2">
     <div class="flex items-center gap-10">
 
         <!-- All Books Dropdown -->
-        <div class="relative  ml-2">
+        <div class="relative">
             <button id="dropdownButton" data-dropdown-toggle="dropdownMenu"
-                class="text-black text-lg font-semibold px-4 py-2 flex items-center gap-2 hover:text-green-700 transition">
+                class="text-black w-[24vh] font-semibold px-6 py-2 flex items-center gap-2 hover:text-green-700 transition">
                 All Books
                 <svg class="w-4 h-4 transform transition-transform" id="dropdownIcon" fill="none" stroke="currentColor"
                     stroke-width="2" viewBox="0 0 24 24">
