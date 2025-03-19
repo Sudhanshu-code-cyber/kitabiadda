@@ -164,9 +164,10 @@ $book = $query->fetch_array();
                         <a href="cart.php?add_book=<?= $book['id'] ?>" class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
                             Cart</a>
                         <button class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</button>
+                        
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
-                        <a href="chatboard.php?chat_seller=<?= $book['seller_id']; ?>" target="_blank"
+                        <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
                             class="py-2 px-4 bg-blue-500 font-semibold text-center text-white rounded">
                             Chat With Seller
                         </a>
@@ -304,6 +305,7 @@ $book = $query->fetch_array();
             </div>
         </div>
     </section>
+    <?php include_once "includes/footer2.php"?>
 
 
     <script>
@@ -322,10 +324,3 @@ $book = $query->fetch_array();
 </body>
 
 </html>
-<?php
-if (isset($_GET['chat_seller']) && $_GET['chat_seller'] == $user['user_id']) {
-    redirect("chatboard.php");
-    exit(); // Always use exit() after a redirect
-}
-
-?>
