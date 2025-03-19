@@ -167,7 +167,7 @@ $book = $query->fetch_array();
                         
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
-                        <a href="chatboard.php?chat_seller=<?= $book['id']; ?>" target="_blank"
+                        <a href="chatboard.php?id=<?= $book['id']; ?>" target="_blank"
                             class="py-2 px-4 bg-blue-500 font-semibold text-center text-white rounded">
                             Chat With Seller
                         </a>
@@ -323,10 +323,3 @@ $book = $query->fetch_array();
 </body>
 
 </html>
-<?php
-if (isset($_GET['chat_seller']) && $_GET['chat_seller'] == $user['user_id']) {
-    redirect("chatboard.php");
-    exit(); // Always use exit() after a redirect
-}
-
-?>
