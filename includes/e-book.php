@@ -10,7 +10,7 @@ if (isset($_SESSION['user'])) {
 $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 
 // Fetch books
-$booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
+$booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_book_avl='yes'");
 ?>
 
 <section class="bg-white py-10">
@@ -59,7 +59,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                         </form>
 
                         <!-- Book Click Redirect -->
-                        <a href="view2.php?book_id=<?= $book['id']; ?>" class="block">
+                        <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                             <div class="flex justify-center hover:scale-105 transition">
                                 <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
                                     class="w-40 h-56 object-cover shadow-md rounded-md">
@@ -77,7 +77,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                                 </div>
 
                                  <!-- Type -->
-  <p class="text-red-400 font-semibold sm mt-1">E-BOOK : <?php
+                                   <p class="text-red-400 font-semibold sm mt-1">E-BOOK : <?php
                                     if ($book['e_book_avl'] == "Yes") {
                                         echo $book['e_book_price'];
                                     } else {
