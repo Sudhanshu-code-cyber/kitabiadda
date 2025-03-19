@@ -2,6 +2,7 @@
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
+$email = $_SESSION['user'];
 ?>
 
 
@@ -9,10 +10,10 @@ if (isset($_SESSION['user'])) {
 if (isset($_GET['add_book'])) {
     $item_id = $_GET['add_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
     $noItemInCart = mysqli_num_rows($itemInCart);
     if ($noItemInCart) {
-        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id'");
+        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'");
     } else {
         $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id) VALUE ('$email','$item_id')");
     }
@@ -25,13 +26,13 @@ if (isset($_GET['add_book'])) {
 if (isset($_GET['minus_book'])) {
     $item_id = $_GET['minus_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
     $itemData = mysqli_fetch_assoc($itemInCart);
     if ($itemData) {
         if ($itemData['qty'] > 1) {
-            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id'");
+            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email'");
         } else {
-            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id'");
+            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email'");
         }
     } else {
         echo "Item not found in cart!";
@@ -64,7 +65,7 @@ if (isset($_GET['minus_book'])) {
     </nav>
     
     <div class="container mx-auto p-6 md:p-10">
-    <h1 class="text-[40px] text-green-900 font-bold">Your Cart (<?= mysqli_num_rows(mysqli_query($connect,"select * from cart")) ?>)</h1>
+    <h1 class="text-[40px] text-green-900 font-bold">Your Cart (<?= mysqli_num_rows(mysqli_query($connect,"select * from cart where email='$email'")) ?>)</h1>
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Product List -->
             <div class="md:w-2/3">
