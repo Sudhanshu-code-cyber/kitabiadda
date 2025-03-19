@@ -28,6 +28,15 @@ $book = $query->fetch_array();
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
+<style>
+    .no-scrollbar::-webkit-scrollbar{
+        display:none;
+    }
+    .no-scrollbar{
+        -ms-overflow-style: none;
+        scrollbar-width:none;
+    }
+</style>
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
@@ -202,7 +211,7 @@ $book = $query->fetch_array();
             </div>
 
             <!-- Carousel Container -->
-            <div class="relative">
+            <div class="relative ">
 
                 <!-- Left Arrow -->
                 <button id="scrollLeft"
@@ -211,7 +220,7 @@ $book = $query->fetch_array();
                 </button>
 
                 <!-- Scrollable Book Cards -->
-                <div id="bookScroll" class="flex space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
+                <div id="bookScroll" class="flex no-scrollbar space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
 
                     <!-- Book Card -->
 
