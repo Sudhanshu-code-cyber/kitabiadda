@@ -17,7 +17,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_boo
     <div class="w-full px-[5%] mx-auto px-[2%]">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">e-Book</h2>
-            <a href="#" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <a href="booksets3.php" class="text-orange-500 font-semibold hover:underline">View All</a>
         </div>
 
         <div class="relative">
@@ -68,7 +68,9 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_boo
                             <!-- Book Info -->
                             <div class="mt-4 text-center">
                                 <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
-                                <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?></p>
+                                <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?>
+                                <span class="text-sm text-orange-400 ml-2"><?= $book['book_category'];?></span>
+                            </p>
 
                                 <!-- Price -->
                                 <div class="flex justify-center items-center space-x-2 mt-1">
