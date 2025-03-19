@@ -44,7 +44,6 @@ if (isset($_GET['minus_book'])) {
 
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -63,9 +62,10 @@ if (isset($_GET['minus_book'])) {
     <nav class="mt-12">
         <?php include_once "includes/header.php"; ?>
     </nav>
-    
+
     <div class="container mx-auto p-6 md:p-10">
-    <h1 class="text-[40px] text-green-900 font-bold">Your Cart (<?= mysqli_num_rows(mysqli_query($connect,"select * from cart where email='$email'")) ?>)</h1>
+        <h1 class="text-[40px] text-green-900 font-bold">Your Cart
+            (<?= mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email'")) ?>)</h1>
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Product List -->
             <div class="md:w-2/3">
@@ -101,10 +101,10 @@ if (isset($_GET['minus_book'])) {
 
                 </div>
                 <div class="flex items-center bg-white h-20 border-b pb-4 px-6">
-                    <button
+                    <a href="cart_checkout.php"
                         class="ml-auto px-6 py-3 bg-orange-500 text-white text-lg font-semibold  shadow-md hover:bg-orange-600 transition">
                         PLACE ORDER
-                    </button>
+                    </a>
                 </div>
 
 
@@ -121,26 +121,24 @@ if (isset($_GET['minus_book'])) {
                 $totleSellPrice += $price['qty'] * $price['sell_price'];
             }
             ?>
-            <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit">
+            <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit sticky top-16">
                 <h2 class="text-xl font-bold mb-4">Price Details</h2>
                 <div class="space-y-3 text-gray-700">
                     <p class="flex justify-between"><span>Price</span> <span>₹<?= $totleMrp ?></span></p>
-                    <p class="flex justify-between "><span>Discount</span> <span class="text-green-700">-
+                    <p class="flex justify-between"><span>Discount</span> <span class="text-green-700">-
                             ₹<?= $totleMrp - $totleSellPrice ?></span></p>
                     <p class="flex justify-between"><span>Delivery</span> <span class="text-green-700">Free</span></p>
-                    <p class="flex justify-between"><span>Secured Packaging Fee
-                        </span> <span class="text-green-700">Free</span></p>
+                    <p class="flex justify-between"><span>Secured Packaging Fee</span> <span
+                            class="text-green-700">Free</span></p>
                     <hr>
                     <p class="flex justify-between text-lg font-semibold"><span>Total</span>
                         <span>₹<?= $totleSellPrice ?></span>
                     </p>
-                    <p class="flex text-green-700 justify-between"><span>You will save  ₹ <?= $totleMrp - $totleSellPrice ?> on this order
-                        </span> </p>
+                    <p class="flex text-green-700 justify-between"><span>You will save
+                            ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
                 </div>
-                <!-- <button
-                    class="w-full bg-orange-500 text-white py-3 mt-4 rounded-lg shadow-md hover:bg-orange-600 transition">PLACE
-                    ORDER</button> -->
             </div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

@@ -28,7 +28,9 @@ $email = $_SESSION['user'];
         <!-- <h1 class="text-[40px] text-green-900 font-bold">Your Cart (456)</h1> -->
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Product List -->
+
             <div class="md:w-2/3">
+                <!-- <form action="" method="post"> -->
                 <div class="w-full bg-white p-4 shadow-sm rounded-sm flex items-center justify-between">
                     <!-- Left Section -->
                     <div class="flex items-center space-x-3">
@@ -41,8 +43,12 @@ $email = $_SESSION['user'];
                                 clip-rule="evenodd" />
                         </svg>
                         <div class="flex flex-col">
-                            <span class="font-bold text-gray-900 text-sm">Ankur Jha</span>
-                            <span class="text-gray-600 text-xs">+917763972896</span>
+                            <?php
+                            $call_user = mysqli_query($connect, "SELECT * FROM users where email='$email'");
+                            $userDetail = mysqli_fetch_assoc($call_user);
+                            ?>
+                            <span class="font-bold text-gray-900 text-sm"><?= $userDetail['name'] ?></span>
+                            <span class="text-gray-600 text-xs"><?= $userDetail['contact'] ?></span>
                         </div>
 
                     </div>
@@ -65,28 +71,33 @@ $email = $_SESSION['user'];
                     <!-- Address List -->
                     <div class="divide-y divide-gray-200">
                         <!-- Address Item 1 -->
-                         <?php
-                            $callAdd = mysqli_query($connect,"SELECT * FROM user_address WHERE email='$email'");
-                            while($address = mysqli_fetch_array($callAdd)) { ?>
+                        <?php
+                        $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'");
 
-                        
+                        $address = mysqli_fetch_assoc($callAdd) ?>
+
+
+
                         <label class="flex items-start p-4 space-x-3 cursor-pointer bg-blue-50">
-                            <input type="radio" name="address"
-                                class="mt-1 w-4 h-4 text-blue-600 bg-black-600 focus:ring-blue-500 border-gray-300">
+
+                            <!-- class="mt-1 w-4 h-4 text-blue-600 bg-black-600 focus:ring-blue-500 border-gray-300"> -->
                             <div class="flex-1">
                                 <div class="flex items-center space-x-2">
                                     <span class="font-semibold"><?= $address['name'] ?></span>
-                                    <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"><?= $address['home_work'] ?></span>
+                                    <span
+                                        class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"><?= $address['home_work'] ?></span>
                                     <span class="font-bold text-sm"><?= $address['mobile'] ?></span>
                                 </div>
                                 <p class="text-sm text-gray-600">
-                                <?= $address['address'] ?>, <?= $address['landmark'] ?>,<?= $address['locality'] ?> ,  <?= $address['city'] ?>
+                                    <?= $address['address'] ?>,
+                                    <?= $address['landmark'] ?>,<?= $address['locality'] ?>
+                                    , <?= $address['city'] ?>
                                     District, <?= $address['state'] ?> -
                                     <span class="font-bold"><?= $address['pincode'] ?></span>
                                 </p>
                             </div>
                         </label>
-                        <?php    } ?>
+
 
                         <!-- Address Item 2 (Selected) -->
 
@@ -100,12 +111,13 @@ $email = $_SESSION['user'];
 
                 <div class="w-full bg-gray-100  shadow-sm rounded-sm">
                     <button id="addAddressBtn" class="text-blue-500 flex items-center p-6">
-                        <span class="text-xl font-bold">+</span>
-                        <span class="ml-2">Add a new address</span>
+                        <span class="text-xl font-bold"></span>
+                        <span class="ml-2">Edit address</span>
                     </button>
 
                     <div id="addressForm" class="hidden bg-white p-6 mt-4 rounded-lg shadow-md">
-                        <button id="useLocationBtn" class="bg-blue-500 text-white px-4 py-2 rounded-sm">Use my current
+                        <button id="useLocationBtn" class="bg-blue-500 text-white px-4 py-2 rounded-sm">Use my
+                            current
                             location</button>
 
                         <form action="" method="POST" class="mt-4">
@@ -154,7 +166,8 @@ $email = $_SESSION['user'];
                                     <option value="West Bengal">West Bengal</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                     <option value="Chandigarh">Chandigarh</option>
-                                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
+                                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli
+                                        and
                                         Daman and Diu</option>
                                     <option value="Lakshadweep">Lakshadweep</option>
                                     <option value="Delhi">Delhi</option>
@@ -200,16 +213,9 @@ $email = $_SESSION['user'];
                     $alternate_phone = $_POST['alternate_phone'];
                     $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
                     $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
-                
-                    // Database connection (Make sure $connect is already defined)
-                
-                    $insert_add = mysqli_query(
-                        $connect,
-                        "INSERT INTO user_address (email,name, mobile, pincode, locality, address, city, state, landmark, home_work,alternate_phone) 
-                            VALUES ('$email','$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$home_work','$alternate_phone')"
-                    );
+                    $update_add = mysqli_query($connect, "UPDATE user_address SET email='$email',name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', home_work='$home_work',alternate_phone='$alternate_phone' where email='$email' ");
 
-                    if ($insert_add) {
+                    if ($update_add) {
                         echo "✅ Address added successfully!";
                     } else {
                         echo "❌ Error: " . mysqli_error($connect);
@@ -264,86 +270,164 @@ $email = $_SESSION['user'];
                     </div>
 
                     <!-- Order Item -->
-                    <div class="flex items-center p-6 border-b">
-                        <!-- Product Image -->
-                        <img src="https://picsum.photos/80" alt="Product Image"
-                            class="w-20 h-20 object-cover rounded-md">
+                    <?php
+                    $email = $_SESSION['user'];
+                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+                    while ($cartItem = mysqli_fetch_assoc($callCartItem)) { ?>
+                        <div class="flex items-center p-6 border-b">
+                            <!-- Product Image -->
+                            <img src="images/<?= $cartItem['img1'] ?>" alt="Product Image"
+                                class="w-20 h-20 object-cover rounded-md">
 
-                        <!-- Order Details -->
-                        <div class="ml-4 flex-grow">
-                            <h2 class="font-semibold text-lg">Motorola Edge 50 Pro 5G with 125W Charger</h2>
-                            <!-- <p class="text-gray-600 text-sm">12 GB RAM</p> -->
-                            <p class="text-gray-700 text-sm">
-                                Seller: <span class="font-medium">GRAHGOODS RETAIL</span>
+                            <div class="ml-4 flex-grow">
+                                <h2 class="font-semibold text-lg"><?= $cartItem['book_name'] ?></h2>
+                                <p class="text-gray-700 text-sm">
+                                    Author: <span class="font-medium"><?= $cartItem['book_author'] ?></span>
 
-                            </p>
+                                </p>
 
-                            <div class="flex items-center mt-1">
-                                <span class="text-gray-500 line-through text-sm">₹41,999</span>
-                                <span class="text-black font-bold text-lg ml-2">₹29,999</span>
-                                <span class="text-green-600 text-sm ml-2">28% Off</span>
+                                <div class="flex items-center mt-1">
+                                    <span class="text-gray-500 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
+                                    <span class="text-black font-bold text-lg ml-2">₹<?= $cartItem['sell_price'] ?></span>
+                                    <span
+                                        class="text-green-600 text-sm ml-2"><?= round(((($cartItem['mrp'] - $cartItem['sell_price']) / $cartItem['mrp']) * 100)) ?>%
+                                        Off</span>
+                                </div>
+
+
                             </div>
 
-                            <!-- <p class="text-gray-600 text-xs">+ ₹59 Secured Packaging Fee</p> -->
-
-                            <!-- Quantity & Remove -->
-
-                        </div>
-
-                        <!-- Delivery Details -->
-                        <div class="text-right">
-                            <div class="flex items-center mt-2">
-                                <button class="border px-3 py-1 text-xl">−</button>
-                                <span class="px-4">1</span>
-                                <button class="border px-3 py-1 text-xl">+</button>
-                                <!-- <button class="ml-6 text-red-500 font-semibold">REMOVE</button> -->
+                            <div class="text-right">
+                                <div class="flex items-center mt-2">
+                                    <a href="?minus_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">−</a>
+                                    <span class="px-4"> <?= $cartItem['qty'] ?> </span>
+                                    <a href="?add_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">+</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
+
+
+
+                <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
+                <div class="bg-white shadow-sm rounded-sm w-full border mt-4">
+                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">4</span>
+                        <span>PAYMENT PROCESS</span>
+                    </div>
+                    <form action="" method="post">
+                        <!-- Payment Methods -->
+                        <div class="p-6">
+                            <!-- UPI Section -->
+                            <div id="clickDiv"
+                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="payment" value="upi"
+                                        class="w-5 h-5 border-2 border-blue-600 rounded-full flex items-center justify-center peer-checked:bg-blue-600">
+                                    <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Google_Pay_Logo_%282020%29.svg"
+                                    alt="GPay" class="h-6"> -->
+                                    <span class="font-semibold">UPI</span>
+                                </label>
+                                <div class="ml-7 mt-2 text-sm text-gray-600">
+                                    <p class="font-semibold">Choose an option</p>
+                                    <label class="block mt-1"><input type="radio" name="upi_option"> PhonePe</label>
+                                    <label class="block mt-1"><input type="radio" name="upi_option"> Your UPI ID</label>
+                                    <p class="text-xs text-gray-500 mt-1">Pay by any UPI app</p>
+                                </div>
+                            </div>
+
+                            <!-- Wallets -->
+                            <div id="clickDiv"
+                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="payment" value="wallet"
+                                        class="w-5 h-5 border-2 border-blue-600 rounded-full flex items-center justify-center peer-checked:bg-blue-600">
+                                    <!-- <img src="https://images.app.goo.gl/aKhhFRPcsNXL6uTF9"
+                                    alt="Paytm" class="h-6"> -->
+                                    <span class="font-semibold">Wallets</span>
+                                </label>
+                            </div>
+
+                            <!-- Cards -->
+                            <div id="clickDiv"
+                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="payment" value="card"
+                                        class="w-5 h-5 border-2 border-blue-600 rounded-full flex items-center justify-center peer-checked:bg-blue-600">
+                                    <span class="font-semibold">Credit / Debit / ATM Card</span>
+                                </label>
+                                <p class="text-xs text-gray-500 mt-1">Add and secure cards as per RBI guidelines</p>
+                            </div>
+
+                            <!-- Cash on Delivery -->
+                            <div id="clickDiv"
+                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="payment" value="cod"
+                                        class="w-5 h-5 border-2 border-blue-600 rounded-full flex items-center justify-center peer-checked:bg-blue-600">
+                                    <span class="font-semibold">Cash on Delivery</span>
+                                </label>
+                                <!-- <span class="text-gray-400 text-xs">Not applicable</span> -->
+                            </div>
+
+                            <!-- Add Gift Card -->
+                            <div id="clickDiv"
+                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
+                                <button class="flex items-center space-x-2 text-blue-600 font-semibold">
+                                    <span class="text-xl">+</span>
+                                    <span>Add Gift Card</span>
+                                </button>
+                            </div>
+                        </div>
+
+                </div>
+                <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
 
                 <div class="flex justify-between items-center bg-white p-4 border shadow-sm rounded-sm mt-3">
                     <!-- Email Confirmation Message -->
                     <p class="text-gray-700 text-sm">
                         Order confirmation email will be sent to
-                        <span class="font-bold">akj41731@gmail.com</span>
+                        <span class="font-bold"><?= $email ?></span>
                     </p>
 
                     <!-- Continue Button -->
-                    <button
+
+                    <button name="order_submit"
                         class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600">
                         CONTINUE
                     </button>
+                    </form>
                 </div>
 
-
-
-
             </div>
-
-            <!-- Price Details -->
-
-
-            <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit">
+            <?php
+            $totleMrp = 0;
+            $totleSellPrice = 0;
+            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+            while ($price = mysqli_fetch_array($callCartItem)) {
+                $totleMrp += $price['qty'] * $price['mrp'];
+                $totleSellPrice += $price['qty'] * $price['sell_price'];
+            }
+            ?>
+            <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit sticky top-16">
                 <h2 class="text-xl font-bold mb-4">Price Details</h2>
                 <div class="space-y-3 text-gray-700">
-                    <p class="flex justify-between"><span>Price</span> <span>₹</span></p>
-                    <p class="flex justify-between "><span>Discount</span> <span class="text-green-700">-
-                            ₹34567</span></p>
+                    <p class="flex justify-between"><span>Price</span> <span>₹<?= $totleMrp ?></span></p>
+                    <p class="flex justify-between"><span>Discount</span> <span class="text-green-700">-
+                            ₹<?= $totleMrp - $totleSellPrice ?></span></p>
                     <p class="flex justify-between"><span>Delivery</span> <span class="text-green-700">Free</span></p>
-                    <p class="flex justify-between"><span>Secured Packaging Fee
-                        </span> <span class="text-green-700">Free</span></p>
+                    <p class="flex justify-between"><span>Secured Packaging Fee</span> <span
+                            class="text-green-700">Free</span></p>
                     <hr>
                     <p class="flex justify-between text-lg font-semibold"><span>Total</span>
-                        <span>₹3567</span>
+                        <span>₹<?= $totleSellPrice ?></span>
                     </p>
-                    <p class="flex text-green-700 justify-between"><span>You will save ₹ 4567 on this order
-                        </span> </p>
+                    <p class="flex text-green-700 justify-between"><span>You will save
+                            ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
                 </div>
-                <!-- <button
-                    class="w-full bg-orange-500 text-white py-3 mt-4 rounded-lg shadow-md hover:bg-orange-600 transition">PLACE
-                    ORDER</button> -->
             </div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
@@ -353,4 +437,73 @@ $email = $_SESSION['user'];
 </html>
 <?php
 include_once "includes/footer2.php";
+?>
+<?php
+if (isset($_GET['add_book'])) {
+    $item_id = $_GET['add_book'];
+    $email = $_SESSION['user'];
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $noItemInCart = mysqli_num_rows($itemInCart);
+    if ($noItemInCart) {
+        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'");
+    } else {
+        $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id) VALUE ('$email','$item_id')");
+    }
+
+    echo "<script>window.location.href='cart_checkout.php';</script>";
+
+}
+
+
+if (isset($_GET['minus_book'])) {
+    $item_id = $_GET['minus_book'];
+    $email = $_SESSION['user'];
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $itemData = mysqli_fetch_assoc($itemInCart);
+    if ($itemData) {
+        if ($itemData['qty'] > 1) {
+            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email'");
+        } else {
+            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email'");
+        }
+    } else {
+        echo "Item not found in cart!";
+    }
+
+    echo "<script>window.location.href='cart_checkout.php';</script>";
+
+}
+
+?>
+
+
+<!-- submit all orders item , address, and more  -->
+
+<?php
+if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+    $payment_type = $_POST['payment'];
+
+    // $address_id = $_SESSION['address_id']; // Uncomment करें अगर जरूरत हो
+    $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type) 
+     VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type')");
+
+    if ($insertOrder) {
+        echo '
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                title: "✅ Order Confirmed!",
+                text: "Thank you for your order.\\nTotal Amount: ₹' . $totleSellPrice . '",
+                icon: "success",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "index.php"; // Redirect to home page
+            });
+        </script>
+        ';
+    } else {
+        echo "❌ Error: " . mysqli_error($connect);
+    }
+}
+
 ?>
