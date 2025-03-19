@@ -26,12 +26,12 @@ $coutwishlist = mysqli_num_rows($count);
     <?php include_once "includes/subheader.php" ?>
     <div class="flex mt-30 gap-4 px-[5%] p-10 flex-col bg-[#fefff7]">
 
-    <h1 class="font-bold text-2xl text-red-900 flex items-center gap-2 animate-pulse">
-    <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text">
-        My Wishlist (<?= $coutwishlist; ?>)
-    </span>
-   
-</h1>
+        <h1 class="font-bold text-2xl text-red-900 flex items-center gap-2 animate-pulse">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text">
+                My Wishlist (<?= $coutwishlist; ?>)
+            </span>
+
+        </h1>
 
 
         <div class=" grid grid-cols-5 gap-4   ">
@@ -85,8 +85,9 @@ $coutwishlist = mysqli_num_rows($count);
                                 <p class="text-black font-bold text-lg">₹<?= $book['sell_price']; ?>/-</p>
                             </div>
                         </div>
-
-                        <!-- Footer (Add to Cart + Rating) -->
+                    </a>
+                    <!-- Footer (Add to Cart + Rating) -->
+                    <a href="cart.php?add_book=<?= $book['id']; ?>">
                         <div class="mt-4 border-t pt-3 flex justify-between items-center">
                             <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 

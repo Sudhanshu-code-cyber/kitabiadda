@@ -90,8 +90,9 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_boo
 
 
                             </div>
-
+                                    </a>
                             <!-- Footer (Add to Cart + Rating) -->
+                           <a href="cart.php?add_book=<?= $book['id'];?>">
                             <div class="mt-4 border-t pt-3 flex justify-between items-center">
                                 <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
 
