@@ -34,7 +34,7 @@ $email = $_SESSION['user'];
                 <div class="w-full bg-white p-4 shadow-sm rounded-sm flex items-center justify-between">
                     <!-- Left Section -->
                     <div class="flex items-center space-x-3">
-                        <span class="bg-blue-100 text-blue-700 px-2 py-1 text-xs font-semibold rounded">1</span>
+                        <span class="bg-[#3D8D7A] text-white px-2 py-1 text-xs font-semibold rounded">1</span>
                         <span class="text-gray-700 font-semibold text-sm">LOGIN</span>
                         <svg class="w-4 h-4 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -63,15 +63,51 @@ $email = $_SESSION['user'];
                 <!-- addresssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
                 <div class="w-full bg-white shadow-sm rounded-sm mt-3">
                     <!-- Header -->
-                    <div class="bg-blue-600 text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
-                        <span class="bg-blue-800 px-2 py-1 text-xs rounded">2</span>
+                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">2</span>
                         <span>DELIVERY ADDRESS</span>
                     </div>
 
                     <!-- Address List -->
                     <div class="divide-y divide-gray-200">
                         <!-- Address Item 1 -->
-                        
+                        <?php
+                        $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'");
+                        $noAdd = mysqli_num_rows($callAdd);
+
+                        $address = mysqli_fetch_assoc($callAdd) ?>
+                        <label class="flex items-start p-4 space-x-3 cursor-pointer bg-blue-50">
+
+                            <!-- class="mt-1 w-4 h-4 text-blue-600 bg-black-600 focus:ring-blue-500 border-gray-300"> -->
+                            <?php
+                            if ($noAdd == 1) { ?>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-semibold"><?= $address['name'] ?></span>
+                                        <span
+                                            class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"><?= $address['home_work'] ?></span>
+                                        <span class="font-bold text-sm"><?= $address['mobile'] ?></span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">
+                                        <?= $address['address'] ?>,
+                                        <?= $address['landmark'] ?>,<?= $address['locality'] ?>
+                                        , <?= $address['city'] ?>
+                                        District, <?= $address['state'] ?> -
+                                        <span class="font-bold"><?= $address['pincode'] ?></span>
+                                    </p>
+                                </div>
+
+
+                            <?php } else { ?>
+                                <h1>not address found , please add address <a href="add_address.php"
+                                        class="inline-block px-4  bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">+
+                                        Add Address</a></h1>
+
+
+                            <?php } ?>
+
+
+                        </label>
 
 
                         <!-- Address Item 2 (Selected) -->
@@ -80,7 +116,7 @@ $email = $_SESSION['user'];
                 </div>
 
 
-                
+             
 
                 <div class="w-full bg-gray-100  shadow-sm rounded-sm">
                     <button id="addAddressBtn" class="text-blue-500 flex items-center p-6">
@@ -237,8 +273,8 @@ $email = $_SESSION['user'];
 
                 <div class="bg-white shadow-sm rounded-lg w-full border mt-4">
                     <!-- Header -->
-                    <div class="bg-blue-600 text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
-                        <span class="bg-blue-800 px-2 py-1 text-xs rounded">3</span>
+                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">3</span>
                         <span>ORDER SUMMERY</span>
                     </div>
 

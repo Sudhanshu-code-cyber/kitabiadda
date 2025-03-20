@@ -172,7 +172,7 @@ $book = $query->fetch_array();
                     <div class="grid grid-cols-2 gap-2">
                         <a href="cart.php?add_book=<?= $book['id'] ?>" class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
                             Cart</a>
-                        <button class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</button>
+                        <a href="item_checkout.php?buy=<?= $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
                         
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
