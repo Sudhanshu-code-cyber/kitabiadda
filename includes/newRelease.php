@@ -7,17 +7,11 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 
-
 $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 
 // Fetch books
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 ?>
-
-
-
-
-<!-- Book Sets Section -->
 <section class="bg-white  py-10 px-[2%]">
     <div class=" w-full px-[5%]  mx-auto px-4">
 
@@ -57,7 +51,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                         </div>
 
                         <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
-                        <form method="POST"
+                        <form method="POST" 
                             action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
                             class="absolute top-3 right-3" onclick="event.stopPropagation();">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
