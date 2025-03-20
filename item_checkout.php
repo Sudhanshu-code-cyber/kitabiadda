@@ -279,6 +279,9 @@ $email = $_SESSION['user'];
                     </div>
 
                     <!-- Order Item -->
+                     <?php
+                        if(isset($_GET['']))
+                     ?>
                     <?php
                     $email = $_SESSION['user'];
                     $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
