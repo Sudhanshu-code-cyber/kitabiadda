@@ -11,8 +11,8 @@
 
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-    
+
+
 
 
 </head>
@@ -60,7 +60,7 @@
                                     <tr>
                                         <th>Order ID</th>
                                         <th>Customers</th>
-                                        <th>Project</th>
+                                        <th>Total Amount</th>
                                         <th>Address</th>
                                         <th>Date Order</th>
                                         <th>Order Status</th>
@@ -68,63 +68,56 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#CM9708</td>
-                                        <td><img src="https://i.pravatar.cc/30" class="rounded-circle me-2">
-                                            <strong>Jerry Geiger</strong>
-                                        </td>
-                                        <td>Landing Page</td>
-                                        <td><strong>New York</strong><br>Meadow Lane Oakland</td>
-                                        <td>01 January 2022</td>
-                                        <td><span class="badge bg-primary">In Progress</span></td>
-                                        <td>
-                                        <a href="" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></a>
-                                        <a href="" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
-                                        <i class=""></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#CM9707</td>
-                                        <td><img src="https://i.pravatar.cc/30" class="rounded-circle me-2">
-                                            <strong>Adam Thomas</strong>
-                                        </td>
-                                        <td>Client Project</td>
-                                        <td><strong>Canada</strong><br>Bagwell Avenue Ocala</td>
-                                        <td>02 January 2022</td>
-                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                        <td>
-                                            <i class="fas fa-edit text-primary me-2"></i>
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#CM9706</td>
-                                        <td><img src="https://i.pravatar.cc/30" class="rounded-circle me-2">
-                                            <strong>Sara Lewis</strong>
-                                        </td>
-                                        <td>Admin Dashboard</td>
-                                        <td><strong>Denmark</strong><br>Washburn Baton Rouge</td>
-                                        <td>03 January 2022</td>
-                                        <td><span class="badge bg-success">Complete</span></td>
-                                        <td>
-                                            <i class="fas fa-edit text-primary me-2"></i>
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#CM9705</td>
-                                        <td><img src="https://i.pravatar.cc/30" class="rounded-circle me-2">
-                                            <strong>Myrtle Johnson</strong>
-                                        </td>
-                                        <td>Landing Page</td>
-                                        <td><strong>Brazil</strong><br>Nest Lane Olivette</td>
-                                        <td>04 January 2022</td>
-                                        <td><span class="badge bg-info text-white">Delivered</span></td>
-                                        <td>
-                                            <i class="fas fa-edit text-primary me-2"></i>
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </td>
-                                    </tr>
+
+                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders  ");
+                                    while ($orders = mysqli_fetch_array($total_orders)) { ?>
+                                        <?php
+                                        $email = $orders['email'];
+                                        $call_address = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'");
+                                        $address = mysqli_fetch_assoc($call_address);
+                                        ?>
+                                        <?php
+                                        $call_order_id = mysqli_query($connect, "SELECT * from orders where email='$email'  ");
+                                        $order_id = mysqli_fetch_assoc($call_order_id);
+                                        ?>
+
+                                        <tr>
+                                            <td>#<?= $orders['id'] ?></td>
+                                            <td><img src="https://i.pravatar.cc/30" class="rounded-circle me-2">
+                                                <strong><?= $orders['email'] ?></strong>
+                                            </td>
+                                            <td>₹ <?= $orders['total_amount'] ?></td>
+                                            <td><strong><?= $address['city'] ?></strong><br><?= $address['landmark'] ?></td>
+                                            <td><?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
+                                            echo $formatted_date . "<br>"; ?></td>
+                                            <td><?php if ($orders['status'] == 0) { ?>
+                                                    <span class="badge bg-primary">order placed</span>
+                                                <?php } elseif ($orders['status'] == 1) { ?>
+                                                    <span class="badge bg-success">Success</span>
+                                                <?php } elseif ($orders['status'] == 2) { ?>
+                                                    <span class="badge bg-secondary">Order shipped</span>
+                                                <?php } elseif ($orders['status'] == 3) { ?>
+                                                    <span class="badge bg-danger">In Transit</span>
+                                                <?php } elseif ($orders['status'] == 4) { ?>
+                                                    <span class="badge bg-success">out delevery</span>
+                                                <?php } elseif ($orders['status'] == 5) { ?>
+                                                    <span class="badge bg-success">delevered</span>
+                                                <?php } else { ?>
+
+                                                    <?php } ?>
+
+                                                </td>
+                                            <td>
+                                                <a href="" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></a>
+                                                <a href="" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
+                                                <i class=""></i>
+                                            </td>
+                                        </tr>
+
+
+                                    <?php } ?>
+
+
                                 </tbody>
                             </table>
                         </div>

@@ -10,10 +10,10 @@ $email = $_SESSION['user'];
 if (isset($_GET['add_book'])) {
     $item_id = $_GET['add_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'  AND direct_buy=0");
     $noItemInCart = mysqli_num_rows($itemInCart);
     if ($noItemInCart) {
-        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'");
+        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'  AND direct_buy=0");
     } else {
         $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id) VALUE ('$email','$item_id')");
     }
@@ -26,13 +26,13 @@ if (isset($_GET['add_book'])) {
 if (isset($_GET['minus_book'])) {
     $item_id = $_GET['minus_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'  AND direct_buy=0");
     $itemData = mysqli_fetch_assoc($itemInCart);
     if ($itemData) {
         if ($itemData['qty'] > 1) {
-            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email'");
+            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email'  AND direct_buy=0");
         } else {
-            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email'");
+            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email'  AND direct_buy=0");
         }
     } else {
         echo "Item not found in cart!";

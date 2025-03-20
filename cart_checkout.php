@@ -550,7 +550,30 @@ if (isset($_GET['minus_book'])) {
 
 
 <!-- submit all orders item , address, and more  -->
+<?php
+// if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+//     $email = $_SESSION['user'];
 
+//     $insertOrderItems = "INSERT INTO orders_items (orders_id, email, item_id, book_name, qty, sell_price, img1) 
+// SELECT orders.id, cart.email, cart.item_id, books.book_name, cart.qty, books.sell_price, books.img1 
+// FROM cart 
+// JOIN books ON cart.item_id = books.id 
+// WHERE cart.email='$email' AND cart.direct_buy=0";
+
+//     if (mysqli_query($connect, $insertOrderItems)) {
+//         echo "✅ Items successfully moved to Orders!";
+
+//         // अब cart से order हुए items को delete कर दें
+//         $deleteCartItems = "DELETE FROM cart WHERE email='$email' AND direct_buy=0";
+//         mysqli_query($connect, $deleteCartItems);
+//     } else {
+//         echo "❌ Error: " . mysqli_error($connect);
+//     }
+
+
+// }
+
+?>
 <?php
 if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
     $payment_type = $_POST['payment'];
@@ -580,10 +603,21 @@ if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
 
 ?>
 <?php
+$query = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
+$result = mysqli_query($connect, $query);
+$lastRow = mysqli_fetch_assoc($result);
+
+// $cart_query = "SELECT * FROM cart where direct_buy=0";
+// $cart_result = mysqli_query($connect, $query);
+?>
+<?php
 if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
     $email = $_SESSION['user'];
+    $orders_id = $lastRow['id'];
+    $no_of_cart = mysqli_num_rows( mysqli_query($connect, "SELECT * FROM cart where email='$email' AND direct_buy=0 "));
 
-    $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email'");
+
+    $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' where email='$email' AND direct_buy=0");
 
 
 }

@@ -62,7 +62,7 @@
                         👥
                     </div>
                 </div>
-                <h3 class="fw-bold mt-2">36,254</h3>
+                <h3 class="fw-bold mt-2"><?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from users ")) ?></h3>
                 <span class="up">⬆ 5.27%</span> <small class="text-muted">Since last month</small>
             </div>
         </div>
@@ -76,7 +76,7 @@
                         🛒
                     </div>
                 </div>
-                <h3 class="fw-bold mt-2">5,543</h3>
+                <h3 class="fw-bold mt-2"><?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from orders")) ?></h3>
                 <span class="down">⬇ 1.08%</span> <small class="text-muted">Since last month</small>
             </div>
         </div>
