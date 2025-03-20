@@ -37,17 +37,36 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 
 
                 <?php
+                
+
                 while ($book = $booksQuery->fetch_assoc()):
                     // Check if the book is already in the wishlist
                     $bookId = $book['id'];
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                     $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                    //discount work
+
+                    $mrp = floatval($book['mrp']);
+                    $sell_price = floatval($book['sell_price']);
+                    
+                    if ($mrp > 0 && is_numeric($sell_price)) {
+                        $percentage = ($mrp - $sell_price) / $mrp * 100;
+                       
+                    } else {
+                        echo "Error: Invalid price values.";
+                    }
+                   
+                    
+                    
                     ?>
                     <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                         <!-- Discount Badge (60% Off) -->
+                         
+
                         <div
                             class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                            60% OFF
+                          <?=round($percentage);?>% OFF
                         </div>
 
                         <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
