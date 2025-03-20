@@ -74,7 +74,7 @@ if (isset($_GET['minus_book'])) {
                     <div class="space-y-6">
                         <?php
                         $email = $_SESSION['user'];
-                        $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+                        $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0 ");
                         while ($cartItem = mysqli_fetch_array($callCartItem)) { ?>
                             <div class="flex items-center gap-4 border-b pb-4">
                                 <a href="view2.php?book_id=<?= $cartItem['item_id'] ?>">

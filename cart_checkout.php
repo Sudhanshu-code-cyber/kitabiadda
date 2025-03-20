@@ -458,7 +458,7 @@ if (isset($_GET['add_book'])) {
     if ($noItemInCart) {
         $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'");
     } else {
-        $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id) VALUE ('$email','$item_id')");
+        $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id,direct_buy) VALUE ('$email','$item_id',0)");
     }
 
     echo "<script>window.location.href='cart_checkout.php';</script>";

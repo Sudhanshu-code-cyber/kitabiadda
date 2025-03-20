@@ -280,11 +280,19 @@ $email = $_SESSION['user'];
 
                     <!-- Order Item -->
                      <?php
-                        if(isset($_GET['']))
+                        if(isset($_GET['buy_book'])){
+                            $book_id = $_GET['buy_book'];
+                            // $insert_direct_buy = mysqli_query($connect,"INSERT INTO cart () VALUE ()");
+                        }
+
+                        if(isset($_GET['minus_book'])){
+                            $book_id = $_GET['minus_book'];
+                            // $insert_direct_buy = mysqli_query($connect,"INSERT INTO cart () VALUE ()");
+                        }
                      ?>
                     <?php
                     $email = $_SESSION['user'];
-                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND books.id='$book_id' AND direct_buy=1 ");
                     while ($cartItem = mysqli_fetch_assoc($callCartItem)) { ?>
                         <div class="flex items-center p-6 border-b">
                             <!-- Product Image -->
@@ -313,7 +321,7 @@ $email = $_SESSION['user'];
                                 <div class="flex items-center mt-2">
                                     <a href="?minus_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">−</a>
                                     <span class="px-4"> <?= $cartItem['qty'] ?> </span>
-                                    <a href="?add_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">+</a>
+                                    <a href="?buy_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">+</a>
                                 </div>
                             </div>
                         </div>
@@ -416,7 +424,7 @@ $email = $_SESSION['user'];
             <?php
             $totleMrp = 0;
             $totleSellPrice = 0;
-            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=1 AND books.id=$book_id ");
             while ($price = mysqli_fetch_array($callCartItem)) {
                 $totleMrp += $price['qty'] * $price['mrp'];
                 $totleSellPrice += $price['qty'] * $price['sell_price'];
@@ -451,18 +459,21 @@ $email = $_SESSION['user'];
 include_once "includes/footer2.php";
 ?>
 <?php
-if (isset($_GET['add_book'])) {
-    $item_id = $_GET['add_book'];
+if (isset($_GET['buy_book'])) {
+    $item_id = $_GET['buy_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email' AND direct_buy=1 ");
     $noItemInCart = mysqli_num_rows($itemInCart);
     if ($noItemInCart) {
-        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email'");
+        $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 where item_id='$item_id' AND email='$email' AND direct_buy=1 ");
     } else {
-        $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id) VALUE ('$email','$item_id')");
+        $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id, direct_buy) VALUE ('$email','$item_id',1)");
     }
 
-    echo "<script>window.location.href='cart_checkout.php';</script>";
+    echo "<script>window.location.href='item_checkout.php?buy_book='$item_id'';</script>";
+    // header("Refresh:0");
+// exit;
+
 
 }
 
@@ -470,19 +481,23 @@ if (isset($_GET['add_book'])) {
 if (isset($_GET['minus_book'])) {
     $item_id = $_GET['minus_book'];
     $email = $_SESSION['user'];
-    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email'");
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart where item_id='$item_id' AND email='$email' AND direct_buy=1 ");
     $itemData = mysqli_fetch_assoc($itemInCart);
     if ($itemData) {
         if ($itemData['qty'] > 1) {
-            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email'");
+            $updateQty = mysqli_query($connect, "UPDATE cart SET qty = qty - 1 WHERE item_id='$item_id' AND email='$email' AND direct_buy=1 ");
         } else {
-            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email'");
+            $deleteItem = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$item_id' AND email='$email' AND direct_buy=1 ");
         }
     } else {
         echo "Item not found in cart!";
     }
 
-    echo "<script>window.location.href='cart_checkout.php';</script>";
+    echo "<script>window.location.href='item_checkout.php?buy_book='$item_id'';</script>";
+//     header("Refresh:0");
+// exit;
+
+    
 
 }
 
@@ -492,12 +507,12 @@ if (isset($_GET['minus_book'])) {
 <!-- submit all orders item , address, and more  -->
 
 <?php
-if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+if (isset($_POST['order_submit']) ) {
     $payment_type = $_POST['payment'];
 
     // $address_id = $_SESSION['address_id']; // Uncomment करें अगर जरूरत हो
-    $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type) 
-     VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type')");
+    $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
+     VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type',1)");
 
     if ($insertOrder) {
         echo '
@@ -516,6 +531,16 @@ if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
     } else {
         echo "❌ Error: " . mysqli_error($connect);
     }
+}
+
+?>
+<?php
+if (isset($_POST['order_submit'])) {
+    $email = $_SESSION['user'];
+
+    $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email' AND direct_buy=1 ");
+
+    
 }
 
 ?>
