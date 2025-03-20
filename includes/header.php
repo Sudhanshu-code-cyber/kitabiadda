@@ -5,7 +5,7 @@ if (isset($_SESSION['user'])) {
 ?>
 <div class="flex fixed w-full z-50 top-0 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
-    <form action="" method="get" class="flex border rounded">
+    <form action="filter.php" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
             class="p-2 bg-white rounded-l w-[35rem] text-black ">
         <button type="submit" class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
