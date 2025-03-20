@@ -65,7 +65,7 @@ if (isset($_GET['minus_book'])) {
 
     <div class="container mx-auto p-6 md:p-10">
         <h1 class="text-[40px] text-green-900 font-bold">Your Cart
-            (<?= mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email'")) ?>)</h1>
+            (<?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email' AND direct_buy=0")) ?>)</h1>
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Product List -->
             <div class="md:w-2/3">
@@ -115,7 +115,7 @@ if (isset($_GET['minus_book'])) {
             <?php
             $totleMrp = 0;
             $totleSellPrice = 0;
-            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0");
             while ($price = mysqli_fetch_array($callCartItem)) {
                 $totleMrp += $price['qty'] * $price['mrp'];
                 $totleSellPrice += $price['qty'] * $price['sell_price'];
