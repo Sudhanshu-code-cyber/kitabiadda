@@ -103,7 +103,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old'");
                                     <?php
                                     $rating = $book['book_rating']; // Random Rating for demo
                                     for ($i = 1; $i <= 5; $i++) {
-                                        if ($i <= floor($rating)) {
+                                        if ($i <=$rating) {
                                             echo '<span class="text-orange-500 text-lg">★</span>';
                                         } else {
                                             echo '<span class="text-gray-400 text-lg">★</span>';

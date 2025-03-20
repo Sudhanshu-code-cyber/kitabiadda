@@ -14,8 +14,6 @@ if ($query->num_rows == 0) {
 }
 $book = $query->fetch_array();
 
-
-
 ?>
 
 <!DOCTYPE html>
