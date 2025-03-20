@@ -35,12 +35,26 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_boo
                     $bookId = $book['id'];
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                     $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                     //discount work
+
+                     $mrp = floatval($book['mrp']);
+                     $sell_price = floatval($book['sell_price']);
+                     
+                     if ($mrp > 0 && is_numeric($sell_price)) {
+                         $percentage = ($mrp - $sell_price) / $mrp * 100;
+                        
+                     } else {
+                         echo "Error: Invalid price values.";
+                     }
+                    
+                    
                     ?>
                     <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                         <!-- Discount Badge (60% Off) -->
                         <div
                             class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                            60% OFF
+                            <?=round($percentage);?>% OFF
                         </div>
 
                         <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
@@ -99,9 +113,9 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_boo
                                 <!-- Dynamic Rating -->
                                 <div class="flex">
                                     <?php
-                                    $rating = rand(2, 5); // Random Rating for demo
+                                    $rating = $book['book_rating']; // Random Rating for demo
                                     for ($i = 1; $i <= 5; $i++) {
-                                        if ($i <= floor($rating)) {
+                                        if ($i <= $rating) {
                                             echo '<span class="text-orange-500 text-lg">★</span>';
                                         } else {
                                             echo '<span class="text-gray-400 text-lg">★</span>';
