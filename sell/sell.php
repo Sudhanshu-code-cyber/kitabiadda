@@ -1,9 +1,9 @@
 <?php
 include "../config/connect.php";
-if(!isset($_SESSION['user'])){
+if (!isset($_SESSION['user'])) {
     redirect("../login.php");
-}else{
-    $user=getUser();
+} else {
+    $user = getUser();
 }
 ?>
 <!DOCTYPE html>
@@ -81,16 +81,16 @@ if(!isset($_SESSION['user'])){
                 <div class="col-md-4">
                     <label class="form-label h6">Category</label>
 
-                    <select name="category" class="form-select" name="category">
+                    <select name="category" class="form-select">
                         <option value="">Select book category</option>
                         <?php
-                        $callingCat = mysqli_query($connect, "select * from category");
-                        while ($cat = mysqli_fetch_array($callingCat)) {
-                            echo "<option value='" . $cat['id'] . "'>" . $cat['cat_title'] . "</option>";
+                        $callingCat = mysqli_query($connect, "SELECT * FROM category");
+                        while ($cat = mysqli_fetch_assoc($callingCat)) {
+                            echo "<option value='" . $cat['cat_title'] . "'>" . $cat['cat_title'] . "</option>";
                         }
-
                         ?>
                     </select>
+
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Sub Category</label>
@@ -128,8 +128,8 @@ if(!isset($_SESSION['user'])){
                 </div>
                 <div class="col-4">
                     <label class="form-label h6">Version</label>
-                    <select name="version" class="form-select" >
-                    <option value="">select version of book</option>
+                    <select name="version" class="form-select">
+                        <option value="">select version of book</option>
                         <option value="old">Old</option>
                     </select>
                 </div>
@@ -301,7 +301,7 @@ if(!isset($_SESSION['user'])){
         $longitude = $_POST['longitude'];
         $address = $_POST['address'];
         $sbook_description = $_POST['description'];
-        $seller_id=$user['user_id'];
+        $seller_id = $user['user_id'];
 
         $img1 = $_FILES['img1']['name'];
         $tmp_image1 = $_FILES['img1']['tmp_name'];
@@ -320,9 +320,9 @@ if(!isset($_SESSION['user'])){
 
 
 
-            $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, seller_id) 
+        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, seller_id) 
             VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3','$seller_id')";
-            
+
         $result = mysqli_query($connect, $query);
 
         if ($result) {
