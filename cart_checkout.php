@@ -518,3 +518,13 @@ if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
 }
 
 ?>
+<?php
+if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+    $email = $_SESSION['user'];
+
+    $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email'");
+
+    
+}
+
+?>
