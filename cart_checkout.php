@@ -283,7 +283,7 @@ $email = $_SESSION['user'];
                     <!-- Order Item -->
                     <?php
                     $email = $_SESSION['user'];
-                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0 ");
                     while ($cartItem = mysqli_fetch_assoc($callCartItem)) { ?>
                         <div class="flex items-center p-6 border-b">
                             <!-- Product Image -->
@@ -415,7 +415,7 @@ $email = $_SESSION['user'];
             <?php
             $totleMrp = 0;
             $totleSellPrice = 0;
-            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email'");
+            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0 ");
             while ($price = mysqli_fetch_array($callCartItem)) {
                 $totleMrp += $price['qty'] * $price['mrp'];
                 $totleSellPrice += $price['qty'] * $price['sell_price'];
