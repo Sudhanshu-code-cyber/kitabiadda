@@ -6,6 +6,8 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $userId = $user ? $user['user_id'] : null;
+$booksQuery = $connect->query("SELECT * FROM books ");
+
 
 // Base query
 $sql = "SELECT * FROM books JOIN category ON books.book_category = category.cat_title WHERE 1";
@@ -48,8 +50,8 @@ $booksQuery = $connect->query($sql);
 
 <head>
     <meta charset="UTF-8" />
-    <title>Used Books</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Used Books</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
@@ -58,6 +60,7 @@ $booksQuery = $connect->query($sql);
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
+    <!-- ✅ Filter Info -->
     <?php if (!empty($_GET['filter'])): ?>
         <div class="px-6 mt-2">
             <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-medium">
@@ -68,8 +71,8 @@ $booksQuery = $connect->query($sql);
     <?php endif; ?>
 
     <div class="flex mt-24 flex-col lg:flex-row gap-6 p-4">
-        <!-- Filters Sidebar -->
-        <div class="w-[50vh] max-w-md">
+        <!-- Sidebar Filters -->
+        <div class="w-[70vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
                 <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
@@ -106,16 +109,16 @@ $booksQuery = $connect->query($sql);
 
                 <!-- Preserve category if set -->
                 <?php if (isset($_GET['filter'])): ?>
-                    <input type="hidden" name="filter" value="<?= $_GET['filter']; ?>">
+                    <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
                 <?php endif; ?>
 
-                <button type="submit" class="mt-4 flex w-full bg-[#3D8D7A] py-2 px-4 rounded text-white font-semibold items-center justify-center">
+                <button type="submit" class="mt-4 flex w-full bg-blue-500 py-2 px-4 rounded text-white font-semibold items-center justify-center">
                     Apply Filter
                 </button>
             </form>
         </div>
 
-        <!-- Book Grid -->
+        <!-- Book Grid or Empty Message -->
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -123,19 +126,15 @@ $booksQuery = $connect->query($sql);
                         $bookId = $book['id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
-
-                        // Preserve current filters in the action URL
-                        $queryString = http_build_query($_GET);
                     ?>
-                        <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 relative h-[60vh]">
-                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                                60% OFF
-                            </div>
+                        <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
 
-                            <!-- Wishlist Button -->
-                            <form method="POST" action="actions/wishlistAction.php?<?= $queryString ?>" class="absolute top-3 right-3" onclick="event.stopPropagation();">
+                            <!-- ✅ Discount Badge -->
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">60% OFF</div>
+
+                            <!-- ✅ Wishlist Button OUTSIDE of <a> -->
+                            <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" class="absolute top-3 right-3" onclick="event.stopPropagation();">
                                 <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                                <input type="hidden" name="redirect" value="filter.php?<?= $queryString ?>">
                                 <button type="submit" name="toggle_wishlist">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
@@ -146,7 +145,8 @@ $booksQuery = $connect->query($sql);
                                 </button>
                             </form>
 
-                            <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
+                            <!-- ✅ Entire book card is now clickable -->
+                            <a href="view.php?book_id=<?= $book['id']; ?>" class="block h-full">
                                 <div class="flex justify-center hover:scale-105 transition">
                                     <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
                                 </div>
@@ -177,8 +177,10 @@ $booksQuery = $connect->query($sql);
                             </a>
                         </div>
                     <?php endwhile; ?>
+
                 </main>
             <?php else: ?>
+                <!-- ❌ No Books Found Message -->
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-red-500 mb-4">😕 Oops! No books found for the selected filters.</h2>
