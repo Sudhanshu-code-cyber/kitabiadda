@@ -220,6 +220,25 @@ if (!isset($_SESSION['user'])) {
                             onchange="previewImages(event, 'imagePreviewContainer3', 'uploadText3')">
 
                     </div>
+                    <!-- Fourth Upload Section -->
+                    <div class="col-sm-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="card" style="width: 120px; cursor: pointer;"
+                                onclick="document.getElementById('fileInput4').click()">
+                                <div class="card-body text-center">
+                                    <div id="imagePreviewContainer4" class="d-flex flex-wrap gap-2"></div>
+                                    <div id="uploadText4" class="text-muted">
+                                        <i class="bi bi-camera fs-1"></i>
+                                        <p class="mt-2">Extra Image</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="file" id="fileInput4" accept="image/*" class="d-none upload" multiple name="img4"
+                        onchange="previewImages(event, 'imagePreviewContainer4', 'uploadText4')">
+
 
                     <script>
                         function previewImages(event, previewContainerId, uploadTextId) {
@@ -227,10 +246,10 @@ if (!isset($_SESSION['user'])) {
                             const imagePreviewContainer = document.getElementById(previewContainerId);
                             const uploadText = document.getElementById(uploadTextId);
 
-                            imagePreviewContainer.innerHTML = ''; // Purane previews clear karne ke liye
+                            imagePreviewContainer.innerHTML = ''; // Clear previous previews
 
                             if (files.length > 0) {
-                                uploadText.classList.add('d-none'); // "Add Photos" text hide karna
+                                uploadText.classList.add('d-none'); // Hide "Add Photos" text
 
                                 Array.from(files).forEach((file) => {
                                     if (file && file.type.startsWith('image/')) {
@@ -251,6 +270,7 @@ if (!isset($_SESSION['user'])) {
                                 });
                             }
                         }
+
                     </script>
                 </div>
             </div>
@@ -309,6 +329,8 @@ if (!isset($_SESSION['user'])) {
         $tmp_image2 = $_FILES['img2']['tmp_name'];
         $img3 = $_FILES['img3']['name'] ?? null;
         $tmp_image3 = $_FILES['img3']['tmp_name'] ?? null;
+        $img4 = $_FILES['img4']['name'] ?? null;
+        $tmp_image4 = $_FILES['img4']['tmp_name'] ?? null;
 
         // Upload images
         if ($img1 && $tmp_image1)
@@ -317,11 +339,13 @@ if (!isset($_SESSION['user'])) {
             move_uploaded_file($tmp_image2, "../assets/sell_images/$img2");
         if ($img3 && $tmp_image3)
             move_uploaded_file($tmp_image3, "../assets/sell_images/$img3");
+        if ($img4 && $tmp_image4)
+            move_uploaded_file($tmp_image4, "../assets/sell_images/$img4"); 
 
 
 
-        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, seller_id) 
-            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3','$seller_id')";
+        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, img4, seller_id) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$img4','$seller_id')";
 
         $result = mysqli_query($connect, $query);
 
