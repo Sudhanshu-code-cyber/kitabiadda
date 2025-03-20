@@ -77,7 +77,7 @@ if (isset($_GET['minus_book'])) {
                         $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0 ");
                         while ($cartItem = mysqli_fetch_array($callCartItem)) { ?>
                             <div class="flex items-center gap-4 border-b pb-4">
-                                <a href="view2.php?book_id=<?= $cartItem['item_id'] ?>">
+                                <a href="view.php?book_id=<?= $cartItem['item_id'] ?>">
                                     <img src="images/<?= $cartItem['img1'] ?>" class="w-24 h-24 rounded-lg shadow-md"
                                         alt="Product">
                                 </a>
