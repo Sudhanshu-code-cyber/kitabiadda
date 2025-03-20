@@ -44,9 +44,19 @@
         <div class="relative max-w-full">
             <div class="overflow-x-auto whitespace-nowrap no-scrollbar max-w-full" id="categoryScroll">
                 <div class="flex space-x-4">
-                    <a href="filter.php?filter=Used Book"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Used Book</a>
+                    <?php
+                    $callingused = $connect->query("SELECT * FROM books WHERE version = 'old'");
 
+                    if ($callingused && $used = $callingused->fetch_array()) {
+                    ?>
+                        <a href="filter.php?filter=<?= htmlspecialchars($used['version']); ?>"
+                            class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">
+                            Used Book
+                        </a>
+                    <?php
+                    }
+                    ?>
+ 
                     <a href="filter.php?filter=49 Store"
                         class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">49 Store</a>
 

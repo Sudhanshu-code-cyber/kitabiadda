@@ -48,8 +48,8 @@ $booksQuery = $connect->query($sql);
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Used Books</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
@@ -58,7 +58,6 @@ $booksQuery = $connect->query($sql);
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <!-- ✅ Filter Info -->
     <?php if (!empty($_GET['filter'])): ?>
         <div class="px-6 mt-2">
             <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-medium">
@@ -69,7 +68,7 @@ $booksQuery = $connect->query($sql);
     <?php endif; ?>
 
     <div class="flex mt-24 flex-col lg:flex-row gap-6 p-4">
-        <!-- Sidebar Filters -->
+        <!-- Filters Sidebar -->
         <div class="w-[50vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
@@ -110,13 +109,13 @@ $booksQuery = $connect->query($sql);
                     <input type="hidden" name="filter" value="<?= $_GET['filter']; ?>">
                 <?php endif; ?>
 
-                <button type="submit" class="mt-4 flex w-full bg-[#3D8D7A] curosor-pointer py-2 px-4 rounded text-white font-semibold items-center justify-center">
+                <button type="submit" class="mt-4 flex w-full bg-[#3D8D7A] py-2 px-4 rounded text-white font-semibold items-center justify-center">
                     Apply Filter
                 </button>
             </form>
         </div>
 
-        <!-- Book Grid or Empty Message -->
+        <!-- Book Grid -->
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -124,14 +123,19 @@ $booksQuery = $connect->query($sql);
                         $bookId = $book['id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
-                    ?>
-                        <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
-                            <!-- Discount Badge -->
-                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">60% OFF</div>
 
-                            <!-- Wishlist -->
-                            <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" class="absolute top-3 right-3" onclick="event.stopPropagation();">
+                        // Preserve current filters in the action URL
+                        $queryString = http_build_query($_GET);
+                    ?>
+                        <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 relative h-[60vh]">
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                                60% OFF
+                            </div>
+
+                            <!-- Wishlist Button -->
+                            <form method="POST" action="actions/wishlistAction.php?<?= $queryString ?>" class="absolute top-3 right-3" onclick="event.stopPropagation();">
                                 <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
+                                <input type="hidden" name="redirect" value="filter.php?<?= $queryString ?>">
                                 <button type="submit" name="toggle_wishlist">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
@@ -175,7 +179,6 @@ $booksQuery = $connect->query($sql);
                     <?php endwhile; ?>
                 </main>
             <?php else: ?>
-                <!-- ❌ No Books Found Message -->
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-red-500 mb-4">😕 Oops! No books found for the selected filters.</h2>
