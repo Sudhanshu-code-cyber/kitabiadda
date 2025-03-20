@@ -66,7 +66,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 
                         <div
                             class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                          <?=round($percentage);?>% OFF
+                           <?=round($percentage);?>% OFF
                         </div>
 
                         <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
