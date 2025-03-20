@@ -101,7 +101,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old'");
                                 <!-- Dynamic Rating -->
                                 <div class="flex">
                                     <?php
-                                    $rating = rand(2, 5); // Random Rating for demo
+                                    $rating = $book['book_rating']; // Random Rating for demo
                                     for ($i = 1; $i <= 5; $i++) {
                                         if ($i <= floor($rating)) {
                                             echo '<span class="text-orange-500 text-lg">★</span>';
