@@ -82,7 +82,7 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                 <div class="flex items-center justify-between p-6 border-b">
                     <div class="flex items-center">
                         <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-14 w-14 border rounded-full">
-                        <h2 class="text-lg m-4 font-semibold"><?= htmlspecialchars($chat['name']); ?></h2>
+                        <h2 class="text-lg m-4 font-semibold"><?= $chat['name']; ?></h2>
                     </div>
                     <div class="flex items-center gap-3">
                         <!-- Call Button Trigger -->
