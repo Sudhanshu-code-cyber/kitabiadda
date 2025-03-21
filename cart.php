@@ -66,7 +66,8 @@ if (isset($_GET['minus_book'])) {
     <div class="container mx-auto p-6 md:p-10">
         <h1 class="text-[40px] text-green-900 font-bold">Your Cart
             (<?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email' AND direct_buy=0")) ?>)</h1>
-        <div class="flex flex-col md:flex-row gap-6">
+        <?php if($total_cart_item != 0){ ?>
+            <div class="flex flex-col md:flex-row gap-6">
             <!-- Product List -->
             <div class="md:w-2/3">
                 <div class="w-full  bg-white p-6 shadow-lg rounded-lg h-[500px] overflow-y-auto">
@@ -138,14 +139,24 @@ if (isset($_GET['minus_book'])) {
                             ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
                 </div>
             </div>
+            
 
         </div>
+
+            <?php } else{ ?>
+                <div style="height: 60vh;">
+                <p style="font-size :50px; font-weight: 700;">Your Cart Is Empty, Please add item to Continue...</p>
+                </div>
+                    
+                <?php } ?>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
 </body>
 
 </html>
+
 <?php
 include_once "includes/footer2.php";
 ?>
