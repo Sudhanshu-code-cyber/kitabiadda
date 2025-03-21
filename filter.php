@@ -1,14 +1,12 @@
 <?php
 include_once "config/connect.php";
 
-// Get user if logged in
 $user = null;
 if (isset($_SESSION['user'])) {
-    $user = getUser(); // Make sure getUser() fetches user data from DB
+    $user = getUser(); 
 }
 $userId = $user ? $user['user_id'] : null;
 
-// Wishlist Toggle Logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) {
     if ($userId) {
         $bookId = $_POST['wishlist_id1'];
@@ -18,15 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) 
         } else {
             $connect->query("INSERT INTO wishlist (user_id, book_id) VALUES ('$userId', '$bookId')");
         }
-        header("Location: " . $_SERVER['REQUEST_URI']);
+        redirect("filter.php");
         exit();
     } else {
-        header("Location: login.php");
+        redirect("login.php");
         exit();
     }
 }
 
-// Book Query
 $sql = "SELECT books.*, books.id AS book_id, category.cat_title 
         FROM books 
         JOIN category ON books.book_category = category.cat_title 
@@ -67,7 +64,7 @@ $booksQuery = $connect->query($sql);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Used Books</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
@@ -76,13 +73,11 @@ $booksQuery = $connect->query($sql);
     <?php include_once "includes/subheader.php"; ?>
 
     <div class="flex mt-30 flex-col lg:flex-row gap-6 p-4">
-        <!-- Filters Sidebar -->
         <div class="w-[50vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
                 <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
 
-                <!-- Price Filter -->
                 <div class="mb-6">
                     <h3 class="text-xl font-medium text-gray-700 mb-3">Price</h3>
                     <?php
@@ -97,7 +92,6 @@ $booksQuery = $connect->query($sql);
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Language Filter -->
                 <div class="mb-6">
                     <h3 class="text-xl font-medium text-gray-700 mb-3">Language</h3>
                     <?php
@@ -112,7 +106,6 @@ $booksQuery = $connect->query($sql);
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Preserve category filter -->
                 <?php if (isset($_GET['filter'])): ?>
                     <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
                 <?php endif; ?>
@@ -123,9 +116,11 @@ $booksQuery = $connect->query($sql);
             </form>
         </div>
 
-        <!-- Books Grid -->
         <div class="flex-1">
-            <?php if ($booksQuery->num_rows > 0): ?>
+            <?php 
+            if($_GET['']);
+            
+            if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
