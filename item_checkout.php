@@ -99,10 +99,10 @@ if (isset($_GET['minus_book'])) {
 
                     </div>
                     <!-- Right Section -->
-                    <button
+                    <a href="login.php"
                         class="border border-gray-300 text-blue-600 px-3 py-1 rounded-md text-sm hover:bg-gray-100 transition">
                         CHANGE
-                    </button>
+                    </a>
                 </div>
 
 
@@ -517,7 +517,7 @@ if (isset($_GET['minus_book'])) {
 
                     <button name="order_submit"
                         class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600">
-                        CONTINUE
+                        PLACE ORDER
                     </button>
                     </form>
                 </div>
@@ -566,15 +566,19 @@ include_once "includes/footer2.php";
 <!-- submit all orders item , address, and more  -->
 
 <?php
-if (isset($_POST['order_submit'])) {
+if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment'] == 'cod') {
     $payment_type = $_POST['payment'];
+    $email = $_SESSION['user'];
 
-    // $address_id = $_SESSION['address_id']; // Uncomment करें अगर जरूरत हो
-    $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
+    $call_user_address = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'"));
+
+    if ($call_user_address > 0) {
+
+        $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
      VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type',1)");
 
-    if ($insertOrder) {
-        echo '
+        if ($insertOrder) {
+            echo '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             Swal.fire({
@@ -587,9 +591,31 @@ if (isset($_POST['order_submit'])) {
             });
         </script>
         ';
+        } else {
+            echo "❌ Error: " . mysqli_error($connect);
+        }
+
     } else {
-        echo "❌ Error: " . mysqli_error($connect);
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                title: '⚠ Address Required!',
+                text: 'Please Add Address To Process To Buy',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Cancle',
+                cancelButtonText: 'Add Address'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.php'; // Address Page
+                }
+            });
+        </script>";
     }
+
+    // $address_id = $_SESSION['address_id']; // Uncomment करें अगर जरूरत हो
+
 }
 
 ?>
@@ -608,14 +634,20 @@ $lastRow = mysqli_fetch_assoc($result);
 $cart_query = "SELECT * FROM cart where direct_buy=1";
 $cart_result = mysqli_query($connect, $query);
 
-if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment'] == 'cod') {
     $email = $_SESSION['user'];
     $orders_id = $lastRow['id'];
     $book_id = $cartItem['id'];
     // $no_of_cart = mysqli_num_rows( mysqli_query($connect, "SELECT * FROM cart where direct_buy=1"));
+    $call_user_address = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'"));
+    if ($call_user_address > 0) {
+
+        $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' WHERE item_id='$book_id' AND direct_buy=1");
+
+    }
 
 
-    $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' WHERE item_id='$book_id' AND direct_buy=1");
+
 
 
 }

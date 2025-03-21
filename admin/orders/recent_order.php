@@ -81,7 +81,7 @@
                                 </thead>
                                 <tbody>
 
-                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders  ");
+                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders ORDER BY id DESC ");
                                     while ($orders = mysqli_fetch_array($total_orders)) { ?>
                                         <?php
                                         $email = $orders['email'];
