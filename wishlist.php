@@ -95,7 +95,7 @@ if ($userId) {
                     <!-- Wishlist Heart Icon -->
                     <form method="POST" action="wishlist.php" class="absolute top-3 right-3">
                         <input type="hidden" name="wishlistId" value="<?= $bookId; ?>">
-                        <button type="submit" name="toggleWishlist">
+                        <button type="submit" class="cursor-pointer" name="toggleWishlist">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="1.5" class="size-6 hover:scale-110 transition">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                             </svg>
@@ -104,8 +104,8 @@ if ($userId) {
 
                     <!-- Book Click Redirect -->
                     <a href="view.php?book_id=<?= $bookId; ?>" class="block">
-                        <div class="flex justify-center hover:scale-105 transition">
-                            <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
+                        <div class="flex justify-center ">
+                            <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md hover:scale-105 transition rounded-md">
                         </div>
                         <div class="mt-4 text-center">
                             <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
