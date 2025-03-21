@@ -398,7 +398,7 @@ if (isset($_GET['minus_book'])) {
                     $cartItem = mysqli_fetch_array($callCartItem) ?>
                     <div class="flex items-center p-6 border-b">
                         <!-- Product Image -->
-                        <img src="images/<?= $cartItem['img1'] ?>" alt="Product Image"
+                        <img src="assets/images/<?= $cartItem['img1'] ?>" alt="Product Image"
                             class="w-20 h-20 object-cover rounded-md">
 
                         <div class="ml-4 flex-grow">
@@ -645,11 +645,6 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
         $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' WHERE item_id='$book_id' AND direct_buy=1");
 
     }
-
-
-
-
-
-}
+} 
 
 ?>

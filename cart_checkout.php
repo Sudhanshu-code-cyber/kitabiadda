@@ -348,7 +348,7 @@ if ($total_cart_item == 0) {
                     while ($cartItem = mysqli_fetch_assoc($callCartItem)) { ?>
                         <div class="flex items-center p-6 border-b">
                             <!-- Product Image -->
-                            <img src="images/<?= $cartItem['img1'] ?>" alt="Product Image"
+                            <img src="assets/images/<?= $cartItem['img1'] ?>" alt="Product Image"
                                 class="w-20 h-20 object-cover rounded-md">
 
                             <div class="ml-4 flex-grow">
