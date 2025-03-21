@@ -166,12 +166,13 @@ $coutwishlist = mysqli_num_rows($count);
                 <h2 class="text-2xl font-semibold mb-4">My Orders</h2>
                 <div class="flex flex-col gap-2 justify-center items-center mt-[10%]">
                     <?php
-                        $user_email = $user['email'];
-                        $my_order = $connect->query("select * from orders where email='$user_email'");
-                        while($myOrder = $my_order->fetch_assoc()) :
+                        // $user_email = $user['email'];
+                        // $my_order = $connect->query("select * from orders where email='$user_email'");
+                        // while($myOrder = $my_order->fetch_assoc()) :
                     ?>
-                    <div><h1><?= $myOrder['order_from'];?></h1></div>
-                    <?php endwhile;?>
+                    <!-- <div><h1><?= $myOrder['order_from'];?></h1></div> -->
+                    <?php 
+                // endwhile;?>
                     <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
                     <a href="index.php" class="bg-[#3D8D7A] rounded text-sm px-2 py-1 text-white font-semibold">Make
                         Your 1st Order Now</a>
