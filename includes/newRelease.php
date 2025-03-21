@@ -89,7 +89,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                             <div class="flex justify-center    ">
-                                <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
+                                <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
                                     class="w-40  h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
                             </div>
 
