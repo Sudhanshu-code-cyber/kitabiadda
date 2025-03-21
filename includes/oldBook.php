@@ -75,7 +75,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old'");
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                             <div class="flex justify-center hover:scale-105 transition">
-                                <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
+                                <img src="assets/sell_images/<?= $book['img1']; ?>" alt="Book Cover"
                                     class="w-40 h-56 object-cover shadow-md rounded-md">
                             </div>
 

@@ -43,13 +43,10 @@ if (!isset($_SESSION['user'])) {
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
             <div class="row g-4">
-                <div class="col-md-4">
-                    <label class="form-label h6">Subject</label>
-                    <input type="text" name="Subject" class="form-control" placeholder="Enter book name" required>
-                </div>
+
                 <div class="col-md-4">
                     <label class="form-label h6">Book Name</label>
-                    <input type="text" name="book_name" class="form-control" placeholder="Enter author name" required>
+                    <input type="text" name="book_name" class="form-control" placeholder="Enter Book name" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label h6">Author</label>
@@ -126,23 +123,15 @@ if (!isset($_SESSION['user'])) {
                         <option value="Acceptable">Acceptable</option>
                     </select>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <label class="form-label h6">Version</label>
                     <select name="version" class="form-select">
                         <option value="">select version of book</option>
                         <option value="old">Old</option>
                     </select>
                 </div>
-                <div class="col-4">
-                    <label class="form-label h6">Contact Number</label>
-                    <input type="number" name="contact" class="form-control" placeholder="Enter Your Mo.Number"
-                        required>
-                </div>
-                <div class="col-6">
-                    <label class="form-label h6">Seller Name</label>
-                    <input type="text" name="firstname" class="form-control" placeholder="Enter Your full Name"
-                        required>
-                </div>
+               
+              
                 <div class="col-6">
                     <label class="form-label h6">Location
                         <i class="bi bi-geo-alt-fill"></i>
@@ -334,13 +323,13 @@ if (!isset($_SESSION['user'])) {
 
         // Upload images
         if ($img1 && $tmp_image1)
-            move_uploaded_file($tmp_image1, "../assets/sell_images/$img1");
+            move_uploaded_file($tmp_image1, "../images/$img1");
         if ($img2 && $tmp_image2)
-            move_uploaded_file($tmp_image2, "../assets/sell_images/$img2");
+            move_uploaded_file($tmp_image2, "../images/$img2");
         if ($img3 && $tmp_image3)
-            move_uploaded_file($tmp_image3, "../assets/sell_images/$img3");
+            move_uploaded_file($tmp_image3, "../images/$img3");
         if ($img4 && $tmp_image4)
-            move_uploaded_file($tmp_image4, "../assets/sell_images/$img4"); 
+            move_uploaded_file($tmp_image4, "../images/$img4"); 
 
 
 
