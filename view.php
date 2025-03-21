@@ -1,5 +1,6 @@
 <?php
 include_once "config/connect.php";
+$user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
@@ -27,12 +28,13 @@ $book = $query->fetch_array();
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 <style>
-    .no-scrollbar::-webkit-scrollbar{
-        display:none;
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
     }
-    .no-scrollbar{
+
+    .no-scrollbar {
         -ms-overflow-style: none;
-        scrollbar-width:none;
+        scrollbar-width: none;
     }
 </style>
 
@@ -42,27 +44,27 @@ $book = $query->fetch_array();
     <div class="flex p-10 bg-white mt-30">
         <div class="flex gap-20 items-center w-5/12 border-gray-300 border-r-2 space-x-4 p-6">
             <div class="flex flex-col space-y-2">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img1']; ?>')">
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>')">
 
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images/' . $book['img2']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img2'] : 'assets/images/' . $book['img2']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img2'] : 'assets/images' . $book['img2']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images/' . $book['img3']; ?>"
+                   onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img2'] : 'assets/images/' . $book['img2']; ?>')">
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img3'] : 'assets/images/' . $book['img3']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img3'] : 'assets/images' . $book['img3']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images/' . $book['img4']; ?>"
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img3'] : 'assets/images/' . $book['img3']; ?>')">
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img4'] : 'assets/images/' . $book['img4']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img4'] : 'assets/images' . $book['img4']; ?>')">
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img4'] : 'assets/images/' . $book['img4']; ?>')">
             </div>
 
             <div class="w-64 rounded-lg overflow-hidden shadow-lg">
-                <img id="mainBookImage" src="images/<?= $book['img1']; ?>" alt="Book Image"
+                <img id="mainBookImage" src="assets/images/<?= $book['img1']; ?>" alt="Book Image"
                     class="w-full h-full object-cover">
             </div>
         </div>
@@ -168,10 +170,12 @@ $book = $query->fetch_array();
                 if ($book['version'] == "new"):
                     ?>
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="cart.php?add_book=<?= $book['id'] ?>" class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
+                        <a href="cart.php?add_book=<?= $book['id'] ?>"
+                            class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
                             Cart</a>
-                        <a href="item_checkout.php?buy_book=<?= $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
-                        
+                        <a href="item_checkout.php?buy_book=<?= $book['id'] ?>"
+                            class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
+
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
                         <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
@@ -312,7 +316,7 @@ $book = $query->fetch_array();
             </div>
         </div>
     </section>
-    <?php include_once "includes/footer2.php"?>
+    <?php include_once "includes/footer2.php" ?>
 
 
     <script>
