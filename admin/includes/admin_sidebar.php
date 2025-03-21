@@ -36,13 +36,13 @@
             <a class="nav-link" href="http://localhost/readrainbow/admin/orders/recent_order.php">Recent Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pending Order</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/pending_order.php">Pending Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Cancelled Order</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/cancle_product.php">Cancelled Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Order Placed</a>
+            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/delevered_order.php">Order Placed</a>
           </li>
         </ul>
       </div>

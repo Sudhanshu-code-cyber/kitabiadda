@@ -3,6 +3,11 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $email = $_SESSION['user'];
+
+$total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email' AND direct_buy=0"));
+if ($total_cart_item == 0) {
+    echo "<script>window.location.href='cart.php';</script>";
+}
 ?>
 
 
@@ -99,12 +104,13 @@ $email = $_SESSION['user'];
 
 
                             <?php } else { ?>
-                                <h1>not address found , please add address <a href="add_address.php"
+                                <h1>not address found , please add address
+                                    <!-- <a href="add_address.php"
                                         class="inline-block px-4  bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">+
-                                        Add Address</a></h1>
+                                        Add Address</a></h1> -->
 
 
-                            <?php } ?>
+                                <?php } ?>
 
 
                         </label>
@@ -123,7 +129,13 @@ $email = $_SESSION['user'];
                 <div class="w-full bg-gray-100  shadow-sm rounded-sm">
                     <button id="addAddressBtn" class="text-blue-500 flex items-center p-6">
                         <span class="text-xl font-bold"></span>
-                        <span class="ml-2">Edit address</span>
+                        <span class="ml-2"><?php
+                        if ($noAdd == 1) {
+                            echo "Edit address";
+                        } else {
+                            echo "Add Address";
+                        }
+                        ?></span>
                     </button>
 
                     <div id="addressForm" class="hidden bg-white p-6 mt-4 rounded-lg shadow-md">
@@ -133,20 +145,39 @@ $email = $_SESSION['user'];
 
                         <form action="" method="POST" class="mt-4">
                             <div class="grid grid-cols-2 gap-4">
-                                <input type="text" id="name" name="name" placeholder="Name" class="border p-2 rounded">
+                                <input type="text" id="name" name="name" placeholder="Name" class="border p-2 rounded"
+                                    value="<?php if ($noAdd == 1 && $address['name'] != '') {
+                                        echo $address['name'];
+                                    } ?>">
                                 <input type="text" id="mobile" name="mobile" placeholder="10-digit mobile number"
-                                    class="border p-2 rounded">
+                                    class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['mobile'] != '') {
+                                        echo $address['mobile'];
+                                    } ?>">
                                 <input type="text" id="pincode" name="pincode" placeholder="Pincode"
-                                    class="border p-2 rounded">
-                                <input type="text" id="locality" name="locality" placeholder="Locality"
-                                    class="border p-2 rounded">
+                                    class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['pincode'] != '') {
+                                        echo $address['pincode'];
+                                    } ?>">
+                                <input type="text" id="locality" name="locality" placeholder="locality"
+                                    class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['locality'] != '') {
+                                        echo $address['locality'];
+                                    } ?>">
                                 <textarea id="address" name="address" placeholder="Address (Area and Street)"
-                                    class="border p-2 rounded col-span-2"></textarea>
+                                    class="border p-2 rounded col-span-2">
+                                    <?php if ($noAdd == 1 && $address['address'] != '') {
+                                        echo $address['address'];
+                                    } ?>
+                                </textarea>
                                 <input type="text" id="city" name="city" placeholder="City/District/Town"
-                                    class="border p-2 rounded">
+                                    class="border p-2 rounded" value="<?php if ($noAdd == 1) {
+                                        echo $address['city'];
+                                    } ?>">
                                 <!-- <label for="state">State</label> -->
                                 <select id="state" name="state" class="border p-2 rounded">
-                                    <option value="">Select State</option>
+                                    <option value="<?php if ($noAdd == 1 && $address['state'] != '') {
+                                        echo $address['state'];
+                                    } ?>"><?php if ($noAdd == 1 && $address['state'] != '') {
+                                         echo $address['state'];
+                                     } ?></option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                     <option value="Assam">Assam</option>
@@ -189,7 +220,9 @@ $email = $_SESSION['user'];
 
 
                                 <input type="text" id="landmark" name="landmark" placeholder="Landmark (Optional)"
-                                    class="border p-2 rounded">
+                                    class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['landmark'] != '') {
+                                        echo $address['landmark'];
+                                    } ?>">
                                 <input type="text" id="alternatePhone" name="alternate_phone"
                                     placeholder="Alternate Phone (Optional)" class="border p-2 rounded">
                             </div>
@@ -213,27 +246,55 @@ $email = $_SESSION['user'];
                     </div>
                 </div>
                 <?php
-                if (isset($_POST['add_submit'])) {
-                    $name = $_POST['name'];
-                    $mobile = $_POST['mobile'];
-                    $pincode = $_POST['pincode'];
-                    $locality = $_POST['locality'];
-                    $address = $_POST['address'];
-                    $city = $_POST['city'];
-                    $state = $_POST['state'];
-                    $alternate_phone = $_POST['alternate_phone'];
-                    $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
-                    $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
-                    $update_add = mysqli_query($connect, "UPDATE user_address SET email='$email',name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', home_work='$home_work',alternate_phone='$alternate_phone' where email='$email' ");
+                if ($noAdd == 1) { ?>
+                    <?php
+                    if (isset($_POST['add_submit'])) {
+                        $name = $_POST['name'];
+                        $mobile = $_POST['mobile'];
+                        $pincode = $_POST['pincode'];
+                        $locality = $_POST['locality'];
+                        $address = $_POST['address'];
+                        $city = $_POST['city'];
+                        $state = $_POST['state'];
+                        $alternate_phone = $_POST['alternate_phone'];
+                        $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
+                        $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
+                        $update_add = mysqli_query($connect, "UPDATE user_address SET email='$email',name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', home_work='$home_work',alternate_phone='$alternate_phone' where email='$email' ");
 
-                    if ($update_add) {
-                        echo "✅ Address added successfully!";
-                    } else {
-                        echo "❌ Error: " . mysqli_error($connect);
+                        if ($update_add) {
+                            echo "<script>window.location.href='cart_checkout.php';</script>";
+                        } else {
+                            echo "❌ Error: " . mysqli_error($connect);
+                        }
                     }
-                }
 
-                ?>
+                    ?>
+                <?php } else { ?>
+                    <?php
+                    if (isset($_POST['add_submit'])) {
+                        $name = $_POST['name'];
+                        $mobile = $_POST['mobile'];
+                        $pincode = $_POST['pincode'];
+                        $locality = $_POST['locality'];
+                        $address = $_POST['address'];
+                        $city = $_POST['city'];
+                        $state = $_POST['state'];
+                        $alternate_phone = $_POST['alternate_phone'];
+                        $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
+                        $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
+                
+                        $insert_add = mysqli_query($connect, "INSERT INTO user_address (email, name, mobile, pincode, locality, address, city, state, landmark, home_work, alternate_phone) VALUES ('$email', '$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$home_work', '$alternate_phone')");
+
+                        if ($insert_add) {
+                            echo "<script>window.location.href='cart_checkout.php';</script>";
+                        } else {
+                            echo "❌ Error: " . mysqli_error($connect);
+                        }
+                    }
+                    ?>
+
+                <?php } ?>
+
 
                 <script>
                     document.getElementById("addAddressBtn").addEventListener("click", function () {
@@ -489,7 +550,30 @@ if (isset($_GET['minus_book'])) {
 
 
 <!-- submit all orders item , address, and more  -->
+<?php
+// if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+//     $email = $_SESSION['user'];
 
+//     $insertOrderItems = "INSERT INTO orders_items (orders_id, email, item_id, book_name, qty, sell_price, img1) 
+// SELECT orders.id, cart.email, cart.item_id, books.book_name, cart.qty, books.sell_price, books.img1 
+// FROM cart 
+// JOIN books ON cart.item_id = books.id 
+// WHERE cart.email='$email' AND cart.direct_buy=0";
+
+//     if (mysqli_query($connect, $insertOrderItems)) {
+//         echo "✅ Items successfully moved to Orders!";
+
+//         // अब cart से order हुए items को delete कर दें
+//         $deleteCartItems = "DELETE FROM cart WHERE email='$email' AND direct_buy=0";
+//         mysqli_query($connect, $deleteCartItems);
+//     } else {
+//         echo "❌ Error: " . mysqli_error($connect);
+//     }
+
+
+// }
+
+?>
 <?php
 if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
     $payment_type = $_POST['payment'];
@@ -519,12 +603,23 @@ if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
 
 ?>
 <?php
+$query = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
+$result = mysqli_query($connect, $query);
+$lastRow = mysqli_fetch_assoc($result);
+
+// $cart_query = "SELECT * FROM cart where direct_buy=0";
+// $cart_result = mysqli_query($connect, $query);
+?>
+<?php
 if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
     $email = $_SESSION['user'];
+    $orders_id = $lastRow['id'];
+    $no_of_cart = mysqli_num_rows( mysqli_query($connect, "SELECT * FROM cart where email='$email' AND direct_buy=0 "));
 
-    $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email'");
 
-    
+    $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' where email='$email' AND direct_buy=0");
+
+
 }
 
 ?>

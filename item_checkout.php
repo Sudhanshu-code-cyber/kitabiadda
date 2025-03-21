@@ -594,10 +594,28 @@ if (isset($_POST['order_submit'])) {
 
 ?>
 <?php
-if (isset($_POST['order_submit'])) {
-    $email = $_SESSION['user'];
+// if (isset($_POST['order_submit'])) {
+//     $email = $_SESSION['user'];
 
-    $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email' AND direct_buy=1 ");
+//     $insertOrder = mysqli_query($connect, "DELETE FROM cart WHERE email='$email' AND direct_buy=1 ");
+// }
+?>
+<?php
+$query = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
+$result = mysqli_query($connect, $query);
+$lastRow = mysqli_fetch_assoc($result);
+
+$cart_query = "SELECT * FROM cart where direct_buy=1";
+$cart_result = mysqli_query($connect, $query);
+
+if (isset($_POST['order_submit']) && $_POST['payment'] == 'cod') {
+    $email = $_SESSION['user'];
+    $orders_id = $lastRow['id'];
+    $book_id = $cartItem['id'];
+    // $no_of_cart = mysqli_num_rows( mysqli_query($connect, "SELECT * FROM cart where direct_buy=1"));
+
+
+    $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' WHERE item_id='$book_id' AND direct_buy=1");
 
 
 }

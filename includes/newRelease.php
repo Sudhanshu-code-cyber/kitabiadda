@@ -60,7 +60,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                     
                     
                     ?>
-                    <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                    <div class="bg-white p-4 rounded-lg  transition shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                         <!-- Discount Badge (60% Off) -->
                          
 
@@ -69,12 +69,13 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                            <?=round($percentage);?>% OFF
                         </div>
 
-                        <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
-                        <form method="POST" 
+                     <div class=" px-3 ">
+                           <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
+                           <form method="POST" 
                             action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
                             class="absolute top-3 right-3" onclick="event.stopPropagation();">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                            <button type="submit" name="toggle_wishlist">
+                            <button type="submit" class="cursor-pointer" name="toggle_wishlist">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
                                     class="size-6 hover:scale-110 transition">
@@ -83,12 +84,13 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                                 </svg>
                             </button>
                         </form>
+                     </div>
 
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
-                            <div class="flex justify-center hover:scale-105 transition">
+                            <div class="flex justify-center    ">
                                 <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
-                                    class="w-40 h-56 object-cover shadow-md rounded-md">
+                                    class="w-40  h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
                             </div>
 
                             <!-- Book Info -->

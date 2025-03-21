@@ -55,20 +55,24 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
             <div class="p-4 bg-[#B3D8A8] border-b border-gray-300">
                 <h2 class="text-xl font-bold">INBOX</h2>
             </div>
-            <div class="p-4 space-y-3">
-                <?php foreach ($chatList as $chat): ?>
-                    <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
-                        <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
-                            <img src="images/<?= $sellerdata['img1'];?>" class="h-14 w-14 rounded border" />
-                            <div>
-                                <h2 class="text-md font-semibold"><?= $chat["name"]; ?></h2>
-                                <p class="text-sm text-gray-600"><?= $chat["book_name"]; ?></p>
-                                <span class="text-xs text-gray-500">Click to chat</span>
-                            </div>
+            <?php foreach ($chatList as $chat):
+                // Get image from books table for this chat's book
+                $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
+                $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
+                $bookImg = $bookImgRow['img1'] ?? "defaultBook.png"; // fallback image
+            ?>
+                <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
+                    <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
+                        <img src="assets/images/<?= $bookImg; ?>" class="h-14 w-14 rounded border" />
+                        <div>
+                            <h2 class="text-md font-semibold"><?= htmlspecialchars($chat["name"]); ?></h2>
+                            <p class="text-sm text-gray-600"><?= htmlspecialchars($chat["book_name"]); ?></p>
+                            <span class="text-xs text-gray-500">Click to chat</span>
                         </div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+
         </div>
 
         <!-- RIGHT: Chat Window -->
@@ -76,17 +80,55 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
             <div class="w-8/12 bg-white flex flex-col h-[600px] overflow-hidden" id="chatBox">
                 <!-- Header -->
                 <div class="flex items-center justify-between p-6 border-b">
-                 
-                        <div class="flex">
-                            <img src="assets/images/<?= $sellerdata['img1'];?>" class="h-14 w-14 border rounded-full">
-                            <h2 class="text-lg m-4 font-semibold"><?= $sellerdata['fullname']; ?></h2>
+                    <div class="flex items-center">
+                        <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-14 w-14 border rounded-full">
+                        <h2 class="text-lg m-4 font-semibold"><?= htmlspecialchars($chat['name']); ?></h2>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <!-- Call Button Trigger -->
+                        <!-- Trigger Button (Outside Modal) -->
+                        <button data-modal-target="callModal" data-modal-toggle="callModal"
+                            class="text-white  hover:bg-green-600 text-sm border border-green-400 px-3 py-1 rounded">
+                            📞
+                        </button>
+
+                        <!-- Flowbite Modal for Calling Seller -->
+                        <div id="callModal" tabindex="-1" aria-hidden="true"
+                            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-screen bg-black/50 backdrop-blur-sm">
+                            <div class="relative w-full max-w-md max-h-full m-auto mt-24">
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Close button -->
+                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                        data-modal-hide="callModal">
+                                        ✖
+                                    </button>
+
+                                    <!-- Modal content -->
+                                    <div class="p-6 text-center">
+                                        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Contact Seller</h3>
+
+                                        <p class="text-gray-600 dark:text-gray-300">Seller Name:</p>
+                                        <h2 class="text-xl font-bold text-green-700 mb-2"><?= htmlspecialchars($chat['name']); ?></h2>
+
+                                        <p class="text-gray-600 dark:text-gray-300">Phone Number:</p>
+                                        <h2 class="text-xl font-bold text-blue-700 mb-4"><?= htmlspecialchars($chat[' '] ?? 'Not Available'); ?></h2>
+
+                                        <a href="tel:<?= $chat['contact'] ?? '' ?>"
+                                            class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg">
+                                            📞 Call Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <a href="chatboard.php" class="ml-auto  text-red-500 hover:text-red-700 text-sm border border-red-400 px-2 py-1 rounded">
-                                ✖ 
-                            </a>
-                        </div>
-                  
+
+
+                        <!-- Close Chat -->
+                        <a href="chatboard.php"
+                            class="text-red-500 hover:text-red-700 text-sm border border-red-400 px-3 py-1 rounded">
+                            ✖
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Book Info -->
