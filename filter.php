@@ -55,6 +55,12 @@ if (!empty($_GET['language'])) {
 }
 
 $booksQuery = $connect->query($sql);
+
+// search work
+if(isset($_GET['search'])){
+    $search_book = $_GET['search_book'];
+    $callingBook = $connect->query("select * from books where isbn='$search_book'");
+}
 ?>
 
 <!DOCTYPE html>
@@ -117,10 +123,15 @@ $booksQuery = $connect->query($sql);
         </div>
 
         <div class="flex-1">
-            <?php 
-            if($_GET['']);
-            
-            if ($booksQuery->num_rows > 0): ?>
+            <?php
+    if (isset($_GET['search'])){
+        $search = $_GET['search'];
+      $query = $connect->query("select * from books where book_name LIKE '%$search%' OR book_author LIKE '%$search%' OR book_category LIKE '%$search%'");
+    }
+
+
+
+    if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
@@ -186,6 +197,7 @@ $booksQuery = $connect->query($sql);
             <?php endif; ?>
         </div>
     </div>
+    <?php include_once "includes/footer2.php";?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
