@@ -8,7 +8,7 @@ if (isset($_SESSION['user'])) {
     <form action="filter.php" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
             class="p-2 bg-white rounded-l w-[35rem] text-black ">
-        <button type="submit" class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
+        <button type="submit" name="search" class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
     </form>
     <a href="wishlist.php">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
