@@ -75,7 +75,7 @@
                                 </thead>
                                 <tbody>
 
-                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders WHERE status IN (0, 2, 3, 4, 5)");
+                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders WHERE status IN (0, 2, 3, 4, 5)  ORDER BY id DESC");
                                     while ($orders = mysqli_fetch_array($total_orders)) { ?>
                                         <?php
                                         $email = $orders['email'];

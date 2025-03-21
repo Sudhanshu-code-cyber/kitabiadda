@@ -62,7 +62,7 @@
             <?php
             if (isset($_GET['order_id'])) {
                 $order_id = $_GET['order_id'];
-                $call_order_detail = mysqli_query($connect, "SELECT * FROM orders where id='$order_id'");
+                $call_order_detail = mysqli_query($connect, "SELECT * FROM orders where id='$order_id' ");
                 $order_detail = mysqli_fetch_assoc($call_order_detail);
                 $email = $order_detail['email'];
 
@@ -109,7 +109,7 @@
                     ?>
                     <div class="d-flex align-items-center product-info gap-3">
                         <a href="../../view.php?book_id=<?= $book_detail['id'] ?>"><img
-                                src="../../images/<?= $book_detail['img1'] ?>" alt="Product" class="product-img"></a>
+                                src="../../assets/images/<?= $book_detail['img1'] ?>" alt="Product" class="product-img"></a>
                         <div class="product-details">
                             <h6 class="fw-bold"><?= $book_detail['book_name'] ?></h6>
                             <p class="text-muted mb-1">Author: <?= $book_detail['book_author'] ?></p>
@@ -122,6 +122,67 @@
                     </div>
                     <hr>
 
+
+                <?php } ?>
+                <?php if ($order_detail['status'] == 0) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-primary rounded-1" name="shipped">Proceed TO : SHIPPED</button>
+                    </form>
+                    <?php
+                    if (isset($_POST['shipped'])) {
+                        $update_status = mysqli_query($connect, "UPDATE orders SET status=2 where id='$order_id'");
+                        if ($update_status) {
+                            echo "<script>location.reload();</script>";
+                        }
+                    }
+                    ?>
+                <?php } elseif ($order_detail['status'] == 1) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-primary rounded-1">Success</button>
+                    </form>
+                    
+                <?php } elseif ($order_detail['status'] == 2) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-primary rounded-1" name="transit">Proceed To : In TRANSIT</butt>
+                    </form>
+                    <?php
+                    if (isset($_POST['transit'])) {
+                        $update_status = mysqli_query($connect, "UPDATE orders SET status=3 where id='$order_id'");
+                        if ($update_status) {
+                            echo "<script>location.reload();</script>";
+                        }
+                    }
+                    ?>
+                <?php } elseif ($order_detail['status'] == 3) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-primary rounded-1" name="out_delevery">Proceed To : OUT FOR DELEVERY</button>
+                    </form>
+                    <?php
+                    if (isset($_POST['out_delevery'])) {
+                        $update_status = mysqli_query($connect, "UPDATE orders SET status=4 where id='$order_id'");
+                        if ($update_status) {
+                            echo "<script>location.reload();</script>";
+                        }
+                    }
+                    ?>
+                <?php } elseif ($order_detail['status'] == 4) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-primary rounded-1" name="order_success">Proceed To : DELEVERY SUCCESSFULLY DISPLACE</button>
+                    </form>
+                    <?php
+                    if (isset($_POST['order_success'])) {
+                        $update_status = mysqli_query($connect, "UPDATE orders SET status=1 where id='$order_id'");
+                        if ($update_status) {
+                            echo "<script>location.reload();</script>";
+                        }
+                    }
+                    ?>
+                <?php } elseif ($order_detail['status'] == 5) { ?>
+                    <form action="" method="post">
+                        <button class="btn btn-danger rounded-1">canclelled</button>
+                    </form>
+                    
+                <?php } else { ?>
 
                 <?php } ?>
 
