@@ -50,13 +50,7 @@
                                 <input type="text" class="form-control" placeholder="Search...">
                             </div>
                             <div class="col-md-4">
-                                <!-- <select class="form-select">
-                                    <option>Status</option>
-                                    <option>In Progress</option>
-                                    <option>Complete</option>
-                                    <option>Pending</option>
-                                    <option>Delivered</option>
-                                </select> -->
+                            
                             </div>
                             <div class="col-md-2 text-end">
                                 <button class="btn btn-outline-secondary">Export</button>
@@ -81,7 +75,7 @@
                                 </thead>
                                 <tbody>
 
-                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders  ");
+                                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders WHERE status IN (0, 2, 3, 4, 5)");
                                     while ($orders = mysqli_fetch_array($total_orders)) { ?>
                                         <?php
                                         $email = $orders['email'];
