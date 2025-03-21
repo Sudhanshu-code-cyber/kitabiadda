@@ -97,8 +97,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
 
-  <button class="sidebar-toggler d-lg-none" id="sidebar-toggler">
-      <i class="bi bi-layout-sidebar-inset"></i>
+  <button class="sidebar-toggler d-lg-none bg-dark"  id="sidebar-toggler">
+  <i class="bi bi-layout-text-sidebar bg-dark"></i>
     </button>
 
     <a class="navbar-brand " href="http://localhost/readrainbow/admin/index.php">Admin Panel</a>
