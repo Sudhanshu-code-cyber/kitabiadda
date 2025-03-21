@@ -42,23 +42,23 @@ $book = $query->fetch_array();
     <div class="flex p-10 bg-white mt-30">
         <div class="flex gap-20 items-center w-5/12 border-gray-300 border-r-2 space-x-4 p-6">
             <div class="flex flex-col space-y-2">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img1']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                     onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img1']; ?>')">
 
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img2']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img2']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                     onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img2'] : 'assets/images' . $book['img2']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img3']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img3']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                     onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img3'] : 'assets/images' . $book['img3']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'images/' . $book['img1'] : 'assets/images' . $book['img4']; ?>"
+                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img4']; ?>"
                     alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'images/' . $book['img4'] : 'assets/images' . $book['img4']; ?>')">
+                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img4'] : 'assets/images' . $book['img4']; ?>')">
             </div>
 
             <div class="w-64 rounded-lg overflow-hidden shadow-lg">
