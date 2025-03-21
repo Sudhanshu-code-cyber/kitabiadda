@@ -1,24 +1,42 @@
 <?php
 include_once "config/connect.php";
 
+// Get user if logged in
 $user = null;
 if (isset($_SESSION['user'])) {
-    $user = getUser();
+    $user = getUser(); // Make sure getUser() fetches user data from DB
 }
 $userId = $user ? $user['user_id'] : null;
-$booksQuery = $connect->query("SELECT * FROM books ");
 
+// Wishlist Toggle Logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) {
+    if ($userId) {
+        $bookId = $_POST['wishlist_id1'];
+        $check = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+        if ($check->num_rows > 0) {
+            $connect->query("DELETE FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+        } else {
+            $connect->query("INSERT INTO wishlist (user_id, book_id) VALUES ('$userId', '$bookId')");
+        }
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
+    } else {
+        header("Location: login.php");
+        exit();
+    }
+}
 
-// Base query
-$sql = "SELECT * FROM books JOIN category ON books.book_category = category.cat_title WHERE 1";
+// Book Query
+$sql = "SELECT books.*, books.id AS book_id, category.cat_title 
+        FROM books 
+        JOIN category ON books.book_category = category.cat_title 
+        WHERE 1";
 
-// Apply category filter
 if (!empty($_GET['filter'])) {
-    $cat_title = $_GET['filter'];
+    $cat_title = mysqli_real_escape_string($connect, $_GET['filter']);
     $sql .= " AND book_category = '$cat_title'";
 }
 
-// Apply price filters
 if (!empty($_GET['price'])) {
     $priceConditions = [];
     foreach ($_GET['price'] as $range) {
@@ -26,15 +44,12 @@ if (!empty($_GET['price'])) {
             $priceConditions[] = "(sell_price > 3000)";
         } else {
             [$min, $max] = explode('-', $range);
-            $min = (int)$min;
-            $max = (int)$max;
-            $priceConditions[] = "(sell_price BETWEEN $min AND $max)";
+            $priceConditions[] = "(sell_price BETWEEN " . (int)$min . " AND " . (int)$max . ")";
         }
     }
     $sql .= " AND (" . implode(" OR ", $priceConditions) . ")";
 }
 
-// Apply language filters
 if (!empty($_GET['language'])) {
     $langs = array_map(function ($lang) use ($connect) {
         return "'" . mysqli_real_escape_string($connect, $lang) . "'";
@@ -52,27 +67,17 @@ $booksQuery = $connect->query($sql);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Used Books</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-[#FBFFE4] font-sans">
+<body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <!-- ✅ Filter Info -->
-    <?php if (!empty($_GET['filter'])): ?>
-        <div class="px-6 mt-2">
-            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-medium">
-                Showing results for: <span class="font-bold"><?= $_GET['filter']; ?></span>
-                <a href="filter.php" class="ml-4 text-sm text-red-500 hover:underline">Clear Filter</a>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <div class="flex mt-24 flex-col lg:flex-row gap-6 p-4">
-        <!-- Sidebar Filters -->
-        <div class="w-[70vh] max-w-md">
+    <div class="flex mt-30 flex-col lg:flex-row gap-6 p-4">
+        <!-- Filters Sidebar -->
+        <div class="w-[50vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
                 <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
@@ -107,7 +112,7 @@ $booksQuery = $connect->query($sql);
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Preserve category if set -->
+                <!-- Preserve category filter -->
                 <?php if (isset($_GET['filter'])): ?>
                     <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
                 <?php endif; ?>
@@ -118,24 +123,21 @@ $booksQuery = $connect->query($sql);
             </form>
         </div>
 
-        <!-- Book Grid or Empty Message -->
+        <!-- Books Grid -->
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <?php while ($book = $booksQuery->fetch_assoc()):
-                        $bookId = $book['id'];
+                        $bookId = $book['book_id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
                     ?>
                         <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
-
-                            <!-- ✅ Discount Badge -->
                             <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">60% OFF</div>
 
-                            <!-- ✅ Wishlist Button OUTSIDE of <a> -->
-                            <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" class="absolute top-3 right-3" onclick="event.stopPropagation();">
-                                <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                                <button type="submit" name="toggle_wishlist">
+                            <form method="POST" action="" class="absolute top-3 right-3" onclick="event.stopPropagation();">
+                                <input type="hidden" name="wishlist_id1" value="<?= $bookId; ?>">
+                                <button type="submit" name="toggle_wishlist1">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
                                         class="size-6 hover:scale-110 transition">
@@ -145,8 +147,7 @@ $booksQuery = $connect->query($sql);
                                 </button>
                             </form>
 
-                            <!-- ✅ Entire book card is now clickable -->
-                            <a href="view.php?book_id=<?= $book['id']; ?>" class="block h-full">
+                            <a href="view.php?book_id=<?= $bookId; ?>" class="block h-full">
                                 <div class="flex justify-center hover:scale-105 transition">
                                     <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
                                 </div>
@@ -177,10 +178,8 @@ $booksQuery = $connect->query($sql);
                             </a>
                         </div>
                     <?php endwhile; ?>
-
                 </main>
             <?php else: ?>
-                <!-- ❌ No Books Found Message -->
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-red-500 mb-4">😕 Oops! No books found for the selected filters.</h2>
