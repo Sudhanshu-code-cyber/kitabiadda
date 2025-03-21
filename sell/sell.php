@@ -323,13 +323,13 @@ if (!isset($_SESSION['user'])) {
 
         // Upload images
         if ($img1 && $tmp_image1)
-            move_uploaded_file($tmp_image1, "../images/$img1");
+            move_uploaded_file($tmp_image1, "../assets/images/$img1");
         if ($img2 && $tmp_image2)
-            move_uploaded_file($tmp_image2, "../images/$img2");
+            move_uploaded_file($tmp_image2, "../assets/images/$img2");
         if ($img3 && $tmp_image3)
-            move_uploaded_file($tmp_image3, "../images/$img3");
+            move_uploaded_file($tmp_image3, "../assets/images/$img3");
         if ($img4 && $tmp_image4)
-            move_uploaded_file($tmp_image4, "../images/$img4"); 
+            move_uploaded_file($tmp_image4, "../assets/images/$img4"); 
 
 
 
