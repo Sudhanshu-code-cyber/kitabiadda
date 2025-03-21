@@ -80,20 +80,36 @@
                     Main Street, New Delhi, India
                 </p>
                 <p><strong>Total Amount : </strong> <strong>₹<?= $order_detail['total_amount'] ?></strong></p>
-                <p><strong>Order Status:</strong> <span class="badge bg-info"> Shipped </span></p>
+                <p><strong>Order Status:</strong> <?php if ($order_detail['status'] == 0) { ?>
+                        <span class="badge bg-primary">order placed</span>
+                    <?php } elseif ($order_detail['status'] == 1) { ?>
+                        <span class="badge bg-success">Success</span>
+                    <?php } elseif ($order_detail['status'] == 2) { ?>
+                        <span class="badge bg-secondary">Order shipped</span>
+                    <?php } elseif ($order_detail['status'] == 3) { ?>
+                        <span class="badge bg-danger">In Transit</span>
+                    <?php } elseif ($order_detail['status'] == 4) { ?>
+                        <span class="badge bg-success">out delevery</span>
+                    <?php } elseif ($order_detail['status'] == 5) { ?>
+                        <span class="badge bg-success">canclelled</span>
+                    <?php } else { ?>
+
+                    <?php } ?>
+                </p>
                 <hr>
                 <h5>Product Details:</h5>
                 <?php
                 $call_book_detail = mysqli_query($connect, "SELECT * FROM cart where orders_id='$order_id'");
                 while ($book_id = mysqli_fetch_array($call_book_detail)) { ?>
                     <?php
-                        $item_id = $book_id['item_id'];
-                        $call_books_detail = mysqli_query($connect,"SELECT * FROM books where id='$item_id'");
-                        $book_detail = mysqli_fetch_assoc($call_books_detail);
+                    $item_id = $book_id['item_id'];
+                    $call_books_detail = mysqli_query($connect, "SELECT * FROM books where id='$item_id'");
+                    $book_detail = mysqli_fetch_assoc($call_books_detail);
 
                     ?>
                     <div class="d-flex align-items-center product-info gap-3">
-                        <a href="../../view.php?book_id=<?= $book_detail['id'] ?>"><img src="../../images/<?= $book_detail['img1'] ?>" alt="Product" class="product-img"></a>
+                        <a href="../../view.php?book_id=<?= $book_detail['id'] ?>"><img
+                                src="../../images/<?= $book_detail['img1'] ?>" alt="Product" class="product-img"></a>
                         <div class="product-details">
                             <h6 class="fw-bold"><?= $book_detail['book_name'] ?></h6>
                             <p class="text-muted mb-1">Author: <?= $book_detail['book_author'] ?></p>

@@ -1,4 +1,14 @@
-<?php include_once '../config/connect.php'; ?>
+<?php include_once '../config/connect.php'; 
+// $_SESSION['admin'] = $email;
+if (isset($_SESSION['admin'])) {
+    // $user = getUser();
+    redirect("../login.php");
+};
+// if($_SESSION['admin']){
+//     // $_SESSION['admin'] = $email;
+//     redirect("../login.php");
+// }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
