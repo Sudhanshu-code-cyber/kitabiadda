@@ -19,7 +19,7 @@ $book = $booksQuery->fetch_assoc();
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">New Book</h2>
-            <a href="booksets1.php?newbook=<?=$book['version'];?>" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <a href="booksets1.php?bookType=<?=$book['version'];?>" class="text-orange-500 font-semibold hover:underline">View All</a>
         </div>
 
         <!-- Carousel Container -->
