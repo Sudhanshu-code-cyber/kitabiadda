@@ -45,44 +45,15 @@
             <div class="overflow-x-auto whitespace-nowrap no-scrollbar max-w-full" id="categoryScroll">
                 <div class="flex space-x-4">
                     <?php
-                    $callingused = $connect->query("SELECT * FROM books WHERE version = 'old'");
-
-                    if ($callingused && $used = $callingused->fetch_array()) {
+                    $names = ['49 store', '99 store', '149 store', 'Pre Booking', 'Text Book','English Book', 'Harry Potter Store', 'Childreen', 'Manga Store', 'Hindi Book'];
+                    foreach ($names as $name):
                     ?>
-                        <a href="filter.php?filter=<?= htmlspecialchars($used['version']); ?>"
+                        <a href="filter2.php?name=<?=$name;?>"
                             class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">
-                            Used Book
+                            <?= $name; ?>
                         </a>
-                    <?php
-                    }
-                    ?>
- 
-                    <a href="filter.php?filter=49 Store"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">49 Store</a>
-
-                    <a href="filter.php?filter=99 Store"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">99 Store</a>
-
-                    <a href="filter.php?filter=149"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">149</a>
-
-                    <a href="filter.php?filter=Pre Booking"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Pre Booking</a>
-
-                    <a href="filter.php?filter=Childreen"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Childreen</a>
-
-                    <a href="filter.php?filter=Text Book"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Text Book</a>
-
-                    <a href="filter.php?filter=Harry Potter Store"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Harry Potter Store</a>
-
-                    <a href="filter.php?filter=Manga Store"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Manga Store</a>
-
-                    <a href="filter.php?filter=Hindi Book"
-                        class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">Hindi Book</a>
+                    <?php endforeach; ?>
+                        
                 </div>
             </div>
         </div>
