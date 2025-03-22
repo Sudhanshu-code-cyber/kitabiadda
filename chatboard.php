@@ -7,21 +7,21 @@ if (isset($_SESSION['user'])) {
     echo "User not logged in.";
     exit;
 }
-
-// Get book_id if provided
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
+$sellerInfo = null;
 
 if ($book_id) {
     $getbook = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
     $sellerdata = mysqli_fetch_array($getbook);
-    if (!$sellerdata) {
-        echo "Invalid book ID.";
-        exit;
+
+    if ($sellerdata) {
+        $seller_id = $sellerdata['seller_id'];
+        $getSellerInfo = $connect->query("SELECT name, contact FROM users WHERE user_id = '$seller_id'");
+        $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
     }
 }
 
-// Get chat list
 $chatUsersQuery = $connect->query("SELECT DISTINCT seller_id, books.id as book_id, books.book_name, users.name 
     FROM message 
     JOIN books ON message.product_id = books.id 
@@ -45,7 +45,6 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
 </head>
 
 <body class="bg-[#FBFFE4]">
-
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
@@ -55,40 +54,43 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
             <div class="p-4 bg-[#B3D8A8] border-b border-gray-300">
                 <h2 class="text-xl font-bold">INBOX</h2>
             </div>
-            <?php foreach ($chatList as $chat):
-                // Get image from books table for this chat's book
-                $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
-                $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
-                $bookImg = $bookImgRow['img1'] ?? "defaultBook.png"; // fallback image
-            ?>
-                <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
-                    <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
-                        <img src="assets/images/<?= $bookImg; ?>" class="h-14 w-14 rounded border" />
-                        <div>
-                            <h2 class="text-md font-semibold"><?= htmlspecialchars($chat["name"]); ?></h2>
-                            <p class="text-sm text-gray-600"><?= htmlspecialchars($chat["book_name"]); ?></p>
-                            <span class="text-xs text-gray-500">Click to chat</span>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
 
+            <?php if (!empty($chatList)): ?>
+                <?php foreach ($chatList as $chat):
+                    $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
+                    $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
+                   
+                ?>
+                    <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
+                        <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
+                            <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded border" />
+                            <div>
+                                <h2 class="text-md font-semibold"><?= htmlspecialchars($chat["name"]); ?></h2>
+                                <p class="text-sm text-gray-600"><?= htmlspecialchars($chat["book_name"]); ?></p>
+                                <span class="text-xs text-gray-500">Click to chat</span>
+                            </div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="p-6 text-gray-500 text-center">
+                    No conversations yet. Start chatting by visiting a book and messaging the seller.
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- RIGHT: Chat Window -->
-        <?php if ($sellerdata): ?>
+        <?php if ($sellerdata && $sellerInfo): ?>
             <div class="w-8/12 bg-white flex flex-col h-[600px] overflow-hidden" id="chatBox">
                 <!-- Header -->
                 <div class="flex items-center justify-between p-6 border-b">
                     <div class="flex items-center">
                         <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-14 w-14 border rounded-full">
-                        <h2 class="text-lg m-4 font-semibold"><?= $chat['name']; ?></h2>
+                        <h2 class="text-lg m-4 font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
                     <div class="flex items-center gap-3">
-                        <!-- Call Button Trigger -->
-                        <!-- Trigger Button (Outside Modal) -->
                         <button data-modal-target="callModal" data-modal-toggle="callModal"
-                            class="text-white  hover:bg-green-600 text-sm border border-green-400 px-3 py-1 rounded">
+                            class="text-white hover:bg-green-600 text-sm border border-green-400 px-3 py-1 rounded">
                             📞
                         </button>
 
@@ -106,14 +108,11 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                                     <!-- Modal content -->
                                     <div class="p-6 text-center">
                                         <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Contact Seller</h3>
-
                                         <p class="text-gray-600 dark:text-gray-300">Seller Name:</p>
-                                        <h2 class="text-xl font-bold text-green-700 mb-2"><?= htmlspecialchars($chat['name']); ?></h2>
-
+                                        <h2 class="text-xl font-bold text-green-700 mb-2"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                                         <p class="text-gray-600 dark:text-gray-300">Phone Number:</p>
-                                        <h2 class="text-xl font-bold text-blue-700 mb-4"><?= htmlspecialchars($chat[' '] ?? 'Not Available'); ?></h2>
-
-                                        <a href="tel:<?= $chat['contact'] ?? '' ?>"
+                                        <h2 class="text-xl font-bold text-blue-700 mb-4"><?= htmlspecialchars($sellerInfo['contact'] ?? 'Not Available'); ?></h2>
+                                        <a href="tel:<?= $sellerInfo['contact'] ?? '' ?>"
                                             class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg">
                                             📞 Call Now
                                         </a>
@@ -121,7 +120,6 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- Close Chat -->
                         <a href="chatboard.php"
@@ -133,20 +131,17 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
 
                 <!-- Book Info -->
                 <div class="p-4 flex justify-between mx-6">
-                    <h2 class="text-xl font-semibold"><?= $sellerdata['book_name'] ?? "Science Book"; ?> :-</h2>
+                    <h2 class="text-xl font-semibold"><?= htmlspecialchars($sellerdata['book_name']); ?> :-</h2>
                     <p class="text-xl font-semibold text-gray-600">₹ <?= $sellerdata['price'] ?? '100'; ?></p>
                 </div>
 
                 <!-- Messages -->
                 <div class="flex-1 p-4 overflow-x-auto h-[100px] bg-gray-200">
                     <?php
-                    $seller_id = $sellerdata['seller_id'];
-                    $product_id = $sellerdata['id'];
-
                     $messages = $connect->query("SELECT * FROM message WHERE 
                         ((sender_id = '$user_id' AND receiver_id = '$seller_id') OR 
                         (sender_id = '$seller_id' AND receiver_id = '$user_id')) 
-                        AND product_id='$product_id' ORDER BY msg_time ASC");
+                        AND product_id='$book_id' ORDER BY msg_time ASC");
 
                     while ($msg = $messages->fetch_array()):
                         $isSender = ($msg['sender_id'] == $user_id);
@@ -155,7 +150,7 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                             <div class="flex items-end justify-end mb-4">
                                 <div class="gap-4 grid grid-cols-1">
                                     <div class="bg-green-500 text-white p-3 rounded-lg shadow max-w-xs">
-                                        <p><?= $msg['message']; ?></p>
+                                        <p><?= htmlspecialchars($msg['message']); ?></p>
                                         <span class="text-xs text-white"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
                                     </div>
                                 </div>
@@ -163,9 +158,9 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                             </div>
                         <?php else: ?>
                             <div class="flex items-start space-x-3 mb-4">
-                                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" class="h-10 w-10 rounded-full border">
+                                <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-10 w-10 rounded-full border">
                                 <div class="bg-white p-3 rounded-lg shadow max-w-xs">
-                                    <p class="text-gray-700"><?= $msg['message']; ?></p>
+                                    <p class="text-gray-700"><?= htmlspecialchars($msg['message']); ?></p>
                                     <span class="text-xs text-gray-500"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
                                 </div>
                             </div>
@@ -187,10 +182,10 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                 if (isset($_POST['send_msg'])) {
                     $msg = mysqli_real_escape_string($connect, $_POST['message']);
                     $query = $connect->query("INSERT INTO message (product_id, sender_id, receiver_id, message) 
-                        VALUES('$product_id', '$user_id', '$seller_id', '$msg')");
+                        VALUES('$book_id', '$user_id', '$seller_id', '$msg')");
 
                     if ($query) {
-                        echo "<script>window.location.href='chatboard.php?book_id=$product_id';</script>";
+                        echo "<script>window.location.href='chatboard.php?book_id=$book_id';</script>";
                         exit;
                     } else {
                         echo "<p class='text-red-500 text-center'>Message not sent!</p>";
