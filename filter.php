@@ -3,10 +3,11 @@ include_once "config/connect.php";
 
 $user = null;
 if (isset($_SESSION['user'])) {
-    $user = getUser(); 
+    $user = getUser();
 }
 $userId = $user ? $user['user_id'] : null;
 
+// Wishlist Toggle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) {
     if ($userId) {
         $bookId = $_POST['wishlist_id1'];
@@ -24,16 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) 
     }
 }
 
+// Base query
 $sql = "SELECT books.*, books.id AS book_id, category.cat_title 
         FROM books 
         JOIN category ON books.book_category = category.cat_title 
         WHERE 1";
 
+// Filter: Category
 if (!empty($_GET['filter'])) {
     $cat_title = mysqli_real_escape_string($connect, $_GET['filter']);
     $sql .= " AND book_category = '$cat_title'";
 }
 
+// Filter: Price Range
 if (!empty($_GET['price'])) {
     $priceConditions = [];
     foreach ($_GET['price'] as $range) {
@@ -47,6 +51,7 @@ if (!empty($_GET['price'])) {
     $sql .= " AND (" . implode(" OR ", $priceConditions) . ")";
 }
 
+// Filter: Language
 if (!empty($_GET['language'])) {
     $langs = array_map(function ($lang) use ($connect) {
         return "'" . mysqli_real_escape_string($connect, $lang) . "'";
@@ -54,13 +59,13 @@ if (!empty($_GET['language'])) {
     $sql .= " AND language IN (" . implode(", ", $langs) . ")";
 }
 
-$booksQuery = $connect->query($sql);
-
-// search work
-if(isset($_GET['search'])){
-    $search_book = $_GET['search_book'];
-    $callingBook = $connect->query("select * from books where isbn='$search_book'");
+// Filter: Search
+if (!empty($_GET['search_book'])) {
+    $search = mysqli_real_escape_string($connect, $_GET['search_book']);
+    $sql .= " AND (book_name LIKE '%$search%' OR book_author LIKE '%$search%' OR book_category LIKE '%$search%' OR isbn LIKE '%$search%')";
 }
+
+$booksQuery = $connect->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -79,11 +84,13 @@ if(isset($_GET['search'])){
     <?php include_once "includes/subheader.php"; ?>
 
     <div class="flex mt-30 flex-col lg:flex-row gap-6 p-4">
+        <!-- Sidebar Filters -->
         <div class="w-[50vh] max-w-md">
             <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
                 <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
                 <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
 
+                <!-- Price Filter -->
                 <div class="mb-6">
                     <h3 class="text-xl font-medium text-gray-700 mb-3">Price</h3>
                     <?php
@@ -98,6 +105,7 @@ if(isset($_GET['search'])){
                     <?php endforeach; ?>
                 </div>
 
+                <!-- Language Filter -->
                 <div class="mb-6">
                     <h3 class="text-xl font-medium text-gray-700 mb-3">Language</h3>
                     <?php
@@ -112,8 +120,14 @@ if(isset($_GET['search'])){
                     <?php endforeach; ?>
                 </div>
 
+                <!-- Keep category filter in form -->
                 <?php if (isset($_GET['filter'])): ?>
                     <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
+                <?php endif; ?>
+
+                <!-- Keep search in form -->
+                <?php if (isset($_GET['search_book'])): ?>
+                    <input type="hidden" name="search_book" value="<?= htmlspecialchars($_GET['search_book']); ?>">
                 <?php endif; ?>
 
                 <button type="submit" class="mt-4 flex w-full bg-blue-500 py-2 px-4 rounded text-white font-semibold items-center justify-center">
@@ -122,16 +136,9 @@ if(isset($_GET['search'])){
             </form>
         </div>
 
+        <!-- Main Book List -->
         <div class="flex-1">
-            <?php
-    if (isset($_GET['search'])){
-        $search = $_GET['search'];
-      $query = $connect->query("select * from books where book_name LIKE '%$search%' OR book_author LIKE '%$search%' OR book_category LIKE '%$search%'");
-    }
-
-
-
-    if ($booksQuery->num_rows > 0): ?>
+            <?php if ($booksQuery->num_rows > 0): ?>
                 <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
@@ -141,6 +148,7 @@ if(isset($_GET['search'])){
                         <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
                             <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">60% OFF</div>
 
+                            <!-- Wishlist Button -->
                             <form method="POST" action="" class="absolute top-3 right-3" onclick="event.stopPropagation();">
                                 <input type="hidden" name="wishlist_id1" value="<?= $bookId; ?>">
                                 <button type="submit" name="toggle_wishlist1">
@@ -197,7 +205,8 @@ if(isset($_GET['search'])){
             <?php endif; ?>
         </div>
     </div>
-    <?php include_once "includes/footer2.php";?>
+
+    <?php include_once "includes/footer2.php"; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>

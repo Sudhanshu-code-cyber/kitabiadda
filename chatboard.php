@@ -1,12 +1,14 @@
 <?php
 include_once "config/connect.php";
+
 if (isset($_SESSION['user'])) {
-    $user = getUser();
+    $user = getUser(); // Assuming getUser() fetches logged-in user details
     $user_id = $user['user_id'];
 } else {
     echo "User not logged in.";
     exit;
 }
+
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
 $sellerInfo = null;
@@ -34,6 +36,7 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     $chatList[] = $chatRow;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,17 +52,15 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     <?php include_once "includes/subheader.php"; ?>
 
     <div class="flex mt-36 border-t border-gray-300">
-        <!-- LEFT: Chat List -->
+        <!-- Chat List -->
         <div class="w-4/12 border-r border-gray-300 bg-white h-[600px] overflow-y-auto">
             <div class="p-4 bg-[#B3D8A8] border-b border-gray-300">
                 <h2 class="text-xl font-bold">INBOX</h2>
             </div>
-
             <?php if (!empty($chatList)): ?>
                 <?php foreach ($chatList as $chat):
                     $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                     $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
-                   
                 ?>
                     <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
                         <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
@@ -74,14 +75,15 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="p-6 text-gray-500 text-center">
-                    No conversations yet. Start chatting by visiting a book and messaging the seller.
+                    No conversations yet.
                 </div>
             <?php endif; ?>
         </div>
 
-        <!-- RIGHT: Chat Window -->
+        <!-- Chat Window -->
         <?php if ($sellerdata && $sellerInfo): ?>
             <div class="w-8/12 bg-white flex flex-col h-[600px] overflow-hidden" id="chatBox">
+
                 <!-- Header -->
                 <div class="flex items-center justify-between p-6 border-b">
                     <div class="flex items-center">
@@ -93,19 +95,12 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                             class="text-white hover:bg-green-600 text-sm border border-green-400 px-3 py-1 rounded">
                             📞
                         </button>
-
-                        <!-- Flowbite Modal for Calling Seller -->
                         <div id="callModal" tabindex="-1" aria-hidden="true"
                             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-screen bg-black/50 backdrop-blur-sm">
                             <div class="relative w-full max-w-md max-h-full m-auto mt-24">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <!-- Close button -->
                                     <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                        data-modal-hide="callModal">
-                                        ✖
-                                    </button>
-
-                                    <!-- Modal content -->
+                                        data-modal-hide="callModal">✖</button>
                                     <div class="p-6 text-center">
                                         <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Contact Seller</h3>
                                         <p class="text-gray-600 dark:text-gray-300">Seller Name:</p>
@@ -120,8 +115,6 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Close Chat -->
                         <a href="chatboard.php"
                             class="text-red-500 hover:text-red-700 text-sm border border-red-400 px-3 py-1 rounded">
                             ✖
@@ -136,7 +129,7 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                 </div>
 
                 <!-- Messages -->
-                <div class="flex-1 p-4 overflow-x-auto h-[100px] bg-gray-200">
+                <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
                     <?php
                     $messages = $connect->query("SELECT * FROM message WHERE 
                         ((sender_id = '$user_id' AND receiver_id = '$seller_id') OR 
@@ -201,6 +194,14 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script>
+        window.onload = function() {
+            const chatMessages = document.getElementById("chatMessages");
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        };
+    </script>
 </body>
 
 </html>
