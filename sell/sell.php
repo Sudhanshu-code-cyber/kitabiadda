@@ -1,11 +1,15 @@
 <?php
 include "../config/connect.php";
-if (!isset($_SESSION['user'])) {
-    redirect("../login.php");
-} else {
-    $user = getUser();
-}
+if (isset($_SESSION['user'])) {
+  $user = getUser();
+} 
+    $user_email = $user['email'];
+    $address_query = mysqli_query($connect, "SELECT address FROM user_address WHERE email = '$user_email'");
+    $address_row = mysqli_fetch_assoc($address_query);
+    $user_address = $address_row['address'] ?? ''; // If no address found, keep it empty
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -123,7 +127,7 @@ if (!isset($_SESSION['user'])) {
                         <option value="Acceptable">Acceptable</option>
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <label class="form-label h6">Version</label>
                     <select name="version" class="form-select">
                         <option value="">select version of book</option>
@@ -131,8 +135,12 @@ if (!isset($_SESSION['user'])) {
                     </select>
                 </div>
                
-              
-                <div class="col-6">
+                <div class="col-md-4">
+                    <label class="form-label h6">Class</label>
+                    <input type="text" name="class" class="form-control" placeholder="Enter book class name"
+                        required>
+                </div>
+                <div class="col-4">
                     <label class="form-label h6">Location
                         <i class="bi bi-geo-alt-fill"></i>
                     </label>
@@ -143,8 +151,7 @@ if (!isset($_SESSION['user'])) {
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
-                    <textarea name="address" class="form-control" rows="2" placeholder="Enter Your Address"></textarea>
-                </div>
+                    <textarea name="address" class="form-control" rows="2" placeholder="Enter Your Address"><?= htmlspecialchars($user_address) ?></textarea>                    </div>
                 <div class="col-12">
                     <label class="form-label h6">Description</label>
                     <textarea name="description" class="form-control" rows="4"
@@ -305,7 +312,7 @@ if (!isset($_SESSION['user'])) {
         $quality = $_POST['quality'];
         $version = $_POST['version'];
         $contact = $_POST['contact'];
-        $firstname = $_POST['firstname'];
+        $class = $_POST['class'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
         $address = $_POST['address'];
@@ -333,8 +340,8 @@ if (!isset($_SESSION['user'])) {
 
 
 
-        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, fullname, latitude, longitude, address, book_description, img1, img2, img3, img4, seller_id) 
-            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$firstname', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$img4','$seller_id')";
+        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, class, latitude, longitude, address, book_description, img1, img2, img3, img4, seller_id) 
+            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$class', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$img4','$seller_id')";
 
         $result = mysqli_query($connect, $query);
 
