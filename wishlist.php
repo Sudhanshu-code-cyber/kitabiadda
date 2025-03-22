@@ -20,21 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggleWishlist'])) {
     $bookId = intval($_POST['wishlistId']);
 
     // Check if book exists in wishlist
-    $stmt = $connect->prepare("SELECT 1 FROM wishlist WHERE user_id = ? AND book_id = ?");
-    $stmt->bind_param("ii", $userId, $bookId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $query = "SELECT 1 FROM wishlist WHERE user_id = $userId AND book_id = $bookId";
+    $result = mysqli_query($connect, $query);
 
-    if ($result->num_rows > 0) {
+    if (mysqli_num_rows($result) > 0) {
         // Remove from wishlist
-        $deleteStmt = $connect->prepare("DELETE FROM wishlist WHERE user_id = ? AND book_id = ?");
-        $deleteStmt->bind_param("ii", $userId, $bookId);
-        $deleteStmt->execute();
+        $deleteQuery = "DELETE FROM wishlist WHERE user_id = $userId AND book_id = $bookId";
+        mysqli_query($connect, $deleteQuery);
     } else {
         // Add to wishlist
-        $insertStmt = $connect->prepare("INSERT INTO wishlist (user_id, book_id) VALUES (?, ?)");
-        $insertStmt->bind_param("ii", $userId, $bookId);
-        $insertStmt->execute();
+        $insertQuery = "INSERT INTO wishlist (user_id, book_id) VALUES ($userId, $bookId)";
+        mysqli_query($connect, $insertQuery);
     }
 
     redirect(" wishlist.php"); // Refresh wishlist page
@@ -46,15 +42,12 @@ $booksResult = [];
 $countWishlist = 0;
 
 if ($userId) {
-    $stmt = $connect->prepare("SELECT books.* FROM wishlist JOIN books ON books.id = wishlist.book_id WHERE wishlist.user_id = ?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $booksResult = $stmt->get_result();
+    $query = "SELECT books.* FROM wishlist JOIN books ON books.id = wishlist.book_id WHERE wishlist.user_id = $userId";
+    $booksResult = mysqli_query($connect, $query);
 
-    $countStmt = $connect->prepare("SELECT COUNT(*) AS count FROM wishlist WHERE user_id = ?");
-    $countStmt->bind_param("i", $userId);
-    $countStmt->execute();
-    $countWishlist = $countStmt->get_result()->fetch_assoc()['count'];
+    $countQuery = "SELECT COUNT(*) AS count FROM wishlist WHERE user_id = $userId";
+    $countResult = mysqli_query($connect, $countQuery);
+    $countWishlist = mysqli_fetch_assoc($countResult)['count'];
 }
 
 ?>
@@ -88,7 +81,7 @@ if ($userId) {
             </div>
         <?php else: ?>
             <div class="grid grid-cols-5 gap-4">
-                <?php while ($book = $booksResult->fetch_assoc()): ?>
+                <?php while ($book = mysqli_fetch_assoc($booksResult)): ?>
                     <?php
                     $bookId = $book['id'];
                     $mrp = floatval($book['mrp']);
@@ -109,7 +102,7 @@ if ($userId) {
                         </form>
                         <a href="view.php?book_id=<?= $bookId; ?>" class="block">
                             <div class="flex justify-center hover:scale-105 transition">
-                                <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
+                                <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
                             </div>
                             <div class="mt-4 text-center">
                                 <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"> <?= $book['book_name']; ?> </h2>
