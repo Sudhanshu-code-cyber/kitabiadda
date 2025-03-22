@@ -45,6 +45,27 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     <title>Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <style>
+        #chatMessages {
+            scrollbar-width: thin;
+            scrollbar-color: #9CA3AF #F3F4F6;
+            /* thumb and track */
+        }
+
+        #chatMessages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chatMessages::-webkit-scrollbar-thumb {
+            background-color: #9CA3AF;
+            border-radius: 4px;
+        }
+
+        #chatMessages::-webkit-scrollbar-track {
+            background-color: #F3F4F6;
+        }
+    </style>
+
 </head>
 
 <body class="bg-[#FBFFE4]">
@@ -129,7 +150,8 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                 </div>
 
                 <!-- Messages -->
-                <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
+                <div class="flex-1 p-4 overflow-y-auto bg-gray-200 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100" id="chatMessages" style="max-height: 500px;">
+
                     <?php
                     $messages = $connect->query("SELECT * FROM message WHERE 
                         ((sender_id = '$user_id' AND receiver_id = '$seller_id') OR 
