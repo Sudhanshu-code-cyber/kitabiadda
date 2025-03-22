@@ -11,13 +11,14 @@ $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 
 // Fetch books
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' and e_book_avl='yes'");
+$book = $booksQuery->fetch_assoc();
 ?>
 
 <section class="bg-white py-10">
     <div class="w-full px-[5%] mx-auto px-[2%]">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">e-Book</h2>
-            <a href="booksets3.php" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <a href="booksets3.php?e_book<?=$book['e_book_avl'];?>" class="text-orange-500 font-semibold hover:underline">View All</a>
         </div>
 
         <div class="relative">
