@@ -59,13 +59,24 @@ if (!empty($_GET['language'])) {
     $sql .= " AND language IN (" . implode(", ", $langs) . ")";
 }
 
-// Filter: Search
-if (!empty($_GET['search_book'])) {
-    $search = mysqli_real_escape_string($connect, $_GET['search_book']);
-    $sql .= " AND (book_name LIKE '%$search%' OR book_author LIKE '%$search%' OR book_category LIKE '%$search%' OR isbn LIKE '%$search%')";
-}
+    // Filter: Search
+    if (!empty($_GET['search_book'])) {
+        $search = mysqli_real_escape_string($connect, $_GET['search_book']);
+        if (strlen($search) < 1) {
+            message("Please enter a search term.");
+            redirect("filter.php");
+        }
 
-$booksQuery = $connect->query($sql);
+        $sql .= " AND (
+        LOWER(book_name) LIKE LOWER('%$search%') OR 
+        LOWER(book_author) LIKE LOWER('%$search%') OR 
+        LOWER(book_category) LIKE LOWER('%$search%') OR 
+        LOWER(isbn) LIKE LOWER('%$search%')
+    )";
+    }
+
+
+    $booksQuery = $connect->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -163,7 +174,7 @@ $booksQuery = $connect->query($sql);
 
                             <a href="view.php?book_id=<?= $bookId; ?>" class="block h-full">
                                 <div class="flex justify-center hover:scale-105 transition">
-                                    <img src="images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
+                                    <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover shadow-md rounded-md">
                                 </div>
 
                                 <div class="mt-4 text-center">
