@@ -64,27 +64,27 @@
     <!-- First Carousel -->
     <div id="default-carousel" class="relative mt-30 w-full" data-carousel="slide">
         <!-- Carousel wrapper -->
-        <div class="relative z-5 h-56 overflow-hidden md:h-96">
+        <div class="relative z-5 h-110 overflow-hidden md:h-120">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/images/Untitled design.png"
-                    class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="assets/banner/banner1.webp"
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/images/download.webp"
-                    class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="assets/banner/banner2.webp"
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/images/download.webp"
-                    class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="assets/banner/banner3.webp"
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
 
-             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/images/download.webp"
-                    class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="assets/banner/banner4.webp"
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             <!-- Other Items here ... -->
         </div>
@@ -175,20 +175,20 @@
     </script>
 
     <!-- Book Sets Section for New Books -->
-   
-    <?php include_once "includes/newRelease.php";?>
+
+    <?php include_once "includes/newRelease.php"; ?>
 
     <!-- Book Sets Section for Old Books (Second Carousel) -->
-   <?php include_once "includes/oldBook.php";?>
+    <?php include_once "includes/oldBook.php"; ?>
 
 
 
-<!-- Book Sets Section for Old Books (Third Carousel) -->
-<?php include_once "includes/e-Book.php";?>
+    <!-- Book Sets Section for Old Books (Third Carousel) -->
+    <?php include_once "includes/e-Book.php"; ?>
 
-<?php
-include_once "includes/footer2.php";
-?>
+    <?php
+    include_once "includes/footer2.php";
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
