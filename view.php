@@ -15,6 +15,23 @@ if ($query->num_rows == 0) {
 }
 $book = $query->fetch_array();
 
+// wishlist work
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) {
+    if ($userId) {
+        $bookId = $_POST['wishlist_id2'];
+        $check = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+        if ($check->num_rows > 0) {
+            $connect->query("DELETE FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+        } else {
+            $connect->query("INSERT INTO wishlist (user_id, book_id) VALUES ('$userId', '$bookId')");
+        }
+        redirect("wishlist.php");
+        exit();
+    } else {
+        redirect("login.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,23 +61,18 @@ $book = $query->fetch_array();
     <div class="flex p-10 bg-white mt-30">
         <div class="flex gap-20 items-center w-5/12 border-gray-300 border-r-2 space-x-4 p-6">
             <div class="flex flex-col space-y-2">
-                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>"
-                    alt="Thumbnail 1"
+                <img src="assets/images/<?= $book['img1']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img1'] : 'assets/images/' . $book['img1']; ?>')">
-
-                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img2'] : 'assets/images/' . $book['img2']; ?>"
-                    alt="Thumbnail 1"
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img1']; ?>')">
+                <img src="assets/images/<?= $book['img1']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                   onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img2'] : 'assets/images/' . $book['img2']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img3'] : 'assets/images/' . $book['img3']; ?>"
-                    alt="Thumbnail 1"
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img2']; ?>')">
+                <img src="assets/images/<?= $book['img2']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img3'] : 'assets/images/' . $book['img3']; ?>')">
-                <img src="<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img4'] : 'assets/images/' . $book['img4']; ?>"
-                    alt="Thumbnail 1"
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img3']; ?>')">
+                <img src="assets/images/<?= $book['img3']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo ($book['version'] != 'old') ? 'assets/images/' . $book['img4'] : 'assets/images/' . $book['img4']; ?>')">
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img4']; ?>')">
             </div>
 
             <div class="w-64 rounded-lg overflow-hidden shadow-lg">
@@ -107,7 +119,13 @@ $book = $query->fetch_array();
                 <div
                     class="border-2 border-orange-300 hover:border-orange-500 h-22 w-42 flex flex-col rounded pt-1 px-2">
                     <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
-                    <p>40% off</p>
+                    <?php
+                    $bookId = $book['id'];
+                    $mrp = floatval($book['mrp']);
+                    $sell_price = floatval($book['sell_price']);
+                    $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
+                    ?> 
+                    <p><?= $discount;?>% off</p>
                     <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del> <span
                             class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span></p>
                 </div>
@@ -159,7 +177,7 @@ $book = $query->fetch_array();
                     </div>
 
                     <div class="flex items-center border-r gap-1 border-gray-300  px-3 flex-col ">
-                        <p class="text-sm text-gray-500">Publish Date</p>
+                        <p class="text-sm text-gray-500">Binding</p>
                         <img src="assets/images/paperback.png" class="size-7" alt="">
 
 
@@ -236,41 +254,58 @@ $book = $query->fetch_array();
                         $bookId = $book['id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                        $mrp = floatval($book['mrp']);
+                        $sell_price = floatval($book['sell_price']);
+
+                        if ($mrp > 0 && is_numeric($sell_price)) {
+                            $percentage = ($mrp - $sell_price) / $mrp * 100;
+
+                        } else {
+                            echo "Error: Invalid price values.";
+                        }
                         ?>
-                        <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                        <div
+                            class="bg-white p-4 rounded-lg  transition shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                             <!-- Discount Badge (60% Off) -->
+
+
                             <div
                                 class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                                60% OFF
+                                <?= round($percentage); ?>% OFF
                             </div>
 
-                            <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
-                            <form method="POST"
-                                action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
-                                class="absolute top-3 right-3" onclick="event.stopPropagation();">
-                                <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                                <button type="submit" name="toggle_wishlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                        class="size-6 hover:scale-110 transition">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                    </svg>
-                                </button>
-                            </form>
+                            <div class=" px-3 ">
+                                <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
+                                <form method="POST" action="" class="absolute top-3 right-3"
+                                    onclick="event.stopPropagation();">
+                                    <input type="hidden" name="wishlist_id2" value="<?= $bookId; ?>">
+                                    <button type="submit" class="cursor-pointer" name="toggle_wishlist2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
+                                            class="size-6 hover:scale-110 transition">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
 
                             <!-- Book Click Redirect -->
                             <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
-                                <div class="flex justify-center hover:scale-105 transition">
-                                    <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
-                                        class="w-40 h-56 object-cover shadow-md rounded-md">
+                                <div class="flex justify-center    ">
+                                    <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
+                                        class="w-40  h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
                                 </div>
 
                                 <!-- Book Info -->
                                 <div class="mt-4 text-center">
                                     <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?>
                                     </h2>
-                                    <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?></p>
+                                    <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?>
+                                        <span class="text-sm text-orange-400 ml-2"><?= $book['book_category']; ?></span>
+
+                                    </p>
 
                                     <!-- Price -->
                                     <div class="flex justify-center items-center space-x-2 mt-1">
@@ -278,8 +313,9 @@ $book = $query->fetch_array();
                                         <p class="text-black font-bold text-lg">₹<?= $book['sell_price']; ?>/-</p>
                                     </div>
                                 </div>
-
-                                <!-- Footer (Add to Cart + Rating) -->
+                            </a>
+                            <!-- Footer (Add to Cart + Rating) -->
+                            <a href="cart.php?add_book=<?= $book['id']; ?>">
                                 <div class="mt-4 border-t pt-3 flex justify-between items-center">
                                     <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to
                                         cart</button>
@@ -287,9 +323,9 @@ $book = $query->fetch_array();
                                     <!-- Dynamic Rating -->
                                     <div class="flex">
                                         <?php
-                                        $rating = rand(2, 5); // Random Rating for demo
+                                        $rating = $book['book_rating']; // Random Rating for demo
                                         for ($i = 1; $i <= 5; $i++) {
-                                            if ($i <= floor($rating)) {
+                                            if ($i <= $rating) {
                                                 echo '<span class="text-orange-500 text-lg">★</span>';
                                             } else {
                                                 echo '<span class="text-gray-400 text-lg">★</span>';
@@ -299,6 +335,7 @@ $book = $query->fetch_array();
                                     </div>
                                 </div>
                             </a>
+
                         </div>
 
                     <?php endwhile; ?>

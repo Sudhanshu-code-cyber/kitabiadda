@@ -5,10 +5,13 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
+$userEmail = $user['email'];
 $booksQuery = $connect->query("select * from wishlist join books on books.id=wishlist.book_id where user_id='$userId'");
 
 $count = $connect->query("select * from wishlist where user_id='$userId'");
 $coutwishlist = mysqli_num_rows($count);
+
+
 
 ?>
 
@@ -27,7 +30,7 @@ $coutwishlist = mysqli_num_rows($count);
     <?php include_once "includes/header.php"; ?>
 
     <div class="flex h-screen pt-14">
-        <div class="w-1/4 bg-[#B3D8A8] px-6 pt-14 flex flex-col items-center">
+        <div class="w-1/4 fixed h-screen bg-[#B3D8A8] px-6 pt-14 flex flex-col items-center">
             <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
                 alt="Profile Picture" class="w-24 h-24 rounded-full border border-gray-700">
             <h1 class="mt-4 text-xl font-semibold"><?= $user['name']; ?></h1>
@@ -51,7 +54,7 @@ $coutwishlist = mysqli_num_rows($count);
             </div>
         </div>
 
-        <div class="flex-1 p-6">
+        <div class="w-3/4 left-2 ml-[25%] flex-1 p-6">
             <div id="edit_details" class="content-section flex flex-col gap-5">
                 <h2 class="text-2xl font-semibold">Edit Details</h2>
                 <div class="flex justify-center items-center">
@@ -162,20 +165,55 @@ $coutwishlist = mysqli_num_rows($count);
                         Selling</a>
                 </div>
             </div>
-            <div id="order" class="content-section hidden">
+            <div id="order" class="content-section  hidden">
                 <h2 class="text-2xl font-semibold mb-4">My Orders</h2>
-                <div class="flex flex-col gap-2 justify-center items-center mt-[10%]">
+                <div class="flex flex-col gap-2 justify-center items-center ">
                     <?php
-                        // $user_email = $user['email'];
-                        // $my_order = $connect->query("select * from orders where email='$user_email'");
-                        // while($myOrder = $my_order->fetch_assoc()) :
-                    ?>
-                    <!-- <div><h1><?= $myOrder['order_from'];?></h1></div> -->
-                    <?php 
-                // endwhile;?>
-                    <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
-                    <a href="index.php" class="bg-[#3D8D7A] rounded text-sm px-2 py-1 text-white font-semibold">Make
-                        Your 1st Order Now</a>
+                    $call_myOrder = $connect->query("
+                        SELECT books.*, cart.orders_id FROM cart 
+                        JOIN books ON cart.item_id = books.id
+                        WHERE cart.email='$userEmail' AND cart.direct_buy=2
+                        ORDER BY cart.orders_id DESC
+                    ");
+
+                    $orders = [];
+
+                    if ($call_myOrder->num_rows > 0) {
+                        // Group items by order ID
+                        while ($item = $call_myOrder->fetch_assoc()) {
+                            $orders[$item['orders_id']][] = $item;
+                        }
+                    }
+
+                    // Display orders
+                    if ($orders):
+                        foreach ($orders as $orderId => $items):
+                            ?>
+                            <div class="w-full shadow-lg rounded-lg bg-white p-5 mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-blue-800">#Order ID: <?= $orderId; ?></h3>
+                                </div>
+                                <div class="flex flex-col gap-4 mt-3">
+                                    <?php foreach ($items as $item): ?>
+                                        <div class="flex items-center border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50">
+                                            <img src="assets/images/<?= $item['img1']; ?>" alt="item_image" class="h-16">
+                                            <h2 class="ml-3 font-medium truncate"><?= $item['book_name']; ?></h2>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <?php
+                        endforeach;
+                    else:
+                        ?>
+                        <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
+                        <a href="index.php" class="bg-[#3D8D7A] rounded text-sm px-2 py-1 text-white font-semibold">
+                            Make Your 1st Order Now
+                        </a>
+                    <?php endif; ?>
+
+
+
                 </div>
             </div>
             <div id="wishlist" class="content-section hidden">
@@ -187,12 +225,17 @@ $coutwishlist = mysqli_num_rows($count);
                         $bookId = $book['id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                        $bookId = $book['id'];
+                        $mrp = floatval($book['mrp']);
+                        $sell_price = floatval($book['sell_price']);
+                        $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
                         ?>
                         <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                             <!-- Discount Badge (60% Off) -->
                             <div
                                 class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                                60% OFF
+                                <?= $discount; ?>% OFF
                             </div>
 
                             <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
@@ -213,7 +256,7 @@ $coutwishlist = mysqli_num_rows($count);
                             <!-- Book Click Redirect -->
                             <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                                 <div class="flex justify-center hover:scale-105 transition">
-                                    <img src="images/<?= $book['img1']; ?>" alt="Book Cover"
+                                    <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
                                         class="w-40 h-56 object-cover shadow-md rounded-md">
                                 </div>
 
@@ -260,7 +303,15 @@ $coutwishlist = mysqli_num_rows($count);
             <div id="address" class="content-section hidden">
                 <h2 class="text-2xl font-semibold mb-4">My Address</h2>
                 <div class="flex flex-col gap-2 justify-center items-center mt-[10%]">
-                    <h3>My Address</h3>
+                    <?php
+                    $callAdd = $connect->query("select * from user_address where email='$userEmail'");
+                    $address = $callAdd->fetch_assoc();
+                    if ($callAdd):
+                        ?>
+                        <h1><?= $address['city']; ?></h1>
+                    <?php else: ?>
+                        <h1>Address not available</h1>
+                    <?php endif; ?>
                 </div>
             </div>
 
