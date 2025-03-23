@@ -18,7 +18,7 @@ $book = $booksQuery->fetch_assoc();
     <div class="w-full px-[5%] mx-auto px-[2%]">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">e-Book</h2>
-            <a href="booksets3.php?e_book<?=$book['e_book_avl'];?>" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <a href="booksets1.php?bookType=<?=$book['version'];?>" class="text-orange-500 font-semibold hover:underline">View All</a>
         </div>
 
         <div class="relative">
