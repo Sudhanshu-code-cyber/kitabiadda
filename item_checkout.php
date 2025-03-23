@@ -16,7 +16,7 @@ if (isset($_GET['buy_book'])) {
         $insert_cart = mysqli_query($connect, "INSERT INTO cart (email,item_id, direct_buy) VALUE ('$email','$item_id',1)");
     }
 
-    echo "<script>window.location.href='item_checkout.php?buy_book='$item_id'';</script>";
+    // echo "<script>window.location.href='item_checkout.php?buy_book='$item_id'';</script>";
     // header("Refresh:0");
 // exit;
 
@@ -524,13 +524,14 @@ if (isset($_GET['minus_book'])) {
 
             </div>
             <?php
-            $totleMrp = 0;
-            $totleSellPrice = 0;
+            // $totleMrp = 0;
+            // $totleSellPrice = 0;
             $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=1 AND books.id=$book_id ");
-            while ($price = mysqli_fetch_array($callCartItem)) {
-                $totleMrp += $price['qty'] * $price['mrp'];
-                $totleSellPrice += $price['qty'] * $price['sell_price'];
-            }
+            $price = mysqli_fetch_array($callCartItem);
+                $totleMrp = $price['qty'] * $price['mrp'];
+                $totleSellPrice = $price['qty'] * $price['sell_price'];
+                $totleSellPrice2 = ($price['qty'] - 1) * $price['sell_price'];
+            
             ?>
             <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit sticky top-16">
                 <h2 class="text-xl font-bold mb-4">Price Details</h2>
@@ -575,7 +576,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
     if ($call_user_address > 0) {
 
         $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
-     VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type',1)");
+     VALUES ('$email', '$totleSellPrice2', 'direct', '$payment_type',1)");
 
         if ($insertOrder) {
             echo '
@@ -583,7 +584,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
         <script>
             Swal.fire({
                 title: "✅ Order Confirmed!",
-                text: "Thank you for your order.\\nTotal Amount: ₹' . $totleSellPrice . '",
+                text: "Thank you for your order.\\nTotal Amount: ₹' . $totleSellPrice2 . '",
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
@@ -642,7 +643,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
     $call_user_address = mysqli_num_rows(mysqli_query($connect, "SELECT * FROM user_address WHERE email='$email'"));
     if ($call_user_address > 0) {
 
-        $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' WHERE item_id='$book_id' AND direct_buy=1");
+        $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' , qty = GREATEST(0, qty - 1) WHERE item_id='$book_id' AND direct_buy=1");
 
     }
 } 

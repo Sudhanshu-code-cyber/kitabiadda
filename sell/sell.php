@@ -1,12 +1,12 @@
 <?php
 include "../config/connect.php";
 if (isset($_SESSION['user'])) {
-  $user = getUser();
-} 
-    $user_email = $user['email'];
-    $address_query = mysqli_query($connect, "SELECT address FROM user_address WHERE email = '$user_email'");
-    $address_row = mysqli_fetch_assoc($address_query);
-    $user_address = $address_row['address'] ?? ''; // If no address found, keep it empty
+    $user = getUser();
+}
+$user_email = $user['email'];
+$address_query = mysqli_query($connect, "SELECT address FROM user_address WHERE email = '$user_email'");
+$address_row = mysqli_fetch_assoc($address_query);
+$user_address = $address_row['address'] ?? ''; // If no address found, keep it empty
 
 ?>
 
@@ -21,6 +21,8 @@ if (isset($_SESSION['user'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .img>upload {
             width: 120px;
@@ -29,11 +31,12 @@ if (isset($_SESSION['user'])) {
 
         .nav {
             background: #3d8d7a;
-           
+
         }
-        .poster{
+
+        .poster {
             display: flex;
-            font-size:x-large;
+            font-size: x-large;
             align-items: center;
         }
     </style>
@@ -43,10 +46,10 @@ if (isset($_SESSION['user'])) {
     <nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
         <div class="container justify-content-start gap-3">
             <a href="../index.php">
-            <i class="bi bi-arrow-left-circle-fill text-light h2"></i>
+                <i class="bi bi-arrow-left-circle-fill text-light h2"></i>
             </a>
-            <a class="navbar-brand h1 poster" href="../index.php" >ReadRainbow</a>
-            
+            <a class="navbar-brand h1 poster" href="../index.php">ReadRainbow</a>
+
         </div>
     </nav>
 
@@ -143,11 +146,10 @@ if (isset($_SESSION['user'])) {
                         <option value="old">Old</option>
                     </select>
                 </div>
-               
+
                 <div class="col-md-4">
                     <label class="form-label h6">Class</label>
-                    <input type="text" name="class" class="form-control" placeholder="Enter book class name"
-                        required>
+                    <input type="text" name="class" class="form-control" placeholder="Enter book class name" required>
                 </div>
                 <div class="col-4">
                     <label class="form-label h6">Location
@@ -160,7 +162,9 @@ if (isset($_SESSION['user'])) {
                 </div>
                 <div class="col-12">
                     <label class="form-label h6">Address</label>
-                    <textarea name="address" class="form-control" rows="2" placeholder="Enter Your Address"><?= htmlspecialchars($user_address) ?></textarea>                    </div>
+                    <textarea name="address" class="form-control" rows="2"
+                        placeholder="Enter Your Address"><?= htmlspecialchars($user_address) ?></textarea>
+                </div>
                 <div class="col-12">
                     <label class="form-label h6">Description</label>
                     <textarea name="description" class="form-control" rows="4"
@@ -306,61 +310,72 @@ if (isset($_SESSION['user'])) {
 
     <?php
     if (isset($_POST['submit'])) {
-        $subject = $_POST['Subject'];
         $book_name = $_POST['book_name'];
         $book_author = $_POST['author'];
         $book_binding = $_POST['book_binding'] ?? '';
         $mrp = $_POST['mrp'];
         $price = $_POST['selling_price'];
-        $pages = $_POST['pages'];
+        $pages = $_POST['pages'] ?? 0;
         $category = $_POST['category'];
-        $sub_category = $_POST['sub_category'];
+        $sub_category = $_POST['sub_category'] ?? '';
         $language = $_POST['language'];
-        $isbn = $_POST['isbn'];
+        $isbn = $_POST['isbn'] ?? '';
         $publish_year = $_POST['publish_year'];
         $quality = $_POST['quality'];
-        $version = $_POST['version'];
-        $contact = $_POST['contact'];
+        $version = $_POST['version'] ?? '';
         $class = $_POST['class'];
-        $latitude = $_POST['latitude'];
-        $longitude = $_POST['longitude'];
+        $latitude = $_POST['latitude'] ?? '';
+        $longitude = $_POST['longitude'] ?? '';
         $address = $_POST['address'];
-        $sbook_description = $_POST['description'];
+        $sbook_description = $_POST['description'] ?? '';
         $seller_id = $user['user_id'];
 
-        $img1 = $_FILES['img1']['name'];
-        $tmp_image1 = $_FILES['img1']['tmp_name'];
-        $img2 = $_FILES['img2']['name'];
-        $tmp_image2 = $_FILES['img2']['tmp_name'];
-        $img3 = $_FILES['img3']['name'] ?? null;
-        $tmp_image3 = $_FILES['img3']['tmp_name'] ?? null;
-        $img4 = $_FILES['img4']['name'] ?? null;
-        $tmp_image4 = $_FILES['img4']['tmp_name'] ?? null;
+        $errors = [];
+        if (empty($book_name) || empty($book_author) || empty($mrp) || empty($price) || empty($publish_year) || empty($language) || empty($address)) {
+            $errors[] = "<script>Swal.fire('All required fields must be filled!')</script>";
+            
+        }
 
-        // Upload images
-        if ($img1 && $tmp_image1)
-            move_uploaded_file($tmp_image1, "../assets/images/$img1");
-        if ($img2 && $tmp_image2)
-            move_uploaded_file($tmp_image2, "../assets/images/$img2");
-        if ($img3 && $tmp_image3)
-            move_uploaded_file($tmp_image3, "../assets/images/$img3");
-        if ($img4 && $tmp_image4)
-            move_uploaded_file($tmp_image4, "../assets/images/$img4"); 
+        if (!is_numeric($mrp) || !is_numeric($price) || !is_numeric($publish_year)) {
+            $errors[] = "MRP, Selling Price, and Publish Year must be numeric!";
+        }
+        if (strlen($publish_year) != 4) {
+            $errors[] = "<script>Swal.fire('public year must be 4 digit !')</script>";
 
+        }
 
+        if (empty($errors)) {
+            $img_names = [];
+            for ($i = 1; $i <= 4; $i++) {
+                if (!empty($_FILES["img$i"]["name"])) {
+                    $img_name = time() . "_" . basename($_FILES["img$i"]["name"]);
+                    $target_path = "../assets/images/" . $img_name;
+                    if (move_uploaded_file($_FILES["img$i"]["tmp_name"], $target_path)) {
+                        $img_names[] = $img_name;
+                    } else {
+                        $img_names[] = null;
+                    }
+                } else {
+                    $img_names[] = null;
+                }
+            }
 
-        $query = "INSERT INTO books (subject, book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, contact, class, latitude, longitude, address, book_description, img1, img2, img3, img4, seller_id) 
-            VALUES ('$subject', '$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality','$version', '$contact', '$class', '$latitude', '$longitude', '$address', '$sbook_description', '$img1', '$img2', '$img3', '$img4','$seller_id')";
+            $query = "INSERT INTO books (book_name, book_author, book_binding, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, version, class, latitude, longitude, address, book_description, img1, img2, img3, img4, seller_id) 
+                VALUES ('$book_name', '$book_author', '$book_binding', '$mrp', '$price', '$pages', '$category', '$sub_category', '$language', '$isbn', '$publish_year', '$quality', '$version', '$class', '$latitude', '$longitude', '$address', '$sbook_description', '{$img_names[0]}', '{$img_names[1]}', '{$img_names[2]}', '{$img_names[3]}', '$seller_id')";
 
-        $result = mysqli_query($connect, $query);
-
-        if ($result) {
-            echo "<script>alert('Old book added successfully!'); window.location.href='../index.php';</script>";
+            if (mysqli_query($connect, $query)) {
+                echo "<script>alert('Book added successfully!'); window.location.href='../index.php';</script>";
+            } else {
+                echo "<div class='alert alert-danger'>Error: " . mysqli_error($connect) . "</div>";
+            }
         } else {
-            echo "<div class='alert alert-danger'><strong>Error:</strong> </div>";
+            foreach ($errors as $error) {
+                echo "<div class='alert alert-danger'>$error</div>";
+            }
         }
     }
     ?>
+
 
     </div>
 

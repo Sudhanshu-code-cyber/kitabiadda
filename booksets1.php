@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="mt-30 bg-[#f6f7f5] p-10">
+    <div class="mt-30 :grid grid-cols-4 bg-[#f6f7f5] p-10">
         <div class="bg-white border-b border-gray-200 py-5 px-5 shadow">
             <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "book sets"</h1>
         </div>
@@ -73,11 +73,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                     $isWishlisted = ($checkWishlist->num_rows > 0);
                 }
+                $mrp =floatval($book['mrp']);
+                $sell_price =floatval($book['sell_price']);
+                if($mrp > 0 && is_numeric($sell_price)){
+                    $percentage = ($mrp - $sell_price) / $mrp * 100;
+                }
                 ?>
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
                     <!-- Discount Badge -->
                     <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                        60% OFF
+                    <?=round($percentage);?>% OFF
                     </div>
 
                     <!-- Wishlist Button -->
