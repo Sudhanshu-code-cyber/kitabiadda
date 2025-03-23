@@ -168,49 +168,45 @@ $coutwishlist = mysqli_num_rows($count);
             <div id="order" class="content-section  hidden">
                 <h2 class="text-2xl font-semibold mb-4">My Orders</h2>
                 <div class="flex flex-col gap-2 justify-center items-center ">
-                    <?php
-                    $call_myOrder = $connect->query("
-                        SELECT books.*, cart.orders_id FROM cart 
-                        JOIN books ON cart.item_id = books.id
-                        WHERE cart.email='$userEmail' AND cart.direct_buy=2
-                        ORDER BY cart.orders_id DESC
-                    ");
 
-                    $orders = [];
+                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders  WHERE email='$userEmail' ORDER BY id DESC ");
+                    while ($orders = mysqli_fetch_array($total_orders)) { ?>
 
-                    if ($call_myOrder->num_rows > 0) {
-                        // Group items by order ID
-                        while ($item = $call_myOrder->fetch_assoc()) {
-                            $orders[$item['orders_id']][] = $item;
-                        }
-                    }
 
-                    // Display orders
-                    if ($orders):
-                        foreach ($orders as $orderId => $items):
-                            ?>
-                            <div class="w-full shadow-lg rounded-lg bg-white p-5 mb-4">
-                                <div>
-                                    <h3 class="text-lg font-bold text-blue-800">#Order ID: <?= $orderId; ?></h3>
-                                </div>
-                                <div class="flex flex-col gap-4 mt-3">
-                                    <?php foreach ($items as $item): ?>
-                                        <div class="flex items-center border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50">
-                                            <img src="assets/images/<?= $item['img1']; ?>" alt="item_image" class="h-16">
-                                            <h2 class="ml-3 font-medium truncate"><?= $item['book_name']; ?></h2>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                        <div class="w-full shadow-lg rounded-lg bg-white p-5 mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-blue-800">#Order ID: <?= $orders['id'] ?></h3>
                             </div>
                             <?php
-                        endforeach;
-                    else:
-                        ?>
-                        <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
-                        <a href="index.php" class="bg-[#3D8D7A] rounded text-sm px-2 py-1 text-white font-semibold">
-                            Make Your 1st Order Now
-                        </a>
-                    <?php endif; ?>
+                            $orders_id = $orders['id'];
+                            $call_order_item = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE orders_id='$orders_id'");
+                            while ($order_item = mysqli_fetch_array($call_order_item)) { ?>
+
+                                <div class="flex flex-col gap-4 mt-3">
+
+                                    <div class="flex items-center border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50">
+                                        <img src="assets/images/<?= $order_item['img1'] ?>" alt="item_image" class="h-16">
+                                        <h2 class="ml-3 font-medium truncate"><?= $order_item['book_name'] ?></h2>
+                                        <h2 class="ml-3 font-medium truncate"><?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
+                                        echo $formatted_date . "<br>"; ?></h2>
+                                    </div>
+
+                                </div>
+
+                            <?php } ?>
+
+                        </div>
+
+                    <?php } ?>
+
+
+
+
+                    <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
+                    <a href="index.php" class="bg-[#3D8D7A] rounded text-sm px-2 py-1 text-white font-semibold">
+                        Make Your 1st Order Now
+                    </a>
+
 
 
 
