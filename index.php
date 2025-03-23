@@ -67,7 +67,7 @@
         <div class="relative z-5 h-56 overflow-hidden md:h-96">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/images/download.webp"
+                <img src="assets/images/Untitled design.png"
                     class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
