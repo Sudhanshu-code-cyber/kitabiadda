@@ -29,7 +29,13 @@
         }
         $password = md5($password);
 
-
+        // checkEmail if this email already exist
+            $checkEmail = $connect->query("select email from users where email='$email'");
+            if($checkEmail->num_rows > 0){
+                message("User already Registered");
+                redirect("../login.php");
+                exit();
+            }
         $query = $connect->query("insert into users (name, email, contact,gender, password) values('$name','$email','$contact','$gender','$password')");
 
         if($query){

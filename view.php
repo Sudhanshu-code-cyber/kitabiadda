@@ -105,31 +105,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
             <h3 class="text-lg font-semibold">Author: <span class="text-[#3D8D7A]"><?= $book['book_author']; ?></span>
             </h3>
             <div class="flex gap-5 mb-5">
-                <div
-                    class="border-2 border-orange-300 hover:border-orange-500 h-22 w-42 flex flex-col rounded pt-1 px-2">
-                    <p class="text-lg p-0 font-semibold">E-BOOK</p>
-                    <?php if ($book['version'] != 'old'): ?>
-                        <p class="text-gray-700 font-semibold">Price: <span
-                                class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
-                    <?php endif; ?>
-                    <?=
-                        $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
-                    ?>
-                </div>
-                <div
-                    class="border-2 border-orange-300 hover:border-orange-500 h-22 w-42 flex flex-col rounded pt-1 px-2">
-                    <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
-                    <?php
-                    $bookId = $book['id'];
-                    $mrp = floatval($book['mrp']);
-                    $sell_price = floatval($book['sell_price']);
-                    $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
-                    ?> 
-                    <p><?= $discount;?>% off</p>
-                    <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del> <span
-                            class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span></p>
-                </div>
+                <label class="cursor-pointer">
+                    <input type="radio" name="book_type" id="e_book" value="e_book" class="peer sr-only">
+                    <div
+                        class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                        <p class="text-lg p-0 font-semibold">E-BOOK</p>
+                        <?php if ($book['version'] != 'old'): ?>
+                            <p class="text-gray-700 font-semibold">Price: <span
+                                    class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
+                        <?php endif; ?>
+                        <?=
+                            $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
+                        ?>
+                    </div>
+                </label>
+                <label class="cursor-pointer">
+                    <input type="radio" name="book_type" id="physical" value="physical" class="peer sr-only">
+                    <div
+                        class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                        <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
+                        <?php
+                        $bookId = $book['id'];
+                        $mrp = floatval($book['mrp']);
+                        $sell_price = floatval($book['sell_price']);
+                        $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
+                        ?>
+                        <p><?= $discount; ?>% off</p>
+                        <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del>
+                            <span class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span>
+                        </p>
+                    </div>
+                </label>
             </div>
+
+
+            <!-- JavaScript to Update the Value -->
+            <script>
+                document.querySelectorAll('input[name="book_type"]').forEach((radio) => {
+                    radio.addEventListener("change", function () {
+                        document.getElementById("selectedOption").textContent = this.value;
+                    });
+                });
+            </script>
             <hr class="text-gray-300">
             <div class="flex flex-col gap-5">
                 <h1 class="text-xl text-gray-600 font-semibold">Key Highlights</h1>
@@ -182,17 +199,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
 
 
                         <p><?= $book['book_binding'] ?></p>
-                    </div>
+                     </div>
                 </div>
                 <?php
                 if ($book['version'] == "new"):
                     ?>
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="cart.php?add_book=<?= $book['id'] ?>"
+                        <p class="mt-4 text-lg font-bold text-blue-700">Selected Option: <span
+                                id="selectedOption">None</span></p>
+                        <a href="cart.php?add_book=<?=
+                            $book['id'] ?>"
                             class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
                             Cart</a>
-                        <a href="item_checkout.php?buy_book=<?= $book['id'] ?>"
-                            class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
+                        <a href="item_checkout.php?buy_book=<?=
+                            $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
 
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>

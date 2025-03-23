@@ -168,36 +168,42 @@ $coutwishlist = mysqli_num_rows($count);
             <div id="order" class="content-section  hidden">
                 <h2 class="text-2xl font-semibold mb-4">My Orders</h2>
                 <div class="flex flex-col gap-2 justify-center items-center ">
+                    <?php
+                    $call_myOrder = $connect->query("
+                        SELECT books.*, cart.orders_id FROM cart 
+                        JOIN books ON cart.item_id = books.id
+                        WHERE cart.email='$userEmail' AND cart.direct_buy=2
+                        ORDER BY cart.orders_id DESC
+                    ");
 
-                    <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders  WHERE email='$userEmail' ORDER BY id DESC ");
-                    if ($total_orders->num_rows > 0):
-                        while ($orders = mysqli_fetch_array($total_orders)): ?>
+                    $orders = [];
+
+                    if ($call_myOrder->num_rows > 0) {
+                        // Group items by order ID
+                        while ($item = $call_myOrder->fetch_assoc()) {
+                            $orders[$item['orders_id']][] = $item;
+                        }
+                    }
+
+                    // Display orders
+                    if ($orders):
+                        foreach ($orders as $orderId => $items):
+                            ?>
                             <div class="w-full shadow-lg rounded-lg bg-white p-5 mb-4">
-                                <div class="flex justify-between">
-                                    <h3 class="text-lg font-bold text-blue-800">#Order ID: <?= $orders['id'] ?></h3>
-                                    <p class="text-sm text-gray-800"><?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
-                                    echo $formatted_date . "<br>"; ?></p>
+                                <div>
+                                    <h3 class="text-lg font-bold text-blue-800">#Order ID: <?= $orderId; ?></h3>
                                 </div>
-                                <?php
-                                $orders_id = $orders['id'];
-                                $call_order_item = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE orders_id='$orders_id'");
-                                while ($order_item = mysqli_fetch_array($call_order_item)) { ?>
-
-                                    <div class="flex flex-col gap-4 mt-3">
-
+                                <div class="flex flex-col gap-4 mt-3">
+                                    <?php foreach ($items as $item): ?>
                                         <div class="flex items-center border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50">
-                                            <img src="assets/images/<?= $order_item['img1'] ?>" alt="item_image" class="h-16">
-                                            <h2 class="ml-3 font-medium truncate"><?= $order_item['book_name'] ?></h2>
-                                            <h2 class="ml-3 font-medium truncate"></h2>
+                                            <img src="assets/images/<?= $item['img1']; ?>" alt="item_image" class="h-16">
+                                            <h2 class="ml-3 font-medium truncate"><?= $item['book_name']; ?></h2>
                                         </div>
-
-                                    </div>
-
-                                <?php } ?>
-
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                             <?php
-                        endwhile;
+                        endforeach;
                     else:
                         ?>
                         <h2 class="text-2xl text-slate-400 font-bold">Order Not Available</h2>
@@ -205,6 +211,9 @@ $coutwishlist = mysqli_num_rows($count);
                             Make Your 1st Order Now
                         </a>
                     <?php endif; ?>
+
+
+
                 </div>
             </div>
             <div id="wishlist" class="content-section hidden">
