@@ -29,21 +29,30 @@ if (isset($_SESSION['user'])) {
 
         .nav {
             background: #3d8d7a;
+           
+        }
+        .poster{
+            display: flex;
+            font-size:x-large;
+            align-items: center;
         }
     </style>
 </head>
 
 <body style="background-color:#FBFFE4;">
     <nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand mx-5h6" href="../index.php">ReadRainbow</a>
-            <a href="../index.php" class="btn btn-primary">Go back</a>
+        <div class="container justify-content-start gap-3">
+            <a href="../index.php">
+            <i class="bi bi-arrow-left-circle-fill text-light h2"></i>
+            </a>
+            <a class="navbar-brand h1 poster" href="../index.php" >ReadRainbow</a>
+            
         </div>
     </nav>
 
 
     <div id="bookDetails" class="container py-5 mt-4">
-        <h2 class="mb-4 text-info">Book Details</h2>
+        <h2 class="mb-4 text-secondary">Book Details</h2>
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
             <div class="row g-4">
