@@ -101,7 +101,7 @@
   <i class="bi bi-layout-text-sidebar bg-dark"></i>
     </button>
 
-    <a class="navbar-brand " href="http://localhost/readrainbow/admin/index.php">Admin Panel</a>
+    <a class="navbar-brand " href="../../../readrainbow/admin/index.php">Admin Panel</a>
 
     <ul class="navbar-nav">
       <li class="nav-item">

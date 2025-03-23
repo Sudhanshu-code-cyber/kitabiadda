@@ -13,10 +13,10 @@
       <div class="collapse" id="manageOrderCollapse0">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/index.php">Home</a>
+            <a class="nav-link" href="../../../readrainbow/admin/index.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/dashboard/left_work.php">Works NOT Done</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/dashboard/left_work.php">Works NOT Done</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order Placed</a>
@@ -33,16 +33,16 @@
       <div class="collapse" id="manageOrderCollapse1">
         <ul class="nav flex-column ms-3">
         <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/recent_order.php">Recent Order</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/orders/recent_order.php">Recent Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/pending_order.php">Pending Order</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/orders/pending_order.php">Pending Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/cancle_product.php">Cancelled Order</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/orders/cancle_product.php">Cancelled Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/orders/delevered_order.php">Order Placed</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/orders/delevered_order.php">Order Placed</a>
           </li>
         </ul>
       </div>
@@ -56,10 +56,10 @@
       <div class="collapse" id="manageOrderCollapse2">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/category/view_category.php">View Category</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/category/view_category.php">View Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/category/insert_category.php">Insert
+            <a class="nav-link" href="../../../../readrainbow/admin/category/insert_category.php">Insert
               Category</a>
           </li>
           <!-- <li class="nav-item">
@@ -77,10 +77,10 @@
       <div class="collapse" id="manageOrderCollapse3">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/books/view_books.php">View Books</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/books/view_books.php">View Books</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/books/insert_books.php">Insert Books</a>
+            <a class="nav-link" href="../../../../readrainbow/admin/books/insert_books.php">Insert Books</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit item</a>
@@ -117,7 +117,7 @@
       <div class="collapse" id="manageOrderCollapse5">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/readrainbow/admin/users/user_custmer.php">Users </a>
+            <a class="nav-link" href="../../../../readrainbow/admin/users/user_custmer.php">Users </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Blocked Users</a>
