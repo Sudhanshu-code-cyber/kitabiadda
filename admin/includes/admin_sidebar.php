@@ -62,6 +62,13 @@
             <a class="nav-link" href="../../../../readrainbow/admin/category/insert_category.php">Insert
               Category</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../../../readrainbow/admin/category/view_subcategory.php">View Sub_Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../../../readrainbow/admin/category/insert_subcategory.php">Insert
+              Sub_Category</a>
+          </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit Category</a>
           </li> -->

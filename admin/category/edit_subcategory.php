@@ -26,23 +26,23 @@
 
         <div class="main-content">
             <div class="content flex-grow-1 p-4">
-                <h2>EDIT ONLY CATEGORY DETAILs...</h2>
+                <h2>INSERT ONLY CATEGORY DETAILs...</h2>
 
                 <!-- call edit item jo uska id hai  -->
                 <?php
-                if (isset($_GET['edit_cat']) ) {
-                    $cat_id = $_GET['edit_cat'];
-                    $call_edit_cat = mysqli_query($connect, "SELECT * FROM category where id=$cat_id");
+                if (isset($_GET['edit_subcat']) ) {
+                    $cat_id = $_GET['edit_subcat'];
+                    $call_edit_cat = mysqli_query($connect, "SELECT * FROM sub_category where id=$cat_id");
                     $edit_cat = mysqli_fetch_array($call_edit_cat);
 
                     if (isset($_POST['cat_edit'])) {
-                        $edit_cat_title = $_POST['edit_cat_title'];
+                        // $edit_cat_title = $_POST['edit_cat_title'];
                         $edit_subcat_title = $_POST['edit_subcat_title'];
-                        $edit_cat_description = $_POST['edit_cat_description'];
+                        // $edit_cat_description = $_POST['edit_cat_description'];
 
-                        $edit_cat_query = mysqli_query($connect, "UPDATE category SET cat_title='$edit_cat_title',cat_description='$edit_cat_description' WHERE id='$cat_id'");
+                        $edit_cat_query = mysqli_query($connect, "UPDATE sub_category SET sub_cat='$edit_subcat_title' WHERE id='$cat_id'");
                         if($edit_cat_query){
-                            echo "<script>window.location.href='view_category.php';</script>";
+                            echo "<script>window.location.href='view_subcategory.php';</script>";
 
                         } else {
                             echo "failed";
@@ -58,40 +58,66 @@
                     <div class="container mt-5">
                         <div class="row">
                             <!-- Category Section -->
+                            
+
+                            <!-- Sub-category Section -->
                             <div class="col-md-4">
                                 <div class="card">
-                                    <div class="card-header bg-primary text-white">
-                                        <h4>Category</h4>
+                                    <div class="card-header bg-info text-white">
+                                        <h4>Sub-category</h4>
                                     </div>
                                     <div class="card-body">
-                                        <input type="text" class="form-control" placeholder="Enter Category"
-                                            name="edit_cat_title" value="<?= $edit_cat['cat_title']; ?>">
+                                        <input type="text" class="form-control" placeholder="Enter Sub-category"
+                                            name="edit_subcat_title" value="<?= $edit_cat['sub_cat']; ?>">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Sub-category Section -->
-                            
-
                             <!-- Description Section -->
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header bg-success text-white">
                                         <h4>Description</h4>
                                     </div>
                                     <div class="card-body">
                                         <textarea class="form-control" rows="4" placeholder="Enter description here..."
-                                            name="edit_cat_description"><?= $edit_cat['cat_description']; ?></textarea>
+                                            name="edit_cat_description"></textarea>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Submit Button -->
                         <div class="row mt-3">
                             <div class="col text-center">
                                 <button class="btn btn-primary" name="cat_edit">Submit </button>
+                                <a href="?delete_cat=<?= $edit_cat['id']; ?>" class="btn btn-danger btn-md"><i
+                                                    class="bi bi-trash3"></i></a>
+                                            <!-- delete work start -->
+                                            <?php
+                                            if (isset($_GET['delete_cat'])) {
+                                                $id = $_GET['delete_cat'];
+                                                $delete_cat_query = mysqli_query($connect, "DELETE FROM sub_category where id='$id'");
+                                                if ($delete_cat_query) {
+                                                    echo "<script>
+                              Swal.fire({
+                                  title: 'Category DELETE Successfully!',
+                                  text: 'Click OK to go back to the category list.',
+                                  icon: 'success',
+                                  confirmButtonText: 'OK'
+                              }).then((result) => {
+                                  if (result.isConfirmed) {
+                                      // Redirect to your desired page (change 'your_page.php' to the actual page you want)
+                                      window.location.href = 'view_subcategory.php';
+                                  }
+                              });
+                            </script>";
+                                                }
+                                            }
+
+                                            ?>
                             </div>
+                            
                         </div>
                     </div>
 

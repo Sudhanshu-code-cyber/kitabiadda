@@ -26,7 +26,7 @@
 
         <div class="main-content col-8">
             <div class="content flex-grow-1 p-4">
-                <h2>ONLY VIEW INSERTED CATEGORies...</h2>
+                <h2>ONLY VIEW INSERTED SUB_CATEGORies...</h2>
 
                 <!-- Table Section inside Horizontal Slider -->
                 <div class="container mt-5">
@@ -42,7 +42,6 @@
                                     <th scope="col">Category</th>
                                     <th scope="col">Sub-category</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,13 +53,22 @@
                                         <th scope="row"><?= $cat_detail['id'] ?></th>
                                         <td><?= $cat_detail['cat_title'] ?></td>
                                         <td>
-                                            <select name="" id="" class="form-select">
-                                                <?php
-                                                $cat_id = $cat_detail['id'];
-                                                $call_subcat = mysqli_query($connect, "SELECT * FROM sub_category where cat_id='$cat_id'");
-                                                while ($subcat = mysqli_fetch_array($call_subcat)) { ?>
-                                                    <option value="<?= $subcat['sub_cat'] ?>"><?= $subcat['sub_cat'] ?></option>
-                                                <?php } ?>
+                                            <!-- <form method="GET" action=""> -->
+                                                <select name="subcategory" class="form-select"
+                                                    onchange="window.location.href=this.value">
+                                                    <option value="">Select Subcategory</option>
+                                                    <?php
+                                                    $cat_id = $cat_detail['id'];
+                                                    $call_subcat = mysqli_query($connect, "SELECT * FROM sub_category where cat_id='$cat_id'");
+                                                    while ($subcat = mysqli_fetch_array($call_subcat)) { ?>
+                                                        <option value="edit_subcategory.php?edit_subcat=<?= $subcat['id'] ?>"><?= $subcat['sub_cat'] ?></option>
+                                                    <?php } ?>
+
+                                                </select>
+                                            <!-- </form> -->
+
+                                            <!-- <select name="" id="" class="form-select"> -->
+
 
 
                                             </select>
@@ -69,35 +77,10 @@
                                         </td>
                                         <td><?= $cat_detail['cat_description'] ?>.</td>
 
-                                        <td><a href="?delete_cat=<?= $cat_detail['id']; ?>" class="btn btn-danger btn-sm"><i
-                                                    class="bi bi-trash3"></i></a>
-                                            <!-- delete work start -->
-                                            <?php
-                                            if (isset($_GET['delete_cat'])) {
-                                                $id = $_GET['delete_cat'];
-                                                $delete_cat_query = mysqli_query($connect, "DELETE FROM category where id='$id'");
-                                                if ($delete_cat_query) {
-                                                    echo "<script>
-                              Swal.fire({
-                                  title: 'Category DELETE Successfully!',
-                                  text: 'Click OK to go back to the category list.',
-                                  icon: 'success',
-                                  confirmButtonText: 'OK'
-                              }).then((result) => {
-                                  if (result.isConfirmed) {
-                                      // Redirect to your desired page (change 'your_page.php' to the actual page you want)
-                                      window.location.href = 'view_category.php';
-                                  }
-                              });
-                            </script>";
-                                                }
-                                            }
-
-                                            ?>
+                                        <td>
                                             <!-- delete work end -->
 
-                                            <a href="edit_category.php?edit_cat=<?= $cat_detail['id']; ?>"
-                                                class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                            
                                         </td>
 
                                     </tr>

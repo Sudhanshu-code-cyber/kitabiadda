@@ -26,25 +26,35 @@
 
     <div class="main-content">
       <div class="content flex-grow-1 p-4">
-        <h2>INSERT ONLY CATEGORY DETAILs...</h2>
+        <h2>INSERT  SUB_CATEGORY DETAILs...</h2>
 
         <form action="" method="post">
           <div class="container mt-5">
             <div class="row">
               <!-- Category Section -->
-              <div class="col-md-4">
+              <div class="col-md-4 mt-3">
                 <div class="card">
                   <div class="card-header bg-primary text-white">
                     <h4>Category</h4>
                   </div>
                   <div class="card-body">
-                    <input type="text" class="form-control" placeholder="Enter Category" name="cat_title">
+                    <select name="cat_title" id="" class="form-select">
+                    <option value="">Select Category</option>
+                        <?php
+                            $call_cat = mysqli_query($connect,"SELECT * FROM category");
+                            while($cat = mysqli_fetch_array($call_cat)){ ?>
+                            <option value="<?= $cat['id'] ?>"><?= $cat['cat_title'] ?></option>
+
+                            <?php } ?>
+                        
+                        
+                    </select>
                   </div>
                 </div>
               </div>
 
               <!-- Sub-category Section -->
-              <!-- <div class="col-md-4">
+              <div class="col-md-4 mt-3">
                 <div class="card">
                   <div class="card-header bg-info text-white">
                     <h4>Sub-category</h4>
@@ -53,10 +63,10 @@
                     <input type="text" class="form-control" placeholder="Enter Sub-category" name="subcat_title">
                   </div>
                 </div>
-              </div> -->
+              </div>
 
               <!-- Description Section -->
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <div class="card">
                   <div class="card-header bg-success text-white">
                     <h4>Description</h4>
@@ -67,24 +77,24 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Submit Button -->
             <div class="row mt-3">
               <div class="col text-center">
-                <button class="btn btn-primary" name="cat_submit">Submit </button>
+                <button class="btn btn-primary" name="subcat_submit">Submit </button>
               </div>
             </div>
           </div>
         </form>
         <?php
-        if (isset($_POST['cat_submit'])) {
+        if (isset($_POST['subcat_submit'])) {
           $cat_title = $_POST['cat_title'];
-          // $subcat_title = $_POST['subcat_title'];
-          $cat_description = $_POST['cat_description'];
-          $insert_category = mysqli_query($connect, "INSERT INTO category (cat_title,cat_description) VALUE ('$cat_title','$cat_description')");
+          $subcat_title = $_POST['subcat_title'];
+        //   $cat_description = $_POST['cat_description'];
+          $insert_category = mysqli_query($connect, "INSERT INTO sub_category (cat_id,sub_cat) VALUE ('$cat_title','$subcat_title')");
           if ($insert_category) {
-            echo "<script>Swal.fire('Category Inserted Successfully !'); </script>";
+            echo "<script>Swal.fire('Sub Category Inserted Successfully !'); </script>";
           }
         }
 
