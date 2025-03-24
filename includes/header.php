@@ -4,11 +4,15 @@ if (isset($_SESSION['user'])) {
 }
 ?>
 <div class="flex fixed w-full z-50 top-0 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
-    <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">ReadRainbow</a>
+    <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide"><img
+            src="assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="Logo"
+            class="h-12 w-24 sm:h-14 md:h-16 lg:h-20 object-contain">
+    </a>
     <form action="filter.php" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
             class="p-2 bg-white rounded-l w-[35rem] text-black ">
-        <button type="submit" name="search" class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
+        <button type="submit" name="search"
+            class="bg-[#B3D8A8] font-semibold rounded-r p-2 text-slate-800">Search</button>
     </form>
     <a href="wishlist.php">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
