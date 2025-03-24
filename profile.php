@@ -293,82 +293,145 @@ $coutwishlist = mysqli_num_rows($count);
             </div>
             <div id="address" class="content-section hidden">
                 <h2 class="text-2xl font-semibold mb-4">My Address</h2>
-                <div class="flex flex-col gap-2 justify-center items-center mt-[10%]">
+                <div class="flex flex-col gap-2 justify-center mt-[10%]">
                     <?php
                     $callAdd = $connect->query("select * from user_address where email='$userEmail'");
                     $address = $callAdd->fetch_assoc();
                     if ($callAdd):
                         ?>
-                        <form action="" method="POST" class="mt-4">
+                        <!-- <form action="" method="POST" class="mt-4">
                             <div class="grid grid-cols-2 gap-4">
-                                <input type="text" id="name" name="name" value="<?= $address['name'];?>" placeholder="Name" class="border p-2 rounded">
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">Name</label>
+                                    <input type="text" id="name" name="name" value="<?= $address['name']; ?>"
+                                        placeholder="Name" class="border p-2 rounded">
+                                </div>
 
-                                <input type="text" id="mobile" name="mobile" value="<?= $address['mobile'];?>" placeholder="10-digit mobile number"
-                                    class="border p-2 rounded">
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">Contact</label>
+                                    <input type="text" id="mobile" name="mobile" value="<?= $address['mobile']; ?>"
+                                        placeholder="10-digit mobile number" class="border p-2 rounded">
+                                </div>
 
-                                <input type="text" id="pincode" name="pincode" value="<?= $address['pincode'];?>" placeholder="Pincode"
-                                    class="border p-2 rounded">
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">PinCode</label>
+                                    <input type="text" id="pincode" name="pincode" value="<?= $address['pincode']; ?>"
+                                        placeholder="Pincode" class="border p-2 rounded">
+                                </div>
 
-                                <input type="text" id="locality" name="locality" value="<?= $address['locality'];?>" placeholder="Locality"
-                                    class="border p-2 rounded">
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">Locality</label>
+                                    <input type="text" id="locality" name="locality" value="<?= $address['locality']; ?>"
+                                        placeholder="Locality" class="border p-2 rounded">
+                                </div>
 
-                                <textarea id="address" name="address" value="<?= $address['address'];?>" placeholder="Address (Area and Street)"
-                                    class="border p-2 rounded col-span-2"></textarea>
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">Address</label>
+                                    <textarea id="address" name="address" placeholder="Address (Area and Street)"
+                                        class="border p-2 rounded col-span-2"><?= $address['pincode']; ?></textarea>
+                                </div>
 
-                                <input type="text" id="city" name="city" value="<?= $address['city'];?>" placeholder="City/District/Town"
-                                    class="border p-2 rounded">
 
-                                <select id="state" name="state" value="<?= $address['state'];?>" class="border p-2 rounded">
-                                    <option value="">Select State</option>
-                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                    <option value="Assam">Assam</option>
-                                    <option value="Bihar">Bihar</option>
-                                    <option value="Chhattisgarh">Chhattisgarh</option>
-                                    <option value="Goa">Goa</option>
-                                    <option value="Gujarat">Gujarat</option>
-                                    <option value="Haryana">Haryana</option>
-                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                    <option value="Jharkhand">Jharkhand</option>
-                                    <option value="Karnataka">Karnataka</option>
-                                    <option value="Kerala">Kerala</option>
-                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                    <option value="Maharashtra">Maharashtra</option>
-                                    <option value="Manipur">Manipur</option>
-                                    <option value="Meghalaya">Meghalaya</option>
-                                    <option value="Mizoram">Mizoram</option>
-                                    <option value="Nagaland">Nagaland</option>
-                                    <option value="Odisha">Odisha</option>
-                                    <option value="Punjab">Punjab</option>
-                                    <option value="Rajasthan">Rajasthan</option>
-                                    <option value="Sikkim">Sikkim</option>
-                                    <option value="Tamil Nadu">Tamil Nadu</option>
-                                    <option value="Telangana">Telangana</option>
-                                    <option value="Tripura">Tripura</option>
-                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                    <option value="Uttarakhand">Uttarakhand</option>
-                                    <option value="West Bengal">West Bengal</option>
-                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                    <option value="Chandigarh">Chandigarh</option>
-                                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
-                                        Daman and Diu</option>
-                                    <option value="Lakshadweep">Lakshadweep</option>
-                                    <option value="Delhi">Delhi</option>
-                                    <option value="Puducherry">Puducherry</option>
-                                    <option value="Ladakh">Ladakh</option>
-                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                </select>
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">City</label>
+                                    <input type="text" id="city" name="city" value="<?= $address['city']; ?>"
+                                        placeholder="City/District/Town" class="border p-2 rounded">
+                                </div>
 
-                                <input type="text" id="landmark" name="landmark" value="<?= $address['landmark'];?>" placeholder="Landmark (Optional)"
-                                    class="border p-2 rounded">
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">State</label>
+                                    <select id="state" name="state" value="<?= $address['state']; ?>"
+                                        class="border p-2 rounded">
+                                        <option value=""><?= $address['state']; ?></option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
+                                            Daman and Diu</option>
+                                        <option value="Lakshadweep">Lakshadweep</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Puducherry">Puducherry</option>
+                                        <option value="Ladakh">Ladakh</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    </select>
+                                </div>
 
-                                <input type="text" id="alternatePhone" name="alternate_phone"  value="<?= $address['alternate_phone'];?>"
-                                    placeholder="Alternate Phone (Optional)" class="border p-2 rounded">
+
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">landMark</label>
+                                    <input type="text" id="landmark" name="landmark" value="<?= $address['landmark']; ?>"
+                                        placeholder="Landmark (Optional)" class="border p-2 rounded">
+                                </div>
+
+                                <div class="flex flex-col gap-1">
+                                    <label for="" class="text-lg">Alternate Mobile</label>
+                                    <input type="text" id="alternatePhone" name="alternate_phone"
+                                        value="<?= $address['alternate_phone']; ?>" placeholder="Alternate Phone (Optional)"
+                                        class="border p-2 rounded">
+                                </div>
                             </div>
-                        </form>
-
+                        </form> -->
+                        <div class="bg-white shadow-lg border-gray-200 p-5">
+                            <div class="flex justify-between">
+                                <div class="flex gap-5">
+                                    <h1 class="text-lg font-semibold"><?= $address['name']; ?></h1>
+                                    <h1 class="border border-green-500 font-semibold text-green-500 rounded-xl px-1">
+                                        <?= $address['home_work']; ?>
+                                    </h1>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="#" class="border rounded font-semibold bg-yellow-500 text-white p-1 "><svg
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="border rounded font-semibold bg-red-500 text-white p-1"><svg
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <p class="text-sm font-semibold mt-2 text-gray-600">
+                                <?= $address['address']; ?>,<?= $address['city']; ?>,<?= $address['state']; ?>,<?= $address['landmark']; ?>,<?= $address['pincode']; ?>
+                            </p>
+                            <p class="text-sm font-semibold text-gray-600"><?= $address['mobile']; ?> ,
+                                <?= $address['alternate_phone']; ?>
+                            </p>
+                        </div>
                     <?php else: ?>
-                        <h1>Address not available</h1>
+                        <h1 class="text-lg font-semibold">Address not available</h1>
                     <?php endif; ?>
                 </div>
             </div>
