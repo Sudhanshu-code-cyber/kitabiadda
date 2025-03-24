@@ -36,7 +36,7 @@ if (!empty($_GET['filter'])) {
 }
 
 // Filter: Price Range
-if (!empty($_GET['price1'])) {
+if (!empty($_GET['price'])) {
     $priceConditions = [];
     foreach ($_GET['price'] as $range) {
         if ($range === '3000 above') {
