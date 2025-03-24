@@ -6,7 +6,7 @@ if (isset($_SESSION['user'])) {
 <div class="flex fixed w-full z-50 top-0 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide"><img
             src="assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="Logo"
-            class="h-12 w-24 sm:h-14 md:h-16 lg:h-20 object-contain">
+            class="h-10 w-auto   object-contain">
     </a>
     <form action="filter.php" method="get" class="flex border rounded">
         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
