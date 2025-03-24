@@ -1,12 +1,13 @@
 <?php
 include "../config/connect.php";
+
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $user_email = $user['email'];
 $address_query = mysqli_query($connect, "SELECT address FROM user_address WHERE email = '$user_email'");
 $address_row = mysqli_fetch_assoc($address_query);
-$user_address = $address_row['address'] ?? ''; // If no address found, keep it empty
+$user_address = $address_row['address'] ?? ''; 
 
 ?>
 
@@ -24,13 +25,25 @@ $user_address = $address_row['address'] ?? ''; // If no address found, keep it e
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+         @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         .img>upload {
             width: 120px;
             height: 50px;
+            animation: fadeIn 0.8s ease-in-out;
         }
 
         .nav {
             background: #3d8d7a;
+            animation: fadeIn 0.8s ease-in-out;
 
         }
 
@@ -38,17 +51,20 @@ $user_address = $address_row['address'] ?? ''; // If no address found, keep it e
             display: flex;
             font-size: x-large;
             align-items: center;
+            animation: fadeIn 0.8s ease-in-out;
         }
+       
     </style>
 </head>
 
-<body style="background-color:#FBFFE4;">
+<body style="background-color:#FBFFE4; animation: fadeIn 0.8s ease-in-out;">
     <nav class="navbar navbar-expand-lg navbar-dark nav fixed-top">
         <div class="container justify-content-start gap-3">
             <a href="../index.php">
                 <i class="bi bi-arrow-left-circle-fill text-light h2"></i>
             </a>
-            <a class="navbar-brand h1 poster" href="../index.php">ReadRainbow</a>
+            <img src="../assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="logo" class="img-fluid " style="height:40px;">
+
 
         </div>
     </nav>
