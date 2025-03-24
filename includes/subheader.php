@@ -1,10 +1,7 @@
-<!-- Include Flowbite CSS & JS in your <head> and before closing </body> -->
-
 <style>
     .no-scrollbar::-webkit-scrollbar {
         display: none;
-    }
-
+    }  
     .no-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -45,15 +42,19 @@
             <div class="overflow-x-auto whitespace-nowrap no-scrollbar max-w-full" id="categoryScroll">
                 <div class="flex space-x-4">
                     <?php
-                    $names = ['49 store', '99 store', '149 store', 'Pre Booking', 'Text Book','English Book', 'Harry Potter Store', 'Childreen', 'Manga Store', 'Hindi Book'];
+                    $names = ['49 store', '99 store', '149 store', 'Text-Book', 'English Book', 'Harry Potter Store', 'Childreen', 'Manga Store', 'Hindi Book'];
+
                     foreach ($names as $name):
+                        preg_match('/\d+/', $name, $matches);
+                        $price = $matches[0] ?? ''; 
                     ?>
-                        <a href="filter2.php?name=<?=$name;?>"
+                        <a href="filter.php?<?= $price ? 'price2=' . $price : 'name=' . urlencode($name); ?>"
                             class="border-l border-[#105242] pl-4 pr-2 font-semibold text-gray-700 hover:text-green-800 hover:underline transition">
                             <?= $name; ?>
                         </a>
                     <?php endforeach; ?>
-                        
+
+
                 </div>
             </div>
         </div>

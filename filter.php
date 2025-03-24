@@ -1,12 +1,11 @@
 <?php
 include_once "config/connect.php";
-
 $user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
-$userId = $user ? $user['user_id'] : null;
 
+$userId = $user ? $user['user_id'] : null;
 // Wishlist Toggle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) {
     if ($userId) {
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1'])) 
         exit();
     }
 }
-
 // Base query
 $sql = "SELECT books.*, books.id AS book_id, category.cat_title 
         FROM books 
@@ -75,6 +73,20 @@ if (!empty($_GET['search_book'])) {
     )";
 }
 
+
+    // Filter by Price
+    if (isset($_GET['price2'])) {
+        $price = (int)$_GET['price2'];
+        $sql .= " AND sell_price = '$price'";
+        $title = "Books in ₹$price Store";
+    }
+
+    // Filter by Category or Book Name
+    elseif (isset($_GET['name'])) {
+        $name = mysqli_real_escape_string($connect, $_GET['name']);
+        $sql .= " AND (book_category LIKE '%$name%' OR book_name LIKE '%$name%')";
+        $title = "Books in '$name'";
+    }
 
 $booksQuery = $connect->query($sql);
 ?>
@@ -133,12 +145,12 @@ $booksQuery = $connect->query($sql);
 
                 <!-- Keep category filter in form -->
                 <?php if (isset($_GET['filter'])): ?>
-                    <input type="hidden" name="filter" value="<?= htmlspecialchars($_GET['filter']); ?>">
+                    <input type="hidden" name="filter" value="<?= $_GET['filter']; ?>">
                 <?php endif; ?>
 
                 <!-- Keep search in form -->
                 <?php if (isset($_GET['search_book'])): ?>
-                    <input type="hidden" name="search_book" value="<?= htmlspecialchars($_GET['search_book']); ?>">
+                    <input type="hidden" name="search_book" value="<?= $_GET['search_book']; ?>">
                 <?php endif; ?>
 
                 <button type="submit" class="mt-4 flex w-full bg-blue-500 py-2 px-4 rounded text-white font-semibold items-center justify-center">
@@ -155,9 +167,21 @@ $booksQuery = $connect->query($sql);
                         $bookId = $book['book_id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                         $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                        //discount work
+
+                        $mrp = floatval($book['mrp']);
+                        $sell_price = floatval($book['sell_price']);
+
+                        if ($mrp > 0 && is_numeric($sell_price)) {
+                            $percentage = ($mrp - $sell_price) / $mrp * 100;
+                        } else {
+                            echo "Error: Invalid price values.";
+                        }
+
                     ?>
                         <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
-                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">60% OFF</div>
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md"><?= round($percentage);?>% OFF</div>
 
                             <!-- Wishlist Button -->
                             <form method="POST" action="" class="absolute top-3 right-3" onclick="event.stopPropagation();">
