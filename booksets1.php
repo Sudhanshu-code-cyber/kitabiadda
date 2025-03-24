@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
 
     <div class="mt-30 :grid grid-cols-4 bg-[#f6f7f5] p-10">
         <div class="bg-white border-b border-gray-200 py-5 px-5 shadow">
-            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "book sets"</h1>
+            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?=($bookType);?> Books"</h1>
         </div>
 
         <div class="grid grid-cols-5 gap-5 p-10 bg-white h-auto">
