@@ -63,7 +63,7 @@ $book = $booksQuery->fetch_assoc();
                             action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
                             class="absolute top-3 right-3" onclick="event.stopPropagation();">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                            <button type="submit" name="toggle_wishlist">
+                            <button type="submit" class="cursor-pointer" name="toggle_wishlist">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
                                     class="size-6 hover:scale-110 transition">
@@ -75,9 +75,9 @@ $book = $booksQuery->fetch_assoc();
 
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
-                            <div class="flex justify-center hover:scale-105 transition">
+                            <div class="flex justify-center ">
                                 <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
-                                    class="w-40 h-56 object-cover shadow-md rounded-md">
+                                    class="w-40 h-56 object-cover shadow-md hover:scale-105 transition rounded-md">
                             </div>
 
                             <!-- Book Info -->
