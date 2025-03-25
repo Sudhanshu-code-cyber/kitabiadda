@@ -199,12 +199,24 @@ $coutwishlist = mysqli_num_rows($count);
                                                 class="h-18 rounded shadow-sm">
                                             <h2 class="ml-3 font-medium truncate"><?= $order_item['book_name'] ?></h2>
                                             <h2 class="ml-3 font-medium ">₹ <?= $order_item['sell_price']; ?></h2>
-                                            <div class="flex flex-col gap-1 items-center">
-                                                <p class="text-sm font-semibold">🟢 Delivered on <?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
-                                                echo $formatted_date . "<br>"; ?></p>
-                                                <p class="text-xs">Your item has been delivered</p>
-                                                <p class="text-sm text-blue-500">⭐ Rate & Review Product</p>
-                                            </div>
+                                            <?php
+                                            if ($orders['status'] == 1):
+                                                ?>
+                                                <div class="flex flex-col gap-1 items-center">
+                                                    <p class="text-sm font-semibold">🟢 Delivered on <?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
+                                                    echo $formatted_date . "<br>"; ?></p>
+                                                    <p class="text-xs">Your item has been delivered</p>
+                                                    <p class="text-sm text-blue-500">⭐ Rate & Review Product</p>
+                                                </div>
+                                            <?php elseif ($orders["status"] == 2): ?>
+                                                <h1 class="text-white font-semibold bg-orange-500 rounded px-2 py-1">Order Shipped</h1>
+                                            <?php elseif ($orders["status"] == 3): ?>
+                                                <h1 class="text-white font-semibold bg-yellow-600 rounded px-2 py-1">In Transite State
+                                                </h1>
+                                            <?php elseif ($orders["status"] == 4): ?>
+                                                <h1 class="text-white font-semibold bg-green-600 rounded px-2 py-1">Out For Delivery
+                                                </h1>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -322,7 +334,7 @@ $coutwishlist = mysqli_num_rows($count);
                                     </h1>
                                 </div>
                                 <div class="flex gap-2">
-                                    <a data-modal-target="developerModel" data-modal-toggle="developerModel"
+                                    <a data-modal-target="editAddress" data-modal-toggle="editAddress"
                                         class="p-1 bg-yellow-500 cursor-pointer text-white rounded font-semibold"><svg
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -330,44 +342,47 @@ $coutwishlist = mysqli_num_rows($count);
                                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
                                     </a>
-                                    <div id="developerModel" tabindex="-1" aria-hidden="true"
+                                    <div id="editAddress" tabindex="-1" aria-hidden="true"
                                         class="fixed top-0 left-0 right-0 z-50 hidden w-full h-screen p-4 overflow-x-hidden overflow-y-auto flex items-center justify-center">
 
                                         <div
                                             class="relative rounded-lg shadow-md max-w-xl w-[80vw] p-8 flex items-center justify-center">
-                                            <div class="absolute inset-0 bg-white rounded-lg"></div>
+                                            <div class="absolute inset-0 bg-[#FBFFE4] rounded-lg"></div>
 
                                             <button type="button" class="absolute top-3 right-3 text-white z-10"
-                                                data-modal-hide="developerModel">
+                                                data-modal-hide="editAddress">
                                                 <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor"
                                                     viewBox="0 0 14 14">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13" />
                                                 </svg>
                                             </button>
-                                            <div class="relative bg-white z-10 w-full">
+                                            <div class="relative bg-[#FBFFE4] z-10 w-full">
                                                 <?php
-                                                    $call_address = $connect->query("select * from user_address where email='$userEmail'");
-                                                    $address = $call_address->fetch_assoc();
+                                                $call_address = $connect->query("select * from user_address where email='$userEmail'");
+                                                $address = $call_address->fetch_assoc();
                                                 ?>
                                                 <form action="" method="POST" class="mt-4">
                                                     <div class="grid grid-cols-2 gap-4">
-                                                        <input type="text" id="name" name="name"
-                                                            class="border p-2 rounded" value="<?= $address['name'];?>">
-                                                        <input type="text" id="mobile" name="mobile"
-                                                            class="border p-2 rounded"
-                                                            value="<?= $address['mobile'];?>">
-                                                        <input type="text" id="pincode" name="pincode" 
-                                                            class="border p-2 rounded" value="<?= $address['pincode'];?>">
+                                                        <input type="text" id="name" name="name" placeholder="Full Name"
+                                                            class="border p-2 rounded" value="<?= $address['name']; ?>">
+                                                        <input type="text" id="mobile" name="mobile" placeholder="Mobile"
+                                                            class="border p-2 rounded" value="<?= $address['mobile']; ?>">
+                                                        <input type="text" id="pincode" name="pincode" placeholder="Pincode"
+                                                            class="border p-2 rounded" value="<?= $address['pincode']; ?>">
                                                         <input type="text" id="locality" name="locality"
-                                                            class="border p-2 rounded" value="<?= $address['locality']; ?>">
-                                                        <input id="address" name="address"
-                                                            class="border p-2 rounded col-span-2 text-left" value="<?= $address['address'];?>">
-                                                        <input type="text" id="city" name="city" class="border p-2 rounded"
-                                                            value="<?= $address['city'];?>">
+                                                            placeholder="Locality" class="border p-2 rounded"
+                                                            value="<?= $address['locality']; ?>">
+                                                        <input id="address" name="address" placeholder="Address"
+                                                            class="border p-2 rounded col-span-2 bg-white text-left"
+                                                            value="<?= $address['address']; ?>">
+                                                        <input type="text" id="city" name="city" placeholder="City"
+                                                            class="border p-2  rounded" value="<?= $address['city']; ?>">
                                                         <!-- <label for="state">State</label> -->
                                                         <select id="state" name="state" class="border p-2 rounded">
-                                                        <option value="<?= $address['state'];?>"><?= $address['state'];?></option>
+                                                            <option value="<?= $address['state']; ?>">
+                                                                <?= $address['state']; ?>
+                                                            </option>
                                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                                             <option value="Assam">Assam</option>
@@ -411,10 +426,12 @@ $coutwishlist = mysqli_num_rows($count);
                                                         </select>
 
 
-                                                        <input type="text" id="landmark" name="landmark" class="border p-2 rounded"
-                                                            value="<?= $address['landmark'];?>">
+                                                        <input type="text" id="landmark" name="landmark"
+                                                            placeholder="Landmark" class="border p-2 rounded"
+                                                            value="<?= $address['landmark']; ?>">
                                                         <input type="text" id="alternatePhone" name="alternate_phone"
-                                                            class="border p-2 rounded" value="<?= $address['alternate_phone'];?>">
+                                                            placeholder="Alternate_phone" class="border p-2 rounded"
+                                                            value="<?= $address['alternate_phone']; ?>">
                                                     </div>
 
                                                     <div class="mt-4">
@@ -428,13 +445,41 @@ $coutwishlist = mysqli_num_rows($count);
                                                     </div>
 
                                                     <div class="mt-6 flex justify-between">
-
-                                                        <button type="button" id="cancelBtn"
-                                                            class="text-blue-500">CANCEL</button>
-                                                        <button type="submit" name="add_submit"
-                                                            class="bg-orange-500 text-white px-6 py-2 rounded">SAVE ADDRESS</button>
+                                                        <button type="submit" name="add_address"
+                                                            class="bg-[#3D8D7A] w-full text-white px-6 py-2 rounded">SAVE
+                                                            ADDRESS</button>
                                                     </div>
                                                 </form>
+                                                <?php
+                                                if (isset($_POST['add_address'])) {
+                                                    $name = $_POST['name'];
+                                                    $mobile = $_POST['mobile'];
+                                                    $pincode = $_POST['pincode'];
+                                                    $locality = $_POST['locality'];
+                                                    $address = $_POST['address'];
+                                                    $city = $_POST['city'];
+                                                    $state = $_POST['state'];
+                                                    $landmark = $_POST['landmark'];
+                                                    $alternate_phone = $_POST['alternate_phone'];
+                                                    $home_work = $_POST['home_work'];
+
+                                                    $update_add = $connect->query("UPDATE user_address set name='$name'");
+                                                    if ($update_add) {
+                                                        echo '
+                                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                            <script>
+                                                               Swal.fire({
+                                                                title: "Update Address",
+                                                                icon: "success",
+                                                                draggable: true
+                                                                });
+                                                            </script>
+                                                            ';
+                                                    } else {
+                                                        message("Not Updated Address");
+                                                    }
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -473,6 +518,7 @@ $coutwishlist = mysqli_num_rows($count);
             document.getElementById(section).classList.remove('hidden');
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
 </body>
