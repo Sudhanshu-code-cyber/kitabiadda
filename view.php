@@ -1,5 +1,6 @@
 <?php
 include_once "config/connect.php";
+
 $user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
