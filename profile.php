@@ -40,7 +40,7 @@ $coutwishlist = mysqli_num_rows($count);
                 <button class="w-full text-left px-4 py-2 bg-[#FBFFE4] rounded-lg mb-2 font-semibold cursor-pointer"
                     onclick="showSection('edit_details')">Edit Details</button>
                 <button class="w-full text-left px-4 py-2 bg-[#FBFFE4] rounded-lg mb-2 font-semibold cursor-pointer"
-                    onclick="showSection('products')">My Products</button>
+                    onclick="showSection('my_selling')">My Selling</button>
                 <button class="w-full text-left px-4 py-2 bg-[#FBFFE4] rounded-lg mb-2 font-semibold cursor-pointer"
                     onclick="showSection('order')">My Orders</button>
                 <button class="w-full text-left px-4 py-2 bg-[#FBFFE4] rounded-lg mb-2 font-semibold cursor-pointer"
@@ -155,14 +155,27 @@ $coutwishlist = mysqli_num_rows($count);
                 }
                 ?>
             </div>
-            <div id="products" class="content-section hidden">
-                <h2 class="text-2xl font-semibold mb-4">My Products</h2>
+            <div id="my_selling" class="content-section hidden">
+                <h2 class="text-2xl font-semibold mb-4">My Selled Products</h2>
                 <?php
                 $calling_myItem = $connect->query("select * from books where seller_id='$userId'");
                 if ($calling_myItem->num_rows > 0):
                     while ($myItem = $calling_myItem->fetch_assoc()):
                         ?>
-                        <h1><?= $myItem['book_name']; ?></h1>
+                        <div class="flex flex-col gap-4 mt-3">
+                            <div
+                                class="flex items-center justify-between border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50">
+                                <img src="assets/images/<?= $myItem['img1'];?>" alt="item_image" class="h-18 rounded shadow-sm">
+                                <h2 class="ml-3 font-medium truncate"><?= $myItem['book_name'];?></h2>
+                                <h2 class="ml-3 font-medium text-green-600">₹ <?= $myItem['sell_price'];?></h2>
+                                <div class="flex flex-col gap-1 items-center">
+                                    <p class="text-sm font-semibold">Book Sold on --DATE--</p>
+                                    <p class="text-xs">Your product has been sold</p>
+                                </div>
+                            </div>
+                        </div>
+
+
                     <?php endwhile;
                 else:
                     ?>
@@ -463,18 +476,21 @@ $coutwishlist = mysqli_num_rows($count);
                                                     $alternate_phone = $_POST['alternate_phone'];
                                                     $home_work = $_POST['home_work'];
 
-                                                    $update_add = $connect->query("UPDATE user_address set name='$name'");
+                                                    $update_add = $connect->query("UPDATE user_address set name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', alternate_phone='$alternate_phone', home_work='$home_work'");
                                                     if ($update_add) {
                                                         echo '
                                                             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                                             <script>
                                                                Swal.fire({
-                                                                title: "Update Address",
+                                                                title: "Updated Address",
                                                                 icon: "success",
                                                                 draggable: true
-                                                                });
+                                                                }).then(() => {
+                                                                    window.location.href = "profile.php"; // Redirect to home page
+                                                                })
                                                             </script>
                                                             ';
+
                                                     } else {
                                                         message("Not Updated Address");
                                                     }
@@ -513,12 +529,20 @@ $coutwishlist = mysqli_num_rows($count);
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const lastSection = localStorage.getItem("activeSection") || "edit_details";
+            showSection(lastSection);
+        });
+
         function showSection(section) {
             document.querySelectorAll('.content-section').forEach(div => div.classList.add('hidden'));
             document.getElementById(section).classList.remove('hidden');
+
+            // Store the selected section in localStorage
+            localStorage.setItem("activeSection", section);
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
 </body>
