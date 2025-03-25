@@ -1,13 +1,10 @@
 <?php
 include_once "config/connect.php";
-
+redirectIfNotAuth();
 if (isset($_SESSION['user'])) {
     $user = getUser(); // Assuming getUser() fetches logged-in user details
     $user_id = $user['user_id'];
-} else {
-    echo "User not logged in.";
-    exit;
-}
+} 
 
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
