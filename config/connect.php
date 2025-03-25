@@ -15,7 +15,7 @@
     // redirect If Not Authentication Function
     function redirectIfNotAuth(){
         if(!isset($_SESSION["user"])){
-            redirect("../login.php");
+            redirect("login.php");
         }
     }
 

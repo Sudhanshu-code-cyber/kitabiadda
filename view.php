@@ -1,5 +1,6 @@
 <?php
 include_once "config/connect.php";
+redirectIfNotAuth();
 
 $user = null;
 if (isset($_SESSION['user'])) {
