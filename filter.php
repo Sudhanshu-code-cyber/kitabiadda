@@ -71,7 +71,7 @@ $booksQuery = $connect->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-[#FBFFE4]">
+<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
@@ -166,7 +166,7 @@ $booksQuery = $connect->query($sql);
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-red-500 mb-4">😕 Oops! No books found for the selected filters.</h2>
-                        
+
                     </div>
                 </div>
             <?php endif; ?>
