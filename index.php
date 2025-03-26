@@ -55,7 +55,7 @@
     }
 </style>
 
-<body class="bg-[#FBFFE4]">
+<body class="bg-white text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
@@ -64,7 +64,7 @@
     <!-- First Carousel -->
     <div id="default-carousel" class="relative mt-30 w-full" data-carousel="slide">
         <!-- Carousel wrapper -->
-        <div class="relative z-5 h-110 overflow-hidden md:h-120">
+        <div class="relative z-5 h-110 overflow-hidden md:h-100">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <img src="assets/banner/banner1.webp"

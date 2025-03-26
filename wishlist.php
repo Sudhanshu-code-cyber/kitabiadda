@@ -64,7 +64,7 @@ if ($userId) {
 <body>
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
-    <div class="flex mt-30 gap-4 px-[5%] p-10 flex-col bg-[#fefff7]">
+    <div class="flex mt-30 gap-4 px-[5%] p-10 flex-col bg-linear-65 ">
         <h1 class="font-bold text-2xl text-red-900 flex items-center gap-2 animate-pulse">
             <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text">
                 My Wishlist (<?= $countWishlist; ?>)
