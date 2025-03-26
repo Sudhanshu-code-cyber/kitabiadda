@@ -17,7 +17,7 @@ $book = $booksQuery->fetch_assoc()
 
 
 
-<section class="bg-white py-10">
+<section class=" py-10">
     <div class="w-full px-[5%] mx-auto px-[2%]">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Old Book</h2>

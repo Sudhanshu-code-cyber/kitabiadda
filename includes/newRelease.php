@@ -13,7 +13,7 @@ $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 $book = $booksQuery->fetch_assoc();
 ?>
-<section class="bg-white  py-10 px-[2%]">
+<section class="  py-10 px-[2%]">
     <div class=" w-full px-[5%]  mx-auto px-4">
 
         <!-- Header -->

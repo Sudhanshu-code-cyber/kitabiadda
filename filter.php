@@ -35,27 +35,7 @@ if (!empty($_GET['filter'])) {
     $sql .= " AND book_category = '$cat_title'";
 }
 
-// Filter: Price Range
-if (!empty($_GET['price'])) {
-    $priceConditions = [];
-    foreach ($_GET['price'] as $range) {
-        if ($range === '3000 above') {
-            $priceConditions[] = "(sell_price > 3000)";
-        } else {
-            [$min, $max] = explode('-', $range);
-            $priceConditions[] = "(sell_price BETWEEN " . (int)$min . " AND " . (int)$max . ")";
-        }
-    }
-    $sql .= " AND (" . implode(" OR ", $priceConditions) . ")";
-}
 
-// Filter: Language
-if (!empty($_GET['language'])) {
-    $langs = array_map(function ($lang) use ($connect) {
-        return "'" . mysqli_real_escape_string($connect, $lang) . "'";
-    }, $_GET['language']);
-    $sql .= " AND language IN (" . implode(", ", $langs) . ")";
-}
 
 // Filter: Search
 if (!empty($_GET['search_book'])) {
@@ -74,19 +54,8 @@ if (!empty($_GET['search_book'])) {
 }
 
 
-    // Filter by Price
-    if (isset($_GET['price2'])) {
-        $price = (int)$_GET['price2'];
-        $sql .= " AND sell_price = '$price'";
-        $title = "Books in ₹$price Store";
-    }
 
-    // Filter by Category or Book Name
-    elseif (isset($_GET['name'])) {
-        $name = mysqli_real_escape_string($connect, $_GET['name']);
-        $sql .= " AND (book_category LIKE '%$name%' OR book_name LIKE '%$name%')";
-        $title = "Books in '$name'";
-    }
+
 
 $booksQuery = $connect->query($sql);
 ?>
@@ -102,67 +71,29 @@ $booksQuery = $connect->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<body class="bg-[#FBFFE4]">
+<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="flex mt-30 flex-col lg:flex-row gap-6 p-4">
-        <!-- Sidebar Filters -->
-        <div class="w-[50vh] max-w-md">
-            <form method="GET" class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Filters</h2>
-                <p class="text-xl text-gray-500 mb-4">Add filters for more accurate results</p>
+    <div class="flex flex-col mt-38  gap-6 p-4">
+        <?php
+        if (isset($_GET['hide'])) {
+        } else {
+        ?>
+            <div class="flex justify-center items-center">
+                <h2 class="text-2xl font-serif py-2 px-6 rounded-md bg-[#3D8D7A] font-bold text-white">
+                    <?= htmlspecialchars($filter); ?>
+                </h2>
+            </div>
+        <?php
+        }
+        ?>
 
-                <!-- Price Filter -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-3">Price</h3>
-                    <?php
-                    $prices = ['0-100', '101-200', '200-400', '400-1000', '1000-3000', '3000 above'];
-                    foreach ($prices as $price):
-                        $checked = (isset($_GET['price']) && in_array($price, $_GET['price'])) ? 'checked' : '';
-                    ?>
-                        <label class="flex items-center space-x-2 text-sm text-gray-600 mb-2 cursor-pointer">
-                            <input type="checkbox" name="price[]" value="<?= $price ?>" <?= $checked ?> class="text-blue-600 w-4 h-4 rounded" />
-                            <span><?= $price ?></span>
-                        </label>
-                    <?php endforeach; ?>
-                </div>
 
-                <!-- Language Filter -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-3">Language</h3>
-                    <?php
-                    $languages = ['English', 'Italian', 'Vietnamese', 'Hindi'];
-                    foreach ($languages as $lang):
-                        $checked = (isset($_GET['language']) && in_array($lang, $_GET['language'])) ? 'checked' : '';
-                    ?>
-                        <label class="flex items-center space-x-2 text-sm text-gray-600 mb-2 cursor-pointer">
-                            <input type="checkbox" name="language[]" value="<?= $lang ?>" <?= $checked ?> class="text-green-600 w-4 h-4 rounded" />
-                            <span><?= $lang ?></span>
-                        </label>
-                    <?php endforeach; ?>
-                </div>
 
-                <!-- Keep category filter in form -->
-                <?php if (isset($_GET['filter'])): ?>
-                    <input type="hidden" name="filter" value="<?= $_GET['filter']; ?>">
-                <?php endif; ?>
-
-                <!-- Keep search in form -->
-                <?php if (isset($_GET['search_book'])): ?>
-                    <input type="hidden" name="search_book" value="<?= $_GET['search_book']; ?>">
-                <?php endif; ?>
-
-                <button type="submit" class="mt-4 flex w-full bg-blue-500 py-2 px-4 rounded text-white font-semibold items-center justify-center">
-                    Apply Filter
-                </button>
-            </form>
-        </div>
-
-        <!-- Main Book List -->
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
-                <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <main class="grid grid-cols-5 gap-4">
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
@@ -181,7 +112,7 @@ $booksQuery = $connect->query($sql);
 
                     ?>
                         <div class="bg-white p-4 rounded-lg shadow-lg h-[60vh] border border-gray-200 w-full relative">
-                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md"><?= round($percentage);?>% OFF</div>
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md"><?= round($percentage); ?>% OFF</div>
 
                             <!-- Wishlist Button -->
                             <form method="POST" action="" class="absolute top-3 right-3" onclick="event.stopPropagation();">
@@ -235,9 +166,7 @@ $booksQuery = $connect->query($sql);
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-red-500 mb-4">😕 Oops! No books found for the selected filters.</h2>
-                        <a href="filter.php" class="inline-block mt-4 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-                            Clear All Filters
-                        </a>
+
                     </div>
                 </div>
             <?php endif; ?>
