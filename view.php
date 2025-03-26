@@ -1,5 +1,6 @@
 <?php
 include_once "config/connect.php";
+
 $user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
@@ -199,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
 
 
                         <p><?= $book['book_binding'] ?></p>
-                     </div>
+                    </div>
                 </div>
                 <?php
                 if ($book['version'] == "new"):
@@ -212,7 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
                             class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
                             Cart</a>
                         <a href="item_checkout.php?buy_book=<?=
-                            $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy Now</a>
+                            $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy
+                            Now</a>
 
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
