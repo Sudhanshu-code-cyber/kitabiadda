@@ -373,62 +373,63 @@ if (isset($_GET['minus_book'])) {
                     });
                 </script>
 
-                <div class="bg-white shadow-sm rounded-lg w-full border mt-4">
+                <div class="bg-white shadow-md rounded-lg w-full border mt-4">
                     <!-- Header -->
-                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
-                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">3</span>
-                        <span>ORDER SUMMERY</span>
+                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
+                        <span class="bg-[#3D8D7A] px-3 py-1 text-xs rounded-full">3</span>
+                        <span>ORDER SUMMARY</span>
                     </div>
 
                     <!-- Order Item -->
                     <?php
                     if (isset($_GET['buy_book'])) {
                         $book_id = $_GET['buy_book'];
-                        // $insert_direct_buy = mysqli_query($connect,"INSERT INTO cart () VALUE ()");
                     }
-
                     if (isset($_GET['minus_book'])) {
                         $book_id = $_GET['minus_book'];
-                        // $insert_direct_buy = mysqli_query($connect,"INSERT INTO cart () VALUE ()");
                     }
-                    ?>
-                    <?php
+
                     $email = $_SESSION['user'];
-                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND books.id='$book_id' AND direct_buy=1 ");
-                    $cartItem = mysqli_fetch_array($callCartItem) ?>
-                    <div class="flex items-center p-6 border-b">
+                    $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE cart.email='$email' AND books.id='$book_id' AND direct_buy=1");
+                    $cartItem = mysqli_fetch_array($callCartItem);
+                    ?>
+
+                    <div
+                        class="flex flex-col md:flex-row items-center p-4 border-b bg-white hover:bg-gray-50 transition">
                         <!-- Product Image -->
-                        <img src="assets/images/<?= $cartItem['img1'] ?>" alt="Product Image"
-                            class="w-20 h-20 object-cover rounded-md">
+                        <a href="view.php?book_id=<?= $cartItem['item_id'] ?>" class="mb-3 md:mb-0">
+                            <img src="assets/images/<?= $cartItem['img1'] ?>" alt="Product Image"
+                                class="w-28 h-28 md:w-20 md:h-20 object-cover rounded-md shadow">
+                        </a>
 
-                        <div class="ml-4 flex-grow">
+                        <div class="flex-1 text-center md:text-left ms-4">
                             <h2 class="font-semibold text-lg"><?= $cartItem['book_name'] ?></h2>
-                            <p class="text-gray-700 text-sm">
-                                Author: <span class="font-medium"><?= $cartItem['book_author'] ?></span>
+                            <p class="text-gray-500 text-sm">Author: <span
+                                    class="font-medium"><?= $cartItem['book_author'] ?></span></p>
 
-                            </p>
-
-                            <div class="flex items-center mt-1">
+                            <div class="flex items-center justify-center md:justify-start mt-2">
                                 <span class="text-gray-500 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
                                 <span class="text-black font-bold text-lg ml-2">₹<?= $cartItem['sell_price'] ?></span>
-                                <span
-                                    class="text-green-600 text-sm ml-2"><?= round(((($cartItem['mrp'] - $cartItem['sell_price']) / $cartItem['mrp']) * 100)) ?>%
-                                    Off</span>
+                                <span class="text-green-600 text-sm ml-2">
+                                    <?= round(((($cartItem['mrp'] - $cartItem['sell_price']) / $cartItem['mrp']) * 100)) ?>%
+                                    Off
+                                </span>
                             </div>
-
-
                         </div>
 
-                        <div class="text-right">
-                            <div class="flex items-center mt-2">
-                                <a href="?minus_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">−</a>
-                                <span class="px-4"> <?= $cartItem['qty'] ?> </span>
-                                <a href="?buy_book=<?= $cartItem['id'] ?>" class="border px-3 py-1 text-xl">+</a>
+                        <!-- Quantity Box -->
+                        <div class="mt-3 md:mt-0">
+                            <div class="flex items-center border rounded-lg shadow-md">
+                                <a href="?minus_book=<?= $cartItem['id'] ?>"
+                                    class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-l-lg">−</a>
+                                <span class="text-lg font-bold px-4"><?= $cartItem['qty'] ?></span>
+                                <a href="?buy_book=<?= $cartItem['id'] ?>"
+                                    class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-r-lg">+</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
 
 
 
@@ -506,17 +507,17 @@ if (isset($_GET['minus_book'])) {
                 </div>
                 <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
 
-                <div class="flex justify-between items-center bg-white p-4 border shadow-sm rounded-sm mt-3">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
                     <!-- Email Confirmation Message -->
-                    <p class="text-gray-700 text-sm">
+                    <p class="text-gray-700 text-sm text-center sm:text-left">
                         Order confirmation email will be sent to
                         <span class="font-bold"><?= $email ?></span>
                     </p>
 
                     <!-- Continue Button -->
-
                     <button name="order_submit"
-                        class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600">
+                        class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600 w-full sm:w-auto mt-3 sm:mt-0">
                         PLACE ORDER
                     </button>
                     </form>
@@ -528,10 +529,10 @@ if (isset($_GET['minus_book'])) {
             // $totleSellPrice = 0;
             $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=1 AND books.id=$book_id ");
             $price = mysqli_fetch_array($callCartItem);
-                $totleMrp = $price['qty'] * $price['mrp'];
-                $totleSellPrice = $price['qty'] * $price['sell_price'];
-                $totleSellPrice2 = ($price['qty'] - 1) * $price['sell_price'];
-            
+            $totleMrp = $price['qty'] * $price['mrp'];
+            $totleSellPrice = $price['qty'] * $price['sell_price'];
+            $totleSellPrice2 = ($price['qty'] - 1) * $price['sell_price'];
+
             ?>
             <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit sticky top-16">
                 <h2 class="text-xl font-bold mb-4">Price Details</h2>
@@ -646,6 +647,6 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
         $insertOrder = mysqli_query($connect, "UPDATE cart SET direct_buy=2 , orders_id='$orders_id' , qty = GREATEST(0, qty - 1) WHERE item_id='$book_id' AND direct_buy=1");
 
     }
-} 
+}
 
 ?>
