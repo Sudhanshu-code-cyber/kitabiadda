@@ -353,7 +353,8 @@ $user_address = $address_row['address'] ?? '';
         }
 
         if (!is_numeric($mrp) || !is_numeric($price) || !is_numeric($publish_year)) {
-            $errors[] = "MRP, Selling Price, and Publish Year must be numeric!";
+            $errors[] = "<script>Swal.fire('All required fields must be !filled')</script>";
+            
         }
         if (strlen($publish_year) != 4) {
             $errors[] = "<script>Swal.fire('public year must be 4 digit !')</script>";
