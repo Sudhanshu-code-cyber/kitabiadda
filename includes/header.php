@@ -20,9 +20,9 @@ $userEmail = $user['email'] ?? null;
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-36">
+            <div class="hidden md:flex items-center space-x-28">
                 <!-- Search Bar -->
-                <form action="filter.php" method="get" class="relative w-96">
+                <form action="filter.php" method="get" class="relative w-130">
                     <div
                         class="flex rounded-md shadow-sm ring-1 ring-[#B3D8A8] ring-opacity-50 focus-within:ring-2 focus-within:ring-[#FBFFE4] transition-all duration-200">
                         <input type="search" name="search_book" placeholder="Search by ISBN or name..."
