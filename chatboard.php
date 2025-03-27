@@ -2,9 +2,9 @@
 include_once "config/connect.php";
 redirectIfNotAuth();
 if (isset($_SESSION['user'])) {
-    $user = getUser(); // Assuming getUser() fetches logged-in user details
+    $user = getUser();
     $user_id = $user['user_id'];
-} 
+}
 
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
@@ -32,6 +32,17 @@ $chatList = [];
 while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     $chatList[] = $chatRow;
 }
+
+// Handle message sending
+if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $sellerdata) {
+    $message = mysqli_real_escape_string($connect, $_POST['message']);
+    $insert = $connect->query("INSERT INTO message (sender_id, receiver_id, product_id, message, msg_time) 
+                              VALUES ('$user_id', '$seller_id', '$book_id', '$message', NOW())");
+    if ($insert) {
+        header("Location: chatboard.php?book_id=$book_id");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,14 +50,15 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <style>
         #chatMessages {
             scrollbar-width: thin;
             scrollbar-color: #9CA3AF #F3F4F6;
-            /* thumb and track */
         }
 
         #chatMessages::-webkit-scrollbar {
@@ -58,97 +70,91 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
             border-radius: 4px;
         }
 
-        #chatMessages::-webkit-scrollbar-track {
-            background-color: #F3F4F6;
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .chat-container {
+                height: calc(100vh - 56px);
+            }
+
+            .chat-list {
+                height: 100%;
+                display: <?= $book_id ? 'none' : 'block' ?>;
+            }
+
+            .chat-window {
+                height: 100%;
+                display: <?= $book_id ? 'flex' : 'none' ?>;
+            }
+
+            .back-button {
+                display: flex !important;
+            }
         }
     </style>
-
 </head>
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
 
-    <div class="flex mt-36 border-t border-gray-300">
+    <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-36">
+        <!-- Mobile back button (only visible in mobile view when chat is open) -->
+        <div class="lg:hidden back-button items-center p-2 bg-[#B3D8A8] hidden <?= $book_id ? 'flex' : 'hidden' ?>">
+            <a href="chatboard.php" class="text-gray-700 hover:text-gray-900">
+                <i class="fas fa-arrow-left mr-2"></i> Back to conversations
+            </a>
+        </div>
+
         <!-- Chat List -->
-        <div class="w-4/12 border-r border-gray-300 bg-white h-[600px] overflow-y-auto">
-            <div class="p-4 bg-[#B3D8A8] border-b border-gray-300">
+        <div class="chat-list w-full lg:w-4/12 border-r border-gray-300 bg-white lg:h-[600px] h-full overflow-y-auto">
+            <div class="p-4 bg-[#B3D8A8] border-b border-gray-300 text-center lg:text-left sticky top-0 z-10">
                 <h2 class="text-xl font-bold">INBOX</h2>
             </div>
             <?php if (!empty($chatList)): ?>
                 <?php foreach ($chatList as $chat):
                     $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                     $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
+                    $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#8fc3ba]' : 'bg-[#A3D1C6]';
                 ?>
-                    <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>">
-                        <div class="flex items-center gap-4 border p-3 bg-[#A3D1C6] rounded-lg hover:bg-[#8fc3ba] transition">
-                            <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded border" />
-                            <div>
-                                <h2 class="text-md font-semibold"><?= htmlspecialchars($chat["name"]); ?></h2>
-                                <p class="text-sm text-gray-600"><?= htmlspecialchars($chat["book_name"]); ?></p>
+                    <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block">
+                        <div class="flex items-center gap-4 p-3 <?= $activeClass ?> rounded-lg hover:bg-[#8fc3ba] transition">
+                            <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded border object-cover" />
+                            <div class="flex-1 min-w-0">
+                                <h2 class="text-md font-semibold truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
+                                <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
                                 <span class="text-xs text-gray-500">Click to chat</span>
                             </div>
                         </div>
                     </a>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="p-6 text-gray-500 text-center">
-                    No conversations yet.
-                </div>
+                <div class="p-6 text-gray-500 text-center">No conversations yet.</div>
             <?php endif; ?>
         </div>
 
         <!-- Chat Window -->
         <?php if ($sellerdata && $sellerInfo): ?>
-            <div class="w-8/12 bg-white flex flex-col h-[600px] overflow-hidden" id="chatBox">
-
-                <!-- Header -->
-                <div class="flex items-center justify-between p-6 border-b">
+            <div class="chat-window w-full lg:w-8/12 bg-white flex flex-col lg:h-[600px] h-[calc(100vh-112px)]">
+                <div class="flex items-center justify-between p-4 border-b sticky top-0 bg-white z-10">
                     <div class="flex items-center">
-                        <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-14 w-14 border rounded-full">
-                        <h2 class="text-lg m-4 font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button data-modal-target="callModal" data-modal-toggle="callModal"
-                            class="text-white hover:bg-green-600 text-sm border border-green-400 px-3 py-1 rounded">
-                            📞
-                        </button>
-                        <div id="callModal" tabindex="-1" aria-hidden="true"
-                            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-screen bg-black/50 backdrop-blur-sm">
-                            <div class="relative w-full max-w-md max-h-full m-auto mt-24">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                        data-modal-hide="callModal">✖</button>
-                                    <div class="p-6 text-center">
-                                        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Contact Seller</h3>
-                                        <p class="text-gray-600 dark:text-gray-300">Seller Name:</p>
-                                        <h2 class="text-xl font-bold text-green-700 mb-2"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
-                                        <p class="text-gray-600 dark:text-gray-300">Phone Number:</p>
-                                        <h2 class="text-xl font-bold text-blue-700 mb-4"><?= htmlspecialchars($sellerInfo['contact'] ?? 'Not Available'); ?></h2>
-                                        <a href="tel:<?= $sellerInfo['contact'] ?? '' ?>"
-                                            class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg">
-                                            📞 Call Now
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="lg:hidden mr-2">
+                            <a href="chatboard.php" class="text-gray-600 hover:text-gray-800">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
                         </div>
-                        <a href="chatboard.php"
-                            class="text-red-500 hover:text-red-700 text-sm border border-red-400 px-3 py-1 rounded">
-                            ✖
-                        </a>
+                        <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
+                    <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
                 </div>
 
-                <!-- Book Info -->
-                <div class="p-4 flex justify-between mx-6">
-                    <h2 class="text-xl font-semibold"><?= htmlspecialchars($sellerdata['book_name']); ?> :-</h2>
-                    <p class="text-xl font-semibold text-gray-600">₹ <?= $sellerdata['price'] ?? '100'; ?></p>
+                <div class="p-4 flex justify-between mx-2 lg:mx-6 border-b">
+                    <div class="flex items-center">
+                        <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
+                        <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none"><?= htmlspecialchars($sellerdata['book_name']); ?></h2>
+                    </div>
+                    <p class="text-lg lg:text-xl font-semibold text-gray-600">₹ <?= $sellerdata['sell_price']; ?></p>
                 </div>
 
-                <!-- Messages -->
-                <div class="flex-1 p-4 overflow-y-auto bg-gray-200 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100" id="chatMessages" style="max-height: 500px;">
-
+                <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
                     <?php
                     $messages = $connect->query("SELECT * FROM message WHERE 
                         ((sender_id = '$user_id' AND receiver_id = '$seller_id') OR 
@@ -158,68 +164,66 @@ while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
                     while ($msg = $messages->fetch_array()):
                         $isSender = ($msg['sender_id'] == $user_id);
                     ?>
-                        <?php if ($isSender): ?>
-                            <div class="flex items-end justify-end mb-4">
-                                <div class="gap-4 grid grid-cols-1">
-                                    <div class="bg-green-500 text-white p-3 rounded-lg shadow max-w-xs">
-                                        <p><?= htmlspecialchars($msg['message']); ?></p>
-                                        <span class="text-xs text-white"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
-                                    </div>
-                                </div>
-                                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" class="h-10 w-10 rounded-full border ml-2">
+                        <div class="flex <?= $isSender ? 'justify-end' : 'justify-start' ?> mb-4">
+                            <div class="p-3 rounded-lg max-w-[70%] lg:max-w-xs <?= $isSender ? 'bg-green-500 text-white' : 'bg-white' ?>">
+                                <p><?= htmlspecialchars($msg['message']); ?></p>
+                                <span class="text-xs text-gray-500 block text-right"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
                             </div>
-                        <?php else: ?>
-                            <div class="flex items-start space-x-3 mb-4">
-                                <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-10 w-10 rounded-full border">
-                                <div class="bg-white p-3 rounded-lg shadow max-w-xs">
-                                    <p class="text-gray-700"><?= htmlspecialchars($msg['message']); ?></p>
-                                    <span class="text-xs text-gray-500"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
+                        </div>
                     <?php endwhile; ?>
                 </div>
 
-                <!-- Chat Input -->
-                <div class="p-4 border-t flex items-center gap-2 bg-white">
+                <div class="p-3 lg:p-4 border-t flex items-center gap-2 bg-white sticky bottom-0">
                     <form action="" method="post" class="flex w-full gap-2">
-                        <input type="text" name="message" placeholder="Type a message..." class="flex-1 p-3 border rounded-lg outline-none focus:ring focus:ring-green-200" required>
-                        <button name="send_msg" class="bg-green-500 text-white p-3 rounded-lg shadow hover:bg-green-600 transition">
-                            Send
+                        <input type="text" name="message" placeholder="Type a message..." class="flex-1 p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500" required>
+                        <button name="send_msg" class="bg-green-500 hover:bg-green-600 text-white p-2 lg:p-3 rounded-lg transition">
+                            <i class="fas fa-paper-plane lg:mr-1"></i>
+                            <span class="hidden lg:inline">Send</span>
                         </button>
                     </form>
                 </div>
-
-                <?php
-                if (isset($_POST['send_msg'])) {
-                    $msg = mysqli_real_escape_string($connect, $_POST['message']);
-                    $query = $connect->query("INSERT INTO message (product_id, sender_id, receiver_id, message) 
-                        VALUES('$book_id', '$user_id', '$seller_id', '$msg')");
-
-                    if ($query) {
-                        echo "<script>window.location.href='chatboard.php?book_id=$book_id';</script>";
-                        exit;
-                    } else {
-                        echo "<p class='text-red-500 text-center'>Message not sent!</p>";
-                    }
-                }
-                ?>
             </div>
         <?php else: ?>
-            <div class="w-8/12 bg-white flex items-center justify-center h-[600px] text-gray-500 text-lg" id="noChat">
-                No chat selected
+            <div class="chat-window w-full lg:w-8/12 bg-white flex items-center justify-center lg:h-[600px] h-[calc(100vh-112px)] text-gray-500 text-lg">
+                <div class="text-center p-6">
+                    <i class="fas fa-comments text-4xl mb-3 text-gray-300"></i>
+                    <p>No chat selected</p>
+                    <p class="text-sm mt-2">Select a conversation from the list</p>
+                </div>
             </div>
         <?php endif; ?>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script>
         window.onload = function() {
             const chatMessages = document.getElementById("chatMessages");
             if (chatMessages) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
+
+            // Auto-focus message input when chat opens
+            const messageInput = document.querySelector("input[name='message']");
+            if (messageInput) {
+                messageInput.focus();
+            }
         };
+
+        // Handle mobile view transitions
+        document.addEventListener('DOMContentLoaded', function() {
+            // This ensures proper display when navigating back
+            if (window.innerWidth <= 768) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const bookId = urlParams.get('book_id');
+
+                if (bookId) {
+                    document.querySelector('.chat-list').style.display = 'none';
+                    document.querySelector('.chat-window').style.display = 'flex';
+                } else {
+                    document.querySelector('.chat-list').style.display = 'block';
+                    document.querySelector('.chat-window').style.display = 'none';
+                }
+            }
+        });
     </script>
 </body>
 
