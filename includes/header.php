@@ -1,8 +1,9 @@
 <?php
+$user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
-$userId = $user['user_id'];
+$userId = $user ? $user['user_id'] : null;
 $userEmail = $user['email'];
 ?>
 <div class="flex fixed w-full z-50 top-0 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
