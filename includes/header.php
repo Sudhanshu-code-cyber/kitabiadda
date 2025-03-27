@@ -6,165 +6,304 @@ $userId = $user['user_id'] ?? null;
 $userEmail = $user['email'] ?? null;
 ?>
 
-<!-- Mobile Menu Button (hidden on desktop) -->
-<button id="mobile-menu-button" class="lg:hidden fixed top-3 right-3 z-50 p-2 rounded-md bg-[#3D8D7A] text-[#FBFFE4] border border-[#FBFFE4]">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-</button>
-
-<!-- Main Navigation Bar -->
-<div class="flex flex-col lg:flex-row fixed w-full z-40 top-0 bg-[#3D8D7A] px-4 py-2 lg:px-8 lg:py-3">
-    <!-- Top Row (Logo + Mobile Icons) -->
-    <div class="flex justify-between items-center w-full lg:w-auto">
-        <!-- Logo -->
-        <a href="index.php" class="text-[#FBFFE4] font-bold text-xl lg:text-2xl tracking-wide">
-            <img src="assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="Logo" 
-                 class="h-8 lg:h-10 w-auto object-contain">
-        </a>
-
-        <!-- Mobile Icons (hidden on desktop) -->
-        <div class="flex items-center space-x-4 lg:hidden">
-            <!-- Mobile Search Toggle -->
-            <button id="mobile-search-toggle" class="p-1 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </button>
-            
-            <!-- User Icon (Mobile) -->
-            <?php if (isset($_SESSION['user'])): ?>
-                <button id="mobile-user-toggle" class="p-1 hover:bg-[#4a9c87] rounded-full">
-                    <img class="w-8 h-8 rounded-full border border-[#FBFFE4]"
-                         src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" 
-                         alt="User profile">
-                </button>
-            <?php else: ?>
-                <a href="login.php" class="p-1 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                    </svg>
+<!-- Premium Navigation Bar -->
+<div class="fixed w-full z-50 top-0 bg-[#3D8D7A] shadow-lg">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Desktop Navigation -->
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center">
+                <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-tight">
+                    <img src="assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="Logo"
+                        class="h-10 w-auto object-contain transition-transform hover:scale-105">
                 </a>
-            <?php endif; ?>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-36">
+                <!-- Search Bar -->
+                <form action="filter.php" method="get" class="relative w-96">
+                    <div
+                        class="flex rounded-md shadow-sm ring-1 ring-[#B3D8A8] ring-opacity-50 focus-within:ring-2 focus-within:ring-[#FBFFE4] transition-all duration-200">
+                        <input type="search" name="search_book" placeholder="Search by ISBN or name..."
+                            class="block w-full pl-4 pr-12 py-2 bg-white rounded-l-md border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0">
+                        <button type="submit" name="search"
+                            class="inline-flex items-center px-4 py-2 bg-[#B3D8A8] text-gray-800 font-medium rounded-r-md hover:bg-[#9bc58d] transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Navigation Icons -->
+                <div class="flex items-center space-x-6">
+                    <!-- Wishlist -->
+                    <a href="wishlist.php"
+                        class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition-all duration-200 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                        <?php if (isset($userId)):
+                            $countWishlistQuery = $connect->query("select * from wishlist where user_id='$userId'");
+                            $countWishlist = $countWishlistQuery->num_rows;
+                            if ($countWishlist > 0): ?>
+                                <div
+                                    class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
+                                    <?= $countWishlist; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="cart.php"
+                        class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition-all duration-200 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                        <?php if (isset($userEmail)):
+                            $countcartQuery = $connect->query("select * from cart where email='$userEmail' and direct_buy=0");
+                            $countcart = $countcartQuery->num_rows;
+                            if ($countcart > 0): ?>
+                                <div
+                                    class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
+                                    <?= $countcart; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </a>
+
+                    <!-- Chat -->
+                    <a href="chatboard.php"
+                        class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition-all duration-200 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor" class="w-6 h-6 group-hover:scale-110 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                        </svg>
+                        <div
+                            class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
+                            2
+                        </div>
+                    </a>
+
+                    <!-- Sell Button -->
+                    <a href="sell/sell2.php"
+                        class="relative ml-4 px-6 py-2.5 rounded-full text-sm font-semibold text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden">
+
+                        <!-- Animated background layer -->
+                        <span
+                            class="absolute inset-0 bg-[#FBFFE4]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+
+                        <!-- Button content with subtle animation -->
+                        <span class="relative flex items-center justify-center space-x-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 transition-transform duration-300 group-hover:rotate-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Sell Used Book</span>
+                        </span>
+
+                        <!-- Glow effect -->
+                        <span
+                            class="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            style="box-shadow: 0 0 15px rgba(251, 255, 228, 0.3);"></span>
+                    </a>
+
+                    <!-- User Profile -->
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <div class="relative ml-4">
+                            <button id="user-menu-button" type="button"
+                                class="flex items-center space-x-2 max-w-xs rounded-full focus:outline-none focus:ring-2 focus:ring-[#FBFFE4] group"
+                                aria-expanded="false" aria-haspopup="true">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full border-2 border-[#FBFFE4] group-hover:border-[#B3D8A8] transition-colors"
+                                    src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
+                                    alt="User profile">
+                                <span
+                                    class="text-[#FBFFE4] font-medium group-hover:text-[#B3D8A8] transition-colors"><?= $user['name']; ?></span>
+                                <svg class="h-4 w-4 text-[#FBFFE4] group-hover:text-[#B3D8A8] transition-colors"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div id="user-dropdown"
+                                class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#B3D8A8] ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 transform opacity-0 scale-95"
+                                role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                                <div class="py-3 px-4 border-b border-[#3D8D7A]">
+                                    <p class="text-sm font-medium text-gray-900"><?= $user['name']; ?></p>
+                                    <p class="text-xs font-light text-gray-700 truncate"><?= $user['email']; ?></p>
+                                </div>
+                                <div class="py-1">
+                                    <a href="profile.php"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#3D8D7A] hover:text-[#FBFFE4] transition-colors"
+                                        role="menuitem">Profile</a>
+                                    <a href="contact.php"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#3D8D7A] hover:text-[#FBFFE4] transition-colors"
+                                        role="menuitem">Help Center</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#3D8D7A] hover:text-[#FBFFE4] transition-colors"
+                                        role="menuitem">Settings</a>
+                                </div>
+                                <div class="py-1 border-t border-[#3D8D7A]">
+                                    <a href="logout.php"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#3D8D7A] hover:text-[#FBFFE4] transition-colors"
+                                        role="menuitem">Sign out</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <a href="login.php"
+                            class="ml-4 px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-[#3D8D7A] bg-[#FBFFE4] hover:bg-[#e8f5d0] transition-all duration-200 transform hover:scale-105">
+                            Login
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-toggle" type="button"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-[#FBFFE4] hover:text-white hover:bg-[#4a9c87] focus:outline-none focus:ring-2 focus:ring-[#FBFFE4] transition-all"
+                    aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Mobile Search (hidden by default) -->
-    <form id="mobile-search" action="filter.php" method="get" 
-          class="hidden lg:hidden w-full mt-2 border-2 border-[#B3D8A8] rounded-lg">
-        <div class="flex">
-            <input type="search" name="search_book" placeholder="Search by ISBN or name..."
-                   class="p-2 bg-white rounded-l-lg w-full text-black focus:outline-none">
-            <button type="submit" name="search"
-                    class="bg-[#B3D8A8] font-semibold rounded-r-lg p-2 text-slate-800 hover:bg-[#9bc58d]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </button>
-        </div>
-    </form>
-
-    <!-- Desktop Navigation (hidden on mobile) -->
-    <div class="hidden lg:flex lg:items-center lg:justify-between w-full mt-0">
-        <!-- Desktop Search -->
-        <form action="filter.php" method="get" 
-              class="flex border-2 border-[#B3D8A8] rounded-lg mx-4 w-full max-w-xl">
-            <input type="search" name="search_book" placeholder="Search by ISBN or name..."
-                   class="p-2 bg-white rounded-l-lg w-full text-black focus:outline-none">
-            <button type="submit" name="search"
-                    class="bg-[#B3D8A8] font-semibold rounded-r-lg p-2 text-slate-800 hover:bg-[#9bc58d] transition whitespace-nowrap">
-                Search
-            </button>
-        </form>
-
-        <!-- Desktop Icons -->
-        <div class="flex items-center space-x-6">
-            <!-- Wishlist -->
-            <a href="wishlist.php" class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                </svg>
-                <?php if(isset($userId)): 
-                    $countWishlistQuery = $connect->query("select * from wishlist where user_id='$userId'");
-                    $countWishlist = $countWishlistQuery->num_rows;
-                    if ($countWishlist > 0): ?>
-                        <div class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full">
-                            <?= $countWishlist; ?>
-                        </div>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </a>
-
-            <!-- Cart -->
-            <a href="cart.php" class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                </svg>
-                <?php if(isset($userEmail)): 
-                    $countcartQuery = $connect->query("select * from cart where email='$userEmail' and direct_buy=0");
-                    $countcart = $countcartQuery->num_rows;
-                    if ($countcart > 0): ?>
-                        <div class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full">
-                            <?= $countcart; ?>
-                        </div>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </a>
-
-            <!-- Chat -->
-            <a href="chatboard.php" class="relative p-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded-full transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
-                </svg>
-                <div class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full">
-                    2
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#3D8D7A] border-t border-[#4a9c87]">
+        <div class="max-w-7xl mx-auto px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <!-- Mobile Search -->
+            <form action="filter.php" method="get" class="px-2 pt-2 pb-3">
+                <div class="relative rounded-md shadow-sm">
+                    <input type="search" name="search_book" placeholder="Search by ISBN or name..."
+                        class="block w-full pl-4 pr-10 py-2 bg-white rounded-md border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FBFFE4]">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <button type="submit" name="search"
+                            class="p-1 rounded-md text-gray-700 hover:text-gray-900 focus:outline-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+            </form>
+
+            <!-- Mobile Navigation Links -->
+            <a href="wishlist.php"
+                class="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87] group">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                    </svg>
+                    Wishlist
+                </div>
+                <?php if (isset($userId) && $countWishlist > 0): ?>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        <?= $countWishlist; ?>
+                    </span>
+                <?php endif; ?>
             </a>
 
-            <!-- Sell Button -->
-            <a href="sell/sell2.php" class="border-2 border-[#FBFFE4] px-4 py-1 rounded-full text-[#FBFFE4] hover:bg-[#4a9c87] transition whitespace-nowrap text-sm font-medium">
+            <a href="cart.php"
+                class="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87] group">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                    Cart
+                </div>
+                <?php if (isset($userEmail) && $countcart > 0): ?>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        <?= $countcart; ?>
+                    </span>
+                <?php endif; ?>
+            </a>
+
+            <a href="chatboard.php"
+                class="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87] group">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+                    </svg>
+                    Chat
+                </div>
+                <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">2</span>
+            </a>
+
+            <a href="sell/sell2.php"
+                class="flex items-center px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87] group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 Sell Used Book
             </a>
 
-            <!-- User Dropdown -->
             <?php if (isset($_SESSION['user'])): ?>
-                <div class="relative">
-                    <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
-                        class="flex items-center space-x-2 text-sm font-medium text-[#FBFFE4] rounded-full hover:bg-[#4a9c87] transition pl-1 pr-3 py-1"
-                        type="button">
-                        <img class="w-8 h-8 rounded-full border border-[#FBFFE4]"
-                             src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" 
-                             alt="User profile">
-                        <span><?= $user['name']; ?></span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-
-                    <div id="dropdownAvatarName"
-                        class="hidden absolute right-0 mt-2 bg-[#B3D8A8] divide-y divide-gray-100 rounded-lg shadow w-44 z-50 border border-[#3D8D7A]">
-                        <div class="px-4 py-3 text-sm text-gray-900">
-                            <div class="font-medium"><?= $user['name']; ?></div>
-                            <div class="truncate"><?= $user['email']; ?></div>
+                <div class="pt-4 pb-3 border-t border-[#4a9c87]">
+                    <div class="flex items-center px-5">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full border-2 border-[#FBFFE4]"
+                                src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
+                                alt="User profile">
                         </div>
-                        <ul class="py-2 text-sm text-gray-700">
-                            <li>
-                                <a href="profile.php" class="block px-4 py-2 hover:bg-[#3D8D7A] hover:text-[#FBFFE4]">Profile</a>
-                            </li>
-                            <li>
-                                <a href="contact.php" class="block px-4 py-2 hover:bg-[#3D8D7A] hover:text-[#FBFFE4]">Help</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-[#3D8D7A] hover:text-[#FBFFE4]">Settings</a>
-                            </li>
-                        </ul>
-                        <div class="py-2">
-                            <a href="logout.php" class="block px-4 py-2 text-sm hover:bg-[#3D8D7A] hover:text-[#FBFFE4]">Logout</a>
+                        <div class="ml-3">
+                            <div class="text-base font-medium text-[#FBFFE4]"><?= $user['name']; ?></div>
+                            <div class="text-sm font-light text-[#e8f5d0]"><?= $user['email']; ?></div>
                         </div>
+                    </div>
+                    <div class="mt-3 px-2 space-y-1">
+                        <a href="profile.php"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87]">Profile</a>
+                        <a href="contact.php"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87]">Help
+                            Center</a>
+                        <a href="#"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87]">Settings</a>
+                        <a href="logout.php"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87]">Sign
+                            out</a>
                     </div>
                 </div>
             <?php else: ?>
-                <a href="login.php" class="border-2 border-[#FBFFE4] px-4 py-1 rounded-full text-[#FBFFE4] hover:bg-[#4a9c87] transition whitespace-nowrap text-sm font-medium">
+                <a href="login.php"
+                    class="block w-full px-4 py-2 mt-4 text-center text-sm font-medium text-[#3D8D7A] bg-[#FBFFE4] rounded-md hover:bg-[#e8f5d0] transition-colors">
                     Login
                 </a>
             <?php endif; ?>
@@ -172,132 +311,61 @@ $userEmail = $user['email'] ?? null;
     </div>
 </div>
 
-<!-- Mobile Menu (Hidden by default) -->
-<div id="mobile-menu" class="hidden fixed inset-0 z-30 bg-[#3D8D7A] pt-16 px-4 overflow-y-auto">
-    <div class="flex flex-col space-y-4">
-        <?php if (isset($_SESSION['user'])): ?>
-            <div class="flex items-center space-x-3 p-3 border-b border-[#4a9c87]">
-                <img class="w-12 h-12 rounded-full"
-                     src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" 
-                     alt="User profile">
-                <div>
-                    <div class="font-medium text-[#FBFFE4]"><?= $user['name']; ?></div>
-                    <div class="text-sm text-[#e8f5d0]"><?= $user['email']; ?></div>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- Mobile Navigation Links -->
-        <a href="index.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span>Home</span>
-        </a>
-
-        <a href="wishlist.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-            </svg>
-            <span>Wishlist</span>
-            <?php if(isset($userId) && $countWishlist > 0): ?>
-                <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    <?= $countWishlist; ?>
-                </span>
-            <?php endif; ?>
-        </a>
-
-        <a href="cart.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-            </svg>
-            <span>Cart</span>
-            <?php if(isset($userEmail) && $countcart > 0): ?>
-                <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    <?= $countcart; ?>
-                </span>
-            <?php endif; ?>
-        </a>
-
-        <a href="chatboard.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-            </svg>
-            <span>Chat</span>
-            <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">2</span>
-        </a>
-
-        <a href="sell/sell2.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>Sell Used Book</span>
-        </a>
-
-        <?php if (isset($_SESSION['user'])): ?>
-            <a href="profile.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span>Profile</span>
-            </a>
-
-            <a href="logout.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg border-t border-[#4a9c87] mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                </svg>
-                <span>Logout</span>
-            </a>
-        <?php else: ?>
-            <a href="login.php" class="flex items-center space-x-3 text-[#FBFFE4] hover:bg-[#4a9c87] p-3 rounded-lg border-t border-[#4a9c87] mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                </svg>
-                <span>Login</span>
-            </a>
-        <?php endif; ?>
-    </div>
-</div>
-
 <script>
     // Mobile menu toggle
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileMenuButton.addEventListener('click', () => {
+
+    mobileMenuToggle.addEventListener('click', function () {
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !expanded);
         mobileMenu.classList.toggle('hidden');
         document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
+
+        // Toggle hamburger icon
+        const svg = this.querySelector('svg');
+        if (svg) {
+            svg.classList.toggle('block');
+            svg.classList.toggle('hidden');
+        }
     });
 
-    // Mobile search toggle
-    const mobileSearchToggle = document.getElementById('mobile-search-toggle');
-    const mobileSearch = document.getElementById('mobile-search');
-    
-    mobileSearchToggle.addEventListener('click', () => {
-        mobileSearch.classList.toggle('hidden');
-        mobileMenu.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    });
+    // User dropdown toggle (desktop)
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userDropdown = document.getElementById('user-dropdown');
 
-    // Desktop dropdown toggle
-    const dropdownButton = document.getElementById('dropdownAvatarNameButton');
-    if(dropdownButton) {
-        dropdownButton.addEventListener('click', () => {
-            document.getElementById('dropdownAvatarName').classList.toggle('hidden');
+    if (userMenuButton) {
+        userMenuButton.addEventListener('click', function () {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            userDropdown.classList.toggle('hidden');
+            userDropdown.classList.toggle('opacity-0');
+            userDropdown.classList.toggle('scale-95');
         });
     }
 
-    // Close all dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#dropdownAvatarNameButton') && !e.target.closest('#dropdownAvatarName')) {
-            document.getElementById('dropdownAvatarName').classList.add('hidden');
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+        // Close user dropdown
+        if (userMenuButton && !e.target.closest('#user-menu-button') && !e.target.closest('#user-dropdown')) {
+            userDropdown.classList.add('hidden');
+            userDropdown.classList.add('opacity-0');
+            userDropdown.classList.add('scale-95');
+            userMenuButton.setAttribute('aria-expanded', 'false');
         }
-        if (!e.target.closest('#mobile-menu-button') && !e.target.closest('#mobile-menu')) {
+
+        // Close mobile menu
+        if (!e.target.closest('#mobile-menu-toggle') && !e.target.closest('#mobile-menu')) {
             mobileMenu.classList.add('hidden');
             document.body.style.overflow = 'auto';
-        }
-        if (!e.target.closest('#mobile-search-toggle') && !e.target.closest('#mobile-search')) {
-            mobileSearch.classList.add('hidden');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+
+            // Reset hamburger icon
+            const svgs = mobileMenuToggle.querySelectorAll('svg');
+            svgs.forEach(svg => {
+                svg.classList.add('block');
+                svg.classList.add('hidden');
+            });
         }
     });
 </script>
