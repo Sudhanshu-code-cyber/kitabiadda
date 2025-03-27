@@ -198,7 +198,7 @@ $userEmail = $user['email'] ?? null;
 
     <!-- Mobile Menu (Hidden by default) -->
     <div id="mobile-menu" class="hidden md:hidden bg-[#3D8D7A] border-t border-[#4a9c87]">
-        <div class="max-w-7xl mx-auto px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div class="max-w-7xl mx-auto px-2 pt-2 pb-3 space-y-1 sm:px-3 z-50">
             <!-- Mobile Search -->
             <form action="filter.php" method="get" class="px-2 pt-2 pb-3">
                 <div class="relative rounded-md shadow-sm">
