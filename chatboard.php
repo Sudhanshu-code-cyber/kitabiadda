@@ -95,7 +95,6 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
 
     <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-36">
         <!-- Mobile back button (only visible in mobile view when chat is open) -->
