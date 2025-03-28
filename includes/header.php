@@ -14,13 +14,13 @@ $userEmail = $user['email'] ?? null;
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
                 <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-tight">
-                    <img src="assets/images/Screenshot 2025-03-24 135151-Photoroom.png" alt="Logo"
-                        class="h-10 w-auto object-contain transition-transform hover:scale-105">
+                    <img src="assets/logo.png" alt="Logo"
+                        class="h-10 w-auto object-contain ">
                 </a>
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-28">
+            <div class="hidden md:flex ml-7 items-center space-x-28">
                 <!-- Search Bar -->
                 <form action="filter.php" method="get" class="relative w-130">
                     <div
