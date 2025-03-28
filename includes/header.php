@@ -14,13 +14,12 @@ $userEmail = $user['email'] ?? null;
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
                 <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-tight">
-                    <img src="assets/logo.png" alt="Logo"
+                    <img src="assets/logo2.png" alt="Logo"
                         class="h-10 w-auto object-contain ">
                 </a>
             </div>
 
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex ml-7 items-center space-x-28">
+            <div class="hidden md:flex xl:ml-7 items-center space-x-28">
                 <!-- Search Bar -->
                 <form action="filter.php" method="get" class="relative w-130">
                     <div
@@ -98,7 +97,6 @@ $userEmail = $user['email'] ?? null;
                     <a href="sell/sell2.php"
                         class="relative ml-4 px-6 py-2.5 rounded-full text-sm font-semibold text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden">
 
-                        <!-- Animated background layer -->
                         <span
                             class="absolute inset-0 bg-[#FBFFE4]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
 
