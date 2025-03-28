@@ -2,7 +2,41 @@
 include_once "config/connect.php"; 
 
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('Please login first!'); window.location.href='login.php';</script>";
+    $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: '🔒 Access Denied!',
+                text: 'Please login first to continue.',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Login Now',
+                denyButtonText: 'Go Back',
+                allowOutsideClick: false, // बाहर क्लिक करने से बंद न हो
+                allowEscapeKey: false, // ESC दबाने से बंद न हो
+                customClass: {
+                    popup: 'my-swal-popup',
+                    title: 'my-swal-title',
+                    confirmButton: 'my-swal-confirm-btn',
+                    denyButton: 'my-swal-deny-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; // Login Page पर जाएं
+                } else if (result.isDenied) {
+                    window.location.href = '$previousPage'; // पिछली पेज पर जाएं
+                }
+            });
+
+            // ⏳ 5 सेकंड बाद Auto Redirect पिछले पेज पर
+            setTimeout(() => {
+                window.location.href = '$previousPage';
+            }, 5000);
+        });
+    </script>";
+
     exit();
 }
 
@@ -44,6 +78,8 @@ if (isset($_GET['minus_book'])) {
     <title>My Cart | Flipkart Clone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="bg-gray-100">
