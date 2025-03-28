@@ -53,7 +53,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
                 <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
     <!-- Discount Badge (Smaller on Mobile) -->
     <div class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
-        <?= $percentage; ?>% OFF
+        <?= round($percentage); ?>% OFF
     </div>
 
     <!-- Wishlist Button (Compact on Mobile) -->

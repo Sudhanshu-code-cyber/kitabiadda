@@ -33,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
         exit();
     }
 }
+$bookId = $book['id'];
+$checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+$isWishlisted = ($checkWishlist->num_rows > 0);
 ?>
 
 <!DOCTYPE html>
@@ -65,13 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
                 <img src="assets/images/<?= $book['img1']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                     onclick="changeImage('<?php echo 'assets/images/' . $book['img1']; ?>')">
-                <img src="assets/images/<?= $book['img1']; ?>" alt="Thumbnail 1"
-                    class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo 'assets/images/' . $book['img2']; ?>')">
                 <img src="assets/images/<?= $book['img2']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                    onclick="changeImage('<?php echo 'assets/images/' . $book['img3']; ?>')">
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img2']; ?>')">
                 <img src="assets/images/<?= $book['img3']; ?>" alt="Thumbnail 1"
+                    class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
+                    onclick="changeImage('<?php echo 'assets/images/' . $book['img3']; ?>')">
+                <img src="assets/images/<?= $book['img4']; ?>" alt="Thumbnail 1"
                     class="w-16 object-cover h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                     onclick="changeImage('<?php echo 'assets/images/' . $book['img4']; ?>')">
             </div>
@@ -96,58 +99,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
                             d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
                             clip-rule="evenodd" />
                     </svg>
-
-
                 </div>
-
             </div>
 
             <p class="text-orange-400 text-sm font-semibold"><?= $book['book_category']; ?></p>
             <h3 class="text-lg font-semibold">Author: <span class="text-[#3D8D7A]"><?= $book['book_author']; ?></span>
             </h3>
             <div class="flex gap-5 mb-5">
-                <label class="cursor-pointer">
-                    <input type="radio" name="book_type" id="e_book" value="e_book" class="peer sr-only">
-                    <div
-                        class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
-                        <p class="text-lg p-0 font-semibold">E-BOOK</p>
-                        <?php if ($book['version'] != 'old'): ?>
+                <?php if ($book['version'] != 'old'): ?>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="book_type" id="e_book" value="e_book" class="peer sr-only">
+                        <div
+                            class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                            <p class="text-lg p-0 font-semibold">E-BOOK</p>
+
                             <p class="text-gray-700 font-semibold">Price: <span
                                     class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
-                        <?php endif; ?>
-                        <?=
-                            $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
-                        ?>
+                            <?=
+                                $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
+                            ?>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="book_type" id="physical" value="physical" class="peer sr-only " checked>
+                        <div
+                            class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                            <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
+                            <?php
+                            $bookId = $book['id'];
+                            $mrp = floatval($book['mrp']);
+                            $sell_price = floatval($book['sell_price']);
+                            $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
+                            ?>
+                            <p><?= $discount; ?>% off</p>
+                            <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del>
+                                <span class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span>
+                            </p>
+                        </div>
+                    </label>
+                <?php else: ?>
+                    <div>
+                        <p>MRP: <?= $book['mrp']; ?></p>
+                        <p>Price: <?= $book['sell_price']; ?></p>
+                        <p>Binding: <?= $book['book_binding']; ?></p>
                     </div>
-                </label>
-                <label class="cursor-pointer">
-                    <input type="radio" name="book_type" id="physical" value="physical" class="peer sr-only">
-                    <div
-                        class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
-                        <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
-                        <?php
-                        $bookId = $book['id'];
-                        $mrp = floatval($book['mrp']);
-                        $sell_price = floatval($book['sell_price']);
-                        $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
-                        ?>
-                        <p><?= $discount; ?>% off</p>
-                        <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del>
-                            <span class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span>
-                        </p>
-                    </div>
-                </label>
+                <?php endif; ?>
             </div>
-
-
-            <!-- JavaScript to Update the Value -->
-            <script>
-                document.querySelectorAll('input[name="book_type"]').forEach((radio) => {
-                    radio.addEventListener("change", function () {
-                        document.getElementById("selectedOption").textContent = this.value;
-                    });
-                });
-            </script>
             <hr class="text-gray-300">
             <div class="flex flex-col gap-5">
                 <h1 class="text-xl text-gray-600 font-semibold">Key Highlights</h1>
@@ -205,17 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
                 <?php
                 if ($book['version'] == "new"):
                     ?>
-                    <div class="grid grid-cols-2 gap-2">
-                        <p class="mt-4 text-lg font-bold text-blue-700">Selected Option: <span
-                                id="selectedOption">None</span></p>
-                        <a href="cart.php?add_book=<?=
-                            $book['id'] ?>"
-                            class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
-                            Cart</a>
-                        <a href="item_checkout.php?buy_book=<?=
-                            $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy
-                            Now</a>
-
+                    <div class="flex ">
+                        <p class="mt-4 text-lg font-bold  "><span id="selectedOption"></span></p>
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
                         <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
@@ -231,6 +219,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
                     document.getElementById("mainBookImage").src = src;
                 }
             </script>
+            <script>
+                function updateSelectedOption(value) {
+                    const selectedOption = document.getElementById("selectedOption");
+                    if (value === "e_book") {
+                        selectedOption.innerHTML = `
+                           <div class='grid grid-cols-2 gap-5'>
+                               <a class='text-orange-500 font-semibold border-orange-500 border rounded px-5 py-2' href='cart.php?add_book=<?=
+                                   $book['id'] ?>'>Get E-BOOK to Cart</a>
+                             <a class='text-white bg-orange-500 font-semibold rounded px-5 py-2' href='item_checkout.php?buy_book=<?=
+                                 $book['id'] ?>' class='flex'>Get E-BOOK Now</a>
+                         </div>
+                        `;
+                    } else if (value === "physical") {
+                        selectedOption.innerHTML = `
+                        <div class='grid grid-cols-2 gap-5'>
+                               <a class='text-orange-500 font-semibold border-orange-500 border rounded px-5 py-2' href='cart.php?add_book=<?=
+                                   $book['id'] ?>'>Add Hardcopi to Cart</a>
+                             <a class='text-white bg-orange-500 font-semibold rounded px-5 py-2' href='item_checkout.php?buy_book=<?=
+                                 $book['id'] ?>' class=' flex'>Buy Hardcopi Now</a>
+                         </div>
+                        `;
+                    }
+                }
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    document.getElementById("physical").checked = true;
+                    updateSelectedOption("physical");
+                });
+                document.querySelectorAll('input[name="book_type"]').forEach((radio) => {
+                    radio.addEventListener("change", function () {
+                        updateSelectedOption(this.value);
+                    });
+                });
+            </script>
         </div>
     </div>
     <div class="bg-white flex flex-col gap-1 mt-10 px-[5%] py-5 w-full flex">
@@ -243,138 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist2'])) 
             <p class="text-gray-700 border-b border-gray-300 py-2"><?= $book['book_author']; ?></p>
         </div>
     </div>
-    <section class="bg-white  py-10">
-        <div class=" w-full px-[5%]  mx-auto ">
-
-            <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Recomended Books</h2>
-                <a href="#" class="text-orange-500 font-semibold hover:underline">View All</a>
-            </div>
-
-            <!-- Carousel Container -->
-            <div class="relative ">
-
-                <!-- Left Arrow -->
-                <button id="scrollLeft"
-                    class="absolute z-10 left-0 top-1/2 -translate-y-1/2 bg-white border rounded-full shadow p-2 hover:bg-gray-100">
-                    &#8592;
-                </button>
-
-                <!-- Scrollable Book Cards -->
-                <div id="bookScroll" class="flex no-scrollbar space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
-
-                    <!-- Book Card -->
-
-
-                    <?php
-                    $book_category = $book['book_category'];
-                    // recomended book query
-                    $booksQuery = $connect->query("SELECT * FROM books WHERE book_category='$book_category' and id != '$book_id'");
-                    while ($book = $booksQuery->fetch_assoc()):
-                        // Check if the book is already in the wishlist
-                        $bookId = $book['id'];
-                        $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
-                        $isWishlisted = ($checkWishlist->num_rows > 0);
-
-                        $mrp = floatval($book['mrp']);
-                        $sell_price = floatval($book['sell_price']);
-
-                        if ($mrp > 0 && is_numeric($sell_price)) {
-                            $percentage = ($mrp - $sell_price) / $mrp * 100;
-
-                        } else {
-                            echo "Error: Invalid price values.";
-                        }
-                        ?>
-                        <div
-                            class="bg-white p-4 rounded-lg  transition shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
-                            <!-- Discount Badge (60% Off) -->
-
-
-                            <div
-                                class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                                <?= round($percentage); ?>% OFF
-                            </div>
-
-                            <div class=" px-3 ">
-                                <!-- Wishlist Heart Icon (Prevents Click from Going to Next Page) -->
-                                <form method="POST" action="" class="absolute top-3 right-3"
-                                    onclick="event.stopPropagation();">
-                                    <input type="hidden" name="wishlist_id2" value="<?= $bookId; ?>">
-                                    <button type="submit" class="cursor-pointer" name="toggle_wishlist2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                            class="size-6 hover:scale-110 transition">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-
-                            <!-- Book Click Redirect -->
-                            <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
-                                <div class="flex justify-center    ">
-                                    <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
-                                        class="w-40  h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
-                                </div>
-
-                                <!-- Book Info -->
-                                <div class="mt-4 text-center">
-                                    <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?>
-                                    </h2>
-                                    <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?>
-                                        <span class="text-sm text-orange-400 ml-2"><?= $book['book_category']; ?></span>
-
-                                    </p>
-
-                                    <!-- Price -->
-                                    <div class="flex justify-center items-center space-x-2 mt-1">
-                                        <p class="text-gray-500 line-through text-sm">₹<?= $book['mrp']; ?>/-</p>
-                                        <p class="text-black font-bold text-lg">₹<?= $book['sell_price']; ?>/-</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <!-- Footer (Add to Cart + Rating) -->
-                            <a href="cart.php?add_book=<?= $book['id']; ?>">
-                                <div class="mt-4 border-t pt-3 flex justify-between items-center">
-                                    <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to
-                                        cart</button>
-
-                                    <!-- Dynamic Rating -->
-                                    <div class="flex">
-                                        <?php
-                                        $rating = $book['book_rating']; // Random Rating for demo
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            if ($i <= $rating) {
-                                                echo '<span class="text-orange-500 text-lg">★</span>';
-                                            } else {
-                                                echo '<span class="text-gray-400 text-lg">★</span>';
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            </a>
-
-                        </div>
-
-                    <?php endwhile; ?>
-
-                    <!-- Book Card 2 -->
-
-
-                </div>
-
-                <!-- Right Arrow -->
-                <button id="scrollRight"
-                    class="absolute z-10 right-0 top-1/2 -translate-y-1/2 bg-white border rounded-full shadow p-2 hover:bg-gray-100">
-                    &#8594;
-                </button>
-            </div>
-        </div>
-    </section>
+    <?php include_once "includes/recomended_book.php" ?>
     <?php include_once "includes/footer2.php" ?>
 
 
