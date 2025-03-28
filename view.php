@@ -99,10 +99,7 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
                             d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
                             clip-rule="evenodd" />
                     </svg>
-
-
                 </div>
-
             </div>
 
             <p class="text-orange-400 text-sm font-semibold"><?= $book['book_category']; ?></p>
@@ -205,16 +202,8 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
                 <?php
                 if ($book['version'] == "new"):
                     ?>
-                    <div class="grid grid-cols-2 gap-2">
-                        <p class="mt-4 text-lg font-bold text-blue-700"><span id="selectedOption"></span></p>
-                        <a href="cart.php?add_book=<?=
-                            $book['id'] ?>"
-                            class="text-lg text-orange-600 border border-orange-500 p-3 rounded font-semibold">Add To
-                            Cart</a>
-                        <a href="item_checkout.php?buy_book=<?=
-                            $book['id'] ?>" class="text-lg bg-orange-600 text-white p-3 rounded font-semibold">Buy
-                            Now</a>
-
+                    <div class="flex ">
+                        <p class="mt-4 text-lg font-bold  "><span id="selectedOption"></span></p>
                     </div><?php else: ?>
                     <?php if ($book['version'] != 'new'): ?>
                         <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
@@ -235,19 +224,21 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
                     const selectedOption = document.getElementById("selectedOption");
                     if (value === "e_book") {
                         selectedOption.innerHTML = `
-                            <div class="flex flex-col">
-                                <span class="font-semibold">E-BOOK</span>
-                                <span>Price: ₹<?= $book['e_book_price']; ?></span>
-                                <span class="text-green-500">Instant Download</span>
-                            </div>
+                           <div class='grid grid-cols-2 gap-5'>
+                               <a class='text-orange-500 font-semibold border-orange-500 border rounded px-5 py-2' href='cart.php?add_book=<?=
+                                   $book['id'] ?>'>Get E-BOOK to Cart</a>
+                             <a class='text-white bg-orange-500 font-semibold rounded px-5 py-2' href='item_checkout.php?buy_book=<?=
+                                 $book['id'] ?>' class='flex'>Get E-BOOK Now</a>
+                         </div>
                         `;
                     } else if (value === "physical") {
                         selectedOption.innerHTML = `
-                            <div class="flex flex-col">
-                                <span class="font-semibold"><?= $book['book_binding']; ?></span>
-                                <span>Price: ₹<?= $book['sell_price']; ?> <span class="text-sm line-through">₹<?= $book['mrp']; ?></span></span>
-                                <span class="text-green-500"><?= round(($book['mrp'] - $book['sell_price']) / $book['mrp'] * 100); ?>% OFF</span>
-                            </div>
+                        <div class='grid grid-cols-2 gap-5'>
+                               <a class='text-orange-500 font-semibold border-orange-500 border rounded px-5 py-2' href='cart.php?add_book=<?=
+                                   $book['id'] ?>'>Add Hardcopi to Cart</a>
+                             <a class='text-white bg-orange-500 font-semibold rounded px-5 py-2' href='item_checkout.php?buy_book=<?=
+                                 $book['id'] ?>' class=' flex'>Buy Hardcopi Now</a>
+                         </div>
                         `;
                     }
                 }
