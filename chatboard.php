@@ -1,9 +1,44 @@
 <?php
 include_once "config/connect.php";
-redirectIfNotAuth();
 if (isset($_SESSION['user'])) {
     $user = getUser();
     $user_id = $user['user_id'];
+}
+else{
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: '🔒 Access Denied!',
+                text: 'Please login first to continue.',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Login Now',
+                denyButtonText: 'Go Back',
+                allowOutsideClick: false, 
+                allowEscapeKey: false, 
+                customClass: {
+                    popup: 'my-swal-popup',
+                    title: 'my-swal-title',
+                    confirmButton: 'my-swal-confirm-btn',
+                    denyButton: 'my-swal-deny-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; 
+                } else if (result.isDenied) {
+                    window.location.href = 'index.php';
+                }
+            });
+
+            // ⏳ 5 सेकंड बाद Auto Redirect पिछले पेज पर
+            setTimeout(() => {
+                window.location.href = 'login.php';
+            }, 5000);
+        });
+    </script>";
+
+    exit();
 }
 
 $book_id = $_GET['book_id'] ?? null;

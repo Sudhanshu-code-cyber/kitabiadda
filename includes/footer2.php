@@ -22,10 +22,6 @@
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                             Blog
                         </a></li>
-                    <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
-                            <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                            Featured Videos
-                        </a></li>
                     <li><a href="contact.php" class="flex items-center text-white hover:text-gray-200 transition-colors group">
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                             Contact Us
@@ -50,11 +46,8 @@
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                             Terms of Use
                         </a></li>
-                    <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
-                            <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                            Secure Shopping
-                        </a></li>
-                    <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
+                    
+                    <li><a href="copyright.php" class="flex items-center text-white hover:text-gray-200 transition-colors group">
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                             Copyright Policy
                         </a></li>
@@ -77,10 +70,6 @@
                     <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                             Shipping Info
-                        </a></li>
-                    <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
-                            <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                            Returns & Exchanges
                         </a></li>
                     <li><a href="#" class="flex items-center text-white hover:text-gray-200 transition-colors group">
                             <span class="w-2 h-2 bg-white rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
