@@ -87,7 +87,7 @@
         <!-- Other Members -->
         <div class="col-md-4 m-3" data-aos="fade-up" data-aos-delay="200">
             <div class="card member-card">
-                <img src="boyss.jpg" alt="Member">
+                <img src="assets/images/Sudhanshu.jpg" alt="Member">
                 <div class="member-info">
                     <h5>Shudhanshu Kumar</h5>
                     <p>Devloper</p>
