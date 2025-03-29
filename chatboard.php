@@ -1,9 +1,44 @@
 <?php
 include_once "config/connect.php";
-redirectIfNotAuth();
 if (isset($_SESSION['user'])) {
     $user = getUser();
     $user_id = $user['user_id'];
+}
+else{
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: '🔒 Access Denied!',
+                text: 'Please login first to continue.',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Login Now',
+                denyButtonText: 'Go Back',
+                allowOutsideClick: false, 
+                allowEscapeKey: false, 
+                customClass: {
+                    popup: 'my-swal-popup',
+                    title: 'my-swal-title',
+                    confirmButton: 'my-swal-confirm-btn',
+                    denyButton: 'my-swal-deny-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; 
+                } else if (result.isDenied) {
+                    window.location.href = 'index.php';
+                }
+            });
+
+            // ⏳ 5 सेकंड बाद Auto Redirect पिछले पेज पर
+            setTimeout(() => {
+                window.location.href = 'login.php';
+            }, 5000);
+        });
+    </script>";
+
+    exit();
 }
 
 $book_id = $_GET['book_id'] ?? null;
@@ -95,8 +130,9 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
 
 <body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
-    <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-36">
+    <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-32">
         <!-- Mobile back button (only visible in mobile view when chat is open) -->
         <div class="lg:hidden back-button items-center p-2 bg-[#B3D8A8] hidden <?= $book_id ? 'flex' : 'hidden' ?>">
             <a href="chatboard.php" class="text-gray-700 hover:text-gray-900">
@@ -105,53 +141,113 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
         </div>
 
         <!-- Chat List -->
-        <div class="chat-list w-full lg:w-4/12 border-r border-gray-300 bg-white lg:h-[600px] h-full overflow-y-auto">
-            <div class="p-4 bg-[#B3D8A8] border-b border-gray-300 text-center lg:text-left sticky top-0 z-10">
-                <h2 class="text-xl font-bold">INBOX</h2>
+        <div class="chat-list w-full lg:w-4/12 border-r border-gray-200 bg-white lg:h-[600px] h-full overflow-y-auto shadow-sm">
+            <!-- Header with Search -->
+            <div class="p-4 bg-gradient-to-r from-[#B3D8A8] to-[#9BC58D] flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-gray-200 sticky top-0 z-10">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                    INBOX
+                </h2>
+                <form action="" method="get" class="w-full sm:w-auto">
+                    <div class="relative flex rounded-lg shadow-md ring-1  ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
+                        <input type="search"
+                            name="search_book"
+                            placeholder="Search conversations..."
+                            class="block w-full px-4 py-2 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
+                            aria-label="Search conversations">
+                        <button type="submit"
+                            name="search"
+                            class="inline-flex  border-3  items-center px-4 py-2 bg-[#3D8D7A] text-white font-medium rounded-r-lg hover:bg-[#2c6b5b] transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
+
+            <!-- Chat List -->
             <?php if (!empty($chatList)): ?>
-                <?php foreach ($chatList as $chat):
-                    $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
-                    $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
-                    $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#8fc3ba]' : 'bg-[#A3D1C6]';
-                ?>
-                    <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block">
-                        <div class="flex items-center gap-4 p-3 <?= $activeClass ?> rounded-lg hover:bg-[#8fc3ba] transition">
-                            <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded border object-cover" />
-                            <div class="flex-1 min-w-0">
-                                <h2 class="text-md font-semibold truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
-                                <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
-                                <span class="text-xs text-gray-500">Click to chat</span>
+                <div class="divide-y divide-gray-100">
+                    <?php foreach ($chatList as $chat):
+                        $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
+                        $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
+                        $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
+                    ?>
+                        <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block transition duration-150 ease-in-out <?= $activeClass ?>">
+                            <div class="flex items-center gap-4 p-4">
+                                <div class="relative flex-shrink-0">
+                                    <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
+                                    <?php if (rand(0, 1)): ?>
+                                        <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white">
+
+                                        </span>
+                                    <?php endif; ?>
+
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-baseline">
+                                        <h2 class="text-sm font-semibold text-gray-800 truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
+                                        <div>
+                                            <p class="text-xs text-gray-500"><?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?> <p class="bg-red-400">
+                                                <span>
+                                                    hello
+                                                </span>
+                                                </p>
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+                                    <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
+                                    <p class="text-xs text-gray-500 mt-1 truncate">
+                                        <?= !empty($chat['last_message']) ? htmlspecialchars($chat['last_message']) : 'Start a conversation' ?>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             <?php else: ?>
-                <div class="p-6 text-gray-500 text-center">No conversations yet.</div>
+                <div class="flex flex-col items-center justify-center p-8 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-500">No conversations yet</h3>
+                    <p class="text-sm text-gray-400 mt-1">Start a chat to see messages here</p>
+                </div>
             <?php endif; ?>
         </div>
 
         <!-- Chat Window -->
         <?php if ($sellerdata && $sellerInfo): ?>
             <div class="chat-window w-full lg:w-8/12 bg-white flex flex-col lg:h-[600px] h-[calc(100vh-112px)]">
-                <div class="flex items-center justify-between p-4 border-b sticky top-0 bg-white z-10">
-                    <div class="flex items-center">
+                <div class="flex items-center justify-between p-8 border-b sticky top-0 bg-white z-10">
+                    <div class="flex items-center gap-3">
                         <div class="lg:hidden mr-2">
                             <a href="chatboard.php" class="text-gray-600 hover:text-gray-800">
                                 <i class="fas fa-arrow-left"></i>
                             </a>
                         </div>
+                        <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
                         <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
-                    <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
+                    <div class="flex justify-center items-center gap-10">
+
+                        <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
+                    </div>
                 </div>
 
                 <div class="p-4 flex justify-between mx-2 lg:mx-6 border-b">
                     <div class="flex items-center">
                         <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
+
                         <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none"><?= htmlspecialchars($sellerdata['book_name']); ?></h2>
                     </div>
                     <p class="text-lg lg:text-xl font-semibold text-gray-600">₹ <?= $sellerdata['sell_price']; ?></p>
+
                 </div>
 
                 <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
