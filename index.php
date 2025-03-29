@@ -67,23 +67,24 @@
         <div class="relative z-5 h-110 overflow-hidden md:h-100">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/banner1.webp"
+    <img src="assets/banner/2.png"
+         class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+</div>
+
+
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="assets/banner/Etsy Banner.png"
                     class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/banner2.webp"
-                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-            </div>
-
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/banner3.webp"
+                <img src="assets/banner/shop.png"
                     class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
 
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/banner4.webp"
+                <img src="assets/banner/crs4.png"
                     class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             <!-- Other Items here ... -->

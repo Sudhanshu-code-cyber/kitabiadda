@@ -1,8 +1,47 @@
 <?php include_once "config/connect.php";  
 // Check if user is logged in
+if (!isset($_SESSION['user'])) {
+    $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: '🔒 Access Denied!',
+                text: 'Please login first to continue.',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Login Now',
+                denyButtonText: 'Go Back',
+                allowOutsideClick: false, // बाहर क्लिक करने से बंद न हो
+                allowEscapeKey: false, // ESC दबाने से बंद न हो
+                customClass: {
+                    popup: 'my-swal-popup',
+                    title: 'my-swal-title',
+                    confirmButton: 'my-swal-confirm-btn',
+                    denyButton: 'my-swal-deny-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; // Login Page पर जाएं
+                } else if (result.isDenied) {
+                    window.location.href = '$previousPage'; // पिछली पेज पर जाएं
+                }
+            });
+
+            // ⏳ 5 सेकंड बाद Auto Redirect पिछले पेज पर
+            setTimeout(() => {
+                window.location.href = '$previousPage';
+            }, 5000);
+        });
+    </script>";
+
+    exit();
+}
 $user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
+    
 }
 $userId = $user ? $user['user_id'] : null;
 
