@@ -69,7 +69,7 @@ $coutwishlist = mysqli_num_rows($count);
     <?php include_once "includes/header.php"; ?>
 
     <div class="flex flex-col md:flex-row min-h-screen pt-14">
-        <button id="mobileMenuButton" class="md:hidden fixed top-16 right-4 z-30 p-2 bg-[#B3D8A8] rounded-lg shadow">
+        <button id="mobileMenuButton" class="md:hidden hidden fixed top-16 right-4 z-30 p-2 bg-[#B3D8A8] rounded-lg shadow">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -78,7 +78,7 @@ $coutwishlist = mysqli_num_rows($count);
 
         <!-- Sidebar - Hidden on mobile by default -->
         <div id="profileSidebar"
-            class="profile-sidebar xl:w-1/4 md:w-1/3 w-full bg-[#B3D8A8] px-4 pt-6 pb-20 flex flex-col items-center md:items-start">
+            class="profile-sidebar xl:w-1/4 md:w-1/3 bg-[#B3D8A8] px-4 pt-6 pb-20 flex flex-col items-center md:items-start">
             <div class="w-full flex flex-col items-center md:items-start">
                 <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
                     alt="Profile Picture" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-gray-700">
@@ -192,7 +192,7 @@ $coutwishlist = mysqli_num_rows($count);
         </div>
 
         <!-- Mobile Bottom Navigation (only shows on small screens) -->
-        <div class="mobile-menu md:hidden">
+        <div class="mobile-menu md:hidden bg-red-700">
             <button class="mobile-menu-button" onclick="showSection('edit_details')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -217,7 +217,7 @@ $coutwishlist = mysqli_num_rows($count);
                 </svg>
                 <span class="text-xs">Wishlist</span>
             </button>
-            <button class="mobile-menu-button" onclick="toggleSidebar()">
+            <button class="mobile-menu-button" id="mobileMenuButton" onclick="toggleSidebar()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
