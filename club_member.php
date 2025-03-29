@@ -105,7 +105,7 @@
         </div>
         <div class="col-md-4  m-3" data-aos="fade-up" data-aos-delay="200">
             <div class="card member-card">
-                <img src="boyss.jpg" alt="Member">
+                <img src="assets/images/ankur.jpg" alt="Member">
                 <div class="member-info">
                     <h5>Ankur Kumar Jha</h5>
                     <p>Devloper</p>
@@ -123,7 +123,7 @@
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card member-card">
-                <img src="assets/images/rishav.jpg" alt="Member">
+                <img src="assets/images/rr.jpg" alt="Member">
                 <div class="member-info">
                     <h5>Rishav Ranjan</h5>
                     <p>Devloper</p>
@@ -141,7 +141,7 @@
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card member-card">
-                <img src="https://via.placeholder.com/150" alt="Member">
+                <img src="assets/images/aman.jpg" alt="Member">
                 <div class="member-info">
                     <h5>Aman Kumar</h5>
                     <p>UI/UX Designer</p>
@@ -161,7 +161,7 @@
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
             <div class="
             card member-card">
-                <img src="https://via.placeholder.com/150" alt="Member">
+                <img src="assets/images/vikas.jpg" alt="Member">
                 <div class="member-info">
                     <h5>Vikash Kumar</h5>
                     <p>Project Manager</p>
