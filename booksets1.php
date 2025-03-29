@@ -9,7 +9,7 @@ if (isset($_SESSION['user'])) {
 }
 
 if (!isset($_GET['bookType'])) {
-    redirect(" index.php");
+    redirect("index.php");
     exit;
 }
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     }
 
     // Redirect to the same page
-    redirect(" booksets1.php?bookType=" . urlencode($bookType));
+    redirect("booksets1.php?bookType=" . urlencode($bookType));
     exit;
 }
 ?>
@@ -59,12 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="mt-30 :grid grid-cols-4 bg-[#f6f7f5] p-10">
-        <div class="bg-white border-b border-gray-200 py-5 px-5 shadow">
+    <div class="mt-30 p-5 bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+        <div class="bg-white border-b border-gray-200 py-5 shadow-xl px-5">
             <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?=($bookType);?> Books"</h1>
         </div>
 
-        <div class="grid grid-cols-5 gap-5 p-10 bg-white h-auto">
+        <div class=" bg-white grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2  p-3">
             <?php while ($book = $query->fetch_assoc()):
                 $bookId = $book['id'];
                 $isWishlisted = false;
@@ -73,27 +73,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                     $isWishlisted = ($checkWishlist->num_rows > 0);
                 }
-                $mrp =floatval($book['mrp']);
-                $sell_price =floatval($book['sell_price']);
-                if($mrp > 0 && is_numeric($sell_price)){
+
+                $mrp = floatval($book['mrp']);
+                $sell_price = floatval($book['sell_price']);
+                if ($mrp > 0 && is_numeric($sell_price)) {
                     $percentage = ($mrp - $sell_price) / $mrp * 100;
                 }
                 ?>
-                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 w-64 min-w-[16rem] relative">
+                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 relative flex flex-col justify-between">
                     <!-- Discount Badge -->
                     <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
-                    <?=round($percentage);?>% OFF
+                        <?= round($percentage); ?>% OFF
                     </div>
 
                     <!-- Wishlist Button -->
                     <form method="POST" action="" class="absolute top-3 right-3">
                         <input type="hidden" name="wishlist_id1" value="<?= $bookId; ?>">
                         <button type="submit" class="cursor-pointer" name="toggle_wishlist1">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                class="size-6 hover:scale-110 transition">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5" class="size-6 hover:scale-110 transition">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                             </svg>
                         </button>
                     </form>
@@ -101,8 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     <!-- Book Details -->
                     <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                         <div class="flex justify-center">
-                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
-                                class="w-40 h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
+                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
                         </div>
 
                         <div class="mt-4 text-center">

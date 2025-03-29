@@ -33,11 +33,11 @@ $userEmail = $user ? $user['email'] : null;
 
     <!-- Desktop Navigation Items - Hidden on mobile -->
     <div
-        class="hidden md:flex xl:flex 2xl:flex xl:justify-between 2xl:justify-between lg:justify-between lg:w-[60rem] xl:w-[62rem] 2xl:w-[72rem] items-center space-x-4 lg:space-x-6">
+        class="hidden md:flex xl:flex 2xl:flex xl:justify-between 2xl:justify-between lg:justify-between lg:w-[60rem] xl:w-[70rem] 2xl:w-[75rem] items-center space-x-4 lg:space-x-6">
         <!-- Search Bar -->
         <form action="filter.php" method="get" class="flex xl:w-[35rem] 2xl:w-[42rem] rounded">
             <input type="search" name="search_book" placeholder="Search by ISBN or name..."
-                class="p-2 bg-white rounded-l-md  xl:w-[32rem] 2xl:w-[38rem] lg:w-[26rem] text-black border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0">
+                class="p-2 bg-white rounded-l-md xl:w-[35rem] 2xl:w-[40rem] lg:w-[26rem] text-black border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0">
             <button type="submit" name="search"
                 class="inline-flex items-center px-4 py-2 bg-[#B3D8A8] text-gray-800 font-medium rounded-r-md hover:bg-[#9bc58d] transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
