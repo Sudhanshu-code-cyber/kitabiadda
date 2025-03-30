@@ -55,37 +55,42 @@
     }
 </style>
 
-<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+<body
+    class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
     <!-- body section -->
 
     <!-- First Carousel -->
-    <div id="default-carousel" class="relative mt-30 w-full" data-carousel="slide">
+    <div id="default-carousel" class="relative mt-24 top-4 w-full" data-carousel="slide">
         <!-- Carousel wrapper -->
         <div class="relative z-5 h-110 overflow-hidden md:h-100">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-    <img src="assets/banner/2.png"
-         class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-</div>
+                <img src="assets/banner/2.png"
+                    class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="...">
+            </div>
 
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <img src="assets/banner/Etsy Banner.png"
-                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="...">
             </div>
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <img src="assets/banner/shop.png"
-                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="...">
             </div>
 
 
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <img src="assets/banner/crs4.png"
-                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    class="absolute block w-full h-full object-fit -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                    alt="...">
             </div>
             <!-- Other Items here ... -->
         </div>
@@ -111,8 +116,8 @@
                 <span class="sr-only">Previous</span>
             </span>
         </button>
-        <button type="button"
-            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        <button  type="button"
+            class="absolute top-0 end-0 z-50 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
             data-carousel-next>
             <span
                 class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -127,7 +132,7 @@
     </div>
 
     <!-- Add this script to activate the first carousel -->
-    <script>
+    <script >
         const prevButton = document.querySelector('[data-carousel-prev]');
         const nextButton = document.querySelector('[data-carousel-next]');
         const items = document.querySelectorAll('[data-carousel-item]');
