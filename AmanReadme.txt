@@ -5,7 +5,7 @@ SELL PAGE RISHAV
 include "../config/connect.php";
 
 if (isset($_SESSION['user'])) {
-    $user = getUser();
+    $user = getUser();    what
 }
 $user_email = $user['email'];
 $address_query = mysqli_query($connect, "SELECT address FROM user_address WHERE email = '$user_email'");

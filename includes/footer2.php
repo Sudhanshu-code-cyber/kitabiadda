@@ -1,4 +1,4 @@
-<footer class="bg-gradient-to-b from-[#0a5a4a] to-[#3D8D7A] text-white py-12 px-4">
+<footer class="bg-[#3D8D7A] text-white py-12 px-4">
     <div class="max-w-7xl mx-auto">
         <!-- Main Footer Content -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -76,7 +76,7 @@
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             FAQ
                         </a></li>
-                   
+
                 </ul>
             </div>
 

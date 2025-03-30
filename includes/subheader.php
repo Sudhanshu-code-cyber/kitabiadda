@@ -11,28 +11,48 @@
 
     /* Mobile styles */
     @media (max-width: 768px) {
-        .main-links {
-            display: none !important;
-        }
-
         .category-scroll {
             margin-left: 0;
             gap: 0.5rem;
             padding: 0.25rem 0;
         }
 
-        .category-scroll a {
+        .category-scroll a,
+        .mobile-main-links a {
             padding: 0.4rem 0.8rem !important;
             font-size: 0.75rem !important;
             border-radius: 9999px !important;
         }
+
+        /* Show mobile links and adjust layout */
+        .mobile-main-links {
+            display: flex !important;
+            gap: 0.5rem;
+        }
+
+        /* Hide desktop main links on mobile */
+        .desktop-main-links {
+            display: none !important;
+        }
+    }
+
+    /* Desktop styles */
+    @media (min-width: 769px) {
+        .mobile-main-links {
+            display: none !important;
+        }
+
+        .desktop-main-links {
+            display: flex !important;
+            gap: 1rem;
+        }
     }
 </style>
 
-<div class="fixed top-16 w-full bg-white shadow  z-30 px-2 py-2">
+<div class="fixed w-full bg-white shadow z-30 top-0 mt-16 px-2 py-2">
     <div class="flex justify-center gap-4 items-center">
-        <!-- Main links (hidden on mobile) -->
-        <div class="main-links flex gap-4">
+        <!-- Main links (desktop version) -->
+        <div class="desktop-main-links">
             <a href="index.php" class="py-2 px-4 bg-[#B3D8A8] text-gray-700 font-semibold rounded-full text-xs">
                 Home
             </a>
@@ -41,7 +61,17 @@
             </a>
         </div>
 
-        <!-- Categories scroll (mobile-optimized) -->
+        <!-- Main links (mobile version) -->
+        <div class="mobile-main-links">
+            <a href="index.php" class="bg-[#B3D8A8] text-gray-700 font-semibold">
+                Home
+            </a>
+            <a href="filter.php?hide" class="bg-[#B3D8A8] text-gray-700 font-semibold">
+                All
+            </a>
+        </div>
+
+        <!-- Categories scroll -->
         <div class="overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-2 sm:gap-5 ml-0 sm:ml-4 category-scroll">
             <?php
             $catcalling = $connect->query("SELECT * FROM category");

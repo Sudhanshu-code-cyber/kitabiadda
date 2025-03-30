@@ -3,8 +3,7 @@ include_once "config/connect.php";
 if (isset($_SESSION['user'])) {
     $user = getUser();
     $user_id = $user['user_id'];
-}
-else{
+} else {
     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
     echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -153,7 +152,7 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                 <form action="" method="get" class="w-full sm:w-auto">
                     <div class="relative flex rounded-lg shadow-md ring-1  ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
                         <input type="search"
-                            name="search_book"
+                            name="search_users"
                             placeholder="Search conversations..."
                             class="block w-full px-4 py-2 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                             aria-label="Search conversations">
@@ -172,42 +171,84 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
             <?php if (!empty($chatList)): ?>
                 <div class="divide-y divide-gray-100">
                     <?php foreach ($chatList as $chat):
+                    if(isset($_POST['search'])){
+                        $search = $_POST['search_users'];
+
+                        $query = $connect->query("select * from users where ");
+
+                    }
+
+
+
                         $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                         $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
                         $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
+
+                        // Get last message ID for delete functionality
+                        $lastMsgQuery = $connect->query("SELECT message_id FROM message 
+                                   WHERE (sender_id = '$user_id' OR receiver_id = '$user_id')
+                                   AND product_id = '{$chat['book_id']}'
+                                   ORDER BY msg_time DESC LIMIT 1");
+                        $lastMsg = mysqli_fetch_assoc($lastMsgQuery);
                     ?>
-                        <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block transition duration-150 ease-in-out <?= $activeClass ?>">
-                            <div class="flex items-center gap-4 p-4">
-                                <div class="relative flex-shrink-0">
-                                    <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
-                                    <?php if (rand(0, 1)): ?>
-                                        <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white">
-
-                                        </span>
-                                    <?php endif; ?>
-
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex justify-between items-baseline">
-                                        <h2 class="text-sm font-semibold text-gray-800 truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
-                                        <div>
-                                            <p class="text-xs text-gray-500"><?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?> <p class="bg-red-400">
-                                                <span>
-                                                    hello
-                                                </span>
-                                                </p>
-                                            </p>
-
-                                        </div>
-
+                        <div class="relative">
+                            <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block transition duration-150 ease-in-out <?= $activeClass ?>">
+                                <div class="flex items-center gap-4 p-4 rounded-lg">
+                                    <div class="relative flex-shrink-0">
+                                        <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
+                                        <?php if (rand(0, 1)): ?>
+                                            <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white"></span>
+                                        <?php endif; ?>
                                     </div>
-                                    <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
-                                    <p class="text-xs text-gray-500 mt-1 truncate">
-                                        <?= !empty($chat['last_message']) ? htmlspecialchars($chat['last_message']) : 'Start a conversation' ?>
-                                    </p>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-baseline">
+                                            <h2 class="text-sm font-semibold text-gray-800 truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
+                                            <p class="text-xs text-gray-500"><?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?></p>
+                                        </div>
+                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
+                                        <p class="text-xs text-gray-500 mt-1 truncate">
+                                            <?= !empty($chat['last_message']) ? htmlspecialchars($chat['last_message']) : 'Start a conversation' ?>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+
+                            <!-- Delete Icon - Now using correct message ID -->
+                            <?php if ($lastMsg): ?>
+
+                                <a
+                                    href="?chat_id=<?= $lastMsg['message_id']; ?>"
+                                    onclick="return confirm('Are you sure you want to delete this chat?');"
+                                    class="absolute top-10 right-2 text-red-600 hover:text-red-800 transition">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 text-gray-400">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                    </svg>
+                                </a>
+                                <?php
+                                if (isset($_GET['chat_id'])) {
+                                    $chat_id = $_GET['chat_id'];
+
+                                    $query = $connect->query("DELETE FROM message WHERE message_id='$chat_id'");
+
+                                    if ($query) {
+                                        // Redirect immediately to remove chat_id from URL
+                                       redirect("chatboard.php");
+                                        exit();
+                                    }
+                                }
+                                ?>
+
+                            <?php endif; ?>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
