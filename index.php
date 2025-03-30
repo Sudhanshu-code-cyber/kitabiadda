@@ -67,10 +67,12 @@
     <!-- Carousel wrapper -->
     <div class="relative z-5 xl:h-[400px] h-[160px] mt-28 sm:h-[200px] md:h-[200px] lg:h-[300px] overflow-hidden">
         <!-- Carousel Items -->
+        <a href="">
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
             <img src="assets/banner/2.png" class="absolute block w-full h-full object-fit xl:object-fit xl-contain sm:object-fit md:object-fit md:h-full lg-fit" 
             alt="Slide 1">
         </div>
+        </a>
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
             <img src="assets/banner/Etsy Banner.png" class="absolute block w-full h-full object-fit xl:object-fit xl-contain sm:object-cover md:h-full" alt="Slide 2">
         </div>
