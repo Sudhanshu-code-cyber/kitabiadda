@@ -222,11 +222,19 @@ $cat = mysqli_fetch_assoc($call_cat);
                 </script>
 
 
-                <div class="relative mt-4">
-                    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3"
-                        id="address"><?= $address_row['name'] .' , '.$address_row['mobile'] .' , '. $address_row['address'] .' , '. $address_row['city'] .' , '. $address_row['state'] .' , '. $address_row['landmark'] .' , '. $address_row['pincode'] ?></textarea>
-                    <label for="address" class="floating-label">Address</label>
-                </div>
+               <div class="relative mt-4">
+    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3" id="address">
+        <?php 
+        if (!empty($address_row)) { 
+            echo $address_row['name'] .' , '.$address_row['mobile'] .' , '. $address_row['address'] .' , '. $address_row['city'] .' , '. $address_row['state'] .' , '. $address_row['landmark'] .' , '. $address_row['pincode'];
+        } else { 
+            echo "No address found"; // Default message if data is missing
+        } 
+        ?>
+    </textarea>
+    <label for="address" class="floating-label">Address</label>
+</div>
+
             </div>
 
             <!-- Book Description Section -->

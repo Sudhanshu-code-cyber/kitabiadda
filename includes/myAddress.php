@@ -8,12 +8,20 @@
             ?>
             <div class="bg-white shadow-lg border-gray-200 p-5">
                 <div class="flex justify-between">
-                    <div class="flex gap-5">
-                        <h1 class="text-lg font-semibold"><?= $address['name']; ?></h1>
-                        <h1 class="border border-green-500 font-semibold text-green-500 rounded-xl px-1">
-                            <?= $address['home_work']; ?>
-                        </h1>
-                    </div>
+                    
+                <?php if (!empty($address)) : ?>
+    <div class='flex gap-5'>
+        <h1 class='text-lg font-semibold'><?= $address['name']; ?></h1>
+        <h1 class='border border-green-500 font-semibold text-green-500 rounded-xl px-1'>
+            <?= $address['home_work']; ?>
+        </h1>
+    </div>
+<?php else : ?>
+    <p class='text-red-500'>No address found</p>
+<?php endif; ?>
+
+                
+                    
                     <div class="flex gap-2">
                         <a data-modal-target="editAddress" data-modal-toggle="editAddress"
                             class="p-1 bg-yellow-500 cursor-pointer text-white rounded font-semibold"><svg
@@ -173,12 +181,18 @@
                         </a>
                     </div>
                 </div>
-                <p class="text-sm font-semibold mt-2 text-gray-600">
+               <?php
+               if(!empty($address)):
+                ?>
+                 <p class="text-sm font-semibold mt-2 text-gray-600">
                     <?= $address['address']; ?>,<?= $address['city']; ?>,<?= $address['state']; ?>,<?= $address['landmark']; ?>,<?= $address['pincode']; ?>
                 </p>
                 <p class="text-sm font-semibold text-gray-600"><?= $address['mobile']; ?> ,
                     <?= $address['alternate_phone']; ?>
                 </p>
+                <?php else:?>
+                    <p class='text-red-500'>No address found</p>
+                    <?php endif; ?>
             </div>
         <?php else: ?>
             <h1 class="text-lg font-semibold">Address not available</h1>
