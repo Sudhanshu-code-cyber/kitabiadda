@@ -40,6 +40,9 @@ if (isset($_SESSION['user'])) {
     exit();
 }
 
+// Handle search
+$searchTerm = isset($_GET['search_users']) ? trim($_GET['search_users']) : '';
+
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
 $sellerInfo = null;
@@ -55,12 +58,30 @@ if ($book_id) {
     }
 }
 
-$chatUsersQuery = $connect->query("SELECT DISTINCT seller_id, books.id as book_id, books.book_name, users.name 
+// Get chat list with search functionality
+$chatUsersQuery = $connect->query("SELECT DISTINCT 
+        seller_id, 
+        books.id as book_id, 
+        books.book_name, 
+        users.name,
+        (SELECT message FROM message 
+         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
+         AND product_id = books.id 
+         ORDER BY msg_time DESC LIMIT 1) as last_message,
+        (SELECT msg_time FROM message 
+         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
+         AND product_id = books.id 
+         ORDER BY msg_time DESC LIMIT 1) as last_message_time
     FROM message 
     JOIN books ON message.product_id = books.id 
     JOIN users ON books.seller_id = users.user_id 
-    WHERE message.sender_id = '$user_id' OR message.receiver_id = '$user_id'
-    ORDER BY message.msg_time DESC");
+    WHERE (message.sender_id = '$user_id' OR message.receiver_id = '$user_id')
+    " . ($searchTerm ? "AND (users.name LIKE '%$searchTerm%' OR books.book_name LIKE '%$searchTerm%' OR 
+        (SELECT message FROM message 
+         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
+         AND product_id = books.id 
+         ORDER BY msg_time DESC LIMIT 1) LIKE '%$searchTerm%')" : "") . "
+    ORDER BY last_message_time DESC");
 
 $chatList = [];
 while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
@@ -74,6 +95,16 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                               VALUES ('$user_id', '$seller_id', '$book_id', '$message', NOW())");
     if ($insert) {
         header("Location: chatboard.php?book_id=$book_id");
+        exit();
+    }
+}
+
+// Handle chat deletion
+if (isset($_GET['chat_id'])) {
+    $chat_id = $_GET['chat_id'];
+    $query = $connect->query("DELETE FROM message WHERE message_id='$chat_id'");
+    if ($query) {
+        header("Location: chatboard.php");
         exit();
     }
 }
@@ -150,15 +181,15 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                     INBOX
                 </h2>
                 <form action="" method="get" class="w-full sm:w-auto">
-                    <div class="relative flex rounded-lg shadow-md ring-1  ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
+                    <div class="relative flex rounded-lg shadow-md ring-1 ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
                         <input type="search"
                             name="search_users"
+                            value="<?= htmlspecialchars($searchTerm) ?>"
                             placeholder="Search conversations..."
                             class="block w-full px-4 py-2 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                             aria-label="Search conversations">
                         <button type="submit"
-                            name="search"
-                            class="inline-flex  border-3  items-center px-4 py-2 bg-[#3D8D7A] text-white font-medium rounded-r-lg hover:bg-[#2c6b5b] transition-colors duration-200">
+                            class="inline-flex border-3 items-center px-4 py-2 bg-[#3D8D7A] text-white font-medium rounded-r-lg hover:bg-[#2c6b5b] transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
@@ -167,19 +198,21 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                 </form>
             </div>
 
+            <?php if (!empty($searchTerm)): ?>
+                <div class="p-2 text-center bg-gray-50 text-sm text-gray-600">
+                    <?php if (!empty($chatList)): ?>
+                        Showing results for: "<span class="font-medium"><?= htmlspecialchars($searchTerm) ?></span>"
+                    <?php else: ?>
+                        No results found for: "<span class="font-medium"><?= htmlspecialchars($searchTerm) ?></span>"
+                    <?php endif; ?>
+                    <a href="chatboard.php" class="ml-2 text-[#3D8D7A] hover:underline">Clear search</a>
+                </div>
+            <?php endif; ?>
+
             <!-- Chat List -->
             <?php if (!empty($chatList)): ?>
                 <div class="divide-y divide-gray-100">
                     <?php foreach ($chatList as $chat):
-                    if(isset($_POST['search'])){
-                        $search = $_POST['search_users'];
-
-                        $query = $connect->query("select * from users where ");
-
-                    }
-
-
-
                         $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                         $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
                         $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
@@ -213,9 +246,8 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                                 </div>
                             </a>
 
-                            <!-- Delete Icon - Now using correct message ID -->
+                            <!-- Delete Icon -->
                             <?php if ($lastMsg): ?>
-
                                 <a
                                     href="?chat_id=<?= $lastMsg['message_id']; ?>"
                                     onclick="return confirm('Are you sure you want to delete this chat?');"
@@ -233,20 +265,6 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
                                 </a>
-                                <?php
-                                if (isset($_GET['chat_id'])) {
-                                    $chat_id = $_GET['chat_id'];
-
-                                    $query = $connect->query("DELETE FROM message WHERE message_id='$chat_id'");
-
-                                    if ($query) {
-                                        // Redirect immediately to remove chat_id from URL
-                                       redirect("chatboard.php");
-                                        exit();
-                                    }
-                                }
-                                ?>
-
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -256,14 +274,27 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    <h3 class="text-lg font-medium text-gray-500">No conversations yet</h3>
-                    <p class="text-sm text-gray-400 mt-1">Start a chat to see messages here</p>
+                    <h3 class="text-lg font-medium text-gray-500">
+                        <?= empty($searchTerm) ? 'No conversations yet' : 'No matching conversations found' ?>
+                    </h3>
+                    <p class="text-sm text-gray-400 mt-1">
+                        <?= empty($searchTerm) ? 'Start a chat to see messages here' : 'Try a different search term' ?>
+                    </p>
+                    <?php if (!empty($searchTerm)): ?>
+                        <a href="chatboard.php" class="mt-3 text-sm text-[#3D8D7A] hover:underline">
+                            Show all conversations
+                        </a>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
 
         <!-- Chat Window -->
         <?php if ($sellerdata && $sellerInfo): ?>
+            <?php
+            $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '$book_id'");
+            $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
+            ?>
             <div class="chat-window w-full lg:w-8/12 bg-white flex flex-col lg:h-[600px] h-[calc(100vh-112px)]">
                 <div class="flex items-center justify-between p-8 border-b sticky top-0 bg-white z-10">
                     <div class="flex items-center gap-3">
@@ -276,7 +307,6 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                         <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
                     <div class="flex justify-center items-center gap-10">
-
                         <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
                     </div>
                 </div>
@@ -284,11 +314,9 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
                 <div class="p-4 flex justify-between mx-2 lg:mx-6 border-b">
                     <div class="flex items-center">
                         <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
-
                         <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none"><?= htmlspecialchars($sellerdata['book_name']); ?></h2>
                     </div>
                     <p class="text-lg lg:text-xl font-semibold text-gray-600">₹ <?= $sellerdata['sell_price']; ?></p>
-
                 </div>
 
                 <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
@@ -364,4 +392,4 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
     </script>
 </body>
 
-</html>
+</html> 
