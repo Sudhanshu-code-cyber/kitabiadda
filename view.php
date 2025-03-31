@@ -93,12 +93,134 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                     </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-10 h-10 px-2 py-1 bg-gray-300 rounded-full text-gray-700">
-                        <path fill-rule="evenodd"
-                            d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
-                            clip-rule="evenodd" />
-                    </svg>
+                    <div class="relative inline-block">
+                        <!-- Share Button -->
+                        <button id="shareBtn"
+                            class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5">
+                                <path fill-rule="evenodd"
+                                    d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Share
+                        </button>
+
+                        <!-- Dropdown Share Options -->
+                        <div id="shareDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                            <div class="py-1">
+                                <!-- WhatsApp -->
+                                <a href="#" onclick="shareOnWhatsApp()"
+                                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png"
+                                        class="w-5 h-5 mr-2" alt="WhatsApp">
+                                    WhatsApp
+                                </a>
+
+                                <!-- Facebook -->
+                                <a href="#" onclick="shareOnFacebook()"
+                                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png"
+                                        class="w-5 h-5 mr-2" alt="Facebook">
+                                    Facebook
+                                </a>
+
+                                <!-- Twitter -->
+                                <a href="#" onclick="shareOnTwitter()"
+                                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
+                                        class="w-5 h-5 mr-2" alt="Twitter">
+                                    Twitter
+                                </a>
+
+                                <!-- Email -->
+                                <a href="#" onclick="shareOnEmail()"
+                                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                    </svg>
+                                    Email
+                                </a>
+
+                                <!-- Copy Link -->
+                                <a href="#" onclick="copyToClipboard()"
+                                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                                    </svg>
+                                    Copy Link
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Toggle dropdown
+                        document.getElementById('shareBtn').addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            document.getElementById('shareDropdown').classList.toggle('hidden');
+                        });
+
+                        // Close dropdown when clicking outside
+                        document.addEventListener('click', function () {
+                            document.getElementById('shareDropdown').classList.add('hidden');
+                        });
+
+                        // Share functions
+                        function getShareUrl() {
+                            return window.location.href;
+                        }
+
+                        function getShareText() {
+                            return "Check out this book: <?= $book['book_name'] ?>";
+                        }
+
+                        // WhatsApp
+                        function shareOnWhatsApp() {
+                            const url = `https://wa.me/?text=${encodeURIComponent(getShareText() + ' - ' + getShareUrl())}`;
+                            window.open(url, '_blank');
+                        }
+
+                        // Facebook
+                        function shareOnFacebook() {
+                            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`;
+                            window.open(url, '_blank', 'width=600,height=400');
+                        }
+
+                        // Twitter
+                        function shareOnTwitter() {
+                            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}&url=${encodeURIComponent(getShareUrl())}`;
+                            window.open(url, '_blank', 'width=600,height=400');
+                        }
+
+                        // Email
+                        function shareOnEmail() {
+                            const subject = "Check out this book: <?= $book['book_name'] ?>";
+                            const body = `I thought you might like this book:\n\n${getShareText()}\n\n${getShareUrl()}`;
+                            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                        }
+
+                        // Copy Link
+                        function copyToClipboard() {
+                            navigator.clipboard.writeText(getShareUrl())
+                                // .then(() => alert('Link copied to clipboard!'))
+                                .catch(() => {
+                                    // Fallback for older browsers
+                                    const input = document.createElement('input');
+                                    input.value = getShareUrl();
+                                    document.body.appendChild(input);
+                                    input.select();
+                                    document.execCommand('copy');
+                                    document.body.removeChild(input);
+                                    alert('Link copied!');
+                                });
+                        }
+                    </script>
                 </div>
             </div>
 
