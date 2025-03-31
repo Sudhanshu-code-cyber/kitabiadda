@@ -8,20 +8,20 @@
             ?>
             <div class="bg-white shadow-lg border-gray-200 p-5">
                 <div class="flex justify-between">
-                    
-                <?php if (!empty($address)) : ?>
-    <div class='flex gap-5'>
-        <h1 class='text-lg font-semibold'><?= $address['name']; ?></h1>
-        <h1 class='border border-green-500 font-semibold text-green-500 rounded-xl px-1'>
-            <?= $address['home_work']; ?>
-        </h1>
-    </div>
-<?php else : ?>
-    <p class='text-red-500'>No address found</p>
-<?php endif; ?>
 
-                
-                    
+                    <?php if (!empty($address)): ?>
+                        <div class='flex gap-5'>
+                            <h1 class='text-lg font-semibold'><?= $address['name']; ?></h1>
+                            <h1 class='border border-green-500 font-semibold text-green-500 rounded-xl px-1'>
+                                <?= $address['home_work']; ?>
+                            </h1>
+                        </div>
+                    <?php else: ?>
+                        <p class='text-red-500'>No address found</p>
+                    <?php endif; ?>
+
+
+
                     <div class="flex gap-2">
                         <a data-modal-target="editAddress" data-modal-toggle="editAddress"
                             class="p-1 bg-yellow-500 cursor-pointer text-white rounded font-semibold"><svg
@@ -53,22 +53,22 @@
                                     <form action="" method="POST" class="mt-4">
                                         <div class="grid grid-cols-2 gap-4">
                                             <input type="text" id="name" name="name" placeholder="Full Name"
-                                                class="border p-2 rounded" value="<?= $address['name']; ?>">
+                                                class="border p-2 rounded" value="<?= $address['name'] ?? ''; ?>">
                                             <input type="text" id="mobile" name="mobile" placeholder="Mobile"
-                                                class="border p-2 rounded" value="<?= $address['mobile']; ?>">
+                                                class="border p-2 rounded" value="<?= $address['mobile'] ?? ''; ?>">
                                             <input type="text" id="pincode" name="pincode" placeholder="Pincode"
-                                                class="border p-2 rounded" value="<?= $address['pincode']; ?>">
+                                                class="border p-2 rounded" value="<?= $address['pincode'] ?? ''; ?>">
                                             <input type="text" id="locality" name="locality" placeholder="Locality"
-                                                class="border p-2 rounded" value="<?= $address['locality']; ?>">
+                                                class="border p-2 rounded" value="<?= $address['locality'] ?? ''; ?>">
                                             <input id="address" name="address" placeholder="Address"
                                                 class="border p-2 rounded col-span-2 bg-white text-left"
-                                                value="<?= $address['address']; ?>">
+                                                value="<?= $address['address'] ?? ''; ?>">
                                             <input type="text" id="city" name="city" placeholder="City"
-                                                class="border p-2  rounded" value="<?= $address['city']; ?>">
+                                                class="border p-2  rounded" value="<?= $address['city'] ?? ''; ?>">
                                             <!-- <label for="state">State</label> -->
                                             <select id="state" name="state" class="border p-2 rounded">
-                                                <option value="<?= $address['state']; ?>">
-                                                    <?= $address['state']; ?>
+                                                <option value="<?= $address['state'] ?? ''; ?>">
+                                                    <?= $address['state'] ?? ''; ?>
                                                 </option>
                                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -114,10 +114,11 @@
 
 
                                             <input type="text" id="landmark" name="landmark" placeholder="Landmark"
-                                                class="border p-2 rounded" value="<?= $address['landmark']; ?>">
+                                                class="border p-2 rounded" value="<?= $address['landmark'] ?? ''; ?>">
+
                                             <input type="text" id="alternatePhone" name="alternate_phone"
                                                 placeholder="Alternate_phone" class="border p-2 rounded"
-                                                value="<?= $address['alternate_phone']; ?>">
+                                                value="<?= $address['alternate_phone'] ?? ''; ?>">
                                         </div>
 
                                         <div class="mt-4">
@@ -138,7 +139,9 @@
                                     </form>
                                     <?php
                                     if (isset($_POST['add_address'])) {
+
                                         $name = $_POST['name'];
+
                                         $mobile = $_POST['mobile'];
                                         $pincode = $_POST['pincode'];
                                         $locality = $_POST['locality'];
@@ -181,18 +184,18 @@
                         </a>
                     </div>
                 </div>
-               <?php
-               if(!empty($address)):
-                ?>
-                 <p class="text-sm font-semibold mt-2 text-gray-600">
-                    <?= $address['address']; ?>,<?= $address['city']; ?>,<?= $address['state']; ?>,<?= $address['landmark']; ?>,<?= $address['pincode']; ?>
-                </p>
-                <p class="text-sm font-semibold text-gray-600"><?= $address['mobile']; ?> ,
-                    <?= $address['alternate_phone']; ?>
-                </p>
-                <?php else:?>
+                <?php
+                if (!empty($address)):
+                    ?>
+                    <p class="text-sm font-semibold mt-2 text-gray-600">
+                        <?= $address['address']; ?>,<?= $address['city']; ?>,<?= $address['state']; ?>,<?= $address['landmark']; ?>,<?= $address['pincode']; ?>
+                    </p>
+                    <p class="text-sm font-semibold text-gray-600"><?= $address['mobile']; ?> ,
+                        <?= $address['alternate_phone']; ?>
+                    </p>
+                <?php else: ?>
                     <p class='text-red-500'>No address found</p>
-                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         <?php else: ?>
             <h1 class="text-lg font-semibold">Address not available</h1>
