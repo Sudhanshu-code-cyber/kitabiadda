@@ -1,4 +1,6 @@
 <?php
+  include "../config/connect.php";
+
 if (!isset($_SESSION['user'])) {
     $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
 
@@ -79,7 +81,6 @@ if (!isset($_SESSION['user'])) {
                 <hr>
                 <ul class="divide-y">
                     <?php
-                    include "../config/connect.php";
                     $call_cat = mysqli_query($connect, "SELECT * FROM category");
                     while ($cat = mysqli_fetch_array($call_cat)) { ?>
                         <a href="?cat=<?= $cat['id'] ?>">
