@@ -64,7 +64,7 @@
             $client = new Google_Client();
             $client->setClientId('642231406648-2do70qjtogm5q4tq82r7t2s14qc0jtgj.apps.googleusercontent.com');
             $client->setClientSecret('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');
-            $client->setRedirectUri('http://localhost/readrainbow/index.php');
+            $client->setRedirectUri('http://localhost/kitabiadda/index.php');
             $client->addScope(['email', 'profile']);
 
             $login_url = $client->createAuthUrl();
