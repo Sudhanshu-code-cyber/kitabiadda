@@ -251,11 +251,12 @@ if ($userId) {
                     <div>
                         <h1 class="text-xl md:text-2xl font-semibold"><?= htmlspecialchars($book['book_name']); ?></h1>
                         <p class="text-orange-400 text-xs md:text-sm font-semibold book-category">
-                            <?= htmlspecialchars($book['book_category']); ?></p>
+                            <?= htmlspecialchars($book['book_category']); ?>
+                        </p>
                         <h3 class="text-base md:text-lg font-semibold book-author">Author: <span
                                 class="text-[#3D8D7A]"><?= htmlspecialchars($book['book_author']); ?></span></h3>
                     </div>
-                    <div class="gap-2 md:gap-4 flex mt-2 md:mt-0 book-actions">
+                    <div class="relative gap-2 md:gap-4 flex mt-2 md:mt-0 book-actions">
                         <form method="POST" action="view.php?book_id=<?= $book_id ?>" class="flex">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                             <input type="hidden" name="toggle_wishlist" value="1">
@@ -274,19 +275,19 @@ if ($userId) {
                         <div class="relative inline-block">
                             <!-- Share Button -->
                             <button id="shareBtn"
-                                class="flex items-center   gap-1 md:gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-4 md:px-4  md:py-2 rounded-lg text-sm md:text-base">
+                                class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="w-4 h-4 md:w-5 md:h-5">
+                                    class="w-5 h-5">
                                     <path fill-rule="evenodd"
                                         d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <span class="hidden md:inline">Share</span>
+                                Share
                             </button>
 
                             <!-- Dropdown Share Options -->
                             <div id="shareDropdown"
-                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200 share-dropdown">
+                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                                 <div class="py-1">
                                     <!-- WhatsApp -->
                                     <a href="#" onclick="shareOnWhatsApp()"
@@ -336,49 +337,133 @@ if ($userId) {
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            // Share dropdown functionality
+                            document.getElementById('shareBtn').addEventListener('click', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                document.getElementById('shareDropdown').classList.toggle('hidden');
+                            });
+
+                            // Close dropdown when clicking outside
+                            document.addEventListener('click', function () {
+                                document.getElementById('shareDropdown').classList.add('hidden');
+                            });
+
+                            // Share functions
+                            function getShareUrl() {
+                                return window.location.href;
+                            }
+
+                            function getShareText() {
+                                return "Check out this book: <?= addslashes($book['book_name']) ?>";
+                            }
+
+                            // WhatsApp
+                            function shareOnWhatsApp() {
+                                const url = `https://wa.me/?text=${encodeURIComponent(getShareText() + ' - ' + getShareUrl())}`;
+                                window.open(url, '_blank');
+                            }
+
+                            // Facebook
+                            function shareOnFacebook() {
+                                const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`;
+                                window.open(url, '_blank', 'width=600,height=400');
+                            }
+
+                            // Twitter
+                            function shareOnTwitter() {
+                                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}&url=${encodeURIComponent(getShareUrl())}`;
+                                window.open(url, '_blank', 'width=600,height=400');
+                            }
+
+                            // Email
+                            function shareOnEmail() {
+                                const subject = "Check out this book: <?= addslashes($book['book_name']) ?>";
+                                const body = `I thought you might like this book:\n\n${getShareText()}\n\n${getShareUrl()}`;
+                                window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                            }
+
+                            // Copy Link
+                            function copyToClipboard() {
+                                navigator.clipboard.writeText(getShareUrl())
+                                    .then(() => {
+                                        // Show a small notification instead of alert
+                                        const notification = document.createElement('div');
+                                        notification.textContent = 'Link copied to clipboard!';
+                                        notification.style.position = 'fixed';
+                                        notification.style.bottom = '20px';
+                                        notification.style.right = '20px';
+                                        notification.style.backgroundColor = '#4CAF50';
+                                        notification.style.color = 'white';
+                                        notification.style.padding = '10px 20px';
+                                        notification.style.borderRadius = '5px';
+                                        notification.style.zIndex = '1000';
+                                        document.body.appendChild(notification);
+
+                                        setTimeout(() => {
+                                            document.body.removeChild(notification);
+                                        }, 3000);
+                                    })
+                                    .catch(() => {
+                                        // Fallback for older browsers
+                                        const input = document.createElement('input');
+                                        input.value = getShareUrl();
+                                        document.body.appendChild(input);
+                                        input.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(input);
+                                        alert('Link copied!');
+                                    });
+                            }
+                        </script>
+
+
                     </div>
                 </div>
 
                 <div class="flex gap-5 mb-5">
-                <?php if ($book['version'] != 'old'): ?>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="book_type" id="e_book" value="e_book" class="peer sr-only">
-                        <div
-                            class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
-                            <p class="text-lg p-0 font-semibold">E-BOOK</p>
+                    <?php if ($book['version'] != 'old'): ?>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="book_type" id="e_book" value="e_book" class="peer sr-only">
+                            <div
+                                class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                                <p class="text-lg p-0 font-semibold">E-BOOK</p>
 
-                            <p class="text-gray-700 font-semibold">Price: <span
-                                    class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
-                            <?=
-                                $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
-                            ?>
+                                <p class="text-gray-700 font-semibold">Price: <span
+                                        class="text-xl text-red-500">₹<?= $book['e_book_price']; ?></span></p>
+                                <?=
+                                    $book['e_book_price'] != null ? "<span class='text-green-500 text-sm'>Available Now</span>" : "<span class='text-red-500 text-sm'>Not Available</span>";
+                                ?>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="book_type" id="physical" value="physical" class="peer sr-only "
+                                checked>
+                            <div
+                                class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
+                                <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
+                                <?php
+                                $bookId = $book['id'];
+                                $mrp = floatval($book['mrp']);
+                                $sell_price = floatval($book['sell_price']);
+                                $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
+                                ?>
+                                <p><?= $discount; ?>% off</p>
+                                <p class="text-gray-700 font-semibold">Price: ₹<del
+                                        class="text-sm"><?= $book['mrp']; ?></del>
+                                    <span class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span>
+                                </p>
+                            </div>
+                        </label>
+                    <?php else: ?>
+                        <div>
+                            <p>MRP: <?= $book['mrp']; ?></p>
+                            <p>Price: <?= $book['sell_price']; ?></p>
+                            <p>Binding: <?= $book['book_binding']; ?></p>
                         </div>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="book_type" id="physical" value="physical" class="peer sr-only " checked>
-                        <div
-                            class="border-2 border-orange-300 hover:shadow-xl rounded-lg px-3 h-22 w-42 pt-1 flex flex-col peer-checked:border-orange-700">
-                            <p class="text-lg font-semibold"><?= $book['book_binding']; ?></p>
-                            <?php
-                            $bookId = $book['id'];
-                            $mrp = floatval($book['mrp']);
-                            $sell_price = floatval($book['sell_price']);
-                            $discount = ($mrp > 0) ? round((($mrp - $sell_price) / $mrp) * 100) : 0;
-                            ?>
-                            <p><?= $discount; ?>% off</p>
-                            <p class="text-gray-700 font-semibold">Price: ₹<del class="text-sm"><?= $book['mrp']; ?></del>
-                                <span class="text-xl text-red-500">₹<?= $book['sell_price']; ?></span>
-                            </p>
-                        </div>
-                    </label>
-                <?php else: ?>
-                    <div>
-                        <p>MRP: <?= $book['mrp']; ?></p>
-                        <p>Price: <?= $book['sell_price']; ?></p>
-                        <p>Binding: <?= $book['book_binding']; ?></p>
-                    </div>
-                <?php endif; ?>
-            </div>
+                    <?php endif; ?>
+                </div>
 
                 <hr class="text-gray-300">
 
@@ -495,67 +580,6 @@ if ($userId) {
     <?php include_once "includes/recomended_book.php" ?>
     <?php include_once "includes/footer2.php" ?>
 
-    <script>
-        function changeImage(src) {
-            document.getElementById("mainBookImage").src = src;
-        }
-
-        // Share dropdown functionality
-        document.getElementById('shareBtn').addEventListener('click', function (e) {
-            e.stopPropagation();
-            document.getElementById('shareDropdown').classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', function () {
-            document.getElementById('shareDropdown').classList.add('hidden');
-        });
-
-        // Share functions
-        function getShareUrl() {
-            return window.location.href;
-        }
-
-        function getShareText() {
-            return "Check out this book: <?= htmlspecialchars($book['book_name']) ?>";
-        }
-
-        function shareOnWhatsApp() {
-            const url = `https://wa.me/?text=${encodeURIComponent(getShareText() + ' - ' + getShareUrl())}`;
-            window.open(url, '_blank');
-        }
-
-        function shareOnFacebook() {
-            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`;
-            window.open(url, '_blank', 'width=600,height=400');
-        }
-
-        function shareOnTwitter() {
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}&url=${encodeURIComponent(getShareUrl())}`;
-            window.open(url, '_blank', 'width=600,height=400');
-        }
-
-        function shareOnEmail() {
-            const subject = "Check out this book: <?= htmlspecialchars($book['book_name']) ?>";
-            const body = `I thought you might like this book:\n\n${getShareText()}\n\n${getShareUrl()}`;
-            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        function copyToClipboard() {
-            navigator.clipboard.writeText(getShareUrl())
-                .then(() => alert('Link copied to clipboard!'))
-                .catch(() => {
-                    // Fallback for older browsers
-                    const input = document.createElement('input');
-                    input.value = getShareUrl();
-                    document.body.appendChild(input);
-                    input.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(input);
-                    alert('Link copied!');
-                });
-        }
-    </script>
-    
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 

@@ -1,3 +1,40 @@
+<?php
+
+include_once "config/connect.php";
+
+// Ensure the user is logged in
+$user = null;
+if (isset($_SESSION['user'])) {
+    $user = getUser();
+}
+$userId = $user ? $user['user_id'] : null;
+
+
+if (isset($_POST['toggle_wishlist']) && isset($userId)) {
+    $bookId = $_POST['wishlist_id'];
+    
+    // Sanitize input
+    $bookId = $connect->real_escape_string($bookId);
+    $userId = $connect->real_escape_string($userId);
+
+    // Check if the book is already in the wishlist
+    $check = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+    $book = $check->fetch_array();
+
+    if ($check->num_rows > 0) {
+        // Remove from wishlist
+        $connect->query("DELETE FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+    } else {
+        // Add to wishlist
+        $connect->query("INSERT INTO wishlist (user_id, book_id) VALUES ('$userId', '$bookId')");
+    }
+    
+    // Redirect back to the same page
+    redirect("profile.php");
+    exit();
+}
+?>
+
 <div id="wishlist" class="content-section ">
         <h2 class="text-2xl font-semibold mb-4">My Wishlist</h2>
         <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -19,18 +56,20 @@
                     </div>
 
                     <!-- Wishlist Heart Icon -->
-                    <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
-                        class="absolute top-3 right-3" onclick="event.stopPropagation();">
-                        <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                        <button type="submit" name="toggle_wishlist">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                class="size-6 hover:scale-110 transition">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                            </svg>
-                        </button>
-                    </form>
+                   <form method="POST"  class="absolute top-2.5 right-2">
+                            <input type="hidden" name="wishlist_id" value="<?= $book['id']; ?>">
+                            <input type="hidden" name="toggle_wishlist" value="1">
+                            <button type="submit"
+                                class="cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
+                                    class="size-4 sm:size-6 hover:scale-110 transition">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                                
+                            </button>
+                        </form>
 
                     <!-- Book Click Redirect -->
                     <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
