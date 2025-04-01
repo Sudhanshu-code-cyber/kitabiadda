@@ -11,8 +11,6 @@ $userEmail = $user ? $user['email'] : null;
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">
         <img src="assets/logo5.png" alt="Logo" class="h-10  object-contain">
     </a>
-
-
     <!-- Mobile Menu Button (Hamburger) - Hidden on desktop -->
     <div class="flex gap-2 ml-[8rem] md:hidden  md:ml-[17rem]">
         <div id="search-toggle"
