@@ -4,7 +4,8 @@
         <?php
         $callAdd = $connect->query("select * from user_address where email='$userEmail'");
         $address = $callAdd->fetch_assoc();
-        if ($callAdd):
+
+        if ($callAdd->num_rows > 0):
             ?>
             <div class="bg-white shadow-lg border-gray-200 p-5">
                 <div class="flex justify-between">
@@ -152,8 +153,8 @@
                                         $alternate_phone = $_POST['alternate_phone'];
                                         $home_work = $_POST['home_work'];
 
-                                        $update_add = $connect->query("UPDATE user_address set name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', alternate_phone='$alternate_phone', home_work='$home_work'");
-                                        if ($update_add) {
+                                        $addAddress = $connect->query("UPDATE user_address set name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', alternate_phone='$alternate_phone', home_work='$home_work'");
+                                        if ($addAddress) {
                                             echo '
                                                             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                                             <script>
@@ -175,7 +176,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="border rounded font-semibold bg-red-500 text-white p-1"><svg
+                        <a href="?delete_add=<?= $address['id']; ?>"
+                            class="border rounded font-semibold bg-red-500 text-white p-1"><svg
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -198,7 +200,172 @@
                 <?php endif; ?>
             </div>
         <?php else: ?>
-            <h1 class="text-lg font-semibold">Address not available</h1>
+            <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+                <div class="flex flex-col items-center text-center">
+                    <!-- Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#3D8D7A] mb-3" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+
+                    <!-- Title -->
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">Address not available</h2>
+                    <p class="text-gray-600 mb-4">Please add your address to continue</p>
+
+                    <!-- Button -->
+                    <button data-modal-target="addAddress" data-modal-toggle="addAddress"
+                        class="px-6 py-2 bg-[#3D8D7A] hover:bg-yellow-600 text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3D8D7A] focus:ring-opacity-50">
+                        Add Address
+                    </button>
+                </div>
+            </div>
+            <div id="addAddress" tabindex="-1" aria-hidden="true"
+                class="fixed top-0 left-0 right-0 z-50 hidden w-full h-screen p-4 overflow-x-hidden overflow-y-auto flex items-center justify-center">
+
+                <div class="relative rounded-lg shadow-md max-w-xl w-[80vw] p-8 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-[#FBFFE4] rounded-lg"></div>
+
+                    <button type="button" class="absolute top-3 right-3 text-white z-10" data-modal-hide="addAddress">
+                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 14 14">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13" />
+                        </svg>
+                    </button>
+                    <div class="relative bg-[#FBFFE4] z-10 w-full">
+                        <form action="" method="POST" class="mt-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" id="name" name="fname" placeholder="Full Name"
+                                    class="border p-2 rounded">
+                                <input type="text" id="mobile" name="contact" placeholder="Mobile"
+                                    class="border p-2 rounded">
+                                <input type="text" id="pincode" name="pin" placeholder="Pincode" class="border p-2 rounded">
+                                <input type="text" id="locality" name="local" placeholder="Locality"
+                                    class="border p-2 rounded">
+                                <input id="address" name="add" placeholder="Address"
+                                    class="border p-2 rounded col-span-2 bg-white text-left">
+                                <input type="text" id="city" name="citys" placeholder="City" class="border p-2  rounded">
+                                <select id="state" name="stt" class="border p-2 rounded">
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and
+                                        Nicobar Islands</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Dadra and Nagar Haveli and Daman and Diu">
+                                        Dadra and Nagar Haveli
+                                        and
+                                        Daman and Diu</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                </select>
+
+
+                                <input type="text" id="land" name="land" placeholder="Landmark" class="border p-2 rounded">
+
+                                <input type="text" id="altphone" name="alt_phone" placeholder="Alternate_phone"
+                                    class="border p-2 rounded">
+                            </div>
+
+                            <div class="mt-4">
+                                <label><input type="radio" name="homework" value="Home" required>
+                                    Home (All day
+                                    delivery)</label>
+                                <label class="ml-4"><input type="radio" name="homework" value="Work" required>
+                                    Work
+                                    (Delivery
+                                    between 10 AM - 5 PM)</label>
+                            </div>
+
+                            <div class="mt-6 flex justify-between">
+                                <button type="submit" name="add_add"
+                                    class="bg-[#3D8D7A] w-full text-white px-6 py-2 rounded">SAVE
+                                    ADDRESS</button>
+                            </div>
+                        </form>
+                        <?php
+                        if (isset($_POST['add_add'])) {
+                            $name = $_POST['fname'];
+                            $mobile = $_POST['contact'];
+                            $pincode = $_POST['pin'];
+                            $locality = $_POST['local'];
+                            $address = $_POST['add'];
+                            $city = $_POST['citys'];
+                            $state = $_POST['stt'];
+                            $landmark = $_POST['land'];
+                            $alternate_phone = $_POST['alt_phone'];
+                            $home_work = $_POST['homework'];
+
+                            $addAdd = $connect->query("INSERT INTO user_address (name, mobile, pincode, locality, address, city, state, landmark, alternate_phone, home_work, email) 
+                            VALUES ('$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$alternate_phone', '$home_work', '$userEmail')");
+
+                            if ($addAdd) {
+                                echo '
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                    <script>
+                                        Swal.fire({
+                                        title: "Address Insetred",
+                                        icon: "success",
+                                        draggable: true
+                                        }).then(() => {
+                                        window.location.href = "profile.php"; // Redirect to home page
+                                        })
+                                    </script>
+                                    ';
+
+                            } else {
+                                message("Not Updated Address");
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 </div>
+<?php
+if (isset($_GET['delete_add'])) {
+    $add_id = $_GET['delete_add'];
+
+    $query = $connect->query("DELETE from user_address where id='$add_id' and email='$userEmail'");
+    if ($query) {
+        message("deleted Successfully");
+        redirect("profile.php");
+    } else {
+        message("not deleted");
+    }
+
+}
+
+?>

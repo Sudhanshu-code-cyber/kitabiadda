@@ -1,36 +1,43 @@
 <div id="edit_details" class="content-section flex flex-col gap-5">
     <h2 class="text-2xl font-semibold">Edit Details</h2>
-    <div class="flex justify-center items-center">
-        <form action="actions/upload_dp.php" method="post" enctype="multipart/form-data">
-            <label for="dp_image" class="cursor-pointer">
-                <input type="file" onchange="this.form.submit()" name="dp_image" id="dp_image" hidden>
-                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>" alt=""
-                    class="h-32 w-32  border bg-white rounded-full">
-            </label>
-            <input type="submit" hidden>
-        </form>
-    </div>
-    <form action="" method="post" enctype="multipart/form-data">
+    <div class="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <!-- Profile Picture Upload -->
+        <div class="flex justify-center mb-8">
+            <form action="actions/upload_dp.php" method="post" enctype="multipart/form-data" class="text-center">
+                <label for="dp_image" class="cursor-pointer group">
+                    <input type="file" onchange="this.form.submit()" name="dp_image" id="dp_image" hidden>
+                    <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
+                        alt="Profile Picture"
+                        class="h-32 w-32 border-4 border-blue-100 rounded-full object-cover group-hover:border-blue-200 transition-all">
+                    <div class="mt-2 text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">Click
+                        to change</div>
+                </label>
+            </form>
+        </div>
 
-        <div class="flex flex-col gap-5 justify-center items-center">
-            <div class="grid grid-cols-2 gap-5">
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">Full Name</label>
-                    <input type="text" name="name" value="<?= $user['name']; ?>" class="border rounded p-2">
+        <!-- Profile Form -->
+        <form action="" method="post" class="space-y-6">
+            <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-2 gap-5">
+                <div class="space-y-1">
+                    <label class="block font-medium text-gray-700">Full Name</label>
+                    <input type="text" name="name" value="<?= $user['name']; ?>"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">Email</label>
-                    <input type="text" name="email" readonly value="<?= $user['email']; ?>" class="border rounded p-2">
+                <div class="space-y-1">
+                    <label class="block font-medium text-gray-700">Email</label>
+                    <input type="text" name="email" readonly value="<?= $user['email']; ?>"
+                        class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-md cursor-not-allowed">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">Contact</label>
-                    <input type="text" name="contact" value="<?= $user['contact']; ?>" class="border rounded p-2">
+                <div class="space-y-1">
+                    <label class="block font-medium text-gray-700">Contact</label>
+                    <input type="text" name="contact" value="<?= $user['contact']; ?>"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">Gender</label>
-                    <select name="gender" class="rounded">
-                        <option value="<?= $user['gender']; ?>" selected><?= ucfirst($user['gender']); ?>
-                        </option>
+                <div class="space-y-1">
+                    <label class="block font-medium text-gray-700">Gender</label>
+                    <select name="gender"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="<?= $user['gender']; ?>" selected><?= ucfirst($user['gender']); ?></option>
                         <option value="female">Female</option>
                         <option value="male">Male</option>
                         <option value="other">Other</option>
@@ -38,24 +45,32 @@
                 </div>
             </div>
 
-            <h1 class="text-2xl font-semibold text-red-500 underline">Change Password</h1>
-            <div class="grid grid-cols-2 gap-5">
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">Old Password</label>
-                    <input type="password" name="old_password" class="border rounded p-2">
+            <?php if ($user['google_id'] == ''): ?>
+                <div class="pt-4 border-t border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Change Password</h2>
+                    <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+                        <div class="space-y-1">
+                            <label class="block font-medium text-gray-700">Old Password</label>
+                            <input type="password" name="old_password"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block font-medium text-gray-700">New Password</label>
+                            <input type="password" name="new_password"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="font-semibold">New Password</label>
-                    <input type="password" name="new_password" class="border rounded p-2">
-                </div>
-            </div>
+            <?php endif; ?>
 
-            <button name="save_change"
-                class="py-2 px-4 cursor-pointer bg-blue-600 font-semibold text-center rounded text-white">
-                Save Changes
-            </button>
-        </div>
-    </form>
+            <div class="pt-2">
+                <button name="save_change" type="submit"
+                    class="w-full px-6 py-2 bg-[#3D8D7A] text-white font-semibold rounded-md shadow transition-colors duration-200">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
 
     <?php
     if (isset($_POST['save_change'])) {
