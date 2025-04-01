@@ -41,7 +41,7 @@ if (isset($_SESSION['user'])) {
 }
 
 // Handle search
-$searchTerm = isset($_GET['search_users']) ? trim($_GET['search_users']) : '';
+$searchUser = isset($_GET['search_users']) ? trim($_GET['search_users']) : '';
 
 $book_id = $_GET['book_id'] ?? null;
 $sellerdata = null;
@@ -76,11 +76,11 @@ $chatUsersQuery = $connect->query("SELECT DISTINCT
     JOIN books ON message.product_id = books.id 
     JOIN users ON books.seller_id = users.user_id 
     WHERE (message.sender_id = '$user_id' OR message.receiver_id = '$user_id')
-    " . ($searchTerm ? "AND (users.name LIKE '%$searchTerm%' OR books.book_name LIKE '%$searchTerm%' OR 
+    " . ($searchUser ? "AND (users.name LIKE '%$searchUser%' OR books.book_name LIKE '%$searchUser%' OR 
         (SELECT message FROM message 
          WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
          AND product_id = books.id 
-         ORDER BY msg_time DESC LIMIT 1) LIKE '%$searchTerm%')" : "") . "
+         ORDER BY msg_time DESC LIMIT 1) LIKE '%$searchUser%')" : "") . "
     ORDER BY last_message_time DESC");
 
 $chatList = [];
@@ -104,8 +104,7 @@ if (isset($_GET['chat_id'])) {
     $chat_id = $_GET['chat_id'];
     $query = $connect->query("DELETE FROM message WHERE message_id='$chat_id'");
     if ($query) {
-        header("Location: chatboard.php");
-        exit();
+        redirect("chatboard.php");
     }
 }
 ?>
@@ -117,7 +116,8 @@ if (isset($_GET['chat_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./src/output.css" rel="stylesheet">
+    <link href="./src/output.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <style>
@@ -184,7 +184,7 @@ if (isset($_GET['chat_id'])) {
                     <div class="relative flex rounded-lg shadow-md ring-1 ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
                         <input type="search"
                             name="search_users"
-                            value="<?= htmlspecialchars($searchTerm) ?>"
+                            value="<?= htmlspecialchars($searchUser) ?>"
                             placeholder="Search conversations..."
                             class="block w-full px-4 py-2 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                             aria-label="Search conversations">
@@ -198,12 +198,12 @@ if (isset($_GET['chat_id'])) {
                 </form>
             </div>
 
-            <?php if (!empty($searchTerm)): ?>
+            <?php if (!empty($searchUser)): ?>
                 <div class="p-2 text-center bg-gray-50 text-sm text-gray-600">
                     <?php if (!empty($chatList)): ?>
-                        Showing results for: "<span class="font-medium"><?= htmlspecialchars($searchTerm) ?></span>"
+                        Showing results for: "<span class="font-medium"><?= htmlspecialchars($searchUser) ?></span>"
                     <?php else: ?>
-                        No results found for: "<span class="font-medium"><?= htmlspecialchars($searchTerm) ?></span>"
+                        No results found for: "<span class="font-medium"><?= htmlspecialchars($searchUser) ?></span>"
                     <?php endif; ?>
                     <a href="chatboard.php" class="ml-2 text-[#3D8D7A] hover:underline">Clear search</a>
                 </div>
@@ -275,12 +275,12 @@ if (isset($_GET['chat_id'])) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                     <h3 class="text-lg font-medium text-gray-500">
-                        <?= empty($searchTerm) ? 'No conversations yet' : 'No matching conversations found' ?>
+                        <?= empty($searchUser) ? 'No conversations yet' : 'No matching conversations found' ?>
                     </h3>
                     <p class="text-sm text-gray-400 mt-1">
-                        <?= empty($searchTerm) ? 'Start a chat to see messages here' : 'Try a different search term' ?>
+                        <?= empty($searchUser) ? 'Start a chat to see messages here' : 'Try a different search term' ?>
                     </p>
-                    <?php if (!empty($searchTerm)): ?>
+                    <?php if (!empty($searchUser)): ?>
                         <a href="chatboard.php" class="mt-3 text-sm text-[#3D8D7A] hover:underline">
                             Show all conversations
                         </a>
@@ -392,4 +392,4 @@ if (isset($_GET['chat_id'])) {
     </script>
 </body>
 
-</html> 
+</html>

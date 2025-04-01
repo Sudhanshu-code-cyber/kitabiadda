@@ -334,7 +334,7 @@ $cat = mysqli_fetch_assoc($call_cat);
             VALUES ('$book_name', '$book_author', '$mrp', '$sell_price', '$pages', '$book_category', '$book_sub_category', '$language', '$isbn', '$publish_year', '$quality','$book_binding', '$book_description', '$image1', '$image2', '$image3', '$image4','$seller_id','$latitude', '$longitude','old')";
 
             if (mysqli_query($connect, $sql)) {
-                echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='sell2.php';</script>";
+                echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='sell.php';</script>";
             } else {
                 echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
             }
