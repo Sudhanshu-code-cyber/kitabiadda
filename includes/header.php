@@ -236,7 +236,7 @@ $userEmail = $user ? $user['email'] : null;
             <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">2</span>
         </a>
 
-        <a href="sell/sell2.php"
+        <a href="sell/sell.php"
             class="flex items-center px-3 py-2 rounded-md text-base font-medium text-[#FBFFE4] hover:bg-[#4a9c87] group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
