@@ -38,7 +38,7 @@ $userEmail = $user ? $user['email'] : null;
         <!-- Search Bar -->
         <form action="filter.php" method="get" class="flex xl:w-[35rem] 2xl:w-[42rem] rounded">
             <input type="search" name="search_book" placeholder="Search by ISBN or name..."
-                class="p-2 bg-white rounded-l-md xl:w-[35rem] 2xl:w-[40rem] lg:w-[26rem] text-black border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0">
+                class="p-2 bg-white rounded-l-md xl:w-[35rem] 2xl:w-[40rem] lg:w-[26rem]  border-0 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0">
             <button type="submit" name="search"
                 class="inline-flex items-center px-4 py-2 bg-[#B3D8A8] text-gray-800 font-medium rounded-r-md hover:bg-[#9bc58d] transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -106,7 +106,7 @@ $userEmail = $user ? $user['email'] : null;
         </div>
 
         <!-- Sell Button -->
-        <a href="sell/sell2.php"
+        <a href="sell/sell.php"
             class="relative  px-2 py-2 rounded-full text-sm font-semibold text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden">
 
             <span
