@@ -30,7 +30,7 @@ if (isset($_SESSION['user'])) {
                 }
             });
 
-            // ⏳ 5 सेकंड बाद Auto Redirect पिछले पेज पर
+            // ⏳ Auto Redirect after 5 seconds
             setTimeout(() => {
                 window.location.href = 'login.php';
             }, 5000);
@@ -53,8 +53,9 @@ if ($book_id) {
 
     if ($sellerdata) {
         $seller_id = $sellerdata['seller_id'];
-        $getSellerInfo = $connect->query("SELECT name, contact FROM users WHERE user_id = '$seller_id'");
+        $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
         $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
+        $sellerContact = $sellerInfo; // For the call drawer
     }
 }
 
@@ -99,12 +100,13 @@ if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $selle
     }
 }
 
-// Handle chat deletion
-if (isset($_GET['chat_id'])) {
-    $chat_id = $_GET['chat_id'];
-    $query = $connect->query("DELETE FROM message WHERE message_id='$chat_id'");
+// Handle chat deletion - UPDATED to use product_id
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    $query = $connect->query("DELETE FROM message WHERE product_id='$product_id'");
     if ($query) {
-        redirect("chatboard.php");
+        header("Location: chatboard.php");
+        exit();
     }
 }
 ?>
@@ -116,7 +118,6 @@ if (isset($_GET['chat_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
-    <link href="./src/output.css" rel="stylesheet">
     <link href="./src/output.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
@@ -155,6 +156,32 @@ if (isset($_GET['chat_id'])) {
                 display: flex !important;
             }
         }
+
+        /* Call Drawer Styles */
+        #call-drawer {
+            height: auto;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 0.5rem 0 0 0.5rem;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #call-drawer img {
+            border: 2px solid #3D8D7A;
+        }
+
+        #open-drawer {
+            background-color: #3D8D7A;
+            transition: background-color 0.3s;
+        }
+
+        #open-drawer:hover {
+            background-color: #2c6b5b;
+        }
+
+        #drawer-backdrop {
+            z-index: 40;
+        }
     </style>
 </head>
 
@@ -163,7 +190,7 @@ if (isset($_GET['chat_id'])) {
     <?php include_once "includes/subheader.php"; ?>
 
     <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-32">
-        <!-- Mobile back button (only visible in mobile view when chat is open) -->
+        <!-- Mobile back button -->
         <div class="lg:hidden back-button items-center p-2 bg-[#B3D8A8] hidden <?= $book_id ? 'flex' : 'hidden' ?>">
             <a href="chatboard.php" class="text-gray-700 hover:text-gray-900">
                 <i class="fas fa-arrow-left mr-2"></i> Back to conversations
@@ -216,13 +243,6 @@ if (isset($_GET['chat_id'])) {
                         $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                         $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
                         $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
-
-                        // Get last message ID for delete functionality
-                        $lastMsgQuery = $connect->query("SELECT message_id FROM message 
-                                   WHERE (sender_id = '$user_id' OR receiver_id = '$user_id')
-                                   AND product_id = '{$chat['book_id']}'
-                                   ORDER BY msg_time DESC LIMIT 1");
-                        $lastMsg = mysqli_fetch_assoc($lastMsgQuery);
                     ?>
                         <div class="relative">
                             <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block transition duration-150 ease-in-out <?= $activeClass ?>">
@@ -246,26 +266,24 @@ if (isset($_GET['chat_id'])) {
                                 </div>
                             </a>
 
-                            <!-- Delete Icon -->
-                            <?php if ($lastMsg): ?>
-                                <a
-                                    href="?chat_id=<?= $lastMsg['message_id']; ?>"
-                                    onclick="return confirm('Are you sure you want to delete this chat?');"
-                                    class="absolute top-10 right-2 text-red-600 hover:text-red-800 transition">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="size-6 text-gray-400">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>
-                                </a>
-                            <?php endif; ?>
+                            <!-- Delete Icon - UPDATED to use product_id -->
+                            <a
+                                href="?product_id=<?= $chat['book_id']; ?>"
+                                onclick="return confirm('Are you sure you want to delete this chat?');"
+                                class="absolute top-10 right-2 text-red-600 hover:text-red-800 transition">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-6 text-gray-400">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </a>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -307,6 +325,33 @@ if (isset($_GET['chat_id'])) {
                         <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
                     <div class="flex justify-center items-center gap-10">
+                        <button id="open-drawer" class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
+                            <i class="fas fa-phone mr-2"></i>
+                        </button>
+
+                        <!-- Dynamic Call Drawer -->
+                        <div id="call-drawer" class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
+
+                            <div class="flex flex-col items-center">
+                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
+                                    alt="<?= htmlspecialchars($sellerContact['name']) ?>"
+                                    class="rounded-full mb-3 h-20 w-20 object-cover">
+                                <p class="text-lg font-semibold"><?= htmlspecialchars($sellerContact['name']) ?></p>
+                                <p class="text-gray-500"><?= htmlspecialchars($sellerContact['contact']) ?></p>
+
+                                <div class="mt-4 space-x-4">
+                                    <a href="tel:<?= htmlspecialchars($sellerContact['contact']) ?>"
+                                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                                        <i class="fas fa-phone mr-2"></i>Call Now
+                                    </a>
+                                    <button id="close-drawer" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                                        <i class="fas fa-times mr-2"></i>Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
                     </div>
                 </div>
@@ -360,6 +405,42 @@ if (isset($_GET['chat_id'])) {
     </div>
 
     <script>
+        // Select drawer and buttons
+        const drawer = document.getElementById("call-drawer");
+        const openBtn = document.getElementById("open-drawer");
+        const closeBtn = document.getElementById("close-drawer");
+
+        // Open drawer
+        openBtn.addEventListener("click", () => {
+            drawer.classList.remove("translate-x-full");
+            // Add backdrop
+            const backdrop = document.createElement("div");
+            backdrop.id = "drawer-backdrop";
+            backdrop.className = "fixed inset-0 bg-black bg-opacity-50 z-40";
+            backdrop.addEventListener("click", () => {
+                drawer.classList.add("translate-x-full");
+                backdrop.remove();
+            });
+            document.body.appendChild(backdrop);
+        });
+
+        // Close drawer
+        closeBtn.addEventListener("click", () => {
+            drawer.classList.add("translate-x-full");
+            const backdrop = document.getElementById("drawer-backdrop");
+            if (backdrop) backdrop.remove();
+        });
+
+        // Close drawer when pressing escape
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                drawer.classList.add("translate-x-full");
+                const backdrop = document.getElementById("drawer-backdrop");
+                if (backdrop) backdrop.remove();
+            }
+        });
+
+        // Auto-scroll to bottom of chat messages
         window.onload = function() {
             const chatMessages = document.getElementById("chatMessages");
             if (chatMessages) {
