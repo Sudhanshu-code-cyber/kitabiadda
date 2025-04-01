@@ -17,7 +17,7 @@ $coutwishlist = mysqli_num_rows($count);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title> kitabiAdda | Profile</title>
     <link href="./src/output.css" rel="stylesheet">
     <link href="./src/output.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
