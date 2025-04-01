@@ -15,7 +15,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new'");
 ?>
 
 <section class="py-10 px-[2%]">
-    <div class="w-full px-[5%] mx-auto px-4">
+    <div class="w-full px-[5%] mx-auto ">
 
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
