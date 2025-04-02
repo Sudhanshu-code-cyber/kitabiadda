@@ -119,7 +119,7 @@ if (isset($_GET['minus_book'])) {
                 <div class="w-full bg-white p-4 shadow-sm rounded-sm flex items-center justify-between">
                     <!-- Left Section -->
                     <div class="flex items-center space-x-3">
-                        <span class="bg-[#3D8D7A] text-white px-2 py-1 text-xs font-semibold rounded">1</span>
+                        <span class="bg-[#205781] text-white px-2 py-1 text-xs font-semibold rounded">1</span>
                         <span class="text-gray-700 font-semibold text-sm">LOGIN</span>
                         <svg class="w-4 h-4 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -148,8 +148,8 @@ if (isset($_GET['minus_book'])) {
                 <!-- addresssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
                 <div class="w-full bg-white shadow-sm rounded-sm mt-3">
                     <!-- Header -->
-                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
-                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">2</span>
+                    <div class="bg-[#3D8D7A] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                        <span class="bg-[#205781] px-2 py-1 text-xs rounded">2</span>
                         <span>DELIVERY ADDRESS</span>
                     </div>
 
@@ -414,8 +414,8 @@ if (isset($_GET['minus_book'])) {
 
                 <div class="bg-white shadow-md rounded-lg w-full border mt-4">
                     <!-- Header -->
-                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-                        <span class="bg-[#3D8D7A] px-3 py-1 text-xs rounded-full">3</span>
+                    <div class="bg-[#3D8D7A] text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
+                    <span class="bg-[#205781] px-2 py-1 text-xs rounded">3</span>
                         <span>ORDER SUMMARY</span>
                     </div>
 
@@ -474,8 +474,8 @@ if (isset($_GET['minus_book'])) {
 
                 <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
                 <div class="bg-white shadow-sm rounded-sm w-full border mt-4">
-                    <div class="bg-[#205781] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
-                        <span class="bg-[#3D8D7A] px-2 py-1 text-xs rounded">4</span>
+                    <div class="bg-[#3D8D7A] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                        <span class="bg-[#205781] px-2 py-1 text-xs rounded">4</span>
                         <span>PAYMENT PROCESS</span>
                     </div>
                     <form action="" method="post">
