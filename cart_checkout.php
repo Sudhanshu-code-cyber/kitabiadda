@@ -488,31 +488,87 @@ if ($total_cart_item == 0) {
                             </div>
 
                             <!-- Add Gift Card -->
-                            <div id="clickDiv"
-                                class="border rounded-sm p-4 mb-3 hover:bg-blue-50 cursor-pointer transition-all">
-                                <button class="flex items-center space-x-2 text-blue-600 font-semibold">
-                                    <span class="text-xl">+</span>
-                                    <span>Add Gift Card</span>
-                                </button>
-                            </div>
+                            <?php
+                            if (isset($_POST['apply'])) {
+                                $coupon = $_POST['coupon'];
+                                $call_coupon = mysqli_query($connect, "SELECT * FROM offer WHERE coupon_name='$coupon'");
+                                $coupon_code = mysqli_fetch_assoc($call_coupon);
+                                $count_coupon = mysqli_num_rows($call_coupon);
+                                $average_coupon = $coupon_code['percentage'];
+                                if ($count_coupon == 1) {
+
+                                    $update_is_coupon = mysqli_query($connect, "UPDATE cart SET is_coupon='$average_coupon' WHERE email='$email'  AND (direct_buy=0 OR direct_buy=1) ");
+                                } else {
+                                    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+                                    echo "<script>
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Invalid Coupon Code!',
+                                                text: 'Please enter a valid coupon code.',
+                                                confirmButtonColor: '#d33',
+                                                confirmButtonText: 'Try Again'
+                                            });
+                                        </script>";
+
+                                }
+                            }
+                            ?>
+                            <?php
+                            $call_is_coupon = mysqli_query($connect, "SELECT AVG(is_coupon) AS avg_coupon FROM cart WHERE email='$email'");
+                            $row = mysqli_fetch_assoc($call_is_coupon);
+                            $average_coupon = round($row['avg_coupon']);
+                            ?>
+                            <?php
+                            $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0 ");
+                            $count_is_coupon = mysqli_num_rows($call_is_coupon);
+                            if ($count_is_coupon > 0) { ?>
+                                <div class="border rounded-sm p-4 mb-3 bg-blue-50">
+                                    <label for="couponCode" class="block text-blue-600 font-semibold mb-2">Enter Coupon
+                                        Code:</label>
+                                    <div class="flex space-x-2">
+                                        <input type="text" id="couponCode" class="border p-2 rounded w-full"
+                                            placeholder="Enter your coupon code" name="coupon">
+                                        <button id="applyCoupon" class="bg-blue-600 text-white px-4 py-2 rounded"
+                                            name="apply">Apply </button>
+                                    </div>
+
+                                </div>
+
+
+
+                            <?php } else { ?>
+                                <div
+                                    class="border rounded p-4 bg-success text-black text-left fw-bold flex justify-between items-center">
+                                    <div>
+                                        ✅ Coupon applied successfully! You got <b><?= $average_coupon ?></b>% discount.
+                                    </div>
+                                    <button class="bg-red-400 text-black px-3 py-1 rounded hover:bg-red-700" name="del">
+                                        ❌
+                                    </button>
+                                    <?php
+                                    if (isset($_POST['del'])) {
+                                        $reset = mysqli_query($connect, "UPDATE cart SET is_coupon =0 WHERE email='$email' ");
+                                        if($reset){
+                                            echo "<script>window.location.href='';</script>";
+                                        }
+                                    }
+
+                                    ?>
+                                </div>
+
+
+
+                            <?php } ?>
+
+
+
+
                         </div>
 
                 </div>
                 <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
 
-                <!-- <div class="flex justify-between items-center bg-white p-4 border shadow-sm rounded-sm mt-3">
-                    <p class="text-gray-700 text-sm">
-                        Order confirmation email will be sent to
-                        <span class="font-bold"></span>
-                    </p>
 
-
-                    <button name="order_submit"
-                        class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600">
-                        CONTINUE
-                    </button>
-                    
-                </div> -->
                 <div
                     class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
                     <!-- Email Confirmation Message -->
@@ -537,7 +593,15 @@ if ($total_cart_item == 0) {
             $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id where cart.email='$email' AND direct_buy=0 ");
             while ($price = mysqli_fetch_array($callCartItem)) {
                 $totleMrp += $price['qty'] * $price['mrp'];
-                $totleSellPrice += $price['qty'] * $price['sell_price'];
+
+                $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0 AND (direct_buy=0 OR direct_buy=1)");
+                $count_is_coupon = mysqli_num_rows($call_is_coupon);
+                if ($count_is_coupon > 0) {
+                    $totleSellPrice += $price['qty'] * $price['sell_price'];
+                } else {
+                    $totleSellPrice += $price['qty'] * $price['sell_price'] * (1 - $average_coupon / 100);
+                }
+
             }
             ?>
             <div class="w-full md:w-1/3 bg-white p-6 shadow-lg rounded-lg h-fit sticky top-16">
@@ -550,11 +614,30 @@ if ($total_cart_item == 0) {
                     <p class="flex justify-between"><span>Secured Packaging Fee</span> <span
                             class="text-green-700">Free</span></p>
                     <hr>
-                    <p class="flex justify-between text-lg font-semibold"><span>Total</span>
-                        <span>₹<?= $totleSellPrice ?></span>
-                    </p>
-                    <p class="flex text-green-700 justify-between"><span>You will save
-                            ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
+                    <!-- if copon discount -->
+                    <?php
+                    $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0 AND (direct_buy=0 OR direct_buy=1)");
+                    $count_is_coupon = mysqli_num_rows($call_is_coupon);
+                    if ($count_is_coupon > 0) { ?>
+                        <p class="flex justify-between text-lg font-semibold"><span>Total</span>
+                            <span>₹<?= $totleSellPrice ?></span>
+                        </p>
+                        <p class="flex text-green-700 justify-between"><span>You will save
+                                ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
+
+                    <?php } else { ?>
+                        <p class="flex justify-between"><span>Coupon Discount</span> <span class="text-green-700"><b>
+                                    <?= $average_coupon ?></b>%</span></p>
+                        <p class="flex justify-between text-lg font-semibold"><span>Total</span>
+                            <span>₹<?= $totleSellPrice ?></span>
+                        </p>
+                        <p class="flex text-green-700 justify-between"><span>You will save
+                                ₹<?= $totleMrp - $totleSellPrice ?> on this order</span></p>
+
+
+
+                    <?php } ?>
+
                 </div>
             </div>
 

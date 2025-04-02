@@ -158,8 +158,8 @@
       </div>
     </li>
     <hr>
-    <a class="nav-link" href="setting.php">
-    <i class="bi bi-gear-wide-connected me-2"></i>Setting
+    <a class="nav-link" href="coupon.php">
+    <i class="bi bi-gear-wide-connected me-2"></i>Manage Coupons
     </a>
 
     </li>
