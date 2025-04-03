@@ -60,6 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist'])) {
     header("Location: view.php?book_id=" . $book_id);
     exit();
 }
+$book_id = $_GET['book_id'] ?? null;
+$sellerdata = null;
+$sellerInfo = null;
+
+if ($book_id) {
+    $getbook = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
+    $sellerdata = mysqli_fetch_array($getbook);
+
+    if ($sellerdata) {
+        $seller_id = $sellerdata['seller_id'];
+        $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
+        $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
+        $sellerContact = $sellerInfo; // For the call drawer
+    }
+}
 
 // Check wishlist status
 $isWishlisted = false;
@@ -84,6 +99,14 @@ if ($userId) {
     <style>
         #bookScroll::-webkit-scrollbar {
             display: none;
+        }
+
+        .translate-x-full {
+            transform: translateX(100%);
+        }
+
+        .translate-x-0 {
+            transform: translateX(0);
         }
 
         /* Hide scrollbar for Firefox */
@@ -219,7 +242,7 @@ if ($userId) {
     <?php include_once "includes/subheader.php"; ?>
 
     <div class="py-5 px-4  w-full md:px-10">
-        <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-30 book-container">
+        <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-28 book-container">
             <!-- Book Images Section -->
             <div
                 class="flex flex-col md:flex-row gap-10 w-5/12 justify-center  md:gap-20 items-center  md:w-5/12 border-gray-300 md:border-r-2 space-x-4 p-2 md:p-6 book-images-section">
@@ -266,21 +289,21 @@ if ($userId) {
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                             <input type="hidden" name="toggle_wishlist" value="1">
                             <button type="submit"
-                                class="flex items-center gap-1 md:gap-2 bg-gray-100 hover:bg-gray-200 px-2 py-2   md:px-4  md:py-2 rounded-lg text-sm md:text-base">
+                                class="flex items-center gap-1 md:gap-2 bg-gray-100 hover:bg-gray-200 px-2 py-2   md:px-4  md:py-2 rounded-lg font-semibold md:text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
                                     class="size-4 sm:size-6 cursor-pointer hover:scale-110 transition">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                 </svg>
-                                <span class="hidden md:inline">Add to wishlist</span>
+                                Wishlist
                             </button>
                         </form>
 
                         <div class="relative inline-block">
                             <!-- Share Button -->
                             <button id="shareBtn"
-                                class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
+                                class="flex font-semibold items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5">
                                     <path fill-rule="evenodd"
@@ -462,10 +485,24 @@ if ($userId) {
                             </div>
                         </label>
                     <?php else: ?>
-                        <div>
-                            <p>MRP: <?= $book['mrp']; ?></p>
-                            <p>Price: <?= $book['sell_price']; ?></p>
-                            <p>Binding: <?= $book['book_binding']; ?></p>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex flex-col gap-1">
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-gray-500 line-through">Original Price: ₹<?= $book['mrp']; ?></span>
+                                    <span class="text-sm text-green-600 font-medium">
+                                        <?= round(100 - ($book['sell_price'] / $book['mrp'] * 100), 0) ?>% OFF
+                                    </span>
+                                </div>
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-2xl font-bold text-gray-800">₹<?= $book['sell_price']; ?></span>
+                                    <span class="text-sm text-gray-500">(Inclusive of all taxes)</span>
+                                </div>
+                                <div class="mt-1">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                                        You will save ₹<?= $book['mrp'] - $book['sell_price']; ?> on this Book
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -538,12 +575,58 @@ if ($userId) {
                             </div>
                         </div>
                     <?php else: ?>
-                        <?php if ($book['version'] != 'new'): ?>
-                            <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
-                                class="py-2 px-4 bg-blue-500 font-semibold text-center text-white rounded text-sm md:text-base">
-                                Chat With Seller
-                            </a>
-                        <?php endif; ?>
+                        <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <!-- Seller Profile Photo -->
+                            <div class="flex-shrink-0">
+                            <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
+                                            alt="<?= $sellerContact['name']?>"
+                                            class="rounded-full  h-12 w-12 object-cover">
+                            </div>
+
+                            <!-- Seller Info and Chat Button -->
+                            <div class="flex-1 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                <div>
+                                    <p class="text-xs text-gray-500">Sold by</p>
+                                    <p class="font-medium text-gray-800"><?= $sellerContact['name'] ?? 'Verified Seller'; ?>
+                                    </p>
+
+                                </div>
+
+                                <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
+                                    class="flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 font-medium text-white rounded-md text-sm transition-colors shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    Chat With Seller
+                                </a>
+                                <button id="open-drawer-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md">
+                                  Contact 
+                                </button>
+                                <div id="call-drawer"
+                                    class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                                    <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
+
+                                    <div class="flex flex-col h-[20vh] items-center">
+                                        
+                                        <p class="text-lg font-semibold"><?= htmlspecialchars($sellerContact['name']) ?></p>
+                                        <p class="text-gray-500"><?= htmlspecialchars($sellerContact['contact']) ?></p>
+
+                                        <div class="mt-4 space-x-4">
+                                            <a href="tel:<?= htmlspecialchars($sellerContact['contact']) ?>"
+                                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                                                <i class="fas fa-phone mr-2"></i>Call Now
+                                            </a>
+                                            <button id="close-drawer"
+                                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                                                <i class="fas fa-times mr-2"></i>Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -581,9 +664,37 @@ if ($userId) {
             </div>
         </div>
     </div>
-
-    <?php include_once "includes/recomended_book.php" ?>
+    <?php if ($book['version'] == 'new'): ?>
+        <?php include_once "includes/recomended_book.php" ?>
+    <?php endif; ?>
     <?php include_once "includes/footer2.php" ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const callDrawer = document.getElementById("call-drawer");
+            const closeDrawer = document.getElementById("close-drawer");
+
+            // Function to open drawer
+            function openDrawer() {
+                callDrawer.classList.remove("translate-x-full");
+                callDrawer.classList.add("translate-x-0");
+            }
+
+            // Function to close drawer
+            function closeDrawerFunc() {
+                callDrawer.classList.remove("translate-x-0");
+                callDrawer.classList.add("translate-x-full");
+            }
+
+            // Attach close event
+            if (closeDrawer) {
+                closeDrawer.addEventListener("click", closeDrawerFunc);
+            }
+
+            // Example: Add event listener to open drawer (you may need to call this from another button)
+            document.getElementById("open-drawer-btn")?.addEventListener("click", openDrawer);
+        });
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
