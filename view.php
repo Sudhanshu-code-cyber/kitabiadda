@@ -578,9 +578,8 @@ if ($userId) {
                         <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
                             <!-- Seller Profile Photo -->
                             <div class="flex-shrink-0">
-                            <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
-                                            alt="<?= $sellerContact['name']?>"
-                                            class="rounded-full  h-12 w-12 object-cover">
+                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
+                                    alt="<?= $sellerContact['name'] ?>" class="rounded-full  h-12 w-12 object-cover">
                             </div>
 
                             <!-- Seller Info and Chat Button -->
@@ -602,22 +601,25 @@ if ($userId) {
                                     Chat With Seller
                                 </a>
                                 <button id="open-drawer-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md">
-                                  Contact 
+                                    Contact
                                 </button>
+                                <!-- Call Drawer -->
                                 <div id="call-drawer"
-                                    class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                                    class="fixed top-0 right-0 z-50 mt-40 w-80 h-auto p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
                                     <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
 
                                     <div class="flex flex-col h-[20vh] items-center">
-                                        
                                         <p class="text-lg font-semibold"><?= htmlspecialchars($sellerContact['name']) ?></p>
                                         <p class="text-gray-500"><?= htmlspecialchars($sellerContact['contact']) ?></p>
 
                                         <div class="mt-4 space-x-4">
-                                            <a href="tel:<?= htmlspecialchars($sellerContact['contact']) ?>"
+                                            <!-- Call Now Button -->
+                                            <a id="call-now" href="tel:<?= htmlspecialchars($sellerContact['contact']) ?>"
                                                 class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
                                                 <i class="fas fa-phone mr-2"></i>Call Now
                                             </a>
+
+                                            <!-- Close Button -->
                                             <button id="close-drawer"
                                                 class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                                                 <i class="fas fa-times mr-2"></i>Close
@@ -625,6 +627,7 @@ if ($userId) {
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     <?php endif; ?>
@@ -692,6 +695,35 @@ if ($userId) {
 
             // Example: Add event listener to open drawer (you may need to call this from another button)
             document.getElementById("open-drawer-btn")?.addEventListener("click", openDrawer);
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const openDrawerBtn = document.getElementById('open-drawer-btn');
+            const closeDrawerBtn = document.getElementById('close-drawer');
+            const callDrawer = document.getElementById('call-drawer');
+            const callNowBtn = document.getElementById('call-now');
+
+            // Open drawer when Contact button is clicked
+            openDrawerBtn.addEventListener('click', function () {
+                callDrawer.classList.remove('translate-x-full');
+                callDrawer.classList.add('translate-x-0');
+            });
+
+            // Close drawer when Close button is clicked
+            closeDrawerBtn.addEventListener('click', function () {
+                callDrawer.classList.remove('translate-x-0');
+                callDrawer.classList.add('translate-x-full');
+            });
+
+            // Immediately initiate call when Call Now is clicked
+            callNowBtn.addEventListener('click', function (e) {
+                // The href="tel:..." on the anchor tag will handle the actual call
+                // Close the drawer after initiating call
+                callDrawer.classList.remove('translate-x-0');
+                callDrawer.classList.add('translate-x-full');
+            });
         });
     </script>
 
