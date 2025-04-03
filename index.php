@@ -48,8 +48,6 @@ if (isset($_GET['code'])) {
         redirect('index.php');
     }
 
-
-
     header("Location: index.php");
     exit();
 }
@@ -62,64 +60,74 @@ if (isset($_GET['code'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadRainbow | Book</title>
     <link href="./src/output.css" rel="stylesheet">
-    <link href="./src/output.css" rel="stylesheet">
-
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <style>
+        /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+        #bookScroll::-webkit-scrollbar,
+        #bookScroll2::-webkit-scrollbar,
+        #bookScroll3::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for Firefox */
+        #bookScroll,
+        #bookScroll2,
+        #bookScroll3 {
+            scrollbar-width: none;
+        }
+
+        /* Container styling for smooth scrolling */
+        #bookScroll,
+        #bookScroll2,
+        #bookScroll3 {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Floating Button Styles */
+        .floating-sell-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        .floating-sell-btn button {
+            background-color: #3D8D7A;
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .floating-sell-btn button:hover {
+            background-color: #2c6a5a;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .floating-sell-btn button svg {
+            margin-right: 8px;
+            height: 24px;
+            width: 24px;
+        }
+
+        /* Button scroll effects */
+        .btn-scroll-down {
+            opacity: 0.7;
+            transform: translateY(8px);
+        }
+    </style>
 </head>
 
-<style>
-    /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
-    #bookScroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* Hide scrollbar for Firefox */
-    #bookScroll {
-        scrollbar-width: none;
-    }
-
-    /* Container styling for smooth scrolling */
-    #bookScroll {
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* Same styles for the second carousel */
-    #bookScroll2::-webkit-scrollbar {
-        display: none;
-    }
-
-    #bookScroll2 {
-        scrollbar-width: none;
-    }
-
-    #bookScroll2 {
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    #bookScroll3::-webkit-scrollbar {
-        display: none;
-    }
-
-    #bookScroll3 {
-        scrollbar-width: none;
-    }
-
-    #bookScroll3 {
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-</style>
-
-<body
-    class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
-
-
+<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
-
-    <!-- body section -->
 
     <!-- First Carousel -->
     <div id="default-carousel" class="relative mt-22 w-full" data-carousel="slide">
@@ -168,21 +176,55 @@ if (isset($_GET['code'])) {
     </div>
 
     <!-- Book Sets Section for New Books -->
-
     <?php include_once "includes/newRelease.php"; ?>
 
     <!-- Book Sets Section for Old Books (Second Carousel) -->
     <?php include_once "includes/oldBook.php"; ?>
 
-
-
     <!-- Book Sets Section for Old Books (Third Carousel) -->
     <?php include_once "includes/e-Book.php"; ?>
 
-    <?php
-    include_once "includes/footer2.php";
-    ?>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-</body>
+    <!-- Floating Sell Button -->
+    <a href="sell/sell.php" class="floating-sell-btn flex w-full justify-center items-center xl:hidden md ">
+        <button id="sellButton" >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Sell Used Book
+        </button>
+    </a>
 
+    <?php include_once "includes/footer2.php"; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    
+    <script>
+        // Sell Button Functionality
+        document.getElementById('sellButton').addEventListener('click', function() {
+            <?php if(isset($_SESSION['user'])): ?>
+                window.location.href = 'sell_book.php';
+            <?php else: ?>
+                window.location.href = 'login.php?redirect=sell_book.php';
+            <?php endif; ?>
+        });
+
+        // Scroll Behavior for Button
+        let lastScrollPosition = 0;
+        const sellButton = document.getElementById('sellButton');
+
+        window.addEventListener('scroll', function() {
+            const currentScrollPosition = window.pageYOffset;
+            
+            if (currentScrollPosition > lastScrollPosition) {
+                // Scrolling down
+                sellButton.parentElement.classList.add('btn-scroll-down');
+            } else {
+                // Scrolling up
+                sellButton.parentElement.classList.remove('btn-scroll-down');
+            }
+            
+            lastScrollPosition = currentScrollPosition;
+        });
+    </script>
+</body>
 </html>

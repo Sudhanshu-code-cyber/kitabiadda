@@ -257,11 +257,11 @@ if ($userId) {
                                 class="text-[#3D8D7A]"><?= htmlspecialchars($book['book_author']); ?></span></h3>
                     </div>
                     <div class="relative gap-2 md:gap-4 flex mt-2 md:mt-0 book-actions">
-                        <form method="POST" action="view.php?book_id=<?= $book_id ?>" class="flex">
+                        <form method="POST" action="view.php?book_id=<?= $book_id ?>" class="">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                             <input type="hidden" name="toggle_wishlist" value="1">
                             <button type="submit"
-                                class="flex items-center gap-1 md:gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-4  md:px-4  md:py-2 rounded-lg text-sm md:text-base">
+                                class="flex items-center gap-1 md:gap-2 bg-gray-100 hover:bg-gray-200 px-2 py-2   md:px-4  md:py-2 rounded-lg text-sm md:text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
                                     class="size-4 sm:size-6 cursor-pointer hover:scale-110 transition">
