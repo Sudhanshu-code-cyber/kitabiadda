@@ -83,19 +83,57 @@ $cat = mysqli_fetch_assoc($call_cat);
             padding: 0 5px;
             transition: all 0.3s ease;
             color: gray;
+            pointer-events: none;
         }
 
         .input-box:focus+.floating-label,
-        .input-box:not(:placeholder-shown)+.floating-label {
+        .input-box:not(:placeholder-shown)+.floating-label,
+        .input-box.has-value+.floating-label,
+        textarea:focus+.floating-label,
+        textarea:not(:placeholder-shown)+.floating-label {
             top: 5px;
             font-size: 12px;
             color: var(--primary);
+        }
+
+        /* For textarea floating labels */
+        .textarea-container {
+            position: relative;
+        }
+
+        .textarea-container .floating-label {
+            top: 20px;
+        }
+
+        .textarea-container textarea:focus+.floating-label,
+        .textarea-container textarea:not(:placeholder-shown)+.floating-label {
+            top: 5px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .image-upload-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .nav-title {
+                font-size: 1rem !important;
+            }
+
+            .container-padding {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
         }
     </style>
 </head>
 
 <body class="bg-[var(--accent)] ">
-<nav class="bg-[var(--primary)] text-white p-4 fixed w-full top-0 z-50 shadow-md">
+    <nav class="bg-[var(--primary)] text-white p-4 fixed w-full top-0 z-50 shadow-md">
         <div class="max-w-5xl mx-auto flex justify-between items-center">
             <a href="javascript:history.back()" class="text-white text-2xl">
                 <i class="fas fa-arrow-left"></i>
@@ -109,7 +147,7 @@ $cat = mysqli_fetch_assoc($call_cat);
 
 
     <div class="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg mt-20">
-        
+
 
         <form action="" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
@@ -186,9 +224,38 @@ $cat = mysqli_fetch_assoc($call_cat);
 
             <!-- Location Section -->
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Location Details</h2>
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Profile Details</h2>
+               <div class="flex flex-1 gap-2 w-full">
+               <div class="relative w-full">
+                        <input type="text" placeholder=" " value="<?= $user['name'];?>" name="name" class="input-box border rounded w-full p-3"
+                            id="name">
+                        <label for="name" class="floating-label"> </label>
+                    </div>
+                    <div class="relative w-full">
+                        <input type="text" placeholder="" value="<?= $user['contact'];?>" name="contact" class="input-box border rounded w-full p-3"
+                            id="contact">
+                        <label for="contact" class="floating-label">Mobile No.</label>
+                    </div>
+               </div>
+
+
+                <div class="relative mt-4">
+                    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3" id="address">
+        <?php
+        if (!empty($address_row)) {
+            echo $address_row['name'] . ' , ' . $address_row['mobile'] . ' , ' . $address_row['address'] . ' , ' . $address_row['city'] . ' , ' . $address_row['state'] . ' , ' . $address_row['landmark'] . ' , ' . $address_row['pincode'];
+        } else {
+            echo "No address found"; // Default message if data is missing
+        }
+        ?>
+    </textarea>
+                    <label for="address" class="floating-label">Address</label>
+                </div>
+
+
                 <div class="relative">
-                    <input type="text" placeholder=" " class="input-box border rounded w-full p-3 pr-12" id="location" readonly>
+                    <input type="text" placeholder=" " class="input-box border rounded w-full p-3 pr-12" id="location"
+                        readonly>
                     <label for="location" class="floating-label">Location</label>
                     <button type="button" onclick="getLocation()"
                         class="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl text-blue-500">
@@ -197,8 +264,10 @@ $cat = mysqli_fetch_assoc($call_cat);
                 </div>
 
                 <!-- Latitude & Longitude Hidden Inputs -->
-                <input type="text" id="latitude" name="latitude" placeholder="Latitude" class="border rounded p-3 w-full mt-2" hidden>
-                <input type="text" id="longitude" name="longitude" placeholder="Longitude" class="border rounded p-3 w-full mt-2" hidden>
+                <input type="text" id="latitude" name="latitude" placeholder="Latitude"
+                    class="border rounded p-3 w-full mt-2" hidden>
+                <input type="text" id="longitude" name="longitude" placeholder="Longitude"
+                    class="border rounded p-3 w-full mt-2" hidden>
 
                 <script>
                     function getLocation() {
@@ -221,20 +290,6 @@ $cat = mysqli_fetch_assoc($call_cat);
                     }
                 </script>
 
-
-               <div class="relative mt-4">
-    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3" id="address">
-        <?php 
-        if (!empty($address_row)) { 
-            echo $address_row['name'] .' , '.$address_row['mobile'] .' , '. $address_row['address'] .' , '. $address_row['city'] .' , '. $address_row['state'] .' , '. $address_row['landmark'] .' , '. $address_row['pincode'];
-        } else { 
-            echo "No address found"; // Default message if data is missing
-        } 
-        ?>
-    </textarea>
-    <label for="address" class="floating-label">Address</label>
-</div>
-
             </div>
 
             <!-- Book Description Section -->
@@ -250,37 +305,55 @@ $cat = mysqli_fetch_assoc($call_cat);
             <!-- Image Upload Section -->
             <div>
                 <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Upload Images</h2>
-                <div class="grid grid-cols-4 gap-4">
+                <p class="text-sm text-gray-500 mb-3">First image will be used as the cover photo</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 image-upload-grid">
                     <label
-                        class="border-2 border-[var(--primary)] flex flex-col items-center justify-center p-4 cursor-pointer w-full h-48 rounded">
-                        <input type="file" name="image0" class="hidden" onchange="previewImage(event, 0)">
-                        <img id="img0" src="" class="hidden w-full h-full object-cover">
-                        <span id="addPhotoText0" class="text-[var(--primary)]">📷 Add Photo</span>
+                        class="border-2 border-[var(--primary)] border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
+                        <input type="file" name="image0" class="hidden" onchange="previewImage(event, 0)"
+                            accept="image/*" required>
+                        <img id="img0" src="" class="hidden w-full h-full object-cover rounded">
+                        <span id="addPhotoText0" class="text-[var(--primary)] text-center">
+                            <i class="fas fa-camera text-2xl block mb-1"></i>
+                            <span class="text-xs">Add Photo*</span>
+                        </span>
                     </label>
                     <label
-                        class="border-2 border-gray-300 flex flex-col items-center justify-center p-4 cursor-pointer w-full h-48 rounded">
-                        <input type="file" name="image1" class="hidden" onchange="previewImage(event, 1)">
-                        <img id="img1" src="" class="hidden w-full h-full object-cover">
-                        <span id="addPhotoText1" class="text-gray-500">📷 Add Photo</span>
+                        class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
+                        <input type="file" name="image1" class="hidden" onchange="previewImage(event, 1)"
+                            accept="image/*">
+                        <img id="img1" src="" class="hidden w-full h-full object-cover rounded">
+                        <span id="addPhotoText1" class="text-gray-500 text-center">
+                            <i class="fas fa-camera text-2xl block mb-1"></i>
+                            <span class="text-xs">Add Photo</span>
+                        </span>
                     </label>
                     <label
-                        class="border-2 border-gray-300 flex flex-col items-center justify-center p-4 cursor-pointer w-full h-48 rounded">
-                        <input type="file" name="image2" class="hidden" onchange="previewImage(event, 2)">
-                        <img id="img2" src="" class="hidden w-full h-full object-cover">
-                        <span id="addPhotoText2" class="text-gray-500">📷 Add Photo</span>
+                        class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
+                        <input type="file" name="image2" class="hidden" onchange="previewImage(event, 2)"
+                            accept="image/*">
+                        <img id="img2" src="" class="hidden w-full h-full object-cover rounded">
+                        <span id="addPhotoText2" class="text-gray-500 text-center">
+                            <i class="fas fa-camera text-2xl block mb-1"></i>
+                            <span class="text-xs">Add Photo</span>
+                        </span>
                     </label>
                     <label
-                        class="border-2 border-gray-300 flex flex-col items-center justify-center p-4 cursor-pointer w-full h-48 rounded">
-                        <input type="file" name="image3" class="hidden" onchange="previewImage(event, 3)">
-                        <img id="img3" src="" class="hidden w-full h-full object-cover">
-                        <span id="addPhotoText3" class="text-gray-500">📷 Add Photo</span>
+                        class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
+                        <input type="file" name="image3" class="hidden" onchange="previewImage(event, 3)"
+                            accept="image/*">
+                        <img id="img3" src="" class="hidden w-full h-full object-cover rounded">
+                        <span id="addPhotoText3" class="text-gray-500 text-center">
+                            <i class="fas fa-camera text-2xl block mb-1"></i>
+                            <span class="text-xs">Add Photo</span>
+                        </span>
                     </label>
                 </div>
             </div>
 
             <!-- Post Your Ad Button -->
-            <div class="text-center mt-6">
-                <button class="bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#3D8D7A]"
+            <div class="text-center mt-8">
+                <button type="submit"
+                    class="bg-[var(--primary)] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#2e7a68] transition-colors w-full sm:w-auto"
                     name="submit">
                     Post Book
                 </button>
@@ -301,13 +374,13 @@ $cat = mysqli_fetch_assoc($call_cat);
             $publish_year = $_POST['publish_year'];
             $quality = $_POST['quality'];
             $book_binding = $_POST['book_binding'];
-            
+
             $book_description = $_POST['book_description'];
             $seller_id = $user['user_id'];
-            $latitude = $_POST['latitude'] ;
-            $longitude = $_POST['longitude'] ;
+            $latitude = $_POST['latitude'];
+            $longitude = $_POST['longitude'];
 
-            $target_dir = "../assets/images/"; 
+            $target_dir = "../assets/images/";
             $image1 = "image0";
             $image2 = "image1";
             $image3 = "image2";

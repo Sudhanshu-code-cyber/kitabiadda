@@ -112,9 +112,15 @@ if ($userId) {
             <div class="text-center py-10">
                 <p class="text-xl text-gray-500">Your wishlist is empty 😢</p>
                 <p class="text-gray-500">Explore our collection and add books you love!</p>
-                <a href="index.php" class="mt-4 inline-block px-6 py-3 bg-[#3D8D7A] text-white font-semibold rounded-lg shadow-md hover:transition">
-                    Browse Books
-                </a>
+                <a href="index.php" 
+   class="mt-4 inline-flex items-center gap-3 px-6 py-2 bg-gradient-to-r bg-[#3D8D7A] to-[#2F6D5E] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group">
+    <span class="text-xl">📚</span>
+    <span>Browse Our Collection</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+    </svg>
+</a>
+
             </div>
         <?php else: ?>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-6 gap-4">
