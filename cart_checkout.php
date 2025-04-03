@@ -514,12 +514,12 @@ if ($total_cart_item == 0) {
                             }
                             ?>
                             <?php
-                            $call_is_coupon = mysqli_query($connect, "SELECT AVG(is_coupon) AS avg_coupon FROM cart WHERE email='$email'");
+                            $call_is_coupon = mysqli_query($connect, "SELECT AVG(is_coupon) AS avg_coupon FROM cart WHERE email='$email'  AND (direct_buy=0 OR direct_buy=1) ");
                             $row = mysqli_fetch_assoc($call_is_coupon);
                             $average_coupon = round($row['avg_coupon']);
                             ?>
                             <?php
-                            $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0 ");
+                            $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0  AND (direct_buy=0 OR direct_buy=1)");
                             $count_is_coupon = mysqli_num_rows($call_is_coupon);
                             if ($count_is_coupon > 0) { ?>
                                 <div class="border rounded-sm p-4 mb-3 bg-blue-50">
