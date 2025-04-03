@@ -237,6 +237,11 @@ if ($userId) {
                     <img src="assets/images/<?= htmlspecialchars($book['img4']); ?>" alt="Thumbnail 4"
                         class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                         onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img4']); ?>')">
+                    <script>
+                        function changeImage(src) {
+                            document.getElementById("mainBookImage").src = src;
+                        }
+                    </script>
                 </div>
 
                 <div class="w-full md:w-64 rounded-lg overflow-hidden shadow-lg main-image">
