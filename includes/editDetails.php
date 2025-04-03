@@ -48,7 +48,7 @@
             <?php if ($user['google_id'] == ''): ?>
                 <div class="pt-4 border-t border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Change Password</h2>
-                    <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1">
                             <label class="block font-medium text-gray-700">Old Password</label>
                             <input type="password" name="old_password"

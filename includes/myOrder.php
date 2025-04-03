@@ -24,7 +24,7 @@
                                         <img src="assets/images/<?= $order_item['img1'] ?>" alt="item_image"
                                             class="h-16 w-16 sm:h-18 sm:w-18 rounded shadow-sm object-cover">
                                         <div class="ml-3 min-w-0">
-                                            <h2 class="font-medium truncate text-sm sm:text-base"><?= $order_item['book_name'] ?>
+                                            <h2 class="font-medium w-fit text-sm sm:text-base"><?= $order_item['book_name'] ?>
                                             </h2>
                                             <p class="text-sm text-gray-600">₹<?= $order_item['sell_price']; ?></p>
                                         </div>

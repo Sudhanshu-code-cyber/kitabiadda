@@ -11,6 +11,7 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $userId = $user ? $user['user_id'] : null;
+$userEmail = $user['email'];
 
 // First handle the book view
 if (!isset($_GET['book_id'])) {
@@ -578,7 +579,7 @@ if ($userId) {
                         <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
                             <!-- Seller Profile Photo -->
                             <div class="flex-shrink-0">
-                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
+                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'defaultUser.webp' ?>"
                                     alt="<?= $sellerContact['name'] ?>" class="rounded-full  h-12 w-12 object-cover">
                             </div>
 
@@ -669,6 +670,30 @@ if ($userId) {
     </div>
     <?php if ($book['version'] == 'new'): ?>
         <?php include_once "includes/recomended_book.php" ?>
+    <?php else: ?>
+        <div class="p-5">
+            <div class="flex bg-white p-5 rounded-xl shadow-lg">
+                <div class="w-2/4">
+                    <div>
+                        <h2>Posted On</h2>
+                        <p>Date: <?= date('d M Y', strtotime($book['post_date']))?></p>
+                        <p>At: <?= $add['']?></p>
+                    </div>
+                </div>
+                <div class="mb-6 bg-gray-100 rounded w-2/4 p-2 ">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
+                    <div class="mt-6">
+                        <iframe class="w-full h-64 rounded-lg"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3157.687502634852!2d92.72131!3d11.6789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDQwJzQ0LjQiTiA5MsKwNDMnMTkuMSJF!5e0!3m2!1sen!2sin!4v1616748401553!5m2!1sen!2sin"
+                            allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"
+                        class="text-blue-600 text-sm font-medium inline-block">
+                        <i class="fas fa-external-link-alt mr-1"></i> Open in Maps
+                    </a>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
     <?php include_once "includes/footer2.php" ?>
     <script>
