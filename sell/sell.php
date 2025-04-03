@@ -46,7 +46,7 @@ if (!isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Your Ad</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="../src/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
@@ -56,12 +56,18 @@ if (!isset($_SESSION['user'])) {
             --accent: #A3D1C6;
         }
         
-        /* Mobile-first responsive styles */
-        @media (max-width: 767px) {
+       /* Mobile-first responsive styles */
+       @media (max-width: 767px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
             .category-sidebar {
                 width: 100%;
                 border-right: none;
-                border-bottom: 1px solid #e5e7eb;
+                border-bottom: 2px solid var(--primary);
+                max-height: 40vh;
+                overflow-y: auto;
             }
             
             .content-panel {
@@ -71,11 +77,24 @@ if (!isset($_SESSION['user'])) {
             
             .nav-title {
                 font-size: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 60vw;
             }
             
             .category-item {
                 padding: 0.75rem 1rem;
                 font-size: 0.9rem;
+            }
+            
+            .subcategory-item {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .mobile-hidden {
+                display: none;
             }
         }
         

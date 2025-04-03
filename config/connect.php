@@ -1,5 +1,5 @@
 <?php
-    $connect = new mysqli("localhost","root", "","readrainbow") or die("error connecting to database");
+    $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
     session_start();
 
