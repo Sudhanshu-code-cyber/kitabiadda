@@ -407,6 +407,12 @@ if ($total_cart_item == 0) {
                                         Off
                                     </span>
                                 </div>
+                                <a href="?remove=<?= $cartItem['item_id'] ?>"
+                                    class="inline-block px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition duration-200">
+                                    REMOVE
+                                </a>
+
+
                             </div>
 
                             <!-- Quantity Box -->
@@ -418,9 +424,20 @@ if ($total_cart_item == 0) {
                                     <a href="?add_book=<?= $cartItem['id'] ?>"
                                         class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-r-lg">+</a>
                                 </div>
+
                             </div>
+
                         </div>
                     <?php } ?>
+                    <?php
+                    if (isset($_GET['remove'])) {
+                        $rem_id = $_GET['remove'];
+                        $rem_que = mysqli_query($connect,"DELETE FROM cart WHERE item_id='$rem_id' AND email='$email' AND direct_buy=0 ");
+                        if($rem_que){
+                            echo "<script>window.location.href='cart_checkout.php';</script>";
+                        }
+                    }
+                    ?>
                 </div>
 
 
@@ -514,12 +531,12 @@ if ($total_cart_item == 0) {
                             }
                             ?>
                             <?php
-                            $call_is_coupon = mysqli_query($connect, "SELECT AVG(is_coupon) AS avg_coupon FROM cart WHERE email='$email'");
+                            $call_is_coupon = mysqli_query($connect, "SELECT AVG(is_coupon) AS avg_coupon FROM cart WHERE email='$email'  AND (direct_buy=0 OR direct_buy=1) ");
                             $row = mysqli_fetch_assoc($call_is_coupon);
                             $average_coupon = round($row['avg_coupon']);
                             ?>
                             <?php
-                            $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0 ");
+                            $call_is_coupon = mysqli_query($connect, "SELECT * FROM cart WHERE email='$email' AND is_coupon=0  AND (direct_buy=0 OR direct_buy=1)");
                             $count_is_coupon = mysqli_num_rows($call_is_coupon);
                             if ($count_is_coupon > 0) { ?>
                                 <div class="border rounded-sm p-4 mb-3 bg-blue-50">
@@ -548,7 +565,7 @@ if ($total_cart_item == 0) {
                                     <?php
                                     if (isset($_POST['del'])) {
                                         $reset = mysqli_query($connect, "UPDATE cart SET is_coupon =0 WHERE email='$email' ");
-                                        if($reset){
+                                        if ($reset) {
                                             echo "<script>window.location.href='';</script>";
                                         }
                                     }
