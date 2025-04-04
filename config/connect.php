@@ -1,6 +1,10 @@
 <?php
     $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
+
+    // project configration
+    define("PROJECT_NAME", "KitabiAdda");
+
     session_start();
 
     // get user information
