@@ -88,6 +88,13 @@ $chatList = [];
 while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     $chatList[] = $chatRow;
 }
+// Get total chat count
+$chatCountQuery = $connect->query("SELECT COUNT(DISTINCT books.id) as total_chats 
+    FROM message 
+    JOIN books ON message.product_id = books.id 
+    WHERE message.sender_id = '$user_id' OR message.receiver_id = '$user_id'");
+$chatCountData = mysqli_fetch_assoc($chatCountQuery);
+$totalChats = $chatCountData['total_chats'] ?? 0;
 
 // Handle message sending
 if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $sellerdata) {
@@ -205,7 +212,7 @@ if (isset($_GET['product_id'])) {
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    INBOX
+                    INBOX(<?= $totalChats ?>)
                 </h2>
                 <form action="" method="get" class="w-full sm:w-auto">
                     <div class="relative flex rounded-lg shadow-md ring-1 ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">

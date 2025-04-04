@@ -153,7 +153,7 @@ $booksQuery = $connect->query($sql);
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="flex flex-col mt-32 gap-4 p-3 sm:p-4">
+    <div class="flex flex-col mt-32 gap-4 sm:p-4">
         <?php if (isset($_GET['filter']) && !isset($_GET['hide'])): ?>
             <div class="flex justify-center items-center mb-3">
                 <h2 class="text-lg sm:text-xl md:text-2xl font-serif py-1 px-4 sm:py-2 sm:px-6 rounded-md bg-[#3D8D7A] font-bold text-white">
@@ -175,7 +175,7 @@ $booksQuery = $connect->query($sql);
                         $sell_price = floatval($book['sell_price']);
                         $percentage = ($mrp > 0 && $sell_price > 0) ? round(($mrp - $sell_price) / $mrp * 100) : 0;
                     ?>
-                        <div class="book-card bg-white p-3 rounded-lg shadow-md border border-gray-200 relative">
+                        <div class="book-card bg-white p-3  rounded-lg shadow-md border border-gray-200 relative">
                             <?php if ($percentage > 0): ?>
                                 <div class="absolute left-2 top-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded shadow">
                                     <?= $percentage; ?>% OFF
@@ -194,7 +194,7 @@ $booksQuery = $connect->query($sql);
                                 </button>
                             </form>
 
-                            <a href="view.php?book_id=<?= $bookId; ?>" class="block h-full">
+                            <a href="view.php?book_id=<?= $bookId; ?>" class="block  h-full">
                                 <div class="flex justify-center">
                                     <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="book-image w-auto object-contain">
                                 </div>

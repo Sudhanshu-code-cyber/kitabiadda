@@ -5,6 +5,9 @@ if (isset($_SESSION['user'])) {
 }
 $userId = $user ? $user['user_id'] : null;
 $userEmail = $user ? $user['email'] : null;
+
+
+
 ?>
 <div class="flex fixed w-full z-50 top-0 xl:gap-10 lg:gap-[5rem] md:gap-7  items-center bg-[#3D8D7A] px-[5%] py-3">
     <!-- Logo -->
@@ -96,9 +99,17 @@ $userEmail = $user ? $user['email'] : null;
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
                 </svg>
+                <?php
+                $chatCountQuery = $connect->query("SELECT COUNT(DISTINCT books.id) as total_chats 
+                 FROM message 
+                 JOIN books ON message.product_id = books.id 
+                WHERE message.sender_id = '$userId' OR message.receiver_id = '$userId'");
+                $chatCountData = mysqli_fetch_assoc($chatCountQuery);
+                $totalChats = $chatCountData['total_chats'] ?? 0;
+                ?>
                 <div
                     class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
-                    2
+                    <?= $totalChats; ?>
                 </div>
             </a>
         </div>
@@ -134,14 +145,14 @@ $userEmail = $user ? $user['email'] : null;
                     class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden rounded-full md:me-0 focus:ring-gray-100 cursor-pointer transition-colors"
                     type="button">
                     <img class="w-11 h-11 me-2 rounded-full" src="assets/user_dp/<?= $user['dp'];
-                        // if($user['dp'] == ""){
-                        //     echo "assets/defaultUser.webp";
-                        // } elseif ($user['google_id'] != ''){
-                        //     echo $user['dp'] ;
-                        // } else {
-                        //     echo "assets/user_dp/" . $user['dp'] ;
-                        // }
-                    ?>
+                                                                                    // if($user['dp'] == ""){
+                                                                                    //     echo "assets/defaultUser.webp";
+                                                                                    // } elseif ($user['google_id'] != ''){
+                                                                                    //     echo $user['dp'] ;
+                                                                                    // } else {
+                                                                                    //     echo "assets/user_dp/" . $user['dp'] ;
+                                                                                    // }
+                                                                                    ?>
                     "
                         alt="user_dp">
                 </button>
@@ -306,11 +317,11 @@ $userEmail = $user ? $user['email'] : null;
     const mobileMenu = document.getElementById('mobile-menu');
     const searchFun = document.getElementById('search-fun');
 
-    mobileMenuToggle.addEventListener('click', function () {
+    mobileMenuToggle.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
         document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
     });
-    searchToggle.addEventListener('click', function () {
+    searchToggle.addEventListener('click', function() {
         searchFun.classList.toggle('hidden');
         document.body.style.overflow = searchFun.classList.contains('hidden') ? 'auto' : 'hidden';
     });
@@ -320,12 +331,12 @@ $userEmail = $user ? $user['email'] : null;
     const userDropdown = document.getElementById('dropdownAvatarName');
 
     if (userDropdownButton && userDropdown) {
-        userDropdownButton.addEventListener('click', function () {
+        userDropdownButton.addEventListener('click', function() {
             userDropdown.classList.toggle('hidden');
         });
 
         // Close when clicking outside
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (!e.target.closest('#dropdownAvatarNameButton') && !e.target.closest('#dropdownAvatarName')) {
                 userDropdown.classList.add('hidden');
             }
@@ -333,7 +344,7 @@ $userEmail = $user ? $user['email'] : null;
     }
 
     // Close mobile menu when clicking outside
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         if (!e.target.closest('#mobile-menu-toggle') && !e.target.closest('#mobile-menu')) {
             mobileMenu.classList.add('hidden');
             document.body.style.overflow = 'auto';
