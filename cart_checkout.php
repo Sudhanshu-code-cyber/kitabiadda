@@ -407,6 +407,12 @@ if ($total_cart_item == 0) {
                                         Off
                                     </span>
                                 </div>
+                                <a href="?remove=<?= $cartItem['item_id'] ?>"
+                                    class="inline-block px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition duration-200">
+                                    REMOVE
+                                </a>
+
+
                             </div>
 
                             <!-- Quantity Box -->
@@ -418,9 +424,20 @@ if ($total_cart_item == 0) {
                                     <a href="?add_book=<?= $cartItem['id'] ?>"
                                         class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-r-lg">+</a>
                                 </div>
+
                             </div>
+
                         </div>
                     <?php } ?>
+                    <?php
+                    if (isset($_GET['remove'])) {
+                        $rem_id = $_GET['remove'];
+                        $rem_que = mysqli_query($connect,"DELETE FROM cart WHERE item_id='$rem_id' AND email='$email' AND direct_buy=0 ");
+                        if($rem_que){
+                            echo "<script>window.location.href='cart_checkout.php';</script>";
+                        }
+                    }
+                    ?>
                 </div>
 
 
@@ -548,7 +565,7 @@ if ($total_cart_item == 0) {
                                     <?php
                                     if (isset($_POST['del'])) {
                                         $reset = mysqli_query($connect, "UPDATE cart SET is_coupon =0 WHERE email='$email' ");
-                                        if($reset){
+                                        if ($reset) {
                                             echo "<script>window.location.href='';</script>";
                                         }
                                     }
