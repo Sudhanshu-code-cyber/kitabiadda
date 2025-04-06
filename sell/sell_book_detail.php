@@ -149,7 +149,7 @@ $cat = mysqli_fetch_assoc($call_cat);
     <div class="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg mt-20">
 
 
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="../actions/sellBook_action.php" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
             <div class="mb-6">
                 <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book Details</h2>
@@ -237,29 +237,241 @@ $cat = mysqli_fetch_assoc($call_cat);
                             class="input-box border rounded w-full p-3" id="name">
                         <label for="name" class="floating-label"> </label>
                     </div>
-                    <div class="relative w-full">
-                        <input type="text" placeholder="" value="<?= $user['contact']; ?>" name="contact"
-                            class="input-box border rounded w-full p-3" id="contact">
-                        <label for="contact" class="floating-label">Mobile No.</label>
-                    </div>
+                    <input type="text" placeholder="mobile no." value="<?= $address_row['mobile'] ?? ''; ?>" name="contact"
+                        class="input-box border rounded w-full p-3" id="contact">
+
                 </div>
 
 
                 <div class="relative mt-4">
-                    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3" id="address">
-        <?php
-        if (!empty($address_row)) {
-            echo $address_row['name'] . ' , ' . $address_row['mobile'] . ' , ' . $address_row['address'] . ' , ' . $address_row['city'] . ' , ' . $address_row['state'] . ' , ' . $address_row['landmark'] . ' , ' . $address_row['pincode'];
-        } else {
-            echo "No address found"; // Default message if data is missing
-        }
-        ?>
-    </textarea>
-                    <label for="address" class="floating-label">Address</label>
+
+
+
+
+
+                    <!-- addresssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
+                    <div class="w-full bg-white shadow-sm rounded-sm mt-3">
+                        <!-- Header -->
+                        <div class="bg-[#3D8D7A] text-white font-semibold p-3 rounded-sm flex items-center space-x-2">
+                            <!-- <span class="bg-[#205781] px-2 py-1 text-xs rounded">2</span> -->
+                            <span>YOUR ADDRESS</span>
+                        </div>
+
+                        <!-- Address List -->
+                        <div class="divide-y divide-gray-200">
+                            <!-- Address Item 1 -->
+                            <?php
+                            $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$user_email'");
+                            $noAdd = mysqli_num_rows($callAdd);
+
+                            $address = mysqli_fetch_assoc($callAdd) ?>
+                            <label class="flex items-start p-4 space-x-3 cursor-pointer bg-blue-50">
+
+                                <!-- class="mt-1 w-4 h-4 text-blue-600 bg-black-600 focus:ring-blue-500 border-gray-300"> -->
+                                <?php
+                                if ($noAdd == 1) { ?>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-semibold"><?= $address['name'] ?></span>
+                                            <span
+                                                class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded"><?= $address['home_work'] ?></span>
+                                            <span class="font-bold text-sm"><?= $address['mobile'] ?></span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">
+                                            <?= $address['address'] ?>,
+                                            <?= $address['landmark'] ?>,<?= $address['locality'] ?>
+                                            , <?= $address['city'] ?>
+                                            District, <?= $address['state'] ?> -
+                                            <span class="font-bold"><?= $address['pincode'] ?></span>
+                                        </p>
+                                    </div>
+
+
+                                <?php } else { ?>
+                                    <h1>not address found , please add address
+
+                                    <?php } ?>
+
+
+                            </label>
+
+
+                            <!-- Address Item 2 (Selected) -->
+
+                        </div>
+                    </div>
+
+
+                    <?php
+                    // PHP + Tailwind CSS Code for Address Form with Auto-Fill Location
+                    ?>
+
+                    <div class="w-full bg-gray-100  shadow-sm rounded-sm">
+                        <button id="addAddressBtn" class="text-blue-500 flex items-center p-6">
+                            <span class="text-xl font-bold"></span>
+                            <span class="ml-2"><?php
+                            if ($noAdd == 1) {
+                                echo "Edit address";
+                            } else {
+                                echo "Add Address";
+                            }
+                            ?></span>
+                        </button>
+
+                        <div id="addressForm" class="hidden bg-white p-6 mt-4 rounded-lg shadow-md">
+                            <button id="useLocationBtn" class="bg-blue-500 text-white px-4 py-2 rounded-sm">Use my
+                                current
+                                location</button>
+
+                            <form action="" method="POST" class="mt-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" id="name" name="name" placeholder="Name"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['name'] != '') {
+                                            echo $address['name'];
+                                        } ?>">
+                                    <input type="text" id="mobile" name="mobile" placeholder="10-digit mobile number"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['mobile'] != '') {
+                                            echo $address['mobile'];
+                                        } ?>">
+                                    <input type="text" id="pincode" name="pincode" placeholder="Pincode"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['pincode'] != '') {
+                                            echo $address['pincode'];
+                                        } ?>">
+                                    <input type="text" id="locality" name="locality" placeholder="locality"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['locality'] != '') {
+                                            echo $address['locality'];
+                                        } ?>">
+                                    <textarea id="address" name="address" placeholder="Address (Area and Street)"
+                                        class="border p-2 rounded col-span-2">
+                                    <?php if ($noAdd == 1 && $address['address'] != '') {
+                                        echo $address['address'];
+                                    } ?>
+                                </textarea>
+                                    <input type="text" id="city" name="city" placeholder="City/District/Town"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1) {
+                                            echo $address['city'];
+                                        } ?>">
+                                    <!-- <label for="state">State</label> -->
+                                    <select id="state" name="state" class="border p-2 rounded">
+                                        <option value="<?php if ($noAdd == 1 && $address['state'] != '') {
+                                            echo $address['state'];
+                                        } ?>"><?php if ($noAdd == 1 && $address['state'] != '') {
+                                             echo $address['state'];
+                                         } ?></option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli
+                                            and
+                                            Daman and Diu</option>
+                                        <option value="Lakshadweep">Lakshadweep</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Puducherry">Puducherry</option>
+                                        <option value="Ladakh">Ladakh</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    </select>
+
+
+                                    <input type="text" id="landmark" name="landmark" placeholder="Landmark (Optional)"
+                                        class="border p-2 rounded" value="<?php if ($noAdd == 1 && $address['landmark'] != '') {
+                                            echo $address['landmark'];
+                                        } ?>">
+                                    <input type="text" id="alternatePhone" name="alternate_phone"
+                                        placeholder="Alternate Phone (Optional)" class="border p-2 rounded">
+                                </div>
+
+                                <div class="mt-4">
+                                    <label><input type="radio" name="home_work" value="Home" required> Home (All day
+                                        delivery)</label>
+                                    <label class="ml-4"><input type="radio" name="home_work" value="Work" required> Work
+                                        (Delivery
+                                        between 10 AM - 5 PM)</label>
+                                </div>
+
+                                <div class="mt-6 flex justify-between">
+
+                                    <button type="button" id="cancelBtn" class="text-blue-500">CANCEL</button>
+                                    <button type="submit" name="add_submit"
+                                        class="bg-orange-500 text-white px-6 py-2 rounded">SAVE AND
+                                        DELIVER HERE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                    <script>
+                        document.getElementById("addAddressBtn").addEventListener("click", function () {
+                            document.getElementById("addressForm").classList.toggle("hidden");
+                        });
+
+                        document.getElementById("cancelBtn").addEventListener("click", function () {
+                            document.getElementById("addressForm").classList.add("hidden");
+                        });
+
+                        document.getElementById("useLocationBtn").addEventListener("click", function () {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(function (position) {
+                                    let lat = position.coords.latitude;
+                                    let lon = position.coords.longitude;
+                                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            document.getElementById("pincode").value = data.address.postcode || "";
+                                            document.getElementById("locality").value = data.address.suburb || "";
+                                            document.getElementById("city").value = data.address.city || data.address.town || "";
+                                            document.getElementById("state").value = data.address.state || "";
+
+                                            // पूरा एड्रेस सही तरीके से जोड़ें
+                                            let addressParts = [];
+                                            if (data.address.house_number) addressParts.push(data.address.house_number);
+                                            if (data.address.road) addressParts.push(data.address.road);
+                                            if (data.address.neighbourhood) addressParts.push(data.address.neighbourhood);
+                                            if (data.address.suburb) addressParts.push(data.address.suburb);
+
+                                            document.getElementById("address").value = addressParts.join(", ") || "";
+                                        });
+                                });
+                            } else {
+                                alert("Geolocation is not supported by this browser.");
+                            }
+                        });
+                    </script>
+
+                    </textarea>
+                    <!-- <label for="address" class="floating-label">Address</label> -->
                 </div>
 
 
-                <div class="relative">
+                <div class="relative mt-6">
                     <input type="text" placeholder=" " class="input-box border rounded w-full p-3 pr-12" id="location"
                         readonly>
                     <label for="location" class="floating-label">Location</label>
@@ -365,129 +577,6 @@ $cat = mysqli_fetch_assoc($call_cat);
                 </button>
             </div>
         </form>
-        <?php
-        // include 'db_connection.php'; // यहाँ अपना DB connection include करो (e.g., $connect)
-        
-        // Start session if needed for $user
-// session_start();
-// $user = $_SESSION['user'];
-        
-        if (isset($_POST['submit'])) {
-            $errors = [];
-
-            // Get and validate input
-            $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
-            if (empty($book_name) || !preg_match("/^[a-zA-Z0-9\s]{2,}$/", $book_name)) {
-                $errors[] = "Book name is required and must be at least 2 characters (letters/numbers only).";
-            }
-
-            $book_author = mysqli_real_escape_string($connect, $_POST['book_author']);
-            if (empty($book_author) || !preg_match("/^[a-zA-Z\s]{3,}$/", $book_author)) {
-                $errors[] = "Author name is required and must be at least 3 characters (letters only).";
-            }
-
-            $mrp = $_POST['mrp'];
-            if (empty($mrp) || !preg_match("/^[0-9]+(\.[0-9]{1,2})?$/", $mrp) || $mrp <= 0) {
-                $errors[] = "MRP must be a valid positive number.";
-            }
-
-            $sell_price = $_POST['sell_price'];
-            if (empty($sell_price) || !preg_match("/^[0-9]+(\.[0-9]{1,2})?$/", $sell_price) || $sell_price <= 0 || $sell_price > $mrp) {
-                $errors[] = "Selling price must be valid and less than or equal to MRP.";
-            }
-
-            $pages = $_POST['pages'];
-            if (empty($pages) || !preg_match("/^[0-9]+$/", $pages) || $pages <= 0) {
-                $errors[] = "Pages must be a valid positive number.";
-            }
-
-            $book_category = mysqli_real_escape_string($connect, $_POST['book_category']);
-            if (empty($book_category)) {
-                $errors[] = "Book category is required.";
-            }
-
-            $book_sub_category = mysqli_real_escape_string($connect, $_POST['book_sub_category']);
-            if (empty($book_sub_category)) {
-                $errors[] = "Book sub-category is required.";
-            }
-
-            $language = mysqli_real_escape_string($connect, $_POST['language']);
-            if (empty($language)) {
-                $errors[] = "Language is required.";
-            }
-
-            $isbn = $_POST['isbn'];
-            if (empty($isbn) || !preg_match("/^[0-9]{10}([0-9]{3})?$/", $isbn)) {
-                $errors[] = "ISBN must be a 10 or 13 digit number.";
-            }
-
-            $publish_year = $_POST['publish_year'];
-            $current_year = date("Y");
-            if (empty($publish_year) || !preg_match("/^[0-9]{4}$/", $publish_year) || $publish_year < 1900 || $publish_year > $current_year) {
-                $errors[] = "Publish year must be between 1900 and $current_year.";
-            }
-
-            $quality = mysqli_real_escape_string($connect, $_POST['quality']);
-            if (empty($quality)) {
-                $errors[] = "Book quality is required.";
-            }
-
-            $book_binding = mysqli_real_escape_string($connect, $_POST['book_binding']);
-            if (empty($book_binding)) {
-                $errors[] = "Book binding type is required.";
-            }
-
-            $book_description = mysqli_real_escape_string($connect, $_POST['book_description']);
-            if (empty($book_description) || strlen($book_description) < 10) {
-                $errors[] = "Description must be at least 10 characters long.";
-            }
-
-            $seller_id = $user['user_id']; // Make sure you pass this securely (e.g. from session)
-            $latitude = $_POST['latitude'];
-            $longitude = $_POST['longitude'];
-
-            // File Upload
-            $target_dir = "../assets/images/";
-            $image1 = $image2 = $image3 = $image4 = "";
-
-            function uploadImage($fileInput, $target_dir)
-            {
-                if (!empty($_FILES[$fileInput]["name"])) {
-                    $unique_name = time() . "_" . uniqid() . "_" . basename($_FILES[$fileInput]["name"]);
-                    move_uploaded_file($_FILES[$fileInput]["tmp_name"], $target_dir . $unique_name);
-                    return $unique_name;
-                }
-                return "";
-            }
-
-            $image1 = uploadImage("image0", $target_dir);
-            $image2 = uploadImage("image1", $target_dir);
-            $image3 = uploadImage("image2", $target_dir);
-            $image4 = uploadImage("image3", $target_dir);
-
-            // ✅ Insert only if no errors
-            if (empty($errors)) {
-                $sql = "INSERT INTO books 
-            (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, seller_id, latitude, longitude, version) 
-            VALUES 
-            ('$book_name', '$book_author', '$mrp', '$sell_price', '$pages', '$book_category', '$book_sub_category', '$language', '$isbn', '$publish_year', '$quality', '$book_binding', '$book_description', '$image1', '$image2', '$image3', '$image4', '$seller_id', '$latitude', '$longitude', 'old')";
-
-                if (mysqli_query($connect, $sql)) {
-                    echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='sell.php';</script>";
-                } else {
-                    echo "<script>alert('Error: " . mysqli_error($connect) . "');</script>";
-                }
-            } else {
-                foreach ($errors as $error) {
-                    echo "<p style='color:red;'>❌ $error</p>";
-                }
-            }
-
-            mysqli_close($connect);
-        }
-        ?>
-
-
 
     </div>
 
