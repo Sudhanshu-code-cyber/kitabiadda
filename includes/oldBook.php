@@ -41,7 +41,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     // Posted time - safely using post_date
                     $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
                 ?>
-                <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
+                <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative shadow-md  hover:shadow-xl">
 
                     <!-- Discount Badge -->
                     <div class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
@@ -61,7 +61,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     <!-- Book Click Redirect -->
                     <a href="view.php?book_id=<?= $bookId; ?>" class="block">
                         <div class="flex justify-center">
-                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-28 h-40 sm:w-36 sm:h-52 object-cover shadow-md hover:scale-105 transition rounded-md">
+                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-28 h-40 sm:w-36 sm:h-52 object-cover shadow-md  hover:shadow-xl rounded-md">
                         </div>
 
                         <!-- Book Info -->
