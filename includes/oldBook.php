@@ -67,10 +67,13 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                         <!-- Book Info -->
                         <div class="mt-2 sm:mt-3 text-center">
                             <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
-                            <p class="text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                <?= $book['book_author']; ?>
-                                <span class="text-[10px] sm:text-xs text-orange-400 ml-1"><?= $book['book_category']; ?></span>
-                            </p>
+                            <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
+                                <p class="text-gray-500 text-sm font-semibold truncate w-30"><?= $book['book_author']; ?>
+
+                                </p>
+                                <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
+
+                            </div>
 
                             <!-- Price -->
                             <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
@@ -78,9 +81,22 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                                 <p class="text-black font-bold text-sm sm:text-lg">₹<?= $book['sell_price']; ?>/-</p>
                             </div>
 
-                            <div class="flex justify-between items-right mt-2">
-                                <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
-                            </div>
+                            <div class="flex justify-between items-center mt-2 text-sm text-gray-600">
+    <!-- Location -->
+    <div class="flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 11c1.1046 0 2-.8954 2-2s-.8954-2-2-2-2 .8954-2 2 .8954 2 2 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
+        </svg>
+        <span class="text-xs font-medium">Purnea</span>
+    </div>
+
+    <!-- Posted Time -->
+    <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
+</div>
+
                         </div>
                     </a>
                 </div>

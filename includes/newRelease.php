@@ -77,19 +77,22 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                             <div class="flex justify-center">
                                 <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
-                                    class="w-28 h-40 sm:w-36 sm:h-52 object-cover shadow-md hover:scale-105 transition rounded-md">
+                                    class="w-28 h-40 sm:w-36 sm:h-52 object-cover hover:shadow-xl rounded-md">
                             </div>
 
                             <!-- Book Info -->
-                            <div class="mt-2 sm:mt-3 text-center">
+                            <div class="mt-2 sm:mt-3 text-strat">
                                 <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
                                     <?= $book['book_name']; ?>
                                 </h2>
-                                <p class="text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                    <?= $book['book_author']; ?>
-                                    <span
-                                        class="text-[10px] sm:text-xs text-orange-400 ml-1"><?= $book['book_category']; ?></span>
+                                <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
+                                <p class="text-gray-500 text-sm font-semibold truncate w-30"><?= $book['book_author']; ?>
+
                                 </p>
+                                <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
+
+                            </div>
+                               
 
                                 <!-- Price -->
                                 <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
@@ -103,7 +106,8 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
 
                         <!-- Footer (Add to Cart + Rating) -->
                         <?php
-                        $email = $_SESSION['user'];
+                        $email = $_SESSION['user'] ?? null;
+
 
                         // Step 1: Fetch all cart items for the user
                         $cartItems = [];
@@ -120,7 +124,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                             class="block group/cart">
                             <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
                                 <button
-                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
 
                                     <!-- Icon -->
                                     <div class="relative">
@@ -133,15 +137,21 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                         <?php else: ?>
                                             <!-- Cart Icon for "Add to Cart" -->
                                             <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-5 h-5 group-hover/cart:translate-y-[-2px] transition-transform"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <!-- Cart base -->
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5.5M7 13h10m-5 3l2 2 4-4" />
+                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
+                                                <!-- Check mark -->
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
                                             </svg>
+
+
                                         <?php endif; ?>
                                     </div>
 
-                                    <span><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                    <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+
 
                                     <!-- Optional plus icon -->
                                     <?php if (!$isInCart): ?>

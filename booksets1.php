@@ -61,9 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="mt-30 p-5 bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+    <div
+        class="mt-30 p-5 bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
         <div class="bg-white border-b border-gray-200 py-5 shadow-xl px-5">
-            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?=($bookType);?> Books"</h1>
+            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?= ($bookType); ?> Books"
+            </h1>
         </div>
 
         <div class=" bg-white grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2  p-3">
@@ -83,18 +85,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                 }
                 $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
                 ?>
-                <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 relative flex flex-col justify-between">
+                <div
+                    class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl border border-gray-200 relative flex flex-col justify-between">
                     <!-- Discount Badge -->
-                    <div class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
+                    <div
+                        class="absolute left-2 top-2 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-md shadow-md">
                         <?= round($percentage); ?>% OFF
                     </div>
 
                     <!-- Wishlist Button -->
-                    <form method="POST" action="" class="absolute top-3 right-3">
+                    <form method="POST" action="<?= isset($_SESSION['user']) ? '' : 'login.php'; ?>" class="absolute top-3 right-3">
                         <input type="hidden" name="wishlist_id1" value="<?= $bookId; ?>">
                         <button type="submit" class="cursor-pointer" name="toggle_wishlist1">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5" class="size-6 hover:scale-110 transition">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
+                                class="size-6 hover:scale-110 transition">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                             </svg>
                         </button>
                     </form>
@@ -102,14 +109,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     <!-- Book Details -->
                     <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                         <div class="flex justify-center">
-                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover" class="w-40 h-56 object-cover hover:scale-105 transition shadow-md rounded-md">
+                            <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
+                                class="w-40 h-56 object-cover hover:shadow-xl shadow-md rounded-md">
                         </div>
 
                         <div class="mt-4 text-center">
                             <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
-                            <p class="text-gray-500 text-sm font-semibold"><?= $book['book_author']; ?>
-                                <span class="text-sm text-orange-400 ml-2"><?= $book['book_category']; ?></span>
-                            </p>
+                            <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
+                                <p class="text-gray-500 text-sm font-semibold truncate w-30"><?= $book['book_author']; ?>
+
+                                </p>
+                                <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
+
+                            </div>
+
 
                             <div class="flex justify-center items-center space-x-2 mt-1">
                                 <p class="text-gray-500 line-through text-sm">₹<?= $book['mrp']; ?>/-</p>
@@ -119,31 +132,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     </a>
 
                     <!-- Add to Cart -->
-                     <?php 
-                     if($book['version'] == 'new'):?>
-                    <a href="cart.php?add_book=<?= $book['id']; ?>">
-                        <div class="mt-4 border-t pt-3 flex justify-between items-center">
-                            <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
+                    <?php
+                    if ($book['version'] == 'new'): ?>
+                        <?php
+                        $email = $_SESSION['user']??null;
 
-                            <!-- Dynamic Rating -->
-                            <div class="flex">
-                                <?php
-                                $rating = rand(2, 5);
-                                for ($i = 1; $i <= 5; $i++) {
-                                    echo $i <= $rating
-                                        ? '<span class="text-orange-500 text-lg">★</span>'
-                                        : '<span class="text-gray-400 text-lg">★</span>';
-                                }
-                                ?>
+                        // Step 1: Fetch all cart items for the user
+                        $cartItems = [];
+                        $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
+                        while ($item = mysqli_fetch_assoc($callCartItem)) {
+                            $cartItems[] = $item['item_id'];
+                        }
+
+                        // Step 2: Inside your book loop, check if it's in the cart
+                        $isInCart = in_array($book['id'], $cartItems);
+                        ?>
+
+                        <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>" class="block group/cart">
+                            <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
+                                <button
+                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+
+                                    <!-- Icon -->
+                                    <div class="relative">
+                                        <?php if ($isInCart): ?>
+                                            <!-- Tick Icon for "Go to Cart" -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        <?php else: ?>
+                                            <!-- Cart Icon for "Add to Cart" -->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="w-5 h-5 group-hover/cart:translate-y-[-2px] transition-transform" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5.5M7 13h10m-5 3l2 2 4-4" />
+                                            </svg>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <span><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+
+                                    <!-- Optional plus icon -->
+                                    <?php if (!$isInCart): ?>
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4 opacity-0 group-hover/cart:opacity-100 transition-opacity duration-200"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                    <?php endif; ?>
+                                </button>
                             </div>
+                        </a>
+
+                    <?php else: ?>
+                        <div class="flex justify-between w-full items-center">
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#3D8D7A]" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 11c1.1046 0 2-.8954 2-2s-.8954-2-2-2-2 .8954-2 2 .8954 2 2 2z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
+                                </svg>
+                                <span class="text-xs font-medium">Purnea</span>
+                            </div>
+                            <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
+
                         </div>
-                    </a>
-
-                    <?php else:?>
-                        <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
 
 
-                        <?php endif;?>
+                    <?php endif; ?>
                 </div>
             <?php endwhile; ?>
         </div>
