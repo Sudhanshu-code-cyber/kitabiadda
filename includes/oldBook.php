@@ -10,45 +10,7 @@ if (isset($_SESSION['user'])) {
 $userId = $user ? $user['user_id'] : null;
 
 // Fetch old books
-$booksQuery = $connect->query("SELECT * FROM books WHERE version='old'");
-
-// Fixed date function that works with MySQL timestamps
-function getPostedTime($post_date) {
-    if (empty($post_date)) {
-        return 'Recently';
-    }
-    
-    // If it's already a timestamp (numeric)
-    if (is_numeric($post_date)) {
-        $timestamp = $post_date;
-    } 
-    // If it's a MySQL datetime string
-    else {
-        $timestamp = strtotime($post_date);
-    }
-    
-    // Fallback if conversion fails
-    if (!$timestamp) {
-        return 'Recently';
-    }
-    
-    $diff = time() - $timestamp;
-    
-    if ($diff < 60) return 'Just now';
-    if ($diff < 3600) return floor($diff/60) . ' min ago';
-    if ($diff < 86400) return floor($diff/3600) . ' hours ago';
-    if ($diff < 604800) {
-        $days = floor($diff/86400);
-        return $days == 1 ? 'Yesterday' : $days . ' days ago';
-    }
-    if ($diff < 2592000) {
-        $weeks = floor($diff/604800);
-        return $weeks == 1 ? '1 week ago' : $weeks . ' weeks ago';
-    }
-    
-    $months = floor($diff/2592000);
-    return $months == 1 ? '1 month ago' : $months . ' months ago';
-}
+$booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY id DESC");
 ?>
 
 <section class="py-10">
@@ -76,11 +38,11 @@ function getPostedTime($post_date) {
                     $sell_price = floatval($book['sell_price']);
                     $percentage = ($mrp > 0 && is_numeric($sell_price)) ? (($mrp - $sell_price) / $mrp * 100) : 0;
 
-                    // Posted time - using the fixed function
-                    $postedTime = getPostedTime($book['post_date']);
+                    // Posted time - safely using post_date
+                    $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
                 ?>
                 <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
-                    
+
                     <!-- Discount Badge -->
                     <div class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
                         <?= round($percentage); ?>% OFF

@@ -1,6 +1,8 @@
 <?php
 
 include_once "config/connect.php";
+getPostedTime($post_date);
+
 
 // Ensure the user is logged in
 $user = null;
@@ -79,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                 if ($mrp > 0 && is_numeric($sell_price)) {
                     $percentage = ($mrp - $sell_price) / $mrp * 100;
                 }
+                $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
                 ?>
                 <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 relative flex flex-col justify-between">
                     <!-- Discount Badge -->
@@ -116,6 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     </a>
 
                     <!-- Add to Cart -->
+                     <?php 
+                     if($book['version'] == 'new'):?>
                     <a href="cart.php?add_book=<?= $book['id']; ?>">
                         <div class="mt-4 border-t pt-3 flex justify-between items-center">
                             <button class="text-[#27445D] text-sm font-semibold hover:underline">Add to cart</button>
@@ -133,6 +138,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                             </div>
                         </div>
                     </a>
+
+                    <?php else:?>
+                        <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
+
+
+                        <?php endif;?>
                 </div>
             <?php endwhile; ?>
         </div>
