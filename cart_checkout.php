@@ -754,7 +754,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "index.php"; // Redirect to home page
+                window.location.href = "profile.php"; // Redirect to home page
             });
         </script>
         ';

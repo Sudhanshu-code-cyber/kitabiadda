@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
     }
 
     $isbn = $_POST['isbn'];
-    if (empty($isbn) || !preg_match("/^[0-9]{10}([0-9]{3})?$/", $isbn)) {
+    if (!preg_match("/^[0-9]{10}([0-9]{3})?$/", $isbn)) {
         $errors[] = "ISBN must be a 10 or 13 digit number.";
     }
 
