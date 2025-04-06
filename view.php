@@ -6,12 +6,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$user = null;
+$user = NULL;
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
+
 $userId = $user ? $user['user_id'] : null;
-$userEmail = $user['email'];
+$userEmail =$user? $user['email']:null;
 
 // First handle the book view
 if (!isset($_GET['book_id'])) {
@@ -239,8 +240,8 @@ if ($userId) {
 
 <body
     class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
+ <?php include_once "includes/header.php"; ?>
+    <?php  include_once "includes/subheader.php"; ?> 
 
     <div class="py-5 px-4  w-full md:px-10">
         <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-28 book-container">
