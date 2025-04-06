@@ -86,13 +86,14 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                     <?= $book['book_name']; ?>
                                 </h2>
                                 <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                <p class="text-gray-500 text-sm font-semibold truncate w-30"><?= $book['book_author']; ?>
+                                    <p class="text-gray-500 text-sm font-semibold truncate w-30">
+                                        <?= $book['book_author']; ?>
 
-                                </p>
-                                <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
+                                    </p>
+                                    <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
 
-                            </div>
-                               
+                                </div>
+
 
                                 <!-- Price -->
                                 <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
@@ -146,8 +147,9 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
                                             </svg>
 
-
+                                            
                                         <?php endif; ?>
+
                                     </div>
 
                                     <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
