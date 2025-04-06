@@ -1,5 +1,5 @@
-<div class="px-10 py-5">
-    <section class="bg-white  py-10">
+<div class="px-5 py-5 ">
+    <section class="bg-white  py-10 rounded-lg shadow-lg">
         <?php
         include_once "config/connect.php";
 
@@ -22,7 +22,7 @@
                 <!-- Header -->
                 <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Recommended Books</h2>
-            <a href="#" class="text-orange-500 font-semibold hover:underline">View All</a>
+            <!-- <a href="#" class="text-orange-500 font-semibold hover:underline">View All</a> -->
         </div>
 
                 <!-- Carousel Container -->
