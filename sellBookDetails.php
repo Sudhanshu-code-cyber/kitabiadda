@@ -20,8 +20,9 @@ $selled_item= $callSelledBook->fetch_assoc();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto py-8 px-4">
+<body class="bg-[#FBFFE4]">
+    <?php include_once "includes/header.php";?>
+    <div class="container mx-auto mt-14 py-8 px-4">
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Product Details Section -->
             <div class="lg:w-2/3">
@@ -99,7 +100,7 @@ $selled_item= $callSelledBook->fetch_assoc();
             <!-- Chat Section -->
             <div class="lg:w-1/3">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div class="bg-blue-600 text-white p-4">
+                    <div class="bg-[#B3D8A8] text-white p-4">
                         <h2 class="text-lg font-semibold">Chat History</h2>
                     </div>
                     
