@@ -97,14 +97,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' AND e_boo
                                     cart</button>
 
                                 <!-- Dynamic Rating -->
-                                <div class="flex">
-                                    <?php
-                                    $rating = $book['book_rating'];
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        echo '<span class="' . ($i <= floor($rating) ? 'text-orange-500' : 'text-gray-400') . ' text-xs sm:text-lg">★</span>';
-                                    }
-                                    ?>
-                                </div>
+                                
                             </div>
                         </a>
                     </div>
