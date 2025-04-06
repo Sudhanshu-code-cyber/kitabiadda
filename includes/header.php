@@ -112,15 +112,16 @@ $userEmail = $user ? $user['email'] : null;
                         $chatCountRow = $chatCountQuery->fetch_assoc();
                         $chatCountData = $chatCountRow['total_chats'];
 
-                          if ($chatCountData > 0) {
-                  ?>
-                            <div class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
+                        if ($chatCountData > 0) {
+                            ?>
+                            <div
+                                class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border border-white rounded-full transform group-hover:scale-110 transition-transform">
                                 <?= $chatCountData; ?>
                             </div>
-                  <?php
+                            <?php
                         }
                     }
-                  }
+                }
                 ?>
 
             </a>
@@ -156,17 +157,16 @@ $userEmail = $user ? $user['email'] : null;
                 <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
                     class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden rounded-full md:me-0 focus:ring-gray-100 cursor-pointer transition-colors"
                     type="button">
-                    <img class="w-11 h-11 me-2 rounded-full" src="assets/user_dp/<?= $user['dp'];
-                                                                                    // if($user['dp'] == ""){
-                                                                                    //     echo "assets/defaultUser.webp";
-                                                                                    // } elseif ($user['google_id'] != ''){
-                                                                                    //     echo $user['dp'] ;
-                                                                                    // } else {
-                                                                                    //     echo "assets/user_dp/" . $user['dp'] ;
-                                                                                    // }
-                                                                                    ?>
-                    "
-                        alt="user_dp">
+                    <img class="w-11 h-11 me-2 rounded-full" src="<?php
+                    if($user['dp'] == ""){
+                        echo "assets/defaultUser.webp";
+                    } elseif (substr($user['dp'], 0, 5) === 'https'){
+                        echo $user['dp'] ;
+                    } else {
+                        echo "assets/user_dp/" . $user['dp'] ;
+                    }
+                    ?>
+                    " alt="user_dp">
                 </button>
 
                 <!-- Dropdown Menu -->
@@ -329,11 +329,11 @@ $userEmail = $user ? $user['email'] : null;
     const mobileMenu = document.getElementById('mobile-menu');
     const searchFun = document.getElementById('search-fun');
 
-    mobileMenuToggle.addEventListener('click', function() {
+    mobileMenuToggle.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden');
         document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
     });
-    searchToggle.addEventListener('click', function() {
+    searchToggle.addEventListener('click', function () {
         searchFun.classList.toggle('hidden');
         document.body.style.overflow = searchFun.classList.contains('hidden') ? 'auto' : 'hidden';
     });
@@ -343,12 +343,12 @@ $userEmail = $user ? $user['email'] : null;
     const userDropdown = document.getElementById('dropdownAvatarName');
 
     if (userDropdownButton && userDropdown) {
-        userDropdownButton.addEventListener('click', function() {
+        userDropdownButton.addEventListener('click', function () {
             userDropdown.classList.toggle('hidden');
         });
 
         // Close when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!e.target.closest('#dropdownAvatarNameButton') && !e.target.closest('#dropdownAvatarName')) {
                 userDropdown.classList.add('hidden');
             }
@@ -356,7 +356,7 @@ $userEmail = $user ? $user['email'] : null;
     }
 
     // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!e.target.closest('#mobile-menu-toggle') && !e.target.closest('#mobile-menu')) {
             mobileMenu.classList.add('hidden');
             document.body.style.overflow = 'auto';
