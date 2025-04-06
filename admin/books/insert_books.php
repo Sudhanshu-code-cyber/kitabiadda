@@ -31,23 +31,40 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="container mt-5">
                         <div class="row">
+
                             <!-- Category -->
+                            <?php
+                            $selected_cat = $_GET['cat_id'] ?? ''; // selected category from URL
+                            ?>
+
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="category" class="form-label">Category</label>
+                                    <label for="book_category" class="form-label">Category</label>
                                     <select class="form-select" id="book_category" name="book_category" required>
-                                        <option value="">Chose Category</option>
+                                        <option value="">Choose Category</option>
                                         <?php
                                         $call_cat = mysqli_query($connect, "SELECT * FROM category");
-                                        while ($cat_row = mysqli_fetch_array($call_cat)) { ?>
-                                            <option value="<?= $cat_row['cat_title'] ?>"><?= $cat_row['cat_title'] ?>
-                                            </option>
-
-                                        <?php } ?>
-
+                                        while ($cat_row = mysqli_fetch_array($call_cat)) {
+                                            $link = "?cat_id=" . urlencode($cat_row['id']);
+                                            $selected = ($selected_cat == $cat_row['id']) ? 'selected' : '';
+                                            echo '<option value="' . $link . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
+
+                            <script>
+                                document.getElementById("book_category").addEventListener("change", function () {
+                                    let selectedURL = this.value;
+                                    if (selectedURL) {
+                                        window.location.href = selectedURL;
+                                    }
+                                });
+                            </script>
+
+
+
 
                             <!-- Language -->
                             <div class="col-md-6">
@@ -56,12 +73,18 @@
                                     <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
                                         <option value="">Chose Sub-Category</option>
                                         <?php
-                                        $call_sub_cat = mysqli_query($connect, "SELECT * FROM category");
-                                        while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
-                                            <option value="<?= $sub_cat_row['subcat_title'] ?>">
-                                                <?= $sub_cat_row['subcat_title'] ?>
-                                            </option>
+                                        if (isset($_GET['cat_id'])) {
+                                            $cat_id = $_GET['cat_id'];
+                                            $call_sub_cat = mysqli_query($connect, "SELECT * FROM sub_category WHERE cat_id='$cat_id'");
+                                            while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
 
+
+
+                                                <option value="<?= $sub_cat_row['sub_cat'] ?>">
+                                                    <?= $sub_cat_row['sub_cat'] ?>
+                                                </option>
+
+                                            <?php } ?>
                                         <?php } ?>
 
                                     </select>
@@ -91,7 +114,11 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="binding" class="form-label">Binding</label>
-                                    <input type="text" class="form-control" id="binding" name="book_binding" required>
+                                    <!-- <input type="text" class="form-control" id="binding" name="book_binding" required> -->
+                                    <select name="book_binding" class="form-control" id="binding">
+                                        <option value="Paperback">Paperback</option>
+                                        <option value="Hardcopy">Hardcopy</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -178,7 +205,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <!-- Description -->
@@ -334,6 +361,13 @@
                     $image4 = $_FILES['img4']['name'];
                     $tmp_image4 = $_FILES['img4']['tmp_name'];
                     move_uploaded_file($tmp_image4, "../../assets/images/$image4");
+
+                    // check isbn already exist or not
+                    $checkIsbn = $connect->query("select * from books where isbn='$isbn'");
+                    if($checkIsbn->num_rows > 0){
+                        message("this isbn is already exist");
+                        exit();
+                    }
 
                     $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,book_quantity,book_description,e_book_avl,e_book_price,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$book_quantity','$book_description','$e_book_avl','$e_book_price','$image1','$image2','$image3','$image4')");
 
