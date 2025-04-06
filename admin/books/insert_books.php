@@ -369,7 +369,7 @@
                         exit();
                     }
 
-                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,book_quantity,book_description,e_book_avl,e_book_price,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$book_quantity','$book_description','$e_book_avl','$e_book_price','$image1','$image2','$image3','$image4')");
+                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,book_quantity,book_description,e_book_avl,e_book_price,img1,img2,img3,img4,version) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$book_quantity','$book_description','$e_book_avl','$e_book_price','$image1','$image2','$image3','$image4', 'new')");
 
                     if ($insert_books) {
                         echo "<script>Swal.fire('Book Inserted Successfully !'); </script>";

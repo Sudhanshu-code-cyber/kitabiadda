@@ -940,3 +940,76 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
 </body>
 
 </html>
+
+
+
+
+
+ <div class="mb-6">
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Profile Details</h2>
+                <div class="flex flex-1 gap-2 w-full">
+                    <div class="relative w-full">
+                        <input type="text" placeholder=" " value="<?= $user['name']; ?>" name="name"
+                            class="input-box border rounded w-full p-3" id="name">
+                        <label for="name" class="floating-label"> </label>
+                    </div>
+                    <div class="relative w-full">
+                        <input type="text" placeholder="" value="<?= $address_row['mobile']; ?>" name="contact"
+                            class="input-box border rounded w-full p-3" id="contact">
+                        <label for="contact" class="floating-label">Mobile No.</label>
+                    </div>
+                </div>
+
+
+                <div class="relative mt-4">
+                    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="3" id="address">
+        <?php
+        if (!empty($address_row)) {
+            echo $address_row['name'] . ' , ' . $address_row['mobile'] . ' , ' . $address_row['address'] . ' , ' . $address_row['city'] . ' , ' . $address_row['state'] . ' , ' . $address_row['landmark'] . ' , ' . $address_row['pincode'];
+        } else {
+            echo "No address found"; // Default message if data is missing
+        }
+        ?>
+    </textarea>
+                    <label for="address" class="floating-label">Address</label>
+                </div>
+
+
+                <div class="relative">
+                    <input type="text" placeholder=" " class="input-box border rounded w-full p-3 pr-12" id="location"
+                        readonly>
+                    <label for="location" class="floating-label">Location</label>
+                    <button type="button" onclick="getLocation()"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl text-blue-500">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </button>
+                </div>
+
+                <!-- Latitude & Longitude Hidden Inputs -->
+                <input type="text" id="latitude" name="latitude" placeholder="Latitude"
+                    class="border rounded p-3 w-full mt-2" hidden>
+                <input type="text" id="longitude" name="longitude" placeholder="Longitude"
+                    class="border rounded p-3 w-full mt-2" hidden>
+
+                <script>
+                    function getLocation() {
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function (position) {
+                                const lat = position.coords.latitude;
+                                const lng = position.coords.longitude;
+
+                                document.getElementById('location').value = `Lat: ${lat}, Lng: ${lng}`;
+                                document.getElementById('latitude').value = lat;
+                                document.getElementById('longitude').value = lng;
+
+                                // alert("Location Captured!");
+                            }, function (error) {
+                                alert("Location access denied or unavailable.");
+                            });
+                        } else {
+                            alert("Geolocation is not supported by this browser.");
+                        }
+                    }
+                </script>
+
+            </div>
