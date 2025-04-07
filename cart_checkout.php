@@ -1,8 +1,13 @@
 <?php include_once "config/connect.php";
+
 if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 $email = $_SESSION['user'];
+$total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email' AND direct_buy=0"));
+if ($total_cart_item == 0) {
+    echo "<script>window.location.href='cart.php';</script>";
+}
 
 if (!isset($_SESSION['user'])) {
     $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
@@ -43,10 +48,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from cart where email='$email' AND direct_buy=0"));
-if ($total_cart_item == 0) {
-    echo "<script>window.location.href='cart.php';</script>";
-}
+
 ?>
 
 
@@ -57,9 +59,10 @@ if ($total_cart_item == 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Checkout | kitabiadda.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
@@ -267,9 +270,12 @@ if ($total_cart_item == 0) {
                             </div>
 
                             <div class="mt-4">
-                                <label><input type="radio" name="home_work" value="Home" required> Home (All day
+                                <label><input type="radio" class="border border-gray-700" name="home_work" value="Home"
+                                        required> Home
+                                    (All day
                                     delivery)</label>
-                                <label class="ml-4"><input type="radio" name="home_work" value="Work" required> Work
+                                <label class="ml-4"><input class="border border-gray-700" type="radio" name="home_work"
+                                        value="Work" required> Work
                                     (Delivery
                                     between 10 AM - 5 PM)</label>
                             </div>
@@ -387,53 +393,58 @@ if ($total_cart_item == 0) {
 
                     while ($cartItem = mysqli_fetch_assoc($callCartItem)) { ?>
                         <div
-                            class="flex flex-col md:flex-row items-center p-4 border-b bg-white hover:bg-gray-50 transition">
+                            class="flex flex-col md:flex-row items-center gap-4 p-4 border-b bg-white hover:bg-gray-50 transition-all duration-200">
+
                             <!-- Product Image -->
-                            <a href="view.php?book_id=<?= $cartItem['item_id'] ?>" class="mb-3 md:mb-0">
+                            <a href="view.php?book_id=<?= $cartItem['item_id'] ?>"
+                                class="w-24 h-24 md:w-28 md:h-28 shrink-0">
                                 <img src="assets/images/<?= $cartItem['img1'] ?>" alt="Product Image"
-                                    class="w-28 h-28 md:w-20 md:h-20 object-cover rounded-md shadow">
+                                    class="w-full h-full object-cover rounded-md border shadow-sm hover:scale-105 transition">
                             </a>
 
-                            <div class="flex-1 text-center md:text-left ms-4">
-                                <h2 class="font-semibold text-lg"><?= $cartItem['book_name'] ?></h2>
-                                <p class="text-gray-500 text-sm">Author: <span
-                                        class="font-medium"><?= $cartItem['book_author'] ?></span></p>
+                            <!-- Book Info -->
+                            <div class="flex-1 w-full">
+                                <h2 class="font-semibold text-lg text-gray-800"><?= $cartItem['book_name'] ?></h2>
+                                <p class="text-sm text-gray-500 mt-1">Author:
+                                    <span class="font-medium text-gray-700"><?= $cartItem['book_author'] ?></span>
+                                </p>
 
-                                <div class="flex items-center justify-center md:justify-start mt-2">
-                                    <span class="text-gray-500 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
-                                    <span class="text-black font-bold text-lg ml-2">₹<?= $cartItem['sell_price'] ?></span>
-                                    <span class="text-green-600 text-sm ml-2">
-                                        <?= round(((($cartItem['mrp'] - $cartItem['sell_price']) / $cartItem['mrp']) * 100)) ?>%
+                                <!-- Price Info -->
+                                <div class="flex items-center flex-wrap mt-2 gap-2">
+                                    <span class="text-gray-400 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
+                                    <span class="text-lg font-bold text-gray-900">₹<?= $cartItem['sell_price'] ?></span>
+                                    <span class="text-green-600 text-sm font-medium">
+                                        <?= round((($cartItem['mrp'] - $cartItem['sell_price']) / $cartItem['mrp']) * 100) ?>%
                                         Off
                                     </span>
                                 </div>
-                                <a href="?remove=<?= $cartItem['item_id'] ?>"
-                                    class="inline-block px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition duration-200">
-                                    REMOVE
-                                </a>
-
-
                             </div>
 
-                            <!-- Quantity Box -->
-                            <div class="mt-3 md:mt-0">
-                                <div class="flex items-center border rounded-lg shadow-md">
+                            <!-- Quantity Selector with Delete Icon -->
+                            <div class="flex flex-col items-center gap-2 mt-4 md:mt-0">
+                                <div class="flex items-center   overflow-hidden shadow-sm">
+
+                                    <!-- Delete Icon (left side) -->
+                                    <a href="?remove=<?= $cartItem['item_id'] ?>"
+                                        class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-lg transition me-2 ">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+
+                                    <!-- Quantity Controls -->
                                     <a href="?minus_book=<?= $cartItem['id'] ?>"
-                                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-l-lg">−</a>
-                                    <span class="text-lg font-bold px-4"><?= $cartItem['qty'] ?></span>
+                                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-xl font-semibold transition">−</a>
+                                    <span class="px-4 text-base font-medium text-gray-800"><?= $cartItem['qty'] ?></span>
                                     <a href="?add_book=<?= $cartItem['id'] ?>"
-                                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-r-lg">+</a>
+                                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-xl font-semibold transition">+</a>
                                 </div>
-
                             </div>
-
                         </div>
                     <?php } ?>
                     <?php
                     if (isset($_GET['remove'])) {
                         $rem_id = $_GET['remove'];
-                        $rem_que = mysqli_query($connect,"DELETE FROM cart WHERE item_id='$rem_id' AND email='$email' AND direct_buy=0 ");
-                        if($rem_que){
+                        $rem_que = mysqli_query($connect, "DELETE FROM cart WHERE item_id='$rem_id' AND email='$email' AND direct_buy=0 ");
+                        if ($rem_que) {
                             echo "<script>window.location.href='cart_checkout.php';</script>";
                         }
                     }

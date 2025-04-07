@@ -306,9 +306,12 @@ if (isset($_GET['minus_book'])) {
                             </div>
 
                             <div class="mt-4">
-                                <label><input type="radio" name="home_work" value="Home" required> Home (All day
+                                <label><input type="radio" class="border border-gray-700" name="home_work" value="Home"
+                                        required> Home
+                                    (All day
                                     delivery)</label>
-                                <label class="ml-4"><input type="radio" name="home_work" value="Work" required> Work
+                                <label class="ml-4"><input class="border border-gray-700" type="radio" name="home_work"
+                                        value="Work" required> Work
                                     (Delivery
                                     between 10 AM - 5 PM)</label>
                             </div>
