@@ -254,7 +254,7 @@ if ($userId) {
                         class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                         onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img1']); ?>')">
                     <img src="assets/images/<?= htmlspecialchars($book['img2']); ?>" alt="Thumbnail 2"
-                        class="w-15 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
+                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                         onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img2']); ?>')">
                     <img src="assets/images/<?= htmlspecialchars($book['img3']); ?>" alt="Thumbnail 3"
                         class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
