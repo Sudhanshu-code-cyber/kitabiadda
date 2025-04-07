@@ -570,7 +570,7 @@ $cat = mysqli_fetch_assoc($call_cat);
 
             <!-- Post Your Ad Button -->
             <div class="text-center mt-8">
-                <button type="submit"
+                <button type="submit_book"
                     class="bg-[var(--primary)] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#2e7a68] transition-colors w-full sm:w-auto"
                     name="submit">
                     Post Book

@@ -219,25 +219,72 @@
                         </div>
 
                         <div class="row">
-                            <!-- E-book Availability -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="ebookAvailable" class="form-label">E-book Available</label>
-                                    <select class="form-select" id="ebookAvailable" name="e_book_avl" required>
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
-                                    </select>
-                                </div>
-                            </div>
+    <!-- E-book Availability -->
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label for="ebookAvailable" class="form-label">E-book Available</label>
+            <select class="form-select" id="ebookAvailable" name="e_book_avl" required>
+                <option value="">Select Option</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+    </div>
 
-                            <!-- Rating -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="rating" class="form-label">E-Book Price</label>
-                                    <input type="text" class="form-control" name="e_book_price" required>
-                                </div>
-                            </div>
-                        </div>
+    <!-- E-Book Price (Initially Hidden) -->
+    <div class="col-md-6" id="ebookPriceField" style="display: none;">
+        <div class="mb-3">
+            <label for="e_book_price" class="form-label">E-Book Price</label>
+            <input type="text" class="form-control" id="e_book_price" name="e_book_price">
+        </div>
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ebookSelect = document.getElementById("ebookAvailable");
+        const priceDiv = document.getElementById("ebookPriceField");
+        const priceInput = document.getElementById("e_book_price");
+
+        ebookSelect.addEventListener("change", function () {
+            if (this.value === "Yes") {
+                priceDiv.style.display = "block";
+                priceInput.setAttribute("required", "required");
+            } else {
+                priceDiv.style.display = "none";
+                priceInput.removeAttribute("required");
+                priceInput.value = "";
+            }
+        });
+    });
+</script>
+
+
+<!-- Script to show/hide price field -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ebookSelect = document.getElementById("ebookAvailable");
+        const priceColumn = document.getElementById("priceColumn");
+        const priceInput = document.getElementById("eBookPrice");
+
+        function togglePriceField() {
+            if (ebookSelect.value === "Yes") {
+                priceColumn.style.display = "block";
+                priceInput.setAttribute("required", "required");
+            } else {
+                priceColumn.style.display = "none";
+                priceInput.removeAttribute("required");
+                priceInput.value = "";
+            }
+        }
+
+        ebookSelect.addEventListener("change", togglePriceField);
+
+        // Optional: trigger on page load if form is pre-filled
+        togglePriceField();
+    });
+</script>
 
                         <!-- Image Upload Section -->
                         <div class="row">

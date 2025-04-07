@@ -7,7 +7,7 @@ if (isset($_SESSION['user'])) {
 
 $user_email = $user['email'];
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit_book'])) {
     $errors = [];
 
     // Get and validate input
