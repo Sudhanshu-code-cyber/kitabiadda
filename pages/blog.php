@@ -1,5 +1,5 @@
 <?php
-include_once "config/connect.php"; ?>
+include_once "../config/connect.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,8 +34,8 @@ include_once "config/connect.php"; ?>
 </head>
 
 <body class="bg-[#FBFFE4]">
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/subheader.php"; ?>
     <section class="bg-gradient-to-r mt-28 from-[#B3D8A8] to-[#3D8D7A] text-white py-16 md:py-24">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">KitabiAdda Blog</h1>
@@ -243,8 +243,7 @@ include_once "config/connect.php"; ?>
     </main>
 
     <!-- Newsletter Section -->
-
-    <?php include_once "includes/footer2.php"; ?>
+    <?php include_once "../includes/footer2.php"; ?>
 </body>
 
 </html>

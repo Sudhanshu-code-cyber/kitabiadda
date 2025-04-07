@@ -1,5 +1,5 @@
 <?php
-include_once "config/connect.php"; ?>
+include_once "../config/connect.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,8 +35,8 @@ include_once "config/connect.php"; ?>
 
 <body class="bg-[#FBFFE4]">
     <!-- Navigation -->
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/subheader.php"; ?>
 
     <!-- Main Content -->
     <main class="container mx-auto mt-28 px-4 py-12">
@@ -203,8 +203,7 @@ include_once "config/connect.php"; ?>
         </div>
     </main>
 
-    <!-- Footer -->
-  <?php include_once "includes/footer2.php";?>
+    <?php include_once "../includes/footer2.php"; ?>
     <script>
         // Highlight active section in sidebar
         document.addEventListener('DOMContentLoaded', function() {

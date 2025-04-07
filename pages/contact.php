@@ -1,4 +1,4 @@
-<?php include_once "config/connect.php"; ?>
+<?php include_once "../config/connect.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +11,8 @@
 </head>
 
 <body class="bg-[#FBFFE4] text-gray-800 font-sans">
-    <?php include_once "includes/header.php"; ?>
-    <?php include_once "includes/subheader.php"; ?>
+    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "../includes/subheader.php"; ?>
 
     <div class="relative w-fit mx-auto mt-40">
         <div class="bg-[#3D8D7A] text-white text-2xl font-bold py-3 px-8 rounded-r-lg relative z-10">
@@ -65,8 +65,7 @@
         </div>
 
     </main>
-
-    <?php include_once "includes/footer2.php"; ?>
+    <?php include_once "../includes/footer2.php"; ?>
 </body>
 
 </html>
