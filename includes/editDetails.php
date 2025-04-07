@@ -6,7 +6,15 @@
             <form action="actions/upload_dp.php" method="post" enctype="multipart/form-data" class="text-center">
                 <label for="dp_image" class="cursor-pointer group">
                     <input type="file" onchange="this.form.submit()" name="dp_image" id="dp_image" hidden>
-                    <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
+                    <img src="<?php
+                    if($user['dp'] == ""){
+                        echo "assets/defaultUser.webp";
+                    } elseif (substr($user['dp'], 0, 5) === 'https'){
+                        echo $user['dp'] ;
+                    } else {
+                        echo "assets/user_dp/" . $user['dp'] ;
+                    }
+                    ?>"
                         alt="Profile Picture"
                         class="h-32 w-32 border-4 border-blue-100 rounded-full object-cover group-hover:border-blue-200 transition-all">
                     <div class="mt-2 text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">Click

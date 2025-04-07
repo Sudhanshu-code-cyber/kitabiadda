@@ -470,3 +470,154 @@ $cat = mysqli_fetch_assoc($call_cat);
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="w-full mx-auto px-[2%]">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Old Books</h2>
+        <a href="booksets1.php?bookType=old" class="text-orange-600 font-semibold hover:underline flex items-center group">
+            View All
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="relative group">
+        <!-- Navigation Arrows -->
+        <button id="scrollLeft2"
+            class="hidden sm:block absolute z-10 left-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full shadow-lg p-2 hover:bg-orange-50 hover:border-orange-200 transition-all opacity-0 group-hover:opacity-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+
+        <div id="bookScroll2" class="flex space-x-6 overflow-x-auto scroll-smooth px-2 pb-6 -mx-2 hide-scrollbar">
+            <?php while ($book = $booksQuery->fetch_assoc()):
+                $bookId = $book['id'];
+                $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
+                $isWishlisted = ($checkWishlist->num_rows > 0);
+
+                // Discount calculation
+                $mrp = floatval($book['mrp']);
+                $sell_price = floatval($book['sell_price']);
+                $percentage = ($mrp > 0 && is_numeric($sell_price)) ? (($mrp - $sell_price) / $mrp * 100) : 0;
+
+                // Posted time
+                $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : 'Unknown';
+            ?>
+            <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-md border border-gray-100 w-48 sm:w-56 min-w-[12rem] sm:min-w-[14rem] relative transition-all duration-300 hover:-translate-y-1 group/card">
+                
+                <!-- Discount Badge -->
+                <div class="absolute left-3 top-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-2 py-1 text-xs font-bold rounded-md shadow-md z-10">
+                    <?= round($percentage); ?>% OFF
+                </div>
+
+                <!-- Wishlist Button -->
+                <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" class="absolute top-3 right-3 z-10" onclick="event.stopPropagation();">
+                    <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
+                    <button type="submit" class="cursor-pointer group/wishlist" name="toggle_wishlist" aria-label="<?= $isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'; ?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
+                             fill="<?= $isWishlisted ? 'red' : 'none'; ?>" 
+                             stroke="<?= $isWishlisted ? 'red' : 'gray'; ?>" 
+                             stroke-width="1.5" 
+                             class="size-5 sm:size-6 transition-all duration-200 group-hover/wishlist:stroke-red-500 group-hover/wishlist:scale-110">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Book Click Redirect -->
+                <a href="view.php?book_id=<?= $bookId; ?>" class="block h-full">
+                    <div class="flex justify-center mb-3">
+                        <div class="relative w-32 h-44 sm:w-40 sm:h-56 overflow-hidden rounded-lg shadow-sm group-hover/card:shadow-md transition-shadow">
+                            <img src="assets/images/<?= $book['img1']; ?>" alt="<?= htmlspecialchars($book['book_name']); ?>" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+                        </div>
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="px-1">
+                        <h2 class="text-sm sm:text-base font-bold text-gray-800 line-clamp-2 leading-tight mb-1"><?= $book['book_name']; ?></h2>
+                        <p class="text-gray-600 text-xs sm:text-sm font-medium mb-2">
+                            <?= $book['book_author']; ?>
+                            <span class="text-xs text-orange-500 ml-1">• <?= $book['book_category']; ?></span>
+                        </p>
+
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2 mb-1">
+                            <p class="text-gray-400 line-through text-xs">₹<?= $book['mrp']; ?></p>
+                            <p class="text-orange-600 font-bold text-base sm:text-lg">₹<?= $book['sell_price']; ?></p>
+                        </div>
+
+                        <!-- Rating and Posted Time -->
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs text-gray-500 ml-1">4.5</span>
+                            </div>
+                            <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <?php endwhile; ?>
+        </div>
+
+        <!-- Right Arrow -->
+        <button id="scrollRight2"
+            class="hidden sm:block absolute z-10 right-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-full shadow-lg p-2 hover:bg-orange-50 hover:border-orange-200 transition-all opacity-0 group-hover:opacity-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<style>
+    .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari, Opera */
+    }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    // Carousel navigation
+    document.getElementById('scrollLeft2').addEventListener('click', () => {
+        document.getElementById('bookScroll2').scrollBy({ left: -200, behavior: 'smooth' });
+    });
+    
+    document.getElementById('scrollRight2').addEventListener('click', () => {
+        document.getElementById('bookScroll2').scrollBy({ left: 200, behavior: 'smooth' });
+    });
+</script>

@@ -31,6 +31,67 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="container mt-5">
                         <div class="row">
+
+                            <!-- Category -->
+                            <?php
+                            $selected_cat = $_GET['cat_id'] ?? ''; // selected category from URL
+                            ?>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="book_category" class="form-label">Category</label>
+                                    <select class="form-select" id="book_category" name="book_category" required>
+                                        <option value="">Choose Category</option>
+                                        <?php
+                                        $call_cat = mysqli_query($connect, "SELECT * FROM category");
+                                        while ($cat_row = mysqli_fetch_array($call_cat)) {
+                                            $link = "?cat_id=" . urlencode($cat_row['id']);
+                                            $selected = ($selected_cat == $cat_row['id']) ? 'selected' : '';
+                                            echo '<option value="' . $link . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById("book_category").addEventListener("change", function () {
+                                    let selectedURL = this.value;
+                                    if (selectedURL) {
+                                        window.location.href = selectedURL;
+                                    }
+                                });
+                            </script>
+
+
+
+
+                            <!-- Language -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Sub-Category</label>
+                                    <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
+                                        <option value="">Chose Sub-Category</option>
+                                        <?php
+                                        if (isset($_GET['cat_id'])) {
+                                            $cat_id = $_GET['cat_id'];
+                                            $call_sub_cat = mysqli_query($connect, "SELECT * FROM sub_category WHERE cat_id='$cat_id'");
+                                            while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
+
+
+
+                                                <option value="<?= $sub_cat_row['sub_cat'] ?>">
+                                                    <?= $sub_cat_row['sub_cat'] ?>
+                                                </option>
+
+                                            <?php } ?>
+                                        <?php } ?>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <!-- Book Name -->
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -53,7 +114,11 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="binding" class="form-label">Binding</label>
-                                    <input type="text" class="form-control" id="binding" name="book_binding" required>
+                                    <!-- <input type="text" class="form-control" id="binding" name="book_binding" required> -->
+                                    <select name="book_binding" class="form-control" id="binding">
+                                        <option value="Paperback">Paperback</option>
+                                        <option value="Hardcopy">Hardcopy</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -101,56 +166,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="rating" class="form-label">Rating</label>
-                                    <input type="text" class="form-control" id="rating" name="book_rating" min="1"
-                                        max="5" step="0.1" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- Category -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" id="book_category" name="book_category" required>
-                                        <option value="">Chose Category</option>
-                                        <?php
-                                        $call_cat = mysqli_query($connect, "SELECT * FROM category");
-                                        while ($cat_row = mysqli_fetch_array($call_cat)) { ?>
-                                            <option value="<?= $cat_row['cat_title'] ?>"><?= $cat_row['cat_title'] ?>
-                                            </option>
-
-                                        <?php } ?>
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Language -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="category" class="form-label">Sub-Category</label>
-                                    <select class="form-select" id="ebookAvailable" name="book_sub_category" required>
-                                        <option value="">Chose Sub-Category</option>
-                                        <?php
-
-
-                                        $call_sub_cat = mysqli_query($connect, "SELECT * FROM category");
-                                        while ($sub_cat_row = mysqli_fetch_array($call_sub_cat)) { ?>
-                                            <option value="<?= $sub_cat_row['subcat_title'] ?>">
-                                                <?= $sub_cat_row['subcat_title'] ?>
-                                            </option>
-
-                                        <?php } ?>
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <!-- ISBN -->
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -158,35 +173,39 @@
                                     <input type="text" class="form-control" id="isbn" name="isbn" required>
                                 </div>
                             </div>
+                        </div>
+
+
+                        <div class="row">
+
 
                             <!-- Publish Year -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="publishYear" class="form-label">Publish Year</label>
-                                    <input type="text" class="form-control" id="publishYear" name="publish_year"
-                                        required>
-                                </div>
-                            </div>
+
+
                         </div>
 
                         <div class="row">
                             <!-- Quality -->
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="quality" class="form-label">Quality</label>
-                                    <select class="form-select" id="ebookAvailable" name="quality" required>
-                                        <option value="">Quality</option>
-                                        <option value="Fair">Fair</option>
-                                        <option value="Good">Good</option>
-                                        <option value="Superb">Superb</option>
-                                    </select>
+                                    <label for="book_quantity" class="form-label">Book quantity</label>
+                                    <input type="text" class="form-control" name="book_quantity" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="quality" class="form-label">Book Quantity</label>
-                                    <input type="text" class="form-control" id="publishYear" name="book_quantity"
-                                        required>
-                                    
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="publishYear" class="form-label">Publish Year</label>
+                                        <select class="form-control" id="publishYear" name="publish_year" required>
+                                            <option value="">Select Year</option>
+                                            <?php
+                                            $currentYear = date("Y");
+                                            for ($year = $currentYear; $year >= 1900; $year--) {
+                                                echo "<option value=\"$year\">$year</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
+
                             </div>
 
                             <!-- Description -->
@@ -262,45 +281,95 @@
                 </form>
                 <?php
                 if (isset($_POST['insert_book'])) {
-                    $book_name = $_POST['book_name'];
-                    $book_author = $_POST['book_author'];
+                    $errors = [];
+
+                    $book_name = trim($_POST['book_name']);
+                    if (!preg_match('/^[a-zA-Z0-9\s\-_,.()]+$/', $book_name)) {
+                        $errors[] = "Book name is invalid.";
+                    }
+
+                    $book_author = trim($_POST['book_author']);
+                    if (!preg_match('/^[a-zA-Z\s\.]+$/', $book_author)) {
+                        $errors[] = "Author name should only contain letters and spaces.";
+                    }
+
                     $book_binding = $_POST['book_binding'];
-                    $mrp = $_POST['mrp'];
-                    $sell_price = $_POST['sell_price'];
-                    $book_pages = $_POST['book_pages'];
+
+                    $mrp = trim($_POST['mrp']);
+                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $mrp)) {
+                        $errors[] = "MRP must be a valid number.";
+                    }
+
+                    $sell_price = trim($_POST['sell_price']);
+                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $sell_price)) {
+                        $errors[] = "Sell price must be a valid number.";
+                    }
+
+                    $book_pages = trim($_POST['book_pages']);
+                    if (!preg_match('/^\d+$/', $book_pages)) {
+                        $errors[] = "Book pages must be a whole number.";
+                    }
+
                     $book_category = $_POST['book_category'];
                     $book_sub_category = $_POST['book_sub_category'];
                     $language = $_POST['language'];
-                    $isbn = $_POST['isbn'];
+                    $isbn = trim($_POST['isbn']);
+                    if (!preg_match('/^\d{10}(\d{3})?$/', $isbn)) {
+                        $errors[] = "ISBN must be 10 or 13 digits.";
+                    }
+
                     $publish_year = $_POST['publish_year'];
-                    $quality = $_POST['quality'];
-                    $book_quantity = $_POST['book_quantity'];
-                    $book_description = $_POST['book_description'];
+                    // $quality = $_POST['quality'];
+                    $book_quantity = trim($_POST['book_quantity']);
+                    if (!preg_match('/^\d+$/', $book_quantity)) {
+                        $errors[] = "Book quantity must be a valid number.";
+                    }
+
+                    $book_description = trim($_POST['book_description']);
+                    if (!preg_match('/^.{10,}$/', $book_description)) {
+                        $errors[] = "Description must be at least 10 characters.";
+                    }
+
                     $e_book_avl = $_POST['e_book_avl'];
                     $e_book_price = $_POST['e_book_price'];
-                    $book_rating = $_POST['book_rating'];
+                    // $book_rating = $_POST['book_rating'];
+                
+                    // Show errors if any
+                    if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                            echo "<p style='color:red;'>$error</p>";
+                        }
+                        exit;
+                    }
 
                     // image 1 working
                     $image1 = $_FILES['img1']['name'];
                     $tmp_image1 = $_FILES['img1']['tmp_name'];
-                    move_uploaded_file($tmp_image1, "../../images/$image1");
+                    move_uploaded_file($tmp_image1, "../../assets/images/$image1");
 
                     // image 2 working
                     $image2 = $_FILES['img2']['name'];
                     $tmp_image2 = $_FILES['img2']['tmp_name'];
-                    move_uploaded_file($tmp_image2, "../../images/$image2");
+                    move_uploaded_file($tmp_image2, "../../assets/images/$image2");
 
                     // image 3 working
                     $image3 = $_FILES['img3']['name'];
                     $tmp_image3 = $_FILES['img3']['tmp_name'];
-                    move_uploaded_file($tmp_image3, "../../images/$image3");
+                    move_uploaded_file($tmp_image3, "../../assets/images/$image3");
 
                     // image 4 working
                     $image4 = $_FILES['img4']['name'];
                     $tmp_image4 = $_FILES['img4']['tmp_name'];
-                    move_uploaded_file($tmp_image4, "../../images/$image4");
+                    move_uploaded_file($tmp_image4, "../../assets/images/$image4");
 
-                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,quality,book_quantity,book_description,e_book_avl,e_book_price,book_rating,img1,img2,img3,img4) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$quality','$book_quantity','$book_description','$e_book_avl','$e_book_price','$book_rating','$image1','$image2','$image3','$image4')");
+                    // check isbn already exist or not
+                    $checkIsbn = $connect->query("select * from books where isbn='$isbn'");
+                    if($checkIsbn->num_rows > 0){
+                        message("this isbn is already exist");
+                        exit();
+                    }
+
+                    $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,book_quantity,book_description,e_book_avl,e_book_price,img1,img2,img3,img4,version) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$book_quantity','$book_description','$e_book_avl','$e_book_price','$image1','$image2','$image3','$image4', 'new')");
 
                     if ($insert_books) {
                         echo "<script>Swal.fire('Book Inserted Successfully !'); </script>";

@@ -34,4 +34,41 @@ function redirect($page){
 }
 
 
+function getPostedTime($post_date) {
+    if (empty($post_date)) {
+        return 'Recently';
+    }
+    
+    // If it's already a timestamp (numeric)
+    if (is_numeric($post_date)) {
+        $timestamp = $post_date;
+    } 
+    // If it's a MySQL datetime string
+    else {
+        $timestamp = strtotime($post_date);
+    }
+    
+    // Fallback if conversion fails
+    if (!$timestamp) {
+        return 'Recently';
+    }
+    
+    $diff = time() - $timestamp;
+    
+    if ($diff < 60) return 'Just now';
+    if ($diff < 3600) return floor($diff/60) . ' min ago';
+    if ($diff < 86400) return floor($diff/3600) . ' hours ago';
+    if ($diff < 604800) {
+        $days = floor($diff/86400);
+        return $days == 1 ? 'Yesterday' : $days . ' days ago';
+    }
+    if ($diff < 2592000) {
+        $weeks = floor($diff/604800);
+        return $weeks == 1 ? '1 week ago' : $weeks . ' weeks ago';
+    }
+    
+    $months = floor($diff/2592000);
+    return $months == 1 ? '1 month ago' : $months . ' months ago';
+}
+
 ?>

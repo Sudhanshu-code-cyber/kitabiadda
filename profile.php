@@ -1,5 +1,7 @@
 <?php
 include_once "config/connect.php";
+redirectIfNotAuth();
+
 $user = null;
 if (isset($_SESSION['user'])) {
     $user = getUser();
@@ -81,7 +83,15 @@ $coutwishlist = mysqli_num_rows($count);
         <div id="profileSidebar"
             class="profile-sidebar xl:w-1/4 md:w-1/3 bg-[#B3D8A8] px-4 pt-6 pb-20 flex flex-col items-center md:items-start">
             <div class="w-full flex flex-col items-center md:items-start">
-                <img src="<?= ($user['dp']) ? "assets/user_dp/" . $user['dp'] : "assets/defaultUser.webp"; ?>"
+                <img src="<?php
+                    if($user['dp'] == ""){
+                        echo "assets/defaultUser.webp";
+                    } elseif (substr($user['dp'], 0, 5) === 'https'){
+                        echo $user['dp'] ;
+                    } else {
+                        echo "assets/user_dp/" . $user['dp'] ;
+                    }
+                    ?>"
                     alt="Profile Picture" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-gray-700">
                 <h1 class="mt-4 text-lg md:text-xl font-semibold text-center md:text-left"><?= $user['name']; ?></h1>
                 <p class="text-gray-800 text-xs md:text-sm text-center md:text-left"><?= $user['email']; ?></p>

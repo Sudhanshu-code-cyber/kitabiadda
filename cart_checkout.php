@@ -511,8 +511,8 @@ if ($total_cart_item == 0) {
                                 $call_coupon = mysqli_query($connect, "SELECT * FROM offer WHERE coupon_name='$coupon'");
                                 $coupon_code = mysqli_fetch_assoc($call_coupon);
                                 $count_coupon = mysqli_num_rows($call_coupon);
-                                $average_coupon = $coupon_code['percentage'];
                                 if ($count_coupon == 1) {
+                                    $average_coupon = $coupon_code['percentage'];
 
                                     $update_is_coupon = mysqli_query($connect, "UPDATE cart SET is_coupon='$average_coupon' WHERE email='$email'  AND (direct_buy=0 OR direct_buy=1) ");
                                 } else {
@@ -754,7 +754,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "index.php"; // Redirect to home page
+                window.location.href = "profile.php"; // Redirect to home page
             });
         </script>
         ';
