@@ -47,7 +47,7 @@
                                         while ($cat_row = mysqli_fetch_array($call_cat)) {
                                             $link = "?cat_id=" . urlencode($cat_row['id']);
                                             $selected = ($selected_cat == $cat_row['id']) ? 'selected' : '';
-                                            echo '<option value="' . $link . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
+                                            echo '<option value="' . $cat_row['cat_title'] . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
                                         }
                                         ?>
                                     </select>
