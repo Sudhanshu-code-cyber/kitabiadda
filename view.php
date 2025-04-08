@@ -72,9 +72,12 @@ if ($book_id) {
 
     if ($sellerdata) {
         $seller_id = $sellerdata['seller_id'];
-        $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
+        $getSellerInfo = $connect->query("SELECT name, contact, dp, email FROM users WHERE user_id = '$seller_id'");
         $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
         $sellerContact = $sellerInfo; // For the call drawer
+        $seller_email = $sellerContact['email'];
+        echo "<script>alert('$seller_email')</script>";
+        
     }
 }
 
@@ -89,7 +92,7 @@ if ($userId) {
 }
 
 // address 
-$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$userEmail'");
+$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$seller_email'");
 
 $address = mysqli_fetch_assoc($callAdd) ?>
 
@@ -691,7 +694,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                     <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
                     <div class="mt-6">
                         <iframe class="w-full h-64 rounded-lg"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3157.687502634852!2d92.72131!3d11.6789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDQwJzQ0LjQiTiA5MsKwNDMnMTkuMSJF!5e0!3m2!1sen!2sin!4v1616748401553!5m2!1sen!2sin"
+                        src="https://maps.google.com/maps?q=<?= $latitude ?>,<?= $longitude ?>&hl=es&z=14&output=embed"
                             allowfullscreen="" loading="lazy"></iframe>
                     </div>
                     <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"
