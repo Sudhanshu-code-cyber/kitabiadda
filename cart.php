@@ -41,6 +41,10 @@ if (!isset($_SESSION['user'])) {
 }
 
 $email = $_SESSION['user'];
+$call_user_id = mysqli_query($connect, "SELECT * FROM users where email='$email'");
+$fetch_user_id = mysqli_fetch_assoc($call_user_id);
+$users_id1 = $fetch_user_id['user_id'];
+
 
 if (isset($_GET['add_book'])) {
     $item_id = $_GET['add_book'];
@@ -52,6 +56,29 @@ if (isset($_GET['add_book'])) {
         mysqli_query($connect, "INSERT INTO cart (email, item_id) VALUES ('$email', '$item_id')");
     }
     echo "<script>window.location.href='cart.php';</script>";
+}
+
+if (isset($_GET['add_book_to_wishlist'])) {
+    $item_id = $_GET['add_book_to_wishlist'];
+    $itemInCart = mysqli_query($connect, "SELECT * FROM cart WHERE item_id='$item_id' AND email='$email' AND direct_buy=0");
+
+    if (mysqli_num_rows($itemInCart) > 0) {
+        // $add_to_cart = mysqli_query($connect, "UPDATE cart SET qty = qty + 1 WHERE item_id='$item_id' AND email='$email' AND direct_buy=0");
+        $delete_from_wishlist = mysqli_query($connect, "DELETE FROM wishlist WHERE book_id='$item_id' AND user_id='$users_id1'");
+        if ($delete_from_wishlist) {
+            echo "<script>window.location.href='wishlist.php';</script>";
+        }
+    } else {
+        $insert_to_cart_from_wishlist = mysqli_query($connect, "INSERT INTO cart (email, item_id) VALUES ('$email', '$item_id')");
+        if ($insert_to_cart_from_wishlist) {
+            $delete_from_wishlist = mysqli_query($connect, "DELETE FROM wishlist WHERE book_id='$item_id' AND user_id='$users_id1'");
+            if ($delete_from_wishlist) {
+                echo "<script>window.location.href='wishlist.php';</script>";
+            }
+        }
+    }
+    echo "<script>window.location.href='wishlist.php';</script>";
+
 }
 
 if (isset($_GET['minus_book'])) {
