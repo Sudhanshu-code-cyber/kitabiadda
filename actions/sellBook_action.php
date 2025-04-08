@@ -11,7 +11,7 @@ if (isset($_POST['submit_book'])) {
 
     // Get and validate input
     $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
-    if (empty($book_name) || !preg_match("/^[a-zA-Z0-9\s]{2,}$/", $book_name)) {
+    if (empty($book_name) ) {
         $errors[] = "Book name is required and must be at least 2 characters (letters/numbers only).";
     }
 
@@ -112,7 +112,7 @@ if (isset($_POST['submit_book'])) {
 
     // ✅ Insert only if no errors
     if (empty($errors)) {
-        $address_sql = "INSERT into user_address (name,mobile,pincode,locality,address,landmark,email, lattitude, longitude, city, state ) values('$name','$contact','$pincode','$locality','$address','$landmark','$email','$latitude','$longitude','$city','$state')";
+        $address_sql = "INSERT into user_address (name,mobile,pincode,locality,address,landmark,user_id,email, lattitude, longitude, city, state ) values('$name','$contact','$pincode','$locality','$address','$landmark','$seller_id','$email','$latitude','$longitude','$city','$state')";
         if (mysqli_query($connect, $address_sql)) {
             $sql = "INSERT INTO books 
             (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, seller_id, version) 
