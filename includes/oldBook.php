@@ -13,9 +13,11 @@ $userEmail = $user ? $user['email'] : null;
 // Fetch old books
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY id DESC");
 // address 
-$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$userEmail'");
+// $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$userEmail'");
 
-$address = mysqli_fetch_assoc($callAdd);
+
+
+
 ?>
 
 <section class="py-10">
@@ -35,6 +37,18 @@ $address = mysqli_fetch_assoc($callAdd);
             <div id="bookScroll2" class="flex space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
                 <?php while ($book = $booksQuery->fetch_assoc()):
                     $bookId = $book['id'];
+                    // --------------------------
+                    $seller_id_1 = $book['seller_id'];
+
+                    $fetch_email = mysqli_query($connect, "SELECT * FROM users WHERE user_id='$seller_id_1'");
+                    $seller_email_1 = mysqli_fetch_assoc($fetch_email);
+                    $seller_email_2 = $seller_email_1['email'];
+
+                    $fetch_address = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$seller_email_2'");
+                    $fetch_sellre_city = mysqli_fetch_assoc($fetch_address);
+                    $seller_city = $fetch_sellre_city['city'];
+
+                    // -----------------------------
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
                     $isWishlisted = ($checkWishlist->num_rows > 0);
 
@@ -80,7 +94,8 @@ $address = mysqli_fetch_assoc($callAdd);
                             <!-- Book Info -->
                             <div class="mt-2 sm:mt-3 text-center">
                                 <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
-                                    <?= $book['book_name']; ?></h2>
+                                    <?= $book['book_name']; ?>
+                                </h2>
                                 <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
                                     <p class="text-gray-500 text-sm font-semibold truncate w-30">
                                         <?= $book['book_author']; ?>
@@ -106,7 +121,7 @@ $address = mysqli_fetch_assoc($callAdd);
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
                                         </svg>
-                                        <span class="text-xs font-medium"><?= $address['city'] ?? ''; ?></span>
+                                        <span class="text-xs font-medium"><?= $seller_city ?? ''; ?></span>
                                     </div>
 
                                     <!-- Posted Time -->
