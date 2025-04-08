@@ -76,14 +76,15 @@ if (isset($_GET['minus_book'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cart | Flipkart Clone</title>
+    <title>My Cart | kitabikdda.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
-<body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+<body
+    class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
     <nav class="mt-12">
         <?php include_once "includes/header.php"; ?>
     </nav>
@@ -94,13 +95,14 @@ if (isset($_GET['minus_book'])) {
         </h1>
 
         <?php if ($total_cart_item > 0) { ?>
+            <br>
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- Product List -->
                 <div class="md:w-2/3">
-                    <div class="w-full bg-white p-6 shadow-lg rounded-lg h-[500px] overflow-y-auto">
+                    <div class="w-full bg-white p-6 shadow-lg rounded-t-lg h-[500px] overflow-y-auto">
                         <div class="space-y-6">
                             <?php
-                            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE cart.email='$email' AND direct_buy=0");
+                            $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE cart.email='$email' AND direct_buy=0 ORDER BY cart.id DESC");
                             while ($cartItem = mysqli_fetch_array($callCartItem)) { ?>
                                 <div class="flex flex-col md:flex-row items-center gap-4 border-b pb-4">
                                     <a href="view.php?book_id=<?= $cartItem['item_id'] ?>">
@@ -115,20 +117,25 @@ if (isset($_GET['minus_book'])) {
                                             <span class="text-gray-500 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-2 border rounded-lg p-1 shadow-md">
+                                    <div class="flex items-center gap-3 bg-gray-100 rounded-md px-3 py-1">
                                         <a href="?minus_book=<?= $cartItem['id'] ?>"
-                                            class="px-3 py-2 bg-gray-300 hover:bg-gray-400 rounded-full">-</a>
-                                        <span class="text-lg font-bold"> <?= $cartItem['qty'] ?> </span>
+                                            class="text-gray-700 text-xl font-medium px-2 hover:text-black">−</a>
+
+                                        <span class="text-base font-medium text-gray-800">
+                                            <?= $cartItem['qty'] ?>
+                                        </span>
+
                                         <a href="?add_book=<?= $cartItem['id'] ?>"
-                                            class="px-3 py-2 bg-gray-300 hover:bg-gray-400 rounded-full">+</a>
+                                            class="text-gray-700 text-xl font-medium px-2 hover:text-black">+</a>
                                     </div>
+
                                 </div>
                             <?php } ?>
                         </div>
                     </div>
-                    <div class="flex items-center bg-white h-20 border-b pb-4 px-6">
+                    <div class="flex items-center rounded-b-lg bg-white h-20 border-b pb-4 px-6">
                         <a href="cart_checkout.php"
-                            class="ml-auto px-6 py-3 bg-orange-500 text-white text-lg font-semibold shadow-md hover:bg-orange-600 transition">
+                            class="ml-auto px-6 py-3 bg-[#3D8D7A] text-white text-lg font-semibold shadow-md hover:bg-[#13453a] transition">
                             PLACE ORDER
                         </a>
                     </div>
@@ -153,7 +160,8 @@ if (isset($_GET['minus_book'])) {
                         <p class="flex justify-between"><span>Delivery</span> <span class="text-green-700">Free</span></p>
                         <hr>
                         <p class="flex justify-between text-lg font-semibold"><span>Total</span>
-                            <span>₹<?= $totalSellPrice ?></span></p>
+                            <span>₹<?= $totalSellPrice ?></span>
+                        </p>
                         <p class="text-green-700">You will save ₹<?= $totalMrp - $totalSellPrice ?> on this order</p>
                     </div>
                 </div>
@@ -169,7 +177,7 @@ if (isset($_GET['minus_book'])) {
                         class="absolute left-0 w-full h-0 transition-all bg-[#B3D8A8] rounded-full opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-300 ease-in-out"></span>
                     <span
                         class="absolute left-0 flex items-center justify-end w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
-                       
+
                     </span>
                     <span class="relative flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 bg-[#] text-white" fill="none"

@@ -12,7 +12,7 @@ if (isset($_SESSION['user'])) {
 }
 
 $userId = $user ? $user['user_id'] : null;
-$userEmail =$user? $user['email']:null;
+$userEmail = $user ? $user['email'] : null;
 
 // First handle the book view
 if (!isset($_GET['book_id'])) {
@@ -72,9 +72,12 @@ if ($book_id) {
 
     if ($sellerdata) {
         $seller_id = $sellerdata['seller_id'];
-        $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
+        $getSellerInfo = $connect->query("SELECT name, contact, dp, email FROM users WHERE user_id = '$seller_id'");
         $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
         $sellerContact = $sellerInfo; // For the call drawer
+        $seller_email = $sellerContact['email'];
+        echo "<script>alert('$seller_email')</script>";
+        
     }
 }
 
@@ -87,7 +90,12 @@ if ($userId) {
     $result = $checkWishlist->get_result();
     $isWishlisted = ($result->num_rows > 0);
 }
-?>
+
+// address 
+$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$seller_email'");
+
+$address = mysqli_fetch_assoc($callAdd) ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -240,8 +248,8 @@ if ($userId) {
 
 <body
     class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
- <?php include_once "includes/header.php"; ?>
-    <?php  include_once "includes/subheader.php"; ?> 
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
     <div class="py-5 px-4  w-full md:px-10">
         <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-28 book-container">
@@ -254,7 +262,7 @@ if ($userId) {
                         class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                         onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img1']); ?>')">
                     <img src="assets/images/<?= htmlspecialchars($book['img2']); ?>" alt="Thumbnail 2"
-                        class="w-15 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
+                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
                         onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img2']); ?>')">
                     <img src="assets/images/<?= htmlspecialchars($book['img3']); ?>" alt="Thumbnail 3"
                         class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
@@ -677,15 +685,16 @@ if ($userId) {
                 <div class="w-2/4">
                     <div>
                         <h2>Posted On</h2>
-                        <p>Date: <?= date('d M Y', strtotime($book['post_date']))?></p>
-                        <p>At: <?= $add['']?></p>
+                        <p>Date: <?= date('d M Y', strtotime($book['post_date'])) ?></p>
+                        <p>At: <?= $address['city'] ?> , <?= $address['state'] ?></p>
+                        <p>Near By: <?= $address['locality'] ?> , <?= $address['pincode'] ?></p>
                     </div>
                 </div>
                 <div class="mb-6 bg-gray-100 rounded w-2/4 p-2 ">
                     <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
                     <div class="mt-6">
                         <iframe class="w-full h-64 rounded-lg"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3157.687502634852!2d92.72131!3d11.6789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDQwJzQ0LjQiTiA5MsKwNDMnMTkuMSJF!5e0!3m2!1sen!2sin!4v1616748401553!5m2!1sen!2sin"
+                        src="https://maps.google.com/maps?q=<?= $latitude ?>,<?= $longitude ?>&hl=es&z=14&output=embed"
                             allowfullscreen="" loading="lazy"></iframe>
                     </div>
                     <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"
