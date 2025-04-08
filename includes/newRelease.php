@@ -109,7 +109,6 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                         <?php
                         $email = $_SESSION['user'] ?? null;
 
-
                         // Step 1: Fetch all cart items for the user
                         $cartItems = [];
                         $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
@@ -117,45 +116,38 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                             $cartItems[] = $item['item_id'];
                         }
 
-                        // Step 2: Inside your book loop, check if it's in the cart
+                        // Step 2: Check if this book is in the cart
                         $isInCart = in_array($book['id'], $cartItems);
                         ?>
 
-                        <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
-                            class="block group/cart">
+                        <div class="block group/cart">
                             <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
                                 <button
-                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
+                                    onclick="<?= $isInCart ? "window.location.href='cart.php'" : "addToCart(" . $book['id'] . ")"; ?>">
 
                                     <!-- Icon -->
                                     <div class="relative">
                                         <?php if ($isInCart): ?>
-                                            <!-- Tick Icon for "Go to Cart" -->
+                                            <!-- Tick Icon -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                             </svg>
                                         <?php else: ?>
-                                            <!-- Cart Icon for "Add to Cart" -->
+                                            <!-- Cart Icon -->
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <!-- Cart base -->
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
-                                                <!-- Check mark -->
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
                                             </svg>
-
-                                            
                                         <?php endif; ?>
-
                                     </div>
 
-                                    <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                    <span class="cursor-pointer"><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
 
-
-                                    <!-- Optional plus icon -->
                                     <?php if (!$isInCart): ?>
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="w-4 h-4 opacity-0 group-hover/cart:opacity-100 transition-opacity duration-200"
@@ -165,8 +157,25 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                         </svg>
                                     <?php endif; ?>
                                 </button>
+
                             </div>
-                        </a>
+                        </div>
+
+                        <script>
+                            function addToCart(bookId) {
+                                fetch(`cart.php?add_book=${bookId}`)
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        // You can log or check response here if needed
+                                        window.location.href = 'cart.php'; // Redirect after adding
+                                    })
+                                    .catch(error => {
+                                        console.error('Error adding to cart:', error);
+                                    });
+                            }
+                        </script>
+
+
 
                     </div>
 

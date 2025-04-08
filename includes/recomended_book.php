@@ -53,7 +53,7 @@
                         $mrp = floatval($book['mrp']);
                         $sell_price = floatval($book['sell_price']);
                         $percentage = ($mrp > 0 && is_numeric($sell_price)) ? round(($mrp - $sell_price) / $mrp * 100) : 0;
-                    ?>
+                        ?>
 
                         <div
                             class="bg-white p-3 rounded-lg shadow-md border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl">
@@ -84,14 +84,15 @@
                                     <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
                                         <?= $book['book_name']; ?>
                                     </h2>
-                                    <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                    <p class="text-gray-500 text-sm font-semibold truncate w-30">
-                                        <?= $book['book_author']; ?>
+                                    <div
+                                        class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
+                                        <p class="text-gray-500 text-sm font-semibold truncate w-30">
+                                            <?= $book['book_author']; ?>
 
-                                    </p>
-                                    <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
+                                        </p>
+                                        <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
 
-                                </div>
+                                    </div>
                                     <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
                                         <p class="text-gray-500 line-through text-[10px] sm:text-xs">
                                             ₹<?= $book['mrp']; ?>/-
@@ -103,19 +104,24 @@
                                 </div>
                             </a>
 
-                            <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $bookId; ?>" class="block group/cart">
+                            <div class="block group/cart">
                                 <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
                                     <button
+                                        onclick="<?= $isInCart ? "window.location.href='cart.php'" : "addToCartAndRedirect($bookId)"; ?>"
                                         class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+
+                                        <!-- Icon -->
                                         <div class="relative">
                                             <?php if ($isInCart): ?>
+                                                <!-- Tick Icon -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M5 13l4 4L19 7" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                                 </svg>
                                             <?php else: ?>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
+                                                <!-- Cart Icon -->
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
@@ -124,10 +130,29 @@
                                                 </svg>
                                             <?php endif; ?>
                                         </div>
-                                        <?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?>
+
+                                        <span><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
                                     </button>
                                 </div>
-                            </a>
+                                <script>
+                                    function addToCartAndRedirect(bookId) {
+                                        // Optional: show loading spinner here
+                                        fetch(`cart.php?add_book=${bookId}`)
+                                            .then(response => response.text())
+                                            .then(() => {
+                                                // Redirect after successful addition
+                                                window.location.href = 'cart.php';
+                                            })
+                                            .catch(error => {
+                                                console.error('Error adding to cart:', error);
+                                                alert('Failed to add to cart.');
+                                            });
+                                    }
+                                </script>
+
+
+                            </div>
+
                         </div>
                     <?php endwhile; ?>
                 </div>
