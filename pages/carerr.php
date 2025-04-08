@@ -38,7 +38,7 @@ include_once "../config/connect.php"; ?>
 </head>
 
 <body class="bg-[#FBFFE4]">
-    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "includes/headear.php"; ?>
     <?php include_once "../includes/subheader.php"; ?>
 
     <!-- Hero Section -->
