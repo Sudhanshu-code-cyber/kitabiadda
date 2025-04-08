@@ -6,7 +6,6 @@ if (isset($_SESSION['user'])) {
 }
 
 $user_email = $user['email'];
-
 if (isset($_POST['submit_book'])) {
     $errors = [];
 
@@ -77,11 +76,20 @@ if (isset($_POST['submit_book'])) {
         $errors[] = "Description must be at least 10 characters long.";
     }
 
-    $seller_id = $user['user_id']; // Make sure you pass this securely (e.g. from session)
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
+    // Address Details
     $name = $_POST['name'];
     $contact = $_POST['contact'];
+    $email = $user_email;
+    $pincode = $_POST['pincode'];
+    $locality = $_POST['locality'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $landmark = $_POST['landmark'];
+    $seller_id = $user['user_id']; 
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
+    
 
     // File Upload
     $target_dir = "../assets/images/";
@@ -104,7 +112,7 @@ if (isset($_POST['submit_book'])) {
 
     // ✅ Insert only if no errors
     if (empty($errors)) {
-        $address_sql = "INSERT into user_address (name,mobile) values('$name','$contact')";
+        $address_sql = "INSERT into user_address (name,mobile,pincode,locality,address,landmark,email, lattitude, longitude, city, state ) values('$name','$contact','$pincode','$locality','$address','$landmark','$email','$latitude','$longitude','$city','$state')";
         if (mysqli_query($connect, $address_sql)) {
             $sql = "INSERT INTO books 
             (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, seller_id, version) 
@@ -128,54 +136,3 @@ if (isset($_POST['submit_book'])) {
 }
 ?>
 
-<?php
-$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$user_email'");
-$noAdd = mysqli_num_rows($callAdd);
-if ($noAdd == 1) { ?>
-    <?php
-    if (isset($_POST['add_submit'])) {
-        $name = $_POST['name'];
-        $mobile = $_POST['mobile'];
-        $pincode = $_POST['pincode'];
-        $locality = $_POST['locality'];
-        $address = $_POST['address'];
-        $city = $_POST['city'];
-        $state = $_POST['state'];
-        $alternate_phone = $_POST['alternate_phone'];
-        $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
-        $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
-        $update_add = mysqli_query($connect, "UPDATE user_address SET email='$user_email',name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', home_work='$home_work',alternate_phone='$alternate_phone' where email='$user_email' ");
-
-        if ($update_add) {
-            echo "<script>window.location.href='javascript:history.back()';</script>";
-        } else {
-            echo "❌ Error: " . mysqli_error($connect);
-        }
-    }
-
-?>
-<?php } else { ?>
-    <?php
-    if (isset($_POST['add_submit'])) {
-        $name = $_POST['name'];
-        $mobile = $_POST['mobile'];
-        $pincode = $_POST['pincode'];
-        $locality = $_POST['locality'];
-        $address = $_POST['address'];
-        $city = $_POST['city'];
-        $state = $_POST['state'];
-        $alternate_phone = $_POST['alternate_phone'];
-        $landmark = isset($_POST['landmark']) ? $_POST['landmark'] : ''; // Optional field
-        $home_work = isset($_POST['home_work']) ? $_POST['home_work'] : ''; // Optional field
-
-        $insert_add = mysqli_query($connect, "INSERT INTO user_address (email, name, mobile, pincode, locality, address, city, state, landmark, home_work, alternate_phone) VALUES ('$user_email', '$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$home_work', '$alternate_phone')");
-
-        if ($insert_add) {
-            echo "<script>window.location.href='javascript:history.back()';</script>";
-        } else {
-            echo "❌ Error: " . mysqli_error($connect);
-        }
-    }
-    ?>
-
-<?php } ?>
