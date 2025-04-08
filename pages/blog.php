@@ -34,7 +34,7 @@ include_once "../config/connect.php"; ?>
 </head>
 
 <body class="bg-[#FBFFE4]">
-    <?php include_once "../includes/header.php"; ?>
+    <?php include_once "includes/headear.php"; ?>
     <?php include_once "../includes/subheader.php"; ?>
     <section class="bg-gradient-to-r mt-28 from-[#B3D8A8] to-[#3D8D7A] text-white py-16 md:py-24">
         <div class="container mx-auto px-4 text-center">

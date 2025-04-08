@@ -39,6 +39,7 @@ if (!empty($_GET['filter'])) {
 
 // Filter: Search
 if (!empty($_GET['search_book'])) {
+    $search = "old books";
     $search = mysqli_real_escape_string($connect, $_GET['search_book']);
     if (strlen($search) < 1) {
         message("Please enter a search term.");
@@ -49,6 +50,7 @@ if (!empty($_GET['search_book'])) {
         LOWER(book_name) LIKE LOWER('%$search%') OR 
         LOWER(book_author) LIKE LOWER('%$search%') OR 
         LOWER(book_category) LIKE LOWER('%$search%') OR 
+        LOWER(version) LIKE LOWER('%$search%') OR 
         LOWER(isbn) LIKE LOWER('%$search%')
     )";
 }
@@ -175,7 +177,7 @@ $booksQuery = $connect->query($sql);
                         $sell_price = floatval($book['sell_price']);
                         $percentage = ($mrp > 0 && $sell_price > 0) ? round(($mrp - $sell_price) / $mrp * 100) : 0;
                     ?>
-                        <div class="book-card bg-white p-3  rounded-lg shadow-md border border-gray-200 relative">
+                        <div class="book-card bg-red-400 p-3  rounded-lg shadow-md border border-gray-200 relative">
                             <?php if ($percentage > 0): ?>
                                 <div class="absolute left-2 top-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded shadow">
                                     <?= $percentage; ?>% OFF

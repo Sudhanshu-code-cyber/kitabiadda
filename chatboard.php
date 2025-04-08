@@ -36,11 +36,9 @@ if (isset($_SESSION['user'])) {
             }, 5000);
         });
     </script>";
-
     exit();
 }
 
-// Handle search
 $searchUser = isset($_GET['search_users']) ? trim($_GET['search_users']) : '';
 
 $book_id = $_GET['book_id'] ?? null;
@@ -55,11 +53,10 @@ if ($book_id) {
         $seller_id = $sellerdata['seller_id'];
         $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
         $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
-        $sellerContact = $sellerInfo; // For the call drawer
+        $sellerContact = $sellerInfo;
     }
 }
 
-// Get chat list with search functionality
 $chatUsersQuery = $connect->query("SELECT DISTINCT 
         seller_id, 
         books.id as book_id, 
@@ -152,11 +149,13 @@ if (isset($_GET['product_id'])) {
             .chat-list {
                 height: 100%;
                 display: <?= $book_id ? 'none' : 'block' ?>;
+                margin-top: 3rem
             }
 
             .chat-window {
                 height: 100%;
                 display: <?= $book_id ? 'flex' : 'none' ?>;
+                margin-top: 3rem
             }
 
             .back-button {
@@ -196,13 +195,8 @@ if (isset($_GET['product_id'])) {
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="chat-container flex flex-col lg:flex-row mt-16 lg:mt-32">
-        <!-- Mobile back button -->
-        <div class="lg:hidden back-button items-center p-2 bg-[#B3D8A8] hidden <?= $book_id ? 'flex' : 'hidden' ?>">
-            <a href="chatboard.php" class="text-gray-700 hover:text-gray-900">
-                <i class="fas fa-arrow-left mr-2"></i> Back to conversations
-            </a>
-        </div>
+    <div class="chat-container flex flex-col lg:flex-row lg:mt-32">
+
 
         <!-- Chat List -->
         <div class="chat-list w-full lg:w-4/12 border-r border-gray-200 bg-white lg:h-[600px] h-full overflow-y-auto shadow-sm">
@@ -215,16 +209,16 @@ if (isset($_GET['product_id'])) {
                     INBOX(<?= $totalChats ?>)
                 </h2>
                 <form action="" method="get" class="w-full sm:w-auto">
-                    <div class="relative flex rounded-lg shadow-md ring-1 ring-white/20 focus-within:ring-2 focus-within:ring-[#3D8D7A] transition-all duration-200">
+                    <div class="relative flex outline-none">
                         <input type="search"
                             name="search_users"
                             value="<?= htmlspecialchars($searchUser) ?>"
                             placeholder="Search conversations..."
-                            class="block w-full px-4 py-2 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
+                            class="block w-full px-4 py-1 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                             aria-label="Search conversations">
                         <button type="submit"
-                            class="inline-flex border-3 items-center px-4 py-2 bg-[#3D8D7A] text-white font-medium rounded-r-lg hover:bg-[#2c6b5b] transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            class=" bg-[#3D8D7A] text-white font-medium rounded-r-lg px-4 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </button>
@@ -257,7 +251,6 @@ if (isset($_GET['product_id'])) {
                                     <div class="relative flex-shrink-0">
                                         <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
                                         <?php if (rand(0, 1)): ?>
-                                            <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white"></span>
                                         <?php endif; ?>
                                     </div>
                                     <div class="flex-1 min-w-0">

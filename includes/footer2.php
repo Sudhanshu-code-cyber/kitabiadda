@@ -45,7 +45,7 @@
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             About Us
                         </a></li>
-                    <li><a href="blog.php" class="flex items-center group text-white/90 hover:text-white transition">
+                    <li><a href="pages/blog.php" class="flex items-center group text-white/90 hover:text-white transition">
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             Blog
                         </a></li>
@@ -64,15 +64,15 @@
             <div class="space-y-5">
                 <h3 class="text-lg font-bold border-b border-white/20 pb-2">Help Center</h3>
                 <ul class="space-y-3">
-                    <li><a href="pages/payment.php" class="flex items-center group text-white/90 hover:text-white transition">
+                    <li><a href="../pages/payment.php" class="flex items-center group text-white/90 hover:text-white transition">
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             Payment Options
                         </a></li>
-                    <li><a href="pages/shiping.php" class="flex items-center group text-white/90 hover:text-white transition">
+                    <li><a href="../pages/shiping.php" class="flex items-center group text-white/90 hover:text-white transition">
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             Shipping Info
                         </a></li>
-                    <li><a href="pages/faq.php" class="flex items-center group text-white/90 hover:text-white transition">
+                    <li><a href="../pages/faq.php" class="flex items-center group text-white/90 hover:text-white transition">
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             FAQ
                         </a></li>
