@@ -149,7 +149,7 @@ if (isset($_GET['product_id'])) {
             .chat-list {
                 height: 100%;
                 display: <?= $book_id ? 'none' : 'block' ?>;
-                margin-top: 3rem
+                margin-top: 7.5rem
             }
 
             .chat-window {

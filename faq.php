@@ -1,5 +1,5 @@
 <?php
-include_once "../config/connect.php"; ?>
+include_once "config/connect.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,8 +33,8 @@ include_once "../config/connect.php"; ?>
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <?php include_once "../includes/header.php"; ?>
-    <?php include_once "../includes/subheader.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
     <div class="min-h-screen mt-28 flex flex-col">
 
         <main class="flex-grow">
@@ -323,7 +323,7 @@ include_once "../config/connect.php"; ?>
                 </div>
             </section>
         </main>
-        <?php include_once "../includes/footer2.php"; ?>
+        <?php include_once "includes/footer2.php"; ?>
     </div>
 
     <script>

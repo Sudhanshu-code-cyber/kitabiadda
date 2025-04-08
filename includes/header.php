@@ -254,7 +254,12 @@ $userEmail = $user ? $user['email'] : null;
                 </svg>
                 Chat
             </div>
-            <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">2</span>
+           <?php if
+           ($chatCountData > 0){
+            ?>
+            <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full"><?= $chatCountData;?></span>
+          <?php }  
+        ?>
         </a>
 
         <a href="sell/sell.php"

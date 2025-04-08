@@ -1,4 +1,4 @@
-<?php include_once "../config/connect.php";?>
+<?php include_once "config/connect.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +19,8 @@
 <body class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
 
     <!-- Header -->
-    <?php include_once "../includes/header.php"; ?>
-    <?php include_once "../includes/subheader.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
     <!-- Ribbon Header -->
     <div class="relative w-fit mx-auto mt-40">
@@ -89,7 +89,7 @@
     </main>
 
     <!-- Footer -->
-    <?php include_once "../includes/footer2.php"; ?>
+    <?php include_once "includes/footer2.php"; ?>
 </body>
 
 </html>

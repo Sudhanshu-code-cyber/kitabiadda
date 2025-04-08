@@ -1,5 +1,5 @@
 <?php
-include_once "../config/connect.php"; ?>
+include_once "config/connect.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,8 +38,8 @@ include_once "../config/connect.php"; ?>
 </head>
 
 <body class="bg-[#FBFFE4]">
-    <?php include_once "includes/headear.php"; ?>
-    <?php include_once "../includes/subheader.php"; ?>
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-r mt-28 from-[#B3D8A8] to-[#3D8D7A] text-white py-16 md:py-24">
@@ -295,7 +295,7 @@ include_once "../config/connect.php"; ?>
             </div>
         </div>
     </section>
-    <?php include_once "../includes/footer2.php"; ?>
+    <?php include_once "includes/footer2.php"; ?>
 
 
     <script>
