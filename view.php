@@ -12,7 +12,7 @@ if (isset($_SESSION['user'])) {
 }
 
 $userId = $user ? $user['user_id'] : null;
-$userEmail =$user? $user['email']:null;
+$userEmail = $user ? $user['email'] : null;
 
 // First handle the book view
 if (!isset($_GET['book_id'])) {
@@ -87,7 +87,12 @@ if ($userId) {
     $result = $checkWishlist->get_result();
     $isWishlisted = ($result->num_rows > 0);
 }
-?>
+
+// address 
+$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$userEmail'");
+
+$address = mysqli_fetch_assoc($callAdd) ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -240,8 +245,8 @@ if ($userId) {
 
 <body
     class="bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
- <?php include_once "includes/header.php"; ?>
-    <?php  include_once "includes/subheader.php"; ?> 
+    <?php include_once "includes/header.php"; ?>
+    <?php include_once "includes/subheader.php"; ?>
 
     <div class="py-5 px-4  w-full md:px-10">
         <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-28 book-container">
@@ -677,8 +682,9 @@ if ($userId) {
                 <div class="w-2/4">
                     <div>
                         <h2>Posted On</h2>
-                        <p>Date: <?= date('d M Y', strtotime($book['post_date']))?></p>
-                        <p>At: <?= $add['']?></p>
+                        <p>Date: <?= date('d M Y', strtotime($book['post_date'])) ?></p>
+                        <p>At: <?= $address['city'] ?> , <?= $address['state'] ?></p>
+                        <p>Near By: <?= $address['locality'] ?> , <?= $address['pincode'] ?></p>
                     </div>
                 </div>
                 <div class="mb-6 bg-gray-100 rounded w-2/4 p-2 ">
