@@ -8,9 +8,14 @@ if (isset($_SESSION['user'])) {
 }
 
 $userId = $user ? $user['user_id'] : null;
+$userEmail = $user ? $user['email'] : null;
 
 // Fetch old books
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY id DESC");
+// address 
+$callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE email='$userEmail'");
+
+$address = mysqli_fetch_assoc($callAdd);
 ?>
 
 <section class="py-10">
@@ -41,7 +46,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     // Posted time - safely using post_date
                     $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
                 ?>
-                <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative shadow-md  hover:shadow-xl">
+                <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative   hover:shadow-xl">
 
                     <!-- Discount Badge -->
                     <div class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
@@ -90,7 +95,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
         </svg>
-        <span class="text-xs font-medium">Purnea</span>
+        <span class="text-xs font-medium"><?=$address['city'] ??'';?></span>
     </div>
 
     <!-- Posted Time -->

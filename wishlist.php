@@ -171,7 +171,7 @@ if ($userId) {
                         <a href="cart.php?add_book=<?= $book['id']; ?>">
     <div class="mt-4 border-t pt-3  flex justify-center">
         <button
-            class="flex items-center gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white text-sm font-semibold py-2 px-4 w-full justify-center items-center rounded-lg shadow cursor-pointer">
+            class="flex  gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white text-sm font-semibold py-2 px-4 w-full justify-center items-center rounded-lg shadow cursor-pointer">
             <!-- Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 mt-2 h-6 text-white" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
