@@ -76,7 +76,7 @@ if ($book_id) {
         $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
         $sellerContact = $sellerInfo; // For the call drawer
         $seller_email = $sellerContact['email'];
-        echo "<script>alert('$seller_email')</script>";
+        // echo "<script>alert('$seller_email')</script>";
         
     }
 }
@@ -694,7 +694,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                     <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
                     <div class="mt-6">
                         <iframe class="w-full h-64 rounded-lg"
-                        src="https://maps.google.com/maps?q=<?= $latitude ?>,<?= $longitude ?>&hl=es&z=14&output=embed"
+                        src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
                             allowfullscreen="" loading="lazy"></iframe>
                     </div>
                     <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"
