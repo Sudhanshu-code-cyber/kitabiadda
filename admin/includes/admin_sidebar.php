@@ -147,7 +147,7 @@
       <div class="collapse" id="manageOrderCollapse6">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="#">Complain </a>
+            <a class="nav-link" href="complains/complains.php">Complain </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Bug Complain</a>
