@@ -30,7 +30,7 @@
             <div class="space-y-4 text-lg">
                 <p>📍 <strong>Address:</strong> Purnea (Bihar)</p>
                 <p>📞 <strong>Phone:</strong> +91-9876543210</p>
-                <p>✉️ <strong>Email:</strong> readrainbow12@gmail.com</p>
+                <p>✉️ <strong>Email:</strong> kitabiadda@gmail.com</p>
                 <p>🕒 <strong>Working Hours:</strong> Mon - Sat (9:00 AM - 7:00 PM)</p>
             </div>
         </div>
@@ -38,29 +38,42 @@
         <div class="bg-white rounded-xl shadow-lg border-4 border-[#B3D8A8] p-6">
             <h2 class="text-2xl font-semibold text-[#3D8D7A] mb-4">Send a Message</h2>
 
-            <form class="space-y-4">
+            <form method="post" class="space-y-4">
                 <div>
                     <label class="block text-gray-700 font-medium">Your Name</label>
-                    <input type="text" placeholder="Enter your name"
+                    <input type="text" name="name" placeholder="Enter your name"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#3D8D7A]" required />
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-medium">Email</label>
-                    <input type="email" placeholder="Enter your email"
+                    <input type="email" name="email" placeholder="Enter your email"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#3D8D7A]" required />
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-medium">Message</label>
-                    <textarea placeholder="Write your message here..." rows="5"
+                    <textarea placeholder="Write your message here..." rows="5" name="msg"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#3D8D7A]" required></textarea>
                 </div>
 
-                <button type="submit"
+                <button type="submit" name="send_msg"
                     class="bg-[#3D8D7A] text-white px-6 py-2 rounded-md hover:bg-[#2F6C5D] transition-all">Send
                     Message</button>
             </form>
+            <?php 
+            if(isset($_POST['send_msg'])){
+                $name = $_POST['name'];
+                $email = $_POST['email'];
+                $msg = $_POST['msg'];
+
+                $query = $connect->query("insert into contact_us(name,email,msg) values('$name','$email','$msg')");
+
+                if($query){
+                    message('Your Msg Send Sucessfull');
+                }
+            }
+            ?>
         </div>
 
     </main>

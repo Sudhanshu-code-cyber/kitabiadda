@@ -601,7 +601,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
 
                                 </div>
 
-                                <a href="chatboard.php?book_id=<?= $book['id']; ?>" target="_blank"
+                                <a href="chatboard.php?book_id=<?= $book['id']; ?>" 
                                     class="flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 font-medium text-white rounded-md text-sm transition-colors shadow-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
