@@ -11,10 +11,7 @@ $userId = $user ? $user['user_id'] : null;
 $userEmail = $user ? $user['email'] : null;
 
 // Fetch old books
-$booksQuery = $connect->query("SELECT * FROM books  WHERE version='old' ORDER BY id DESC");
-// address 
-
-
+$booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY id DESC");
 ?>
 
 <section class="py-10">
@@ -42,13 +39,12 @@ $booksQuery = $connect->query("SELECT * FROM books  WHERE version='old' ORDER BY
                     $sell_price = floatval($book['sell_price']);
                     $percentage = ($mrp > 0 && is_numeric($sell_price)) ? (($mrp - $sell_price) / $mrp * 100) : 0;
 
-                    // Posted time - safely using post_date
+                    // Posted time
                     $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
-                    $sell_id=$book['seller_id'];
+                    $sell_id = $book['seller_id'];
                     $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE user_id='$sell_id'");
-                    
                     $address = mysqli_fetch_array($callAdd);
-                    ?>
+                ?>
                     <div class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl">
 
                         <!-- Discount Badge -->
@@ -80,7 +76,7 @@ $booksQuery = $connect->query("SELECT * FROM books  WHERE version='old' ORDER BY
                             <div class="mt-2 sm:mt-3 text-center">
                                 <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
                                     <?= $book['book_name']; ?></h2>
-                                <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
+                                <div class="flex mt-1 justify-between text-gray-500 text-[10px] sm:text-xs font-semibold">
                                     <p class="text-gray-500 text-sm font-semibold truncate w-30">
                                         <?= $book['book_author']; ?>
                                     </p>
@@ -124,33 +120,23 @@ $booksQuery = $connect->query("SELECT * FROM books  WHERE version='old' ORDER BY
     </div>
 </section>
 
+<!-- Scroll Button Functionality -->
 <script>
-    const scrollContainer2 = document.getElementById("bookScroll2");
-    document.getElementById("scrollLeft2").onclick = () => scrollContainer2.scrollBy({
-        left: -300,
-        behavior: 'smooth'
-    });
-    document.getElementById("scrollRight2").onclick = () => scrollContainer2.scrollBy({
-        left: 300,
-        behavior: 'smooth'
-    });
-</script>   <!-- Right Arrow -->
-            <button id="scrollRight2"
-                class="hidden sm:block absolute z-10 right-0 top-1/2 -translate-y-1/2 bg-white border rounded-full shadow p-2 hover:bg-gray-100">
-                &#8594;
-            </button>
-        </div>
-    </div>
-</section>
+    document.addEventListener("DOMContentLoaded", () => {
+        const scrollContainer2 = document.getElementById("bookScroll2");
+        const scrollLeft2 = document.getElementById("scrollLeft2");
+        const scrollRight2 = document.getElementById("scrollRight2");
 
-<script>
-    const scrollContainer2 = document.getElementById("bookScroll2");
-    document.getElementById("scrollLeft2").onclick = () => scrollContainer2.scrollBy({
-        left: -300,
-        behavior: 'smooth'
-    });
-    document.getElementById("scrollRight2").onclick = () => scrollContainer2.scrollBy({
-        left: 300,
-        behavior: 'smooth'
+        if (scrollContainer2 && scrollLeft2 && scrollRight2) {
+            scrollLeft2.onclick = () => scrollContainer2.scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            });
+
+            scrollRight2.onclick = () => scrollContainer2.scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            });
+        }
     });
 </script>

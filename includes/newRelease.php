@@ -120,10 +120,10 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                         $isInCart = in_array($book['id'], $cartItems);
                         ?>
 
-                        <div class="block group/cart">
-                            <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
+                        <div class="block  group/cart">
+                            <div class="mt-3  sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
                                 <button
-                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
+                                    class="w-full flex cursor-pointer items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
                                     onclick="<?= $isInCart ? "window.location.href='cart.php'" : "addToCart(" . $book['id'] . ")"; ?>">
 
                                     <!-- Icon -->
@@ -146,7 +146,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                         <?php endif; ?>
                                     </div>
 
-                                    <span class="cursor-pointer"><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                    <span class=""><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
 
                                     <?php if (!$isInCart): ?>
                                         <svg xmlns="http://www.w3.org/2000/svg"

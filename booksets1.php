@@ -83,6 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                     $percentage = ($mrp - $sell_price) / $mrp * 100;
                 }
                 $postedTime = isset($book['post_date']) ? getPostedTime($book['post_date']) : "Unknown date";
+                $sell_id=$book['seller_id'];
+                $callAdd = mysqli_query($connect, "SELECT * FROM user_address WHERE user_id='$sell_id'");
+                
+                $address = mysqli_fetch_array($callAdd);
                 ?>
                 <div
                     class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl border border-gray-200 relative flex flex-col justify-between">
@@ -150,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                         <div class="block group/cart">
                             <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
                                 <button
-                                    class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
+                                    class="w-full flex cursor-pointer items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
                                     onclick="<?= $isInCart ? "window.location.href='cart.php'" : "addToCart(" . $book['id'] . ")"; ?>">
 
                                     <!-- Icon -->
@@ -173,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                                         <?php endif; ?>
                                     </div>
 
-                                    <span class="cursor-pointer"><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                    <span ><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
 
                                     <?php if (!$isInCart): ?>
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
                                 </svg>
-                                <span class="text-xs font-medium">Purnea</span>
+                                <span class="text-xs font-medium"><?=$address['city'] ?? '';?></span>
                             </div>
                             <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
 
