@@ -112,7 +112,13 @@ if (isset($_POST['submit_book'])) {
 
     // ✅ Insert only if no errors
     if (empty($errors)) {
-        $address_sql = "INSERT into user_address (name,mobile,pincode,locality,address,landmark,user_id,email, lattitude, longitude, city, state ) values('$name','$contact','$pincode','$locality','$address','$landmark','$seller_id','$email','$latitude','$longitude','$city','$state')";
+        $fetchAdd = $connect->query("select * from user_address where email='$email'");
+        if($fetchAdd->num_rows > 0){
+        $address_sql = "UPDATE user_address SET lattitude='$latitude', longitude='$longitude' where email='$email'";
+        }
+        else{
+        $address_sql = "INSERT into  user_address (name,mobile,pincode,locality,address,landmark,user_id,email,lattitude,longitude , city, state)  values('$name','$contact','$pincode','$locality','$address','$landmark','$seller_id','$email','$latitude','$longitude','$city','$state')";
+        }
         if (mysqli_query($connect, $address_sql)) {
             $sql = "INSERT INTO books 
             (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, seller_id, version) 
@@ -136,3 +142,9 @@ if (isset($_POST['submit_book'])) {
 }
 ?>
 
+
+
+
+
+<!-- name,mobile,pincode,locality,address,landmark,user_id,email , city, state  -->
+<!-- '$name','$contact','$pincode','$locality','$address','$landmark','$seller_id','$email',,'$city','$state' -->
