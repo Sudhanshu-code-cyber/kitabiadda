@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     <?php include_once "includes/subheader.php"; ?>
 
     <div
-        class="mt-30 p-5 bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
+        class="mt-30  bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
         <div class="bg-white border-b border-gray-200 py-5 shadow-xl px-5">
             <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?= ($bookType); ?> Books"
             </h1>
