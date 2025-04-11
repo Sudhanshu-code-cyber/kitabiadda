@@ -326,8 +326,8 @@
                             $alternate_phone = $_POST['alt_phone'];
                             $home_work = $_POST['homework'];
 
-                            $addAdd = $connect->query("INSERT INTO user_address (name, mobile, pincode, locality, address, city, state, landmark, alternate_phone, home_work, email) 
-                            VALUES ('$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$alternate_phone', '$home_work', '$userEmail')");
+                            $addAdd = $connect->query("INSERT INTO user_address (name, mobile, pincode, locality, address, city, state, landmark, alternate_phone, home_work, email, user_id) 
+                            VALUES ('$name', '$mobile', '$pincode', '$locality', '$address', '$city', '$state', '$landmark', '$alternate_phone', '$home_work', '$userEmail','$userId')");
 
                             if ($addAdd) {
                                 echo '

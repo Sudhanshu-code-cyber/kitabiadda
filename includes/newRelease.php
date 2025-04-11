@@ -13,8 +13,22 @@ $userId = $user ? $user['user_id'] : null; // Get logged-in user ID
 $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by id DESC");
 
 ?>
+<style>
+     .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+</style>
 
-<section class="py-10 ">
+<section class="mt-10 ">
     <div class="w-full px-[2%] mx-auto ">
 
         <!-- Header -->
@@ -53,25 +67,23 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                     <div
                         class="bg-white p-3 rounded-lg shadow-md border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl duration-300 ">
                         <!-- Discount Badge (Smaller on Mobile) -->
-                        <div
-                            class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
-                            <?= round($percentage); ?>% OFF
+                        <div class="discount-badge ">
+                        <?= $percentage ?>% OFF
                         </div>
 
                         <!-- Wishlist Button (Compact on Mobile) -->
-                        <form method="POST"
-                            action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
-                            class="absolute top-2.5 sm:top-3 right-2 sm:right-3" onclick="event.stopPropagation();">
-                            <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                            <button type="submit" class="cursor-pointer" name="toggle_wishlist">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                    fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                    class="size-4 sm:size-6 hover:scale-110 transition">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                </svg>
-                            </button>
-                        </form>
+                        <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" 
+                          class="absolute top-1 right-3 z-10" onclick="event.stopPropagation();">
+                        <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
+                        <button type="submit" name="toggle_wishlist" class="p-1.5 bg-white bg-opacity-80 rounded-full shadow-md hover:scale-110 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
+                                 fill="<?= $isWishlisted ? 'red' : 'none'; ?>" 
+                                 stroke="red" stroke-width="1.5" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            </svg>
+                        </button>
+                    </form>
 
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
@@ -81,28 +93,24 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                             </div>
 
                             <!-- Book Info -->
-                            <div class="mt-2 sm:mt-3 text-strat">
-                                <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
-                                    <?= $book['book_name']; ?>
-                                </h2>
-                                <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                    <p class="text-gray-500 text-sm font-semibold truncate w-30">
-                                        <?= $book['book_author']; ?>
-
-                                    </p>
-                                    <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
-
+                        <div class="mt-4">
+                            <h3 class="font-bold text-gray-800 text-sm sm:text-base truncate leading-tight">
+                                <?= $book['book_name']; ?>
+                            </h3>
+                            <p class="text-gray-600 text-xs sm:text-sm mt-1 truncate">
+                                <?= $book['book_author']; ?>
+                            </p>
+                            
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center space-x-2">
+                                    <?php if ($mrp > $sell_price): ?>
+                                    <span class="text-gray-400 text-xs line-through">₹<?= $mrp; ?></span>
+                                    <?php endif; ?>
+                                    <span class="text-[#3D8D7A] font-bold text-sm sm:text-base">₹<?= $sell_price; ?></span>
                                 </div>
-
-
-                                <!-- Price -->
-                                <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
-                                    <p class="text-gray-500 line-through text-[10px] sm:text-xs">₹<?= $book['mrp']; ?>/-</p>
-                                    <p class="text-black font-bold text-sm sm:text-lg">₹<?= $book['sell_price']; ?>/-</p>
-                                </div>
-
-
+                                <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
                             </div>
+                        </div>
                         </a>
 
                         <!-- Footer (Add to Cart + Rating) -->
