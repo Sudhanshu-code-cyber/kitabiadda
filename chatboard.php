@@ -113,6 +113,7 @@ if (isset($_GET['product_id'])) {
         exit();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -366,21 +367,59 @@ if (isset($_GET['product_id'])) {
 
                 <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
                     <?php
-                    $messages = $connect->query("SELECT * FROM message WHERE 
-                        ((sender_id = '$user_id' AND receiver_id = '$seller_id') OR 
-                        (sender_id = '$seller_id' AND receiver_id = '$user_id')) 
-                        AND product_id='$book_id' ORDER BY msg_time ASC");
+                    // Fetch messages where current user is the RECEIVER (others sent to them)
+                    $receiver_messages = $connect->query("
+        SELECT * FROM message 
+        WHERE receiver_id = '$user_id'
+        ORDER BY msg_time ASC
+    ");
 
-                    while ($msg = $messages->fetch_array()):
-                        $isSender = ($msg['sender_id'] == $user_id);
+                    // Fetch messages where current user is the SENDER (they sent to others)
+                    $sender_messages = $connect->query("
+        SELECT * FROM message 
+        WHERE sender_id = '$user_id'
+        ORDER BY msg_time ASC
+    ");
+
+                    // Display RECEIVED messages (from others)
+                    if ($receiver_messages->num_rows > 0) {
+                        while ($msg = $receiver_messages->fetch_array()):
                     ?>
-                        <div class="flex <?= $isSender ? 'justify-end' : 'justify-start' ?> mb-4">
-                            <div class="p-3 rounded-lg max-w-[70%] lg:max-w-xs <?= $isSender ? 'bg-green-500 text-white' : 'bg-white' ?>">
-                                <p><?= htmlspecialchars($msg['message']); ?></p>
-                                <span class="text-xs text-gray-500 block text-right"><?= date("h:i A", strtotime($msg['msg_time'])) ?></span>
+                            <div class="flex mb-4"> <!-- Left-aligned for received messages -->
+                                <div class="bg-white px-3 py-1 rounded-md">
+                                    <span class="text-md text-black block">
+                                        <?= htmlspecialchars($msg['message']) ?>
+                                    </span>
+                                    <p class="text-xs text-gray-600">
+                                        <?= date("h:i A", strtotime($msg['msg_time'])) ?>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    <?php endwhile; ?>
+                        <?php endwhile;
+                    }
+
+                    // Display SENT messages (from current user)
+                    if ($sender_messages->num_rows > 0) {
+                        while ($msg = $sender_messages->fetch_array()):
+                        ?>
+                            <div class="flex justify-end mb-4"> <!-- Right-aligned for sent messages -->
+                                <div class="bg-green-500 px-3 py-1 rounded-md">
+                                    <span class="text-md text-white block">
+                                        <?= htmlspecialchars($msg['message']) ?>
+                                    </span>
+                                    <p class="text-xs text-white">
+                                        <?= date("h:i A", strtotime($msg['msg_time'])) ?>
+                                    </p>
+                                </div>
+                            </div>
+                    <?php endwhile;
+                    }
+
+                    // If no messages exist
+                    if ($receiver_messages->num_rows == 0 && $sender_messages->num_rows == 0) {
+                        echo "<p class='text-gray-500 text-center'>No messages found.</p>";
+                    }
+                    ?>
                 </div>
 
                 <div class="p-3 lg:p-4 border-t flex items-center gap-2 bg-white sticky bottom-0">

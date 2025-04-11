@@ -382,54 +382,27 @@ $booksQuery = $connect->query($sql);
                             // Step 2: Inside your book loop, check if it's in the cart
                             $isInCart = in_array($book['id'], $cartItems);
                             ?>
-
-                            <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
-                                class="block group/cart">
-                                <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
-                                    <button
-                                        class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
-
-                                        <!-- Icon -->
-                                        <div class="relative">
-                                            <?php if ($isInCart): ?>
-                                                <!-- Tick Icon for "Go to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            <?php else: ?>
-                                                <!-- Cart Icon for "Add to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <!-- Cart base -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
-                                                    <!-- Check mark -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
-                                                </svg>
-
-
-                                            <?php endif; ?>
-
-                                        </div>
-
-                                        <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
-
-
-                                        <!-- Optional plus icon -->
-                                        <?php if (!$isInCart): ?>
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4 opacity-0 group-hover/cart:opacity-100 transition-opacity duration-200"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <div class="px-4 mt-4">
+                                <?php if ($book['version'] == "new"): ?>
+                                    <a href="cart.php?add_book_to_wishlist=<?= $book['id'] ?>" class="block w-full">
+                                        <button class="w-full flex items-center justify-center gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white py-2 px-2 rounded-lg transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                             </svg>
-                                        <?php endif; ?>
-                                    </button>
-                                </div>
-                            </a>
-
+                                            Add to Cart
+                                        </button>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="chatboard.php?book_id=<?= $book['id'] ?>" class="block w-full">
+                                        <button class="w-full flex items-center justify-center gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white py-2 px-2 rounded-lg transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                            </svg>
+                                            Chat Seller
+                                        </button>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endwhile; ?>
                 </main>
