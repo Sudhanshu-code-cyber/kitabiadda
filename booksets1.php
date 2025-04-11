@@ -116,20 +116,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                                 class="w-40 h-56 object-cover hover:shadow-xl shadow-md rounded-md">
                         </div>
 
-                        <div class="mt-4 text-center">
-                            <h2 class="text-lg font-semibold truncate text-[#3D8D7A]"><?= $book['book_name']; ?></h2>
-                            <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                <p class="text-gray-500 text-sm font-semibold truncate w-30"><?= $book['book_author']; ?>
-
-                                </p>
-                                <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
-
-                            </div>
-
-
-                            <div class="flex justify-center items-center space-x-2 mt-1">
-                                <p class="text-gray-500 line-through text-sm">₹<?= $book['mrp']; ?>/-</p>
-                                <p class="text-black font-bold text-lg">₹<?= $book['sell_price']; ?>/-</p>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-gray-800 text-sm sm:text-base truncate leading-tight">
+                                <?= $book['book_name']; ?>
+                            </h3>
+                            <p class="text-gray-600 text-xs sm:text-sm mt-1 truncate">
+                                <?= $book['book_author']; ?>
+                            </p>
+                            
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center space-x-2">
+                                    <?php if ($mrp > $sell_price): ?>
+                                    <span class="text-gray-400 text-xs line-through">₹<?= $mrp; ?></span>
+                                    <?php endif; ?>
+                                    <span class="text-[#3D8D7A] font-bold text-sm sm:text-base">₹<?= $sell_price; ?></span>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
                             </div>
                         </div>
                     </a>
@@ -207,20 +209,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
                         </script>
 
                     <?php else: ?>
-                        <div class="flex justify-between w-full items-center">
-                            <div class="flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#3D8D7A]" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 11c1.1046 0 2-.8954 2-2s-.8954-2-2-2-2 .8954-2 2 .8954 2 2 2z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 2C8.13401 2 5 5.13401 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86599-3.134-7-7-7z" />
-                                </svg>
-                                <span class="text-xs font-medium"><?=$address['city'] ?? '';?></span>
-                            </div>
-                            <p class="text-xs text-gray-400"><?= $postedTime; ?></p>
+                        
+                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-gray-100">
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1 text-[#3D8D7A]"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span
+                                            class="truncate max-w-[80px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
+                                    </div>
 
-                        </div>
+                                    <div class="flex items-center text-xs text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <?= $postedTime; ?>
+                                    </div>
+                                </div>
 
 
                     <?php endif; ?>
