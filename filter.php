@@ -166,7 +166,8 @@ $booksQuery = $connect->query($sql);
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
                 <!-- Mobile Slider (shows only on mobile) -->
-                <div class="slider-container md:hidden">
+                <div class="grid grid-cols-2 gap-1 md:hidden px-2">
+
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");

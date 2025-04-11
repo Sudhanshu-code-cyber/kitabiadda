@@ -60,7 +60,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     $address = mysqli_fetch_array($callAdd);
                     ?>
                     <div
-                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl">
+                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-48 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl">
 
                         <!-- Discount Badge -->
                         <div

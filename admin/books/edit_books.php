@@ -57,30 +57,30 @@
                         // image 1 working
                         $image1 = $_FILES['img1']['name'];
                         $tmp_image1 = $_FILES['img1']['tmp_name'];
-                        move_uploaded_file($tmp_image1, "../../assets/images/$image1");
+                        move_uploaded_file($tmp_image1, "../../images/$image1");
 
                         // image 2 working
                         $image2 = $_FILES['img2']['name'];
                         $tmp_image2 = $_FILES['img2']['tmp_name'];
-                        move_uploaded_file($tmp_image2, "../../assets/images/$image2");
+                        move_uploaded_file($tmp_image2, "../../images/$image2");
 
                         // image 3 working
                         $image3 = $_FILES['img3']['name'];
                         $tmp_image3 = $_FILES['img3']['tmp_name'];
-                        move_uploaded_file($tmp_image3, "../../assets/images/$image3");
+                        move_uploaded_file($tmp_image3, "../../images/$image3");
 
                         // image 4 working
                         $image4 = $_FILES['img4']['name'];
                         $tmp_image4 = $_FILES['img4']['tmp_name'];
-                        move_uploaded_file($tmp_image4, "../../assets/images/$image4");
+                        move_uploaded_file($tmp_image4, "../../images/$image4");
 
                         $update_book = mysqli_query($connect, "UPDATE books SET book_name='$book_name',book_author='$book_author',
                         book_binding='$book_binding',mrp='$mrp',sell_price='$sell_price',book_pages='$book_pages',book_category='$book_category',
                         book_sub_category='$book_sub_category',language='$language',isbn='$isbn',publish_year='$publish_year',quality='$quality',
-                        book_description='$book_description',e_book_avl='$e_book_avl',e_book_price='$e_book_price',
+                        book_description='$book_description',e_book_avl='$e_book_avl',e_book_price='$e_book_price',book_rating='$book_rating',
                         img1='$image1', img2='$image2', img3='$image3', img4='$image4' where id='$id'");
 
-                        if ($update_book) {
+                        if($update_book){
                             echo "<script>
                               Swal.fire({
                                   title: 'Category DELETE Successfully!',
@@ -186,7 +186,7 @@
                                 <div class="mb-3">
                                     <label for="rating" class="form-label">Rating</label>
                                     <input type="text" class="form-control" id="rating" name="book_rating" min="1"
-                                        max="5" step="0.1" value="N/A" readonly>
+                                        max="5" step="0.1" value="<?= $books_row['book_rating'] ?>">
                                 </div>
                             </div>
                         </div>
@@ -309,32 +309,32 @@
                                 <label for="image1" class="form-label">Image 1</label>
                                 <input type="file" class="form-control" id="image1" name="img1" accept="image/*"
                                     onchange="previewImage(1)" required>
-                                <img id="preview1" src="../../assets/images/<?= $books_row['img1'] ?>"
-                                    alt="Image 1 Preview" class="img-fluid mt-2" style="">
+                                <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                                    style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image2" class="form-label">Image 2</label>
                                 <input type="file" class="form-control" id="image2" name="img2" accept="image/*"
                                     onchange="previewImage(2)" required>
-                                <img id="preview2" src="../../assets/images/<?= $books_row['img2'] ?>"
-                                    alt="Image 2 Preview" class="img-fluid mt-2" style="">
+                                <img id="preview2" src="../../images/<?= $books_row['img2'] ?>" alt="Image 2 Preview" class="img-fluid mt-2"
+                                    style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image3" class="form-label">Image 3</label>
                                 <input type="file" class="form-control" id="image3" name="img3" accept="image/*"
                                     onchange="previewImage(3)" required>
-                                <img id="preview3" src="../../assets/images/<?= $books_row['img3'] ?>"
-                                    alt="Image 3 Preview" class="img-fluid mt-2" style="">
+                                <img id="preview3" src="../../images/<?= $books_row['img3'] ?>" alt="Image 3 Preview" class="img-fluid mt-2"
+                                    style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image4" class="form-label">Image 4</label>
                                 <input type="file" class="form-control" id="image4" name="img4" accept="image/*"
                                     onchange="previewImage(4)" required>
-                                <img id="preview4" src="../../assets/images/<?= $books_row['img4'] ?>"
-                                    alt="Image 4 Preview" class="img-fluid mt-2" style="">
+                                <img id="preview4" src="../../images/<?= $books_row['img4'] ?>" alt="Image 4 Preview" class="img-fluid mt-2"
+                                    style="">
                             </div>
                         </div>
-
+                        
                         <hr>
 
                         <div class="row mt-3">

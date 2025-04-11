@@ -185,9 +185,7 @@ if (isset($_GET['code'])) {
 
     <!-- Book Sets Section for Old Books (Third Carousel) -->
     <?php include_once "includes/e-Book.php"; ?>
-    <?php
-    //  include_once "includes/booksetBook.php"; 
-     ?>
+    <?php //include_once "includes/booksetBook.php"; ?>
 
     <!-- Floating Sell Button -->
     <a href="sell/sell.php" class="floating-sell-btn flex w-full justify-center items-center xl:hidden md:hidden  ">

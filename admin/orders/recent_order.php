@@ -101,7 +101,11 @@
                                         <tr>
                                             <td>#<?= $orders['id'] ?></td>
                                             <td>
-                                                
+                                                <?php
+                                                // अगर $user_dp['dp'] खाली है या सेट नहीं है तो डिफ़ॉल्ट इमेज लगाएं
+                                                $profileImage = !empty($user_dp['dp']) ? "../../assets/user_dp/" . $user_dp['dp'] : "../../assets/defaultUser.webp";
+                                                ?>
+                                                <img src="<?= $profileImage ?>" class="rounded-circle me-2 user-dp">
                                                 <strong><?= $orders['email'] ?></strong>
                                             </td>
 
