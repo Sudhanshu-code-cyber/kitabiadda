@@ -62,7 +62,7 @@
                     <td><?= $book_detail['sell_price'] ?></td>
                     <td><?= $book_detail['language'] ?></td>
                     <td><?= $book_detail['quality'] ?></td>
-                    <td><?= $book_detail['book_rating'] ?></td>
+                    <td>5</td>
 
                     <td><a href="?delete_book=<?= $book_detail['id']; ?>" class="btn btn-danger btn-sm"><i
                           class="bi bi-trash3"></i></a>
