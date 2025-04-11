@@ -16,7 +16,7 @@ $selled_item= $callSelledBook->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sold Product - <?= htmlspecialchars($selled_item['title']) ?></title>
+    <title>Sold Product - <?= htmlspecialchars($selled_item['book_name']) ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -41,10 +41,7 @@ $selled_item= $callSelledBook->fetch_assoc();
                         <div class="md:w-2/3">
                             <div class="mb-4">
                                 <span class="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full mb-2">
-                                    Sold <?= date('M j, Y', strtotime($selled_item['post_date'])) ?>
-                                </span>
-                                <span class="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full ml-2">
-                                   Order Status
+                                    Sold On <?= date('M j, Y', strtotime($selled_item['post_date'])) ?>
                                 </span>
                             </div>
                             
@@ -54,45 +51,7 @@ $selled_item= $callSelledBook->fetch_assoc();
                                 <p class="text-gray-700"><span class="font-semibold">Condition:</span> <?= ucfirst($selled_item['quality']) ?></p>
                                 <p class="text-gray-700"><span class="font-semibold">Description:</span> <?= htmlspecialchars($selled_item['book_description']) ?></p>
                             </div>
-                            
-                            <div class="mt-6 pt-4 border-t border-gray-200">
-                                <h3 class="font-semibold text-lg mb-3">Buyer Information</h3>
-                                <div class="flex items-center gap-4 mb-4">
-                                    <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                        <?php if (!empty($selled_item['buyer_photo'])): ?>
-                                            <img src="<?= htmlspecialchars($selled_item['buyer_photo']) ?>" class="w-full h-full object-cover">
-                                        <?php else: ?>
-                                            <i class="fas fa-user text-gray-400 text-xl"></i>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Buyer Name</p>
-                                        <p class="text-sm text-gray-600">Buyer Email</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <p class="text-gray-700"><i class="fas fa-phone-alt mr-2 text-blue-500"></i> Buyer Mobile</p>
-                                    <p class="text-gray-700"><i class="fas fa-map-marker-alt mr-2 text-blue-500"></i> Shipping Address</p>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Order Timeline -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Order Timeline</h2>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="flex-shrink-0 h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-white">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">Order Completed</p>
-                                <p class="text-sm text-gray-500">Final Sold Date</p>
-                            </div>
-                        </div>
-                        <!-- Add more timeline items as needed -->
                     </div>
                 </div>
             </div>
