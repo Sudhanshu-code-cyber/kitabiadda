@@ -130,13 +130,7 @@ if ($userId) {
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .price-tag {
-            background: linear-gradient(135deg, #3D8D7A, #2F6D5E);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-        }
+        
     </style>
 </head>
 
@@ -217,11 +211,11 @@ if ($userId) {
                                 <p class="text-sm text-gray-600 mb-2"><?= $book['book_author'] ?></p>
                                 
                                 <div class="flex items-center justify-between mt-3">
-                                    <div class="flex">
+                                    <div class="flex  justify-between items-center">
                                         <?php if ($mrp > $sell_price): ?>
                                             <span class="text-xs text-gray-500 line-through mr-2">₹<?= $mrp ?></span>
                                         <?php endif; ?>
-                                        <span class="price-tag font-bold">₹<?= $sell_price ?></span>
+                                        <span class=" text-[#3D8D7A] font-bold">₹<?= $sell_price ?></span>
                                     </div>
                                     <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= ucfirst($book['version']) ?></span>
                                 </div>
