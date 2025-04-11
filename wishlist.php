@@ -208,7 +208,7 @@ if ($userId) {
                             <!-- Book Details -->
                             <div class="p-4">
                                 <h3 class="font-bold text-gray-800 mb-1 truncate"><?= $book['book_name'] ?></h3>
-                                <p class="text-sm text-gray-600 mb-2"><?= $book['book_author'] ?></p>
+                                <p class="text-sm text-gray-600 mb-2 truncate"><?= $book['book_author'] ?></p>
                                 
                                 <div class="flex items-center justify-between mt-3">
                                     <div class="flex  justify-between items-center">
