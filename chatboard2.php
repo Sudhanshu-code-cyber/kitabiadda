@@ -149,17 +149,13 @@ if (isset($_GET['product_id'])) {
 
             .chat-list {
                 height: 100%;
-                display:
-                    <?= $book_id ? 'none' : 'block' ?>
-                ;
+                display: <?= $book_id ? 'none' : 'block' ?>;
                 margin-top: 7.5rem
             }
 
             .chat-window {
                 height: 100%;
-                display:
-                    <?= $book_id ? 'flex' : 'none' ?>
-                ;
+                display: <?= $book_id ? 'flex' : 'none' ?>;
                 margin-top: 7rem
             }
 
@@ -204,31 +200,27 @@ if (isset($_GET['product_id'])) {
 
 
         <!-- Chat List -->
-        <div
-            class="chat-list w-full lg:w-4/12 border-r border-gray-200 bg-white lg:h-[600px] h-full overflow-y-auto shadow-sm">
+        <div class="chat-list w-full lg:w-4/12 border-r border-gray-200 bg-white lg:h-[600px] h-full overflow-y-auto shadow-sm">
             <!-- Header with Search -->
-            <div
-                class="p-4 bg-gradient-to-r from-[#B3D8A8] to-[#9BC58D] flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-gray-200 sticky top-0 z-10">
+            <div class="p-4 bg-gradient-to-r from-[#B3D8A8] to-[#9BC58D] flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-gray-200 sticky top-0 z-10">
                 <h2 class="text-xl font-bold text-gray-800 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                     INBOX(<?= $totalChats ?>)
                 </h2>
                 <form action="" method="get" class="w-full sm:w-auto">
                     <div class="relative flex outline-none">
-                        <input type="search" name="search_users" value="<?= htmlspecialchars($searchUser) ?>"
+                        <input type="search"
+                            name="search_users"
+                            value="<?= htmlspecialchars($searchUser) ?>"
                             placeholder="Search conversations..."
                             class="block w-full px-4 py-1 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
                             aria-label="Search conversations">
                         <button type="submit"
                             class=" bg-[#3D8D7A] text-white font-medium rounded-r-lg px-4 cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </button>
                     </div>
@@ -253,28 +245,21 @@ if (isset($_GET['product_id'])) {
                         $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
                         $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
                         $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
-                        ?>
+                    ?>
                         <div class="relative">
-                            <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>"
-                                class="block transition duration-150 ease-in-out <?= $activeClass ?>">
+                            <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>" class="block transition duration-150 ease-in-out <?= $activeClass ?>">
                                 <div class="flex items-center gap-4 p-4 rounded-lg">
                                     <div class="relative flex-shrink-0">
-                                        <img src="assets/images/<?= $bookImgRow['img1']; ?>"
-                                            class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
+                                        <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
                                         <?php if (rand(0, 1)): ?>
                                         <?php endif; ?>
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-baseline">
-                                            <h2 class="text-sm font-semibold text-gray-800 truncate">
-                                                <?= htmlspecialchars($chat["name"]); ?>
-                                            </h2>
-                                            <p class="text-xs text-gray-500">
-                                                <?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?>
-                                            </p>
+                                            <h2 class="text-sm font-semibold text-gray-800 truncate"><?= htmlspecialchars($chat["name"]); ?></h2>
+                                            <p class="text-xs text-gray-500"><?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?></p>
                                         </div>
-                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?>
-                                        </p>
+                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?></p>
                                         <p class="text-xs text-gray-500 mt-1 truncate">
                                             <?= !empty($chat['last_message']) ? htmlspecialchars($chat['last_message']) : 'Start a conversation' ?>
                                         </p>
@@ -283,12 +268,20 @@ if (isset($_GET['product_id'])) {
                             </a>
 
                             <!-- Delete Icon - UPDATED to use product_id -->
-                            <a href="?product_id=<?= $chat['book_id']; ?>"
+                            <a
+                                href="?product_id=<?= $chat['book_id']; ?>"
                                 onclick="return confirm('Are you sure you want to delete this chat?');"
                                 class="absolute top-10 right-2 text-red-600 hover:text-red-800 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="size-6 text-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-6 text-gray-400">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
                                         d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
                             </a>
@@ -297,10 +290,8 @@ if (isset($_GET['product_id'])) {
                 </div>
             <?php else: ?>
                 <div class="flex flex-col items-center justify-center p-8 text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                     <h3 class="text-lg font-medium text-gray-500">
                         <?= empty($searchUser) ? 'No conversations yet' : 'No matching conversations found' ?>
@@ -320,7 +311,7 @@ if (isset($_GET['product_id'])) {
         <!-- Chat Window -->
         <?php if ($sellerdata && $sellerInfo): ?>
             <?php
-            $bookImgQuery = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
+            $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '$book_id'");
             $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
             ?>
             <div class="chat-window w-full lg:w-8/12   flex flex-col lg:h-[600px] h-[calc(100vh-112px)]">
@@ -331,19 +322,16 @@ if (isset($_GET['product_id'])) {
                                 <i class="fas fa-arrow-left"></i>
                             </a>
                         </div>
-                        <img src="assets/images/<?= $bookImgRow['img1']; ?>"
-                            class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
+                        <img src="assets/images/<?= $bookImgRow['img1']; ?>" class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
                         <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
                     <div class="flex justify-center items-center gap-10">
-                        <button id="open-drawer"
-                            class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
+                        <button id="open-drawer" class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
                             <i class="fas fa-phone mr-2"></i>
                         </button>
 
                         <!-- Dynamic Call Drawer -->
-                        <div id="call-drawer"
-                            class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                        <div id="call-drawer" class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
                             <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
 
                             <div class="flex flex-col items-center">
@@ -358,8 +346,7 @@ if (isset($_GET['product_id'])) {
                                         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
                                         <i class="fas fa-phone mr-2"></i>Call Now
                                     </a>
-                                    <button id="close-drawer"
-                                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                                    <button id="close-drawer" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                                         <i class="fas fa-times mr-2"></i>Close
                                     </button>
                                 </div>
@@ -372,61 +359,73 @@ if (isset($_GET['product_id'])) {
 
                 <div class="p-4 flex justify-between mx-2 lg:mx-6 border-b">
                     <div class="flex items-center">
-                        <img src="assets/images/<?= $sellerdata['img1']; ?>"
-                            class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
-                        <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none">
-                            <?= htmlspecialchars($sellerdata['book_name']); ?>
-                        </h2>
+                        <img src="assets/images/<?= $sellerdata['img1']; ?>" class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
+                        <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none"><?= htmlspecialchars($sellerdata['book_name']); ?></h2>
                     </div>
                     <p class="text-lg lg:text-xl font-semibold text-gray-600">₹ <?= $sellerdata['sell_price']; ?></p>
                 </div>
 
                 <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
                     <?php
-                    // पहले यूजर ID चेक करो ताकि warning ना आए
-                    $user_id = isset($user_id) ? $user_id : 0;
-
-                    // एक ही query से सभी messages ले आओ: sent और received दोनों
-                    $all_messages = $connect->query("
+                    // Fetch messages where current user is the RECEIVER (others sent to them)
+                    $receiver_messages = $connect->query("
         SELECT * FROM message 
-        WHERE sender_id = '$user_id' OR receiver_id = '$user_id'
+        WHERE receiver_id = '$user_id'
         ORDER BY msg_time ASC
     ");
 
-                    if ($all_messages->num_rows > 0) {
-                        while ($msg = $all_messages->fetch_array()):
-                            // sender खुद है तो message right side में दिखाओ
-                            $is_sent = $msg['sender_id'] == $user_id;
-                            ?>
-                            <div class="flex <?= $is_sent ? 'justify-end' : '' ?> mb-4">
-                                <div
-                                    class="<?= $is_sent ? 'bg-green-500 text-white' : 'bg-white text-black' ?> px-3 py-1 rounded-md max-w-xs">
-                                    <span class="text-md block">
+                    // Fetch messages where current user is the SENDER (they sent to others)
+                    $sender_messages = $connect->query("
+        SELECT * FROM message 
+        WHERE sender_id = '$user_id'
+        ORDER BY msg_time ASC
+    ");
+
+                    // Display RECEIVED messages (from others)
+                    if ($receiver_messages->num_rows > 0) {
+                        while ($msg = $receiver_messages->fetch_array()):
+                    ?>
+                            <div class="flex mb-4"> <!-- Left-aligned for received messages -->
+                                <div class="bg-white px-3 py-1 rounded-md">
+                                    <span class="text-md text-black block">
                                         <?= htmlspecialchars($msg['message']) ?>
                                     </span>
-                                    <p class="text-xs <?= $is_sent ? 'text-white' : 'text-gray-600' ?>">
+                                    <p class="text-xs text-gray-600">
                                         <?= date("h:i A", strtotime($msg['msg_time'])) ?>
                                     </p>
                                 </div>
                             </div>
-                            <?php
-                        endwhile;
-                    } else {
+                        <?php endwhile;
+                    }
+
+                    // Display SENT messages (from current user)
+                    if ($sender_messages->num_rows > 0) {
+                        while ($msg = $sender_messages->fetch_array()):
+                        ?>
+                            <div class="flex justify-end mb-4"> <!-- Right-aligned for sent messages -->
+                                <div class="bg-green-500 px-3 py-1 rounded-md">
+                                    <span class="text-md text-white block">
+                                        <?= htmlspecialchars($msg['message']) ?>
+                                    </span>
+                                    <p class="text-xs text-white">
+                                        <?= date("h:i A", strtotime($msg['msg_time'])) ?>
+                                    </p>
+                                </div>
+                            </div>
+                    <?php endwhile;
+                    }
+
+                    // If no messages exist
+                    if ($receiver_messages->num_rows == 0 && $sender_messages->num_rows == 0) {
                         echo "<p class='text-gray-500 text-center'>No messages found.</p>";
                     }
                     ?>
                 </div>
 
-
-
-
                 <div class="p-3 lg:p-4 border-t flex items-center gap-2 bg-white sticky bottom-0">
                     <form action="" method="post" class="flex w-full gap-2">
-                        <input type="text" name="message" placeholder="Type a message..."
-                            class="flex-1 p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500"
-                            required>
-                        <button name="send_msg"
-                            class="bg-green-500 hover:bg-green-600 text-white p-2 lg:p-3 rounded-lg transition">
+                        <input type="text" name="message" placeholder="Type a message..." class="flex-1 p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500" required>
+                        <button name="send_msg" class="bg-green-500 hover:bg-green-600 text-white p-2 lg:p-3 rounded-lg transition">
                             <i class="fas fa-paper-plane lg:mr-1"></i>
                             <span class="hidden lg:inline">Send</span>
                         </button>
@@ -434,8 +433,7 @@ if (isset($_GET['product_id'])) {
                 </div>
             </div>
         <?php else: ?>
-            <div
-                class="chat-window w-full lg:w-8/12 bg-white flex items-center justify-center lg:h-[600px] h-[calc(100vh-112px)] text-gray-500 text-lg">
+            <div class="chat-window w-full lg:w-8/12 bg-white flex items-center justify-center lg:h-[600px] h-[calc(100vh-112px)] text-gray-500 text-lg">
                 <div class="text-center p-6">
                     <i class="fas fa-comments text-4xl mb-3 text-gray-300"></i>
                     <p>No chat selected</p>
@@ -482,7 +480,7 @@ if (isset($_GET['product_id'])) {
         });
 
         // Auto-scroll to bottom of chat messages
-        window.onload = function () {
+        window.onload = function() {
             const chatMessages = document.getElementById("chatMessages");
             if (chatMessages) {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -496,7 +494,7 @@ if (isset($_GET['product_id'])) {
         };
 
         // Handle mobile view transitions
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // This ensures proper display when navigating back
             if (window.innerWidth <= 768) {
                 const urlParams = new URLSearchParams(window.location.search);
