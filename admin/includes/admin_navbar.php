@@ -105,7 +105,7 @@
 
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="btn btn-danger" href="#">Logout</a>
+        <a class="btn btn-danger" href="../logout.php">Logout</a>
       </li>
     </ul>
   </div>

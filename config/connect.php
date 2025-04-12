@@ -16,6 +16,15 @@
             return $userData;
     }
 
+     // get user information
+     function getAdminDetails(){
+        global $connect;
+        $email = $_SESSION['admin'];
+        $query = $connect->query("select * from users where email='$email' and isAdmin=1");
+        $adminData = $query->fetch_array();
+        return $adminData;
+}
+
     // redirect If Not Authentication Function
     function redirectIfNotAuth(){
         if(!isset($_SESSION["user"])){

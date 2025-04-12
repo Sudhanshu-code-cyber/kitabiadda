@@ -1,14 +1,6 @@
-<?php include_once '../config/connect.php';
-// $_SESSION['admin'] = $email;
-if (isset($_SESSION['admin'])) {
-    // $user = getUser();
-    redirect("../login.php");
-}
-;
-// if($_SESSION['admin']){
-//     // $_SESSION['admin'] = $email;
-//     redirect("../login.php");
-// }
+<?php 
+    include_once '../config/connect.php';
+    include_once 'includes/redirectIfNotAdmin.php'
 ?>
 
 <!DOCTYPE html>
@@ -88,18 +80,20 @@ if (isset($_SESSION['admin'])) {
 
                         <!-- Orders -->
                         <div class="col-lg-3 col-md-6">
-                            <a href="orders/recent_order.php" class="text-decoration-none text-dark"><div class="card p-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>Orders</span>
-                                    <div class="icon-box">
-                                        🛒
+                            <a href="orders/recent_order.php" class="text-decoration-none text-dark">
+                                <div class="card p-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>Orders</span>
+                                        <div class="icon-box">
+                                            🛒
+                                        </div>
                                     </div>
+                                    <h3 class="fw-bold mt-2">
+                                        <?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from orders")) ?>
+                                    </h3>
+                                    <span class="down">⬇ 1.08%</span> <small class="text-muted">Since last month</small>
                                 </div>
-                                <h3 class="fw-bold mt-2">
-                                    <?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from orders")) ?>
-                                </h3>
-                                <span class="down">⬇ 1.08%</span> <small class="text-muted">Since last month</small>
-                            </div></a>
+                            </a>
                         </div>
 
                         <!-- Revenue -->
@@ -112,7 +106,7 @@ if (isset($_SESSION['admin'])) {
                                     </div>
                                 </div>
                                 <?php
-                                
+
                                 $query = "SELECT SUM(cart.qty * books.sell_price) AS total_revenue FROM cart JOIN books ON cart.item_id = books.id WHERE cart.direct_buy = 2";
 
                                 $result = mysqli_query($connect, $query);
