@@ -71,12 +71,11 @@
 </head>
 
 <body style="background-color:#FBFFE4;">
-
+    <
     <div class="container text-center team-section">
         <h2 class="mb-4" data-aos="fade-up">Meet Our Team</h2>
         <div class="row justify-content-center">
-            <!-- First Member (Smaller Width) -->
-            <!-- <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
+             <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
                 <div class="card member-card w-50" style="align-items-center justify-content:center margin-left:25%">
                     <img src="../assets/images/sadiqsir.jpg" alt="Member">
                     <div class="member-info">
@@ -95,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- Other Members -->
             <div class="col-md-4 m-3" data-aos="fade-up" data-aos-delay="200">
