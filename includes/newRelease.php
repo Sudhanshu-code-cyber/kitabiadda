@@ -47,7 +47,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
             </button>
 
             <!-- Scrollable Book Cards -->
-            <div id="bookScroll" class="flex space-x-4 overflow-x-auto scroll-smooth px-10 pb-4">
+            <div id="bookScroll" class="flex space-x-4 overflow-x-auto scroll-smooth  sm:px-10 pb-4">
 
                 <?php while ($book = $booksQuery->fetch_assoc()):
                     // Get book details
@@ -65,7 +65,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
 
                     <!-- Book Card -->
                     <div
-                        class="bg-white p-3 rounded-lg shadow-md border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl duration-300 ">
+                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03] ">
                         <!-- Discount Badge (Smaller on Mobile) -->
                         <div class="discount-badge ">
                         <?= $percentage ?>% OFF
