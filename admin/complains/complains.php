@@ -1,9 +1,6 @@
-<?php include_once '../../config/connect.php';
-if (isset($_SESSION['admin'])) {
-    redirect("../login.php");
-}
-;
-
+<?php 
+    include_once '../../config/connect.php';
+    include_once '../includes/redirectIfNotAdmin.php';
 ?>
 
 <!DOCTYPE html>

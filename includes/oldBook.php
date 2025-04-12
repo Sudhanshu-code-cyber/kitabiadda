@@ -42,7 +42,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                 &#8592;
             </button>
 
-            <div id="bookScroll2" class="flex space-x-4 overflow-x-auto scroll-smooth px-10 md:px-10  pb-4">
+            <div id="bookScroll2" class="flex space-x-4 overflow-x-auto scroll-smooth  sm:px-10 pb-4">
                 <?php while ($book = $booksQuery->fetch_assoc()):
                     $bookId = $book['id'];
                     $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
@@ -60,7 +60,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     $address = mysqli_fetch_array($callAdd);
                     ?>
                     <div
-                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-48 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl">
+                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
 
                         <!-- Discount Badge -->
                         <div
@@ -130,7 +130,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                                 </div>
 
                                 <!-- Location and Time -->
-                                <div class="flex justify-between items-center mt-3 pt-2 border-t border-gray-100">
+                                <div class="flex justify-between items-center mt-2  border-t border-gray-100">
                                     <div class="flex items-center text-xs text-gray-500">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1 text-[#3D8D7A]"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
