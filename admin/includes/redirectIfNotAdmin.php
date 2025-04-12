@@ -7,16 +7,17 @@ else {
     echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
-                title: '🔒 Access Denied!',
-                text: 'You Are not Admin',
-                icon: 'error',
-            })
+            icon: 'error',
+            title: '🔒 Access Denied!',
+            text: 'You Are Not an Admin',
+            });
 
-            // ⏳ Auto Redirect after 5 seconds
+            // ⏳ Auto Redirect after 2 seconds
             setTimeout(() => {
                 window.location.href = '../index.php';
-            }, 5000);
+            }, 2000);
         });
     </script>";
     exit();
 }
+$adminName = $admin['name'];

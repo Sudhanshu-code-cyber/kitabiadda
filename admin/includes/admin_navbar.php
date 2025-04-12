@@ -101,11 +101,12 @@
   <i class="bi bi-layout-text-sidebar bg-dark"></i>
     </button>
 
-    <a class="navbar-brand " href="../../../kitabiadda/admin/index.php">Admin Panel</a>
+    <a class="navbar-brand " href="index.php">Admin Panel</a>
 
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="btn btn-danger" href="../logout.php">Logout</a>
+        <a class="btn btn-success" href="../index.php">Home</a>
       </li>
     </ul>
   </div>

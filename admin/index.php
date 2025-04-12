@@ -1,6 +1,7 @@
 <?php 
     include_once '../config/connect.php';
     include_once 'includes/redirectIfNotAdmin.php'
+    
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +58,7 @@
 
         <div class="main-content">
             <div class="content flex-grow-1 p-4">
-                <h2>Welcome to Read Rainbow</h2>
+                <h2>Hello Admin <?= $adminName;?></h2>
                 <div class="container py-5">
                     <div class="row g-4">
                         <!-- Customers -->

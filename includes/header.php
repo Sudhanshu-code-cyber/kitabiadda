@@ -5,9 +5,6 @@ if (isset($_SESSION['user'])) {
 }
 $userId = $user ? $user['user_id'] : null;
 $userEmail = $user ? $user['email'] : null;
-
-
-
 ?>
 <div class="flex fixed w-full z-50 top-0 xl:gap-10 lg:gap-[5rem] md:gap-7  items-center bg-[#3D8D7A] px-[5%] py-3">
     <!-- Logo -->
@@ -158,12 +155,12 @@ $userEmail = $user ? $user['email'] : null;
                     class="flex items-center text-sm pe-1 font-medium text-[#FBFFE4] bg-gradient-to-br from-[#4a9c87] to-[#3D8D7A] shadow-md hover:shadow-lg hover:from-[#3D8D7A] hover:to-[#2a7d6a] border border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden rounded-full md:me-0 focus:ring-gray-100 cursor-pointer transition-colors"
                     type="button">
                     <img class="w-11 h-11 me-2 rounded-full" src="<?php
-                    if($user['dp'] == ""){
+                    if ($user['dp'] == "") {
                         echo "assets/defaultUser.webp";
-                    } elseif (substr($user['dp'], 0, 5) === 'https'){
-                        echo $user['dp'] ;
+                    } elseif (substr($user['dp'], 0, 5) === 'https') {
+                        echo $user['dp'];
                     } else {
-                        echo "assets/user_dp/" . $user['dp'] ;
+                        echo "assets/user_dp/" . $user['dp'];
                     }
                     ?>
                     " alt="user_dp">
@@ -196,6 +193,31 @@ $userEmail = $user ? $user['email'] : null;
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#4a9c87] hover:text-[#FBFFE4] transition-colors">Logout</a>
                     </div>
                 </div>
+            </div>
+        <?php elseif (isset($_SESSION['admin'])): ?>
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                class="flex items-center text-sm pe-1 font-medium text-[#3D8D7A] bg-[#FBFFE4] hover:bg-[#e8f5d0] shadow-md hover:shadow-lg  border-[#FBFFE4]/20 hover:border-[#FBFFE4]/40 transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-95 group overflow-hidden rounded-full md:me-0 focus:ring-gray-100 cursor-pointer transition-colors px-3 py-2"
+                type="button">Admin<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
+                </svg>
+            </button>
+
+            <div id="dropdown"
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <a href="admin/index.php"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Admin
+                            Panel</a>
+                    </li>
+                    <li>
+                        <a href="logout.php"
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                            out</a>
+                    </li>
+                </ul>
             </div>
         <?php else: ?>
             <a href="login.php"
@@ -254,12 +276,12 @@ $userEmail = $user ? $user['email'] : null;
                 </svg>
                 Chat
             </div>
-           <?php if
-           ($chatCountData > 0){
+            <?php if
+            ($chatCountData > 0) {
+                ?>
+                <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full"><?= $chatCountData; ?></span>
+            <?php }
             ?>
-            <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full"><?= $chatCountData;?></span>
-          <?php }  
-        ?>
         </a>
 
         <a href="sell/sell.php"
