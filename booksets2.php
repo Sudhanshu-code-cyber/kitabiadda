@@ -9,13 +9,13 @@ if (isset($_SESSION['user'])) {
     $user = getUser();
 }
 
-if (!isset($_GET['bookType'])) {
-    redirect("index.php");
-    exit;
+if (!isset($_GET['bookType2'])) {
+    // redirect("index.php");
+    // exit;
 }
 
-$bookType = $_GET["bookType"];
-$query = $connect->query("SELECT * FROM books WHERE version='$bookType' order by id DESC");
+$bookType2 = $_GET["bookType2"];
+$query = $connect->query("SELECT * FROM books WHERE book_category='$bookType2' order by id DESC");
 
 if ($query->num_rows == 0) {
     header("Location: index.php");
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     }
 
     // Redirect to the same page
-    redirect("booksets1.php?bookType=" . urlencode($bookType));
+    redirect("booksets1.php?bookType=" . urlencode($bookType2));
     exit;
 }
 ?>
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_wishlist1']) &
     <div
         class="mt-30  bg-[#FBFFE4] text-gray-800 font-sans bg-[url('https://www.transparenttextures.com/patterns/white-wall-3.png')]">
         <div class="bg-white border-b border-gray-200 py-5 shadow-xl px-5">
-            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?= ($bookType); ?> Books"
+            <h1 class="text-xl font-semibold">Showing <?= $query->num_rows; ?> results for "<?= ($bookType2); ?> Books"
             </h1>
         </div>
 
