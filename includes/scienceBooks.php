@@ -11,7 +11,7 @@ $userId = $user ? $user['user_id'] : null;
 $userEmail = $user ? $user['email'] : null;
 
 // Fetch old books
-$booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY id DESC");
+$booksQuery = $connect->query("SELECT * FROM books WHERE book_category='science' ORDER BY id DESC");
 
 ?>
 
@@ -32,9 +32,9 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
 <section class="mt-10">
     <div class="w-full mx-auto px-[2%]">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Old Book</h2>
-            <a href="booksets1.php?bookType=old" class="text-orange-500 font-semibold hover:underline">View All</a>
-        </div>
+            <h2 class="text-2xl font-bold">Science</h2>
+            <a href="booksets2.php?bookType2=science" class="text-orange-500 font-semibold hover:underline">View All</a>
+                    </div>
 
         <div class="relative">
             <!-- Left Arrow -->
