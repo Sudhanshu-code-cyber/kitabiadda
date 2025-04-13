@@ -35,7 +35,10 @@
 // message 
 function message($mass)
 {
-    echo "<script>alert('$mass')</script>";
+    echo "<script>
+        alert('$mass');
+        window.history.back();
+    </script>";
 }
 
 function redirect($page){
