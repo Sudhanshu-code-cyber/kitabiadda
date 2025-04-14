@@ -84,38 +84,14 @@ $total_items = $items_query->num_rows;
                         <?= date("F j, Y, g:i a", strtotime($order['order_time'])) ?>
                     </p>
 
+
                     <!-- Order Status Badge -->
-                    <?php
-                    $status_class = "";
-                    $status_text = "";
-                    switch ($order['status']) {
-                        case 1:
-                            $status_class = "bg-green-200 text-green-900";
-                            $status_text = "Delivered";
-                            break;
-                        case 2:
-                            $status_class = "bg-orange-200 text-orange-900";
-                            $status_text = "Shipped";
-                            break;
-                        case 3:
-                            $status_class = "bg-yellow-200 text-yellow-900";
-                            $status_text = "In Transit";
-                            break;
-                        case 4:
-                            $status_class = "bg-blue-200 text-blue-900";
-                            $status_text = "Out for Delivery";
-                            break;
-                        default:
-                            $status_class = "bg-gray-200 text-gray-800";
-                            $status_text = "Processing";
-                            break;
-                    }
-                    ?>
-                    <div class="mt-3">
-                        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <?= $status_class ?>">
-                            <?= $status_text ?>
-                        </span>
-                    </div>
+
+                    <!-- Button to show popup -->
+                    <button onclick="showPopup()"
+                        class="px-4 py-1 bg-orange-500 mt-2 text-white rounded-sm hover:bg-orange-600 transition duration-300">
+                        Show Order Status
+                    </button>
                 </div>
 
                 <div class="mt-5 md:mt-0">
@@ -202,49 +178,135 @@ $total_items = $items_query->num_rows;
 
     </div>
 
-    <script>
-        // PDF Generation
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const element = document.getElementById('invoice-content');
-
-            // Show loading
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<span class="animate-pulse">Generating PDF...</span>';
-            button.disabled = true;
-
-            html2canvas(element, {
-                scale: 2,
-                logging: false,
-                useCORS: true
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210; // A4 width in mm
-                const pageHeight = 295; // A4 height in mm
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-
-                pdf.save(`Invoice_${<?= $order_id ?>}.pdf`);
-
-                // Restore button
-                button.innerHTML = originalText;
-                button.disabled = false;
-            });
-        }
-    </script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+<script>
+    function showPopup() {
+        const popup = document.getElementById('statusPopup');
+        const line = document.getElementById('statusLine');
+        popup.classList.remove('hidden');
+        popup.classList.add('transform', 'translate-y-0', 'transition-all', 'duration-500');
+        line.classList.remove('hidden');
+        line.classList.add('animate-line');
+    }
+
+    function closePopup() {
+        const popup = document.getElementById('statusPopup');
+        popup.classList.add('hidden');
+    }
+</script>
+<style>
+    @keyframes animateLine {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    .animate-line {
+        animation: animateLine 2s forwards;
+    }
+</style>
+
+
+<!-- Order Status Popup -->
+<div id="statusPopup"
+    class="hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white text-black py-4 px-6 text-center text-lg z-50 shadow-xl rounded-lg mt-4">
+    <div>
+        <h2 class="font-semibold text-xl">Order Status</h2>
+        <div id="statusLine" class="h-1 bg-blue-600 mt-4 hidden"></div>
+        <div class="mt-4 space-y-3">
+            <?php
+            if ($order['status'] == 0) { ?>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                    <span>Order Confirmed</span>
+                </div>
+            <?php } elseif ($order['status'] == 1) { ?>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                    <span>Order Confirmed</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                    <span>Preparing for Shipment</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                    <span>Shipped</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-purple-400 rounded-full mr-3"></span>
+                    <span>Out for Delivery</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-teal-400 rounded-full mr-3"></span>
+                    <span>Delivered</span>
+                </div>
+
+
+            <?php } elseif ($order['status'] == 2) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+
+
+            <?php } elseif ($order['status'] == 3) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                <span>Shipped</span>
+            </div>
+
+            <?php } elseif ($order['status'] == 4) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                <span>Shipped</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-purple-400 rounded-full mr-3"></span>
+                <span>Out for Delivery</span>
+            </div>
+
+
+            <?php } ?>
+           
+            
+        </div>
+    </div>
+    <button onclick="closePopup()"
+        class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Close</button>
+</div>
