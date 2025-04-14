@@ -418,7 +418,7 @@ if (isset($_GET['minus_book'])) {
                 <div class="bg-white shadow-md rounded-lg w-full border mt-4">
                     <!-- Header -->
                     <div class="bg-[#3D8D7A] text-white font-semibold p-3 rounded-t-lg flex items-center space-x-2">
-                    <span class="bg-[#205781] px-2 py-1 text-xs rounded">3</span>
+                        <span class="bg-[#205781] px-2 py-1 text-xs rounded">3</span>
                         <span>ORDER SUMMARY</span>
                     </div>
 
@@ -549,21 +549,24 @@ if (isset($_GET['minus_book'])) {
                 </div>
                 <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
 
+                <!-- Desktop version: Show only on sm and above -->
                 <div
-                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
+                    class="hidden sm:flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
                     <!-- Email Confirmation Message -->
                     <p class="text-gray-700 text-sm text-center sm:text-left">
                         Order confirmation email will be sent to
                         <span class="font-bold"><?= $email ?></span>
                     </p>
 
-                    <!-- Continue Button -->
+                    <!-- Desktop Place Order Button -->
                     <button name="order_submit"
                         class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600 w-full sm:w-auto mt-3 sm:mt-0">
                         PLACE ORDER
                     </button>
-                    </form>
                 </div>
+
+
+
 
             </div>
             <?php
@@ -595,6 +598,22 @@ if (isset($_GET['minus_book'])) {
             </div>
 
         </div>
+        <!-- Mobile Fixed Bar: Show only on small screens -->
+
+        <div class="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
+            <div class="flex items-center justify-between px-4 py-3">
+                <div class="flex flex-col">
+                    <span class="text-sm text-gray-600">Total</span>
+                    <span class="text-lg font-bold text-orange-600">₹<?= $totleSellPrice ?></span>
+                </div>
+                <form method="POST" class="ml-2">
+                    <button name="order_submit"
+                        class="bg-orange-500 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-orange-600 transition-colors duration-200 transform hover:scale-105 active:scale-95">
+                        PLACE ORDER
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
@@ -602,7 +621,7 @@ if (isset($_GET['minus_book'])) {
 
 </html>
 <?php
-include_once "includes/footer2.php";
+
 ?>
 
 
@@ -621,6 +640,13 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
         $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
      VALUES ('$email', '$totleSellPrice2', 'direct', '$payment_type',1)");
 
+
+        // last order id 
+        $last_id_query = mysqli_query($connect, "SELECT id FROM orders WHERE email='$email' ORDER BY id DESC LIMIT 1");
+        $row = mysqli_fetch_assoc($last_id_query);
+        $last_id = $row['id'];
+
+
         if ($insertOrder) {
             echo '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -631,7 +657,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "index.php"; // Redirect to home page
+                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to home page
             });
         </script>
         ';
