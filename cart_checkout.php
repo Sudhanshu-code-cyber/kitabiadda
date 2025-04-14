@@ -755,6 +755,11 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
         $insertOrder = mysqli_query($connect, "INSERT INTO orders (email, total_amount, order_from, payment_type,direct_buy) 
      VALUES ('$email', '$totleSellPrice', 'cart', '$payment_type',1)");
 
+      // last order id 
+      $last_id_query = mysqli_query($connect, "SELECT id FROM orders WHERE email='$email' ORDER BY id DESC LIMIT 1");
+      $row = mysqli_fetch_assoc($last_id_query);
+      $last_id = $row['id'];
+
         if ($insertOrder) {
             echo '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -765,7 +770,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "profile.php"; // Redirect to home page
+                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to home page
             });
         </script>
         ';

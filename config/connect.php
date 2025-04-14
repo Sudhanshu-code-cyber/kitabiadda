@@ -1,8 +1,8 @@
 <?php
-    // $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
+    $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
 
- $connect = new mysqli("localhost","adminroot", "QPvmUFR)hi3u","kitabiadda") or die("error connecting to database");
+//  $connect = new mysqli("localhost","adminroot", "QPvmUFR)hi3u","kitabiadda") or die("error connecting to database");
 
     // project configration
     define("PROJECT_NAME", "KitabiAdda");
@@ -37,10 +37,7 @@
 // message 
 function message($mass)
 {
-    echo "<script>
-        alert('$mass');
-        history.back();
-    </script>";
+    echo "<script>alert('$mass')</script>";
 }
 
 function redirect($page){
