@@ -155,13 +155,20 @@ $add = $callAdd->fetch_array();
         <form action="../actions/sellBook_action.php" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book Details</h2>
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book <?php if ($cat_id == 1) {
+                    echo "Set";
+                } ?>
+                    Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="relative">
                         <input type="text" name="book_name" placeholder=" " class="input-box border rounded w-full p-3"
                             data-validate="text" data-min="3" data-msg="Book Name" id="bookName"
                             oninput="validateField(this)">
-                        <label for="bookName" class="floating-label">Book Name</label>
+                        <label for="bookName" class="floating-label">Book <?php if ($cat_id == 1) {
+                    echo "Set";
+                } ?> <?php if ($cat_id == 1) {
+                    echo "Name [ science | maths | etc ] ";
+                } ?> </label>
                         <div id="bookNameFeedback" class="form-text text-sm "></div>
                     </div>
 
@@ -169,27 +176,35 @@ $add = $callAdd->fetch_array();
                         <input type="text" name="book_author" placeholder=" "
                             class="input-box border rounded w-full p-3" id="author" oninput="validateField(this)"
                             data-validate="text" data-min="2" data-msg="Author Name">
-                        <label for="author" class="floating-label">Author</label>
+                        <label for="author" class="floating-label">Author <?php if ($cat_id == 1) {
+                    echo "[ Kc.Sinha | rd.sharma | etc ]";
+                } ?></label>
                         <div id="authorFeedback" class="form-text text-sm"></div>
                     </div>
 
                     <div class="relative">
                         <input type="number" placeholder=" " name="mrp" class="input-box border rounded w-full p-3"
                             id="mrp" oninput="validateField(this)" data-validate="number" data-min="50" data-msg="MRP">
-                        <label for="mrp" class="floating-label">MRP</label>
+                        <label for="mrp" class="floating-label">MRP <?php if ($cat_id == 1) {
+                    echo "[ 213 | 433 | 98 | etc ]";
+                } ?></label>
                         <div id="mrpFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="sell_price"
                             class="input-box border rounded w-full p-3" id="sellingPrice" oninput="validateField(this)"
                             data-validate="number" data-msg="Selling Price">
-                        <label for="sellingPrice" class="floating-label">Selling Price</label>
+                        <label for="sellingPrice" class="floating-label">Selling Price <?php if ($cat_id == 1) {
+                    echo "[ 213 | 433 | 98 | etc ]";
+                } ?></label>
                         <div id="sellingPriceFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="pages" class="input-box border rounded w-full p-3"
                             id="pages">
-                        <label for="pages" class="floating-label">Total Pages</label>
+                        <label for="pages" class="floating-label">Total Pages <?php if ($cat_id == 1) {
+                    echo "[ 213 | 433 | 98 | etc ]";
+                } ?></label>
                     </div>
                     <select class="p-3 border rounded w-full" name="book_binding">
                         <option value="">Select Binding</option>
@@ -393,8 +408,8 @@ $add = $callAdd->fetch_array();
 
                     if ($callAdd->num_rows > 0): ?>
                         <div class="relative">
-                            <textarea name="address" rows="3" id="address"
-                                class="input-box border rounded w-full p-3" onblur="validateAddress()"><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?></textarea>
+                            <textarea name="address" rows="3" id="address" class="input-box border rounded w-full p-3"
+                                onblur="validateAddress()"><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?></textarea>
                             <label for="address" class="floating-label">Your Address</label>
                             <div id="addressFeedback" class="form-text text-sm mt-1 text-red-500"></div>
                         </div>
@@ -520,7 +535,9 @@ $add = $callAdd->fetch_array();
                 <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="4" id="description"
                     name="book_description" data-validate="text" data-min="10" data-msg="Book Description"
                     oninput="validateField(this)"></textarea>
-                <label for="description" class="floating-label">Enter book description...</label>
+                <label for="description" class="floating-label">Enter book description... <?php if ($cat_id == 1) {
+                    echo "[ Book1 -> Author -> Mrp -> sell_price -> Page -> ISBN ]";
+                } ?></label>
                 <div id="descriptionFeedback" class="form-text"></div>
             </div>
 

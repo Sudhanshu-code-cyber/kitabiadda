@@ -224,7 +224,7 @@ $total_items = $items_query->num_rows;
 
 <!-- Order Status Popup -->
 <div id="statusPopup"
-    class="hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white text-black py-4 px-6 text-center text-lg z-50 shadow-xl rounded-lg mt-4">
+    class="hidden fixed top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white text-black py-4 px-6 text-center text-lg z-50 shadow-xl rounded-lg mt-4">
     <div>
         <h2 class="font-semibold text-xl">Order Status</h2>
         <div id="statusLine" class="h-1 bg-blue-600 mt-4 hidden"></div>
