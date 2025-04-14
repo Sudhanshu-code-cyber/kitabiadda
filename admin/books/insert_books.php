@@ -308,14 +308,14 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                             <div class="col-md-3">
                                 <label for="image3" class="form-label">Image 3</label>
                                 <input type="file" class="form-control" id="image3" name="img3" accept="image/*"
-                                    onchange="previewImage(3)" required>
+                                    onchange="previewImage(3)">
                                 <img id="preview3" src="" alt="Image 3 Preview" class="img-fluid mt-2"
                                     style="display:none;">
                             </div>
                             <div class="col-md-3">
                                 <label for="image4" class="form-label">Image 4</label>
                                 <input type="file" class="form-control" id="image4" name="img4" accept="image/*"
-                                    onchange="previewImage(4)" required>
+                                    onchange="previewImage(4)">
                                 <img id="preview4" src="" alt="Image 4 Preview" class="img-fluid mt-2"
                                     style="display:none;">
                             </div>
@@ -333,16 +333,13 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                 if (isset($_POST['insert_book'])) {
                     $errors = [];
 
-                    $book_name = trim($_POST['book_name']);
+                    $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
                     if (!preg_match('/^[a-zA-Z0-9\s\-_,.()]+$/', $book_name)) {
                         $errors[] = "Book name is invalid.";
                     }
 
-                    $book_author = trim($_POST['book_author']);
-                    if (!preg_match('/^[a-zA-Z\s\.]+$/', $book_author)) {
-                        $errors[] = "Author name should only contain letters and spaces.";
-                    }
-
+                    $book_author = mysqli_real_escape_string($connect,$_POST['book_author']);
+                   
                     $book_binding = $_POST['book_binding'];
 
                     $mrp = trim($_POST['mrp']);
@@ -375,7 +372,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                         $errors[] = "Book quantity must be a valid number.";
                     }
 
-                    $book_description = trim($_POST['book_description']);
+                    $book_description = mysqli_real_escape_string($connect, $_POST['book_description']);
                     if (!preg_match('/^.{10,}$/', $book_description)) {
                         $errors[] = "Description must be at least 10 characters.";
                     }
