@@ -8,9 +8,9 @@ $userEmail = $user ? $user['email'] : null;
 ?>
 <div class="flex fixed w-full z-50 top-0 xl:gap-10 lg:gap-[5rem] md:gap-7  items-center bg-[#3D8D7A] px-[5%] py-3">
     <!-- Logo -->
-    <!-- <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">
+    <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">
         <img src="assets/logo5.png" alt="Logo" class="h-10  object-contain">
-    </a> -->
+    </a>
     <!-- Mobile Menu Button (Hamburger) - Hidden on desktop -->
     <div class="flex gap-2 ml-[8rem] md:hidden  md:ml-[17rem]">
         <div id="search-toggle"
