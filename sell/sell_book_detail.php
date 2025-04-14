@@ -302,6 +302,62 @@ $add = $callAdd->fetch_array();
                         feedback.classList.add('text-red-500');
                     }
                 }
+                function validateField(input) {
+                    const type = input.getAttribute('data-validate');
+                    const minLength = parseInt(input.getAttribute('data-min')) || 1;
+                    const msg = input.getAttribute('data-msg') || 'Field';
+                    const feedback = document.getElementById(input.id + 'Feedback');
+                    const value = input.value.trim();
+
+                    let isValid = false;
+                    let errorMsg = '';
+
+                    if (type === 'text') {
+                        const textPattern = /^[a-zA-Z0-9\s\u0900-\u097F,.'()/-]+$/;
+                        if (value === '') {
+                            errorMsg = `${msg} cannot be blank`;
+                        } else if (value.length < minLength) {
+                            errorMsg = `${msg} should be at least ${minLength} characters`;
+                        } else if (!textPattern.test(value)) {
+                            errorMsg = `${msg} contains invalid characters`;
+                        } else {
+                            isValid = true;
+                        }
+                    }
+
+                    else if (type === 'number') {
+                        if (input.id === 'pincode') {
+                            const pinPattern = /^[1-9][0-9]{5}$/;
+                            isValid = pinPattern.test(value);
+                            errorMsg = isValid ? '' : `${msg} should be a valid 6-digit pincode`;
+                        } else {
+                            const num = parseFloat(value);
+                            isValid = !isNaN(num) && num >= minLength;
+                            errorMsg = `${msg} should be at least ₹${minLength}`;
+                        }
+                    }
+
+                    else if (input.id === 'contact') {
+                        const phonePattern = /^[6-9]\d{9}$/;
+                        isValid = phonePattern.test(value);
+                        errorMsg = `${msg} should be a valid 10-digit mobile number`;
+                    }
+
+                    // Show feedback
+                    if (isValid) {
+                        input.classList.remove('border-red-500');
+                        input.classList.add('border-green-500');
+                        feedback.innerHTML = `<span class="text-green-600 font-small"></span>`;
+                        feedback.classList.remove('text-red-500');
+                        feedback.classList.add('text-green-600');
+                    } else {
+                        input.classList.remove('border-green-500');
+                        input.classList.add('border-red-500');
+                        feedback.innerHTML = `<span class="text-red-500 font-small">${errorMsg}</span>`;
+                        feedback.classList.remove('text-green-600');
+                        feedback.classList.add('text-red-500');
+                    }
+                }
             </script>
 
 
@@ -317,8 +373,11 @@ $add = $callAdd->fetch_array();
                             class="input-box border rounded w-full p-3" id="name">
                         <label for="name" class="floating-label">Full Name</label>
                     </div>
+                    <?php
+                    $contact = !empty($add['mobile']) ? $add['mobile'] : $user['contact'];
+                    ?>
                     <div class="relative">
-                        <input type="text" value="<?= htmlspecialchars($add['mobile']); ?>" name="contact"
+                        <input type="text" value="<?= htmlspecialchars($contact); ?>" name="contact"
                             class="input-box border rounded w-full p-3" id="contact" oninput="validateField(this)"
                             data-validate="phone" data-min="10" data-msg="Contact">
                         <label for="contact" class="floating-label">Contact Number</label>
@@ -335,8 +394,9 @@ $add = $callAdd->fetch_array();
                     if ($callAdd->num_rows > 0): ?>
                         <div class="relative">
                             <textarea name="address" rows="3" id="address"
-                                class="input-box border rounded w-full p-3"><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?></textarea>
+                                class="input-box border rounded w-full p-3" onblur="validateAddress()"><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?></textarea>
                             <label for="address" class="floating-label">Your Address</label>
+                            <div id="addressFeedback" class="form-text text-sm mt-1 text-red-500"></div>
                         </div>
                     <?php else: ?>
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
@@ -358,42 +418,59 @@ $add = $callAdd->fetch_array();
                     <?php endif; ?>
                 </div>
 
+
                 <!-- Hidden Address Form -->
                 <div id="addressForm" class="hidden bg-gray-50 p-4 rounded-lg mb-6">
                     <h4 class="text-lg font-medium text-gray-800 mb-4">Add New Address</h4>
                     <div id="newAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="relative">
-                            <input type="text" name="landmark" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="landmark" id="landmark" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
+                                data-min="3" data-msg="Landmark" onblur="validateField(this)">
                             <label class="floating-label">Landmark</label>
+                            <div id="landmarkFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="address" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="address" id="address" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
+                                data-min="5" data-msg="Street Address" onblur="validateField(this)">
                             <label class="floating-label">Street Address</label>
+                            <div id="addressFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="locality" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="locality" id="locality" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
+                                data-min="3" data-msg="Locality" onblur="validateField(this)">
                             <label class="floating-label">Locality</label>
+                            <div id="localityFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="city" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="city" id="city" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
+                                data-min="2" data-msg="City" onblur="validateField(this)">
                             <label class="floating-label">City</label>
+                            <div id="cityFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="state" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="state" id="state" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
+                                data-min="2" data-msg="State" onblur="validateField(this)">
                             <label class="floating-label">State</label>
+                            <div id="stateFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="pincode" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
+                            <input type="text" name="pincode" id="pincode" placeholder=" "
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4"
+                                data-validate="number" data-min="100000" data-msg="Pincode"
+                                onblur="validateField(this)">
                             <label class="floating-label">Pincode</label>
+                            <div id="pincodeFeedback" class="mt-1 text-sm"></div>
                         </div>
                     </div>
                 </div>
+
+
+
 
                 <div class="relative">
                     <input type="text" placeholder=" " class="input-box border rounded w-full p-3" id="location"

@@ -78,6 +78,7 @@ if (isset($_POST['submit_book'])) {
         message("Description must be at least 10 characters long.");
         exit();
     }
+    
 
     // Address Details
     $name = $_POST['name'];
