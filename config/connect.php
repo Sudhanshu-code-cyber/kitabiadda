@@ -1,6 +1,8 @@
 <?php
-    $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
+    // $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
+
+ $connect = new mysqli("localhost","adminroot", "QPvmUFR)hi3u","kitabiadda") or die("error connecting to database");
 
     // project configration
     define("PROJECT_NAME", "KitabiAdda");
@@ -16,15 +18,6 @@
             return $userData;
     }
 
-     // get user information
-     function getAdminDetails(){
-        global $connect;
-        $email = $_SESSION['admin'];
-        $query = $connect->query("select * from users where email='$email' and isAdmin=1");
-        $adminData = $query->fetch_array();
-        return $adminData;
-}
-
     // redirect If Not Authentication Function
     function redirectIfNotAuth(){
         if(!isset($_SESSION["user"])){
@@ -35,10 +28,7 @@
 // message 
 function message($mass)
 {
-    echo "<script>
-        alert('$mass');
-        window.history.back();
-    </script>";
+    echo "<script>alert('$mass')</script>";
 }
 
 function redirect($page){
