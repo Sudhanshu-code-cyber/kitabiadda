@@ -35,20 +35,20 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
 
                             <!-- Category -->
                             <?php
-                            $selected_cat = $_GET['cat_id'] ?? ''; // selected category from URL
+                            $selected_cat = $_GET['cat_id'] ?? '';
                             ?>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="book_category" class="form-label">Category</label>
-                                    <select class="form-select" id="book_category" name="book_category" required>
+                                    <select class="form-select" id="book_category" name="book_category" required
+                                        onchange="redirectToCategory(this)">
                                         <option value="">Choose Category</option>
                                         <?php
                                         $call_cat = mysqli_query($connect, "SELECT * FROM category");
                                         while ($cat_row = mysqli_fetch_array($call_cat)) {
-                                            $link = "?cat_id=" . urlencode($cat_row['id']);
                                             $selected = ($selected_cat == $cat_row['id']) ? 'selected' : '';
-                                            echo '<option value="' . $cat_row['cat_title'] . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
+                                            echo '<option data-id="' . $cat_row['id'] . '" value="' . htmlspecialchars($cat_row['cat_title']) . '" ' . $selected . '>' . htmlspecialchars($cat_row['cat_title']) . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -56,13 +56,15 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                             </div>
 
                             <script>
-                                document.getElementById("book_category").addEventListener("change", function () {
-                                    let selectedURL = this.value;
-                                    if (selectedURL) {
-                                        window.location.href = selectedURL;
+                                function redirectToCategory(selectElement) {
+                                    var selectedOption = selectElement.options[selectElement.selectedIndex];
+                                    var catId = selectedOption.getAttribute('data-id');
+                                    if (catId) {
+                                        window.location.href = "insert_books.php?cat_id=" + catId;
                                     }
-                                });
+                                }
                             </script>
+
 
 
 
@@ -220,8 +222,8 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                         </div>
 
                         <!-- <div class="row"> -->
-                            <!-- E-book Availability -->
-                            <!-- <div class="col-md-6">
+                        <!-- E-book Availability -->
+                        <!-- <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ebookAvailable" class="form-label">E-book Available</label>
                                     <select class="form-select" id="ebookAvailable" name="e_book_avl" required>
@@ -232,8 +234,8 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                                 </div>
                             </div> -->
 
-                            <!-- E-Book Price (Initially Hidden) -->
-                            <!-- <div class="col-md-6" id="ebookPriceField" style="display: none;">
+                        <!-- E-Book Price (Initially Hidden) -->
+                        <!-- <div class="col-md-6" id="ebookPriceField" style="display: none;">
                                 <div class="mb-3">
                                     <label for="e_book_price" class="form-label">E-Book Price</label>
                                     <input type="text" class="form-control" id="e_book_price" name="e_book_price">

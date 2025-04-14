@@ -1,3 +1,5 @@
+
+
 <?php include_once "config/connect.php"; ?>
 <?php
 require 'vendor/autoload.php';
@@ -184,7 +186,7 @@ if (isset($_GET['code'])) {
     <?php include_once "includes/oldBook.php"; ?>
 
     <!-- Book Sets Section for Old Books (Third Carousel) -->
-    <?php // include_once "includes/scienceBooks.php"; ?>
+    <?php include_once "includes/scienceBooks.php"; ?>
     <?php //include_once "includes/booksetBook.php"; ?>
 
     <!-- Floating Sell Button -->
