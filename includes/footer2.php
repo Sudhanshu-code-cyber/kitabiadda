@@ -49,10 +49,14 @@
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             Blog
                         </a></li>
-                   
+
                     <li><a href="contact.php" class="flex items-center group text-white/90 hover:text-white transition">
                             <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
                             Contact Us
+                        </a></li>
+                    <li><a href="club_member.php" class="flex items-center group text-white/90 hover:text-white transition">
+                            <span class="w-1.5 h-1.5 bg-white rounded-full mr-3 opacity-0 group-hover:opacity-100 transition"></span>
+                            Meet Our Team
                         </a></li>
                 </ul>
             </div>

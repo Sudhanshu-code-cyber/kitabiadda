@@ -1,9 +1,6 @@
 <?php
 include_once "config/connect.php";
-if (isset($_SESSION['user'])) {
-    $user = getUser();
-    $user_id = $user['user_id'];
-} else {
+if (!isset($_SESSION['user'])) {
     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
     echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -15,13 +12,7 @@ if (isset($_SESSION['user'])) {
                 confirmButtonText: 'Login Now',
                 denyButtonText: 'Go Back',
                 allowOutsideClick: false, 
-                allowEscapeKey: false, 
-                customClass: {
-                    popup: 'my-swal-popup',
-                    title: 'my-swal-title',
-                    confirmButton: 'my-swal-confirm-btn',
-                    denyButton: 'my-swal-deny-btn'
-                }
+                allowEscapeKey: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = 'login.php'; 
@@ -30,7 +21,6 @@ if (isset($_SESSION['user'])) {
                 }
             });
 
-            // ⏳ Auto Redirect after 5 seconds
             setTimeout(() => {
                 window.location.href = 'login.php';
             }, 5000);
@@ -39,72 +29,110 @@ if (isset($_SESSION['user'])) {
     exit();
 }
 
+$user = getUser();
+$user_id = $user['user_id'];
+
 $searchUser = isset($_GET['search_users']) ? trim($_GET['search_users']) : '';
-
 $book_id = $_GET['book_id'] ?? null;
-$sellerdata = null;
-$sellerInfo = null;
+$chat_with = $_GET['chat_with'] ?? null;
 
-if ($book_id) {
-    $getbook = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
-    $sellerdata = mysqli_fetch_array($getbook);
+// ✅ Handle message sending
+if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
+    $message = mysqli_real_escape_string($connect, $_POST['message']);
+    $receiver_id = $_POST['receiver_id'] ?? null;
 
-    if ($sellerdata) {
-        $seller_id = $sellerdata['seller_id'];
-        $getSellerInfo = $connect->query("SELECT name, contact, dp FROM users WHERE user_id = '$seller_id'");
-        $sellerInfo = mysqli_fetch_assoc($getSellerInfo);
-        $sellerContact = $sellerInfo;
+    if ($book_id && $receiver_id) {
+        $connect->query("INSERT INTO message (sender_id, receiver_id, product_id, message) 
+                         VALUES ('$user_id', '$receiver_id', '$book_id', '$message')");
+        header("Location: chatboard.php?book_id=$book_id" . ($chat_with ? "&chat_with=$chat_with" : ""));
+        exit();
     }
 }
 
-$chatUsersQuery = $connect->query("SELECT DISTINCT 
-        seller_id, 
-        books.id as book_id, 
-        books.book_name, 
-        users.name,
-        (SELECT message FROM message 
-         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
-         AND product_id = books.id 
-         ORDER BY msg_time DESC LIMIT 1) as last_message,
-        (SELECT msg_time FROM message 
-         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
-         AND product_id = books.id 
-         ORDER BY msg_time DESC LIMIT 1) as last_message_time
-    FROM message 
-    JOIN books ON message.product_id = books.id 
-    JOIN users ON books.seller_id = users.user_id 
-    WHERE (message.sender_id = '$user_id' OR message.receiver_id = '$user_id')
-    " . ($searchUser ? "AND (users.name LIKE '%$searchUser%' OR books.book_name LIKE '%$searchUser%' OR 
-        (SELECT message FROM message 
-         WHERE (sender_id = '$user_id' OR receiver_id = '$user_id') 
-         AND product_id = books.id 
-         ORDER BY msg_time DESC LIMIT 1) LIKE '%$searchUser%')" : "") . "
-    ORDER BY last_message_time DESC");
+// ✅ Handle chat deletion
+if (isset($_GET['delete_chat'])) {
+    $product_id = $_GET['product_id'];
+    $other_user = $_GET['other_user'];
+
+    $connect->query("DELETE FROM message 
+        WHERE product_id = '$product_id' 
+        AND ((sender_id = '$user_id' AND receiver_id = '$other_user')
+        OR (sender_id = '$other_user' AND receiver_id = '$user_id'))");
+
+    header("Location: chatboard.php");
+    exit();
+}
+
+// ✅ Get chat list
+$chatUsersQuery = $connect->query("
+    SELECT 
+        c.product_id,
+        c.other_user_id,
+        u.name as other_user_name,
+        u.dp as other_user_dp,
+        b.book_name,
+        b.img1 as book_image,
+        b.seller_id,
+        m.message as last_message,
+        m.msg_time as last_message_time,
+        c.unread_count
+    FROM (
+        SELECT 
+            product_id,
+            CASE 
+                WHEN sender_id = '$user_id' THEN receiver_id
+                ELSE sender_id
+            END as other_user_id,
+            MAX(message_id) as last_message_id,
+            COUNT(CASE WHEN receiver_id = '$user_id' AND is_read = 0 THEN 1 END) as unread_count
+        FROM message
+        WHERE sender_id = '$user_id' OR receiver_id = '$user_id'
+        GROUP BY product_id, other_user_id
+    ) as c
+    JOIN message m ON m.message_id = c.last_message_id
+    JOIN users u ON u.user_id = c.other_user_id
+    JOIN books b ON b.id = c.product_id
+    " . ($searchUser ? "WHERE (u.name LIKE '%$searchUser%' OR b.book_name LIKE '%$searchUser%' OR m.message LIKE '%$searchUser%')" : "") . "
+    ORDER BY m.msg_time DESC
+");
 
 $chatList = [];
 while ($chatRow = mysqli_fetch_assoc($chatUsersQuery)) {
     $chatList[] = $chatRow;
 }
-// Get total chat count
-$chatCountQuery = $connect->query("SELECT COUNT(DISTINCT books.id) as total_chats 
-    FROM message 
-    JOIN books ON message.product_id = books.id 
-    WHERE message.sender_id = '$user_id' OR message.receiver_id = '$user_id'");
-$chatCountData = mysqli_fetch_assoc($chatCountQuery);
-$totalChats = $chatCountData['total_chats'] ?? 0;
 
-// Handle message sending
-if (isset($_POST['send_msg']) && !empty($_POST['message']) && $book_id && $sellerdata) {
-    $message = mysqli_real_escape_string($connect, $_POST['message']);
-    $insert = $connect->query("INSERT INTO message (sender_id, receiver_id, product_id, message, msg_time) 
-                              VALUES ('$user_id', '$seller_id', '$book_id', '$message', NOW())");
-    if ($insert) {
-        header("Location: chatboard.php?book_id=$book_id");
-        exit();
+// ✅ Get current chat messages if book_id is provided
+$currentChat = $sellerInfo = $otherUserInfo = $bookInfo = $messages = null;
+
+if ($book_id) {
+    $bookInfo = $connect->query("SELECT * FROM books WHERE id = '$book_id'")->fetch_assoc();
+
+    if ($bookInfo) {
+        $sellerInfo = $connect->query("SELECT * FROM users WHERE user_id = '{$bookInfo['seller_id']}'")->fetch_assoc();
+
+        $chatPartner = $chat_with ?? $bookInfo['seller_id'];
+        $otherUserInfo = $connect->query("SELECT * FROM users WHERE user_id = '$chatPartner'")->fetch_assoc();
+
+        // Mark as read
+        $connect->query("UPDATE message 
+                         SET is_read = 1 
+                         WHERE product_id = '$book_id' 
+                         AND sender_id = '$chatPartner' 
+                         AND receiver_id = '$user_id'");
+
+        // Fetch messages
+        $messages = $connect->query("
+            SELECT m.*, u.name as sender_name, u.dp as sender_dp 
+            FROM message m
+            JOIN users u ON u.user_id = m.sender_id
+            WHERE product_id = '$book_id' 
+            AND ((sender_id = '$user_id' AND receiver_id = '$chatPartner')
+            OR (sender_id = '$chatPartner' AND receiver_id = '$user_id'))
+            ORDER BY msg_time ASC
+        ");
     }
 }
 
-// Handle chat deletion - UPDATED to use product_id
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
     $query = $connect->query("DELETE FROM message WHERE product_id='$product_id'");
@@ -113,8 +141,8 @@ if (isset($_GET['product_id'])) {
         exit();
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,48 +155,114 @@ if (isset($_GET['product_id'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <style>
-        #chatMessages {
-            scrollbar-width: thin;
-            scrollbar-color: #9CA3AF #F3F4F6;
+        /* Base chat container styles */
+        .chat-container {
+            height: calc(100vh - 112px);
+            display: flex;
+            flex-direction: column;
         }
 
-        #chatMessages::-webkit-scrollbar {
-            width: 6px;
+        /* Chat list styles */
+        .chat-list {
+            height: 100%;
+            overflow-y: auto;
+            width: 100%;
         }
 
-        #chatMessages::-webkit-scrollbar-thumb {
-            background-color: #9CA3AF;
-            border-radius: 4px;
+        /* Chat window styles */
+        .chat-window {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
-        /* Mobile-specific styles */
-        @media (max-width: 768px) {
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Message bubbles */
+        .message-bubble {
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        /* Responsive breakpoints */
+        @media (min-width: 640px) {
+            .message-bubble {
+                max-width: 70%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .message-bubble {
+                max-width: 60%;
+            }
+
             .chat-container {
-                height: calc(100vh - 56px);
+                flex-direction: row;
             }
 
             .chat-list {
-                height: 100%;
-                display:
-                    <?= $book_id ? 'none' : 'block' ?>
-                ;
-                margin-top: 7.5rem
+                width: 40%;
+                border-right: 1px solid #e5e7eb;
             }
 
             .chat-window {
-                height: 100%;
-                display:
-                    <?= $book_id ? 'flex' : 'none' ?>
-                ;
-                margin-top: 7rem
-            }
-
-            .back-button {
-                display: flex !important;
+                width: 60%;
             }
         }
 
-        /* Call Drawer Styles */
+        @media (min-width: 1024px) {
+            .chat-list {
+                width: 30%;
+            }
+
+            .chat-window {
+                width: 70%;
+            }
+
+            .message-bubble {
+                max-width: 50%;
+            }
+        }
+
+        /* Mobile specific styles */
+        .mobile-chat-header {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #3D8D7A;
+            color: white;
+        }
+
+        .back-button {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
         #call-drawer {
             height: auto;
             max-height: 80vh;
@@ -196,322 +290,254 @@ if (isset($_GET['product_id'])) {
     </style>
 </head>
 
-<body class="bg-[#FBFFE4]">
+<body class="bg-gray-100">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
-    <div class="chat-container flex flex-col lg:flex-row lg:mt-32">
-
-
-        <!-- Chat List -->
-        <div
-            class="chat-list w-full lg:w-4/12 border-r border-gray-200 bg-white lg:h-[600px] h-full overflow-y-auto shadow-sm">
-            <!-- Header with Search -->
-            <div
-                class="p-4 bg-gradient-to-r from-[#B3D8A8] to-[#9BC58D] flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-gray-200 sticky top-0 z-10">
-                <h2 class="text-xl font-bold text-gray-800 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
-                    INBOX(<?= $totalChats ?>)
+    <div class="mt-30 chat-container">
+        <!-- Chat List - Always visible on desktop, toggleable on mobile -->
+        <div class="chat-list bg-white <?= ($book_id && $otherUserInfo && $bookInfo) ? 'hidden md:block' : 'block' ?>">
+            <div class="p-4 bg-[#3D8D7A] text-white sticky top-0 z-10">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-comments mr-2"></i>
+                    My Chats
                 </h2>
-                <form action="" method="get" class="w-full sm:w-auto">
-                    <div class="relative flex outline-none">
+                <form action="" method="get" class="mt-3">
+                    <div class="relative">
                         <input type="search" name="search_users" value="<?= htmlspecialchars($searchUser) ?>"
                             placeholder="Search conversations..."
-                            class="block w-full px-4 py-1 bg-white/90 rounded-l-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-0 text-sm"
-                            aria-label="Search conversations">
-                        <button type="submit"
-                            class=" bg-[#3D8D7A] text-white font-medium rounded-r-lg px-4 cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
+                            class="w-full px-4 py-2 rounded-lg bg-white text-gray-800 focus:outline-none">
+                        <button type="submit" class="absolute right-3 top-2 text-gray-500">
+                            <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </form>
             </div>
 
             <?php if (!empty($searchUser)): ?>
-                <div class="p-2 text-center bg-gray-50 text-sm text-gray-600">
+                <div class="p-2 bg-gray-50 text-center text-sm text-gray-600">
                     <?php if (!empty($chatList)): ?>
                         Showing results for: "<span class="font-medium"><?= htmlspecialchars($searchUser) ?></span>"
                     <?php else: ?>
                         No results found for: "<span class="font-medium"><?= htmlspecialchars($searchUser) ?></span>"
                     <?php endif; ?>
-                    <a href="chatboard.php" class="ml-2 text-[#3D8D7A] hover:underline">Clear search</a>
+                    <a href="chatboard.php" class="ml-2 text-green-600 hover:underline">Clear search</a>
                 </div>
             <?php endif; ?>
 
-            <!-- Chat List -->
             <?php if (!empty($chatList)): ?>
-                <div class="divide-y divide-gray-100">
+                <div class="relative divide-y divide-gray-200">
                     <?php foreach ($chatList as $chat):
-                        $bookImgQuery = $connect->query("SELECT img1 FROM books WHERE id = '{$chat['book_id']}'");
-                        $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
-                        $activeClass = ($book_id == $chat['book_id']) ? 'bg-[#E8F5F2] border-l-4 border-[#3D8D7A]' : 'hover:bg-gray-50';
-                        ?>
-                        <div class="relative">
-                            <a href="chatboard.php?book_id=<?= $chat['book_id']; ?>"
-                                class="block transition duration-150 ease-in-out <?= $activeClass ?>">
-                                <div class="flex items-center gap-4 p-4 rounded-lg">
-                                    <div class="relative flex-shrink-0">
-                                        <img src="assets/images/<?= $bookImgRow['img1']; ?>"
-                                            class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
-                                        <?php if (rand(0, 1)): ?>
+                        $isActive = ($book_id == $chat['product_id'] && (!$chat_with || $chat_with == $chat['other_user_id']));
+                    ?>
+                        <div class="group relative hover:bg-gray-50 <?= $isActive ? 'bg-gray-100' : '' ?> transition-all">
+                            <a href="chatboard.php?book_id=<?= $chat['product_id'] ?>&chat_with=<?= $chat['other_user_id'] ?>"
+                                class="block p-4 pr-10"> <!-- Added pr-10 for delete button space -->
+                                <div class="flex items-center">
+                                    <div class="relative mr-3">
+                                        <img src="assets/user_dp/<?= $chat['other_user_dp'] ?: 'default.jpg' ?>"
+                                            class="h-12 w-12 rounded-full object-cover border">
+                                        <?php if ($chat['unread_count'] > 0): ?>
+                                            <span class="unread-badge"><?= $chat['unread_count'] ?></span>
                                         <?php endif; ?>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <div class="flex justify-between items-baseline">
-                                            <h2 class="text-sm font-semibold text-gray-800 truncate">
-                                                <?= htmlspecialchars($chat["name"]); ?>
-                                            </h2>
-                                            <p class="text-xs text-gray-500">
-                                                <?= date('h:i A', strtotime($chat['last_message_time'] ?? 'now')) ?>
-                                            </p>
+                                        <div class="flex justify-between">
+                                            <h3 class="font-semibold truncate"><?= htmlspecialchars($chat['other_user_name']) ?></h3>
+                                            <span class="text-xs text-gray-500">
+                                                <?= date('h:i A', strtotime($chat['last_message_time'])) ?>
+                                            </span>
                                         </div>
-                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat["book_name"]); ?>
-                                        </p>
-                                        <p class="text-xs text-gray-500 mt-1 truncate">
-                                            <?= !empty($chat['last_message']) ? htmlspecialchars($chat['last_message']) : 'Start a conversation' ?>
+                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat['book_name']) ?></p>
+                                        <p class="text-xs text-gray-500 truncate mt-1">
+                                            <?= strlen($chat['last_message']) > 50 ?
+                                                substr(htmlspecialchars($chat['last_message']), 0, 50) . '...' :
+                                                htmlspecialchars($chat['last_message']) ?>
                                         </p>
                                     </div>
                                 </div>
                             </a>
 
-                            <!-- Delete Icon - UPDATED to use product_id -->
-                            <a href="?product_id=<?= $chat['book_id']; ?>"
+                            <!-- In your chat list HTML -->
+                            <a href="?product_id=<?= $chat['product_id'] ?>"
                                 onclick="return confirm('Are you sure you want to delete this chat?');"
-                                class="absolute top-10 right-2 text-red-600 hover:text-red-800 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="size-6 text-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-600 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
                             </a>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <div class="flex flex-col items-center justify-center p-8 text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
-                    <h3 class="text-lg font-medium text-gray-500">
-                        <?= empty($searchUser) ? 'No conversations yet' : 'No matching conversations found' ?>
-                    </h3>
-                    <p class="text-sm text-gray-400 mt-1">
-                        <?= empty($searchUser) ? 'Start a chat to see messages here' : 'Try a different search term' ?>
-                    </p>
-                    <?php if (!empty($searchUser)): ?>
-                        <a href="chatboard.php" class="mt-3 text-sm text-[#3D8D7A] hover:underline">
-                            Show all conversations
-                        </a>
-                    <?php endif; ?>
+                <div class="p-8 text-center text-gray-500">
+                    <i class="fas fa-comment-slash text-4xl mb-3"></i>
+                    <p>No conversations yet</p>
+                    <p class="text-sm mt-2">Start a conversation to see messages here</p>
                 </div>
             <?php endif; ?>
         </div>
 
-        <!-- Chat Window -->
-        <?php if ($sellerdata && $sellerInfo): ?>
-            <?php
-            $bookImgQuery = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
-            $bookImgRow = mysqli_fetch_assoc($bookImgQuery);
-            ?>
-            <div class="chat-window w-full lg:w-8/12   flex flex-col lg:h-[600px] h-[calc(100vh-112px)]">
-                <div class="flex items-center justify-between p-8 border-b sticky top-0 bg-white z-10">
-                    <div class="flex items-center gap-3">
-                        <div class="lg:hidden mr-2">
-                            <a href="chatboard.php" class="text-gray-600 hover:text-gray-800">
-                                <i class="fas fa-arrow-left"></i>
+        <!-- Chat Window - Hidden on mobile when not viewing a chat -->
+        <div class="chat-window <?= ($book_id && $otherUserInfo && $bookInfo) ? 'block' : 'hidden' ?> md:block bg-white">
+            <?php if ($book_id && $otherUserInfo && $bookInfo): ?>
+                <!-- Mobile header with back button -->
+                
+
+                <!-- Desktop header -->
+                <div class="md:block border-b sticky top-0 bg-white z-10">
+                    <div class="flex items-center justify-between p-4">
+                        <div class="flex items-center">
+                            <img src="assets/user_dp/<?= $otherUserInfo['dp'] ?: 'default.jpg' ?>"
+                                class="h-10 w-10 rounded-full object-cover border mr-3">
+                            <div>
+                                <h3 class="font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></h3>
+                                <p class="text-xs text-gray-500"><?= $otherUserInfo['user_id'] == $bookInfo['seller_id'] ? 'Seller' : 'Buyer' ?></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button id="open-drawer" class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
+                                <i class="fas fa-phone mr-2"></i>
+                            </button>
+                            <a href="chatboard.php" id="close-chat-btn" class="text-red-500 hover:text-red-700 text-sm">
+                                <i class="fas fa-times"></i>
                             </a>
                         </div>
-                        <img src="assets/images/<?= $bookImgRow['img1']; ?>"
-                            class="h-14 w-14 rounded-lg object-cover border border-gray-200 shadow-sm" />
-                        <h2 class="text-lg font-semibold"><?= htmlspecialchars($sellerInfo['name']); ?></h2>
                     </div>
-                    <div class="flex justify-center items-center gap-10">
-                        <button id="open-drawer"
-                            class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
-                            <i class="fas fa-phone mr-2"></i>
-                        </button>
 
-                        <!-- Dynamic Call Drawer -->
-                        <div id="call-drawer"
-                            class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
-                            <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
-
-                            <div class="flex flex-col items-center">
-                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'default-profile.jpg' ?>"
-                                    alt="<?= htmlspecialchars($sellerContact['name']) ?>"
-                                    class="rounded-full mb-3 h-20 w-20 object-cover">
-                                <p class="text-lg font-semibold"><?= htmlspecialchars($sellerContact['name']) ?></p>
-                                <p class="text-gray-500"><?= htmlspecialchars($sellerContact['contact']) ?></p>
-
-                                <div class="mt-4 space-x-4">
-                                    <a href="tel:<?= htmlspecialchars($sellerContact['contact']) ?>"
-                                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                                        <i class="fas fa-phone mr-2"></i>Call Now
-                                    </a>
-                                    <button id="close-drawer"
-                                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
-                                        <i class="fas fa-times mr-2"></i>Close
-                                    </button>
-                                </div>
+                    <!-- Call Drawer -->
+                    <div id="call-drawer" class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
+                        <div class="flex flex-col items-center">
+                            <img src="assets/user_dp/<?= $otherUserInfo['dp'] ?? 'default-profile.jpg' ?>"
+                                alt="<?= htmlspecialchars($otherUserInfo['name']) ?>"
+                                class="rounded-full mb-3 h-20 w-20 object-cover">
+                            <p class="text-lg font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></p>
+                            <p class="text-gray-500"><?= htmlspecialchars($otherUserInfo['contact']) ?></p>
+                            <div class="mt-4 space-x-4">
+                                <a href="tel:<?= htmlspecialchars($otherUserInfo['contact']) ?>"
+                                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                                    <i class="fas fa-phone mr-2"></i>Call Now
+                                </a>
+                                <button id="close-drawer" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                                    <i class="fas fa-times mr-2"></i>Close
+                                </button>
                             </div>
                         </div>
+                    </div>
 
-                        <a href="chatboard.php" class="text-red-500 hover:text-red-700 text-sm hidden lg:block">✖</a>
+                    <div class="px-4 pb-3 flex justify-between items-center border-t pt-2">
+                        <div class="flex items-center">
+                            <img src="assets/images/<?= $bookInfo['img1'] ?>"
+                                class="h-10 w-10 rounded border mr-2">
+                            <span class="font-medium"><?= htmlspecialchars($bookInfo['book_name']) ?></span>
+                        </div>
+                        <span class="font-bold">₹<?= number_format($bookInfo['sell_price'], 2) ?></span>
                     </div>
                 </div>
 
-                <div class="p-4 flex justify-between mx-2 lg:mx-6 border-b">
-                    <div class="flex items-center">
-                        <img src="assets/images/<?= $sellerdata['img1']; ?>"
-                            class="h-12 w-12 rounded border mr-3 lg:mr-0 lg:hidden" />
-                        <h2 class="text-lg lg:text-xl font-semibold truncate max-w-[180px] lg:max-w-none">
-                            <?= htmlspecialchars($sellerdata['book_name']); ?>
-                        </h2>
-                    </div>
-                    <p class="text-lg lg:text-xl font-semibold text-gray-600">₹ <?= $sellerdata['sell_price']; ?></p>
-                </div>
+                <div class="chat-messages p-4 bg-gray-100" id="chatMessages">
+                    <?php if ($messages && $messages->num_rows > 0): ?>
+                        <?php while ($msg = $messages->fetch_assoc()): ?>
+                            <div class="mb-1 flex <?= $msg['sender_id'] == $user_id ? 'justify-end' : 'justify-start' ?>">
+                                <div class="message-bubble px-4 py-2 rounded-lg 
+                            <?= $msg['sender_id'] == $user_id ? 'bg-green-500 text-white' : 'bg-white text-gray-800 border border-gray-200' ?>">
+                                    <p><?= htmlspecialchars($msg['message']) ?></p>
+                                    <div class="flex justify-between items-end mt-1">
+                                        <p class="text-xs <?= $msg['sender_id'] == $user_id ? 'text-white/80' : 'text-gray-500' ?>">
+                                            <?= date('h:i A', strtotime($msg['msg_time'])) ?>
+                                        </p>
 
-                <div class="flex-1 p-4 overflow-y-auto bg-gray-200" id="chatMessages">
-                    <?php
-                    // पहले यूजर ID चेक करो ताकि warning ना आए
-                    $user_id = isset($user_id) ? $user_id : 0;
-
-                    // एक ही query से सभी messages ले आओ: sent और received दोनों
-                    $all_messages = $connect->query("
-        SELECT * FROM message 
-        WHERE sender_id = '$user_id' OR receiver_id = '$user_id'
-        ORDER BY msg_time ASC
-    ");
-
-                    if ($all_messages->num_rows > 0) {
-                        while ($msg = $all_messages->fetch_array()):
-                            // sender खुद है तो message right side में दिखाओ
-                            $is_sent = $msg['sender_id'] == $user_id;
-                            ?>
-                            <div class="flex <?= $is_sent ? 'justify-end' : '' ?> mb-4">
-                                <div
-                                    class="<?= $is_sent ? 'bg-green-500 text-white' : 'bg-white text-black' ?> px-3 py-1 rounded-md max-w-xs">
-                                    <span class="text-md block">
-                                        <?= htmlspecialchars($msg['message']) ?>
-                                    </span>
-                                    <p class="text-xs <?= $is_sent ? 'text-white' : 'text-gray-600' ?>">
-                                        <?= date("h:i A", strtotime($msg['msg_time'])) ?>
-                                    </p>
+                                    </div>
                                 </div>
+
                             </div>
-                            <?php
-                        endwhile;
-                    } else {
-                        echo "<p class='text-gray-500 text-center'>No messages found.</p>";
-                    }
-                    ?>
+                            <div class="flex justify-end mb-3">
+                                <?php if ($msg['sender_id'] == $user_id && $msg['is_read']): ?>
+                                    <span class="text-[10px] ml-2 text-gray-500 italic">Seen</span>
+                                <?php endif; ?>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <div class="h-full flex items-center justify-center text-gray-500">
+                            <div class="text-center">
+                                <i class="fas fa-comment-dots text-4xl mb-3"></i>
+                                <p>No messages yet</p>
+                                <p class="text-sm mt-1">Start the conversation</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
-
-
-
-                <div class="p-3 lg:p-4 border-t flex items-center gap-2 bg-white sticky bottom-0">
-                    <form action="" method="post" class="flex w-full gap-2">
+                <div class="border-t p-3 bg-white sticky bottom-0">
+                    <form action="" method="post" class="flex">
+                        <input type="hidden" name="receiver_id" value="<?= $otherUserInfo['user_id'] ?>">
                         <input type="text" name="message" placeholder="Type a message..."
-                            class="flex-1 p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500"
-                            required>
-                        <button name="send_msg"
-                            class="bg-green-500 hover:bg-green-600 text-white p-2 lg:p-3 rounded-lg transition">
-                            <i class="fas fa-paper-plane lg:mr-1"></i>
-                            <span class="hidden lg:inline">Send</span>
+                            class="flex-1 px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-1 focus:ring-green-500"
+                            required autofocus>
+                        <button name="send_msg" class="bg-green-500 text-white px-4 py-2 rounded-r-lg hover:bg-green-600">
+                            <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
                 </div>
-            </div>
-        <?php else: ?>
-            <div
-                class="chat-window w-full lg:w-8/12 bg-white flex items-center justify-center lg:h-[600px] h-[calc(100vh-112px)] text-gray-500 text-lg">
-                <div class="text-center p-6">
-                    <i class="fas fa-comments text-4xl mb-3 text-gray-300"></i>
-                    <p>No chat selected</p>
-                    <p class="text-sm mt-2">Select a conversation from the list</p>
+            <?php else: ?>
+                <div class="h-full flex items-center justify-center text-gray-500">
+                    <div class="text-center">
+                        <i class="fas fa-comments text-4xl mb-3"></i>
+                        <p>No chat selected</p>
+                        <p class="text-sm mt-1">Select a conversation from the list</p>
+                    </div>
                 </div>
-            </div>
-        <?php endif; ?>
-    </div>
+            <?php endif; ?>
+        </div>
 
-    <script>
-        // Select drawer and buttons
-        const drawer = document.getElementById("call-drawer");
-        const openBtn = document.getElementById("open-drawer");
-        const closeBtn = document.getElementById("close-drawer");
-
-        // Open drawer
-        openBtn.addEventListener("click", () => {
-            drawer.classList.remove("translate-x-full");
-            // Add backdrop
-            const backdrop = document.createElement("div");
-            backdrop.id = "drawer-backdrop";
-            backdrop.className = "fixed inset-0 bg-black bg-opacity-50 z-40";
-            backdrop.addEventListener("click", () => {
-                drawer.classList.add("translate-x-full");
-                backdrop.remove();
+        <script>
+            // Handle chat closing
+            document.getElementById('close-chat-btn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'chatboard.php';
             });
-            document.body.appendChild(backdrop);
-        });
 
-        // Close drawer
-        closeBtn.addEventListener("click", () => {
-            drawer.classList.add("translate-x-full");
-            const backdrop = document.getElementById("drawer-backdrop");
-            if (backdrop) backdrop.remove();
-        });
+            // Handle drawer functionality
+            document.getElementById('open-drawer')?.addEventListener('click', function() {
+                document.getElementById('call-drawer').classList.remove('translate-x-full');
+            });
 
-        // Close drawer when pressing escape
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") {
-                drawer.classList.add("translate-x-full");
-                const backdrop = document.getElementById("drawer-backdrop");
-                if (backdrop) backdrop.remove();
-            }
-        });
+            document.getElementById('close-drawer')?.addEventListener('click', function() {
+                document.getElementById('call-drawer').classList.add('translate-x-full');
+            });
 
-        // Auto-scroll to bottom of chat messages
-        window.onload = function () {
-            const chatMessages = document.getElementById("chatMessages");
-            if (chatMessages) {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            // Auto-focus message input when chat opens
-            const messageInput = document.querySelector("input[name='message']");
-            if (messageInput) {
-                messageInput.focus();
-            }
-        };
-
-        // Handle mobile view transitions
-        document.addEventListener('DOMContentLoaded', function () {
-            // This ensures proper display when navigating back
-            if (window.innerWidth <= 768) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const bookId = urlParams.get('book_id');
-
-                if (bookId) {
-                    document.querySelector('.chat-list').style.display = 'none';
-                    document.querySelector('.chat-window').style.display = 'flex';
-                } else {
-                    document.querySelector('.chat-list').style.display = 'block';
-                    document.querySelector('.chat-window').style.display = 'none';
+            // Auto-scroll to bottom of chat
+            function scrollToBottom() {
+                const chatMessages = document.getElementById('chatMessages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }
-        });
-    </script>
+
+            // Scroll to bottom when page loads
+            document.addEventListener('DOMContentLoaded', function() {
+                scrollToBottom();
+
+                // Auto-refresh messages every 5 seconds
+                const urlParams = new URLSearchParams(window.location.search);
+                const bookId = urlParams.get('book_id');
+                const chatWith = urlParams.get('chat_with');
+
+                if (bookId) {
+                    setInterval(function() {
+                        fetch(`get_messages.php?book_id=${bookId}&chat_with=${chatWith}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.newMessages) {
+                                    location.reload();
+                                }
+                            })
+                            .catch(error => console.error('Error fetching messages:', error));
+                    }, 5000);
+                }
+            });
+        </script>
 </body>
 
 </html>
