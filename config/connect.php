@@ -2,6 +2,8 @@
     $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
 
+//  $connect = new mysqli("localhost","adminroot", "QPvmUFR)hi3u","kitabiadda") or die("error connecting to database");
+
     // project configration
     define("PROJECT_NAME", "KitabiAdda");
 
@@ -20,7 +22,7 @@
      function getAdminDetails(){
         global $connect;
         $email = $_SESSION['admin'];
-        $query = $connect->query("select * from users where email='$email' and isAdmin=1");
+        $query = $connect->query("select * from users where email='$email'");
         $adminData = $query->fetch_array();
         return $adminData;
 }

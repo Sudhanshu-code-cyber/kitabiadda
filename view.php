@@ -77,7 +77,7 @@ if ($book_id) {
         $sellerContact = $sellerInfo; // For the call drawer
         $seller_email = $sellerContact['email'];
         // echo "<script>alert('$seller_email')</script>";
-        
+
     }
 }
 
@@ -255,21 +255,32 @@ $address = mysqli_fetch_assoc($callAdd) ?>
         <div class="flex flex-col bg-white w-full md:flex-row p-4 md:p-10  rounded shadow mt-28 book-container">
             <!-- Book Images Section -->
             <div
-                class="flex flex-col md:flex-row gap-10 w-5/12 justify-center  md:gap-20 items-center  md:w-5/12 border-gray-300 md:border-r-2 space-x-4 p-2 md:p-6 book-images-section">
+                class="flex flex-col md:flex-row gap-10 w-5/12 justify-center md:gap-20 items-center md:w-5/12 border-gray-300 md:border-r-2 space-x-4 p-2 md:p-6 book-images-section">
+
+                <!-- Thumbnails Section -->
                 <div
-                    class="flex  flex-col gap-2 shadow mr-20  md:flex-col space-y-0 md:space-y-2 space-x-2 md:space-x-0 thumbnails">
-                    <img src="assets/images/<?= htmlspecialchars($book['img1']); ?>" alt="Thumbnail 1"
-                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                        onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img1']); ?>')">
-                    <img src="assets/images/<?= htmlspecialchars($book['img2']); ?>" alt="Thumbnail 2"
-                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                        onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img2']); ?>')">
-                    <img src="assets/images/<?= htmlspecialchars($book['img3']); ?>" alt="Thumbnail 3"
-                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                        onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img3']); ?>')">
-                    <img src="assets/images/<?= htmlspecialchars($book['img4']); ?>" alt="Thumbnail 4"
-                        class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
-                        onclick="changeImage('<?php echo 'assets/images/' . htmlspecialchars($book['img4']); ?>')">
+                    class="flex flex-col gap-2 shadow mr-20 md:flex-col space-y-0 md:space-y-2 space-x-2 md:space-x-0 thumbnails">
+                    <?php
+                    $images = ['img1', 'img2', 'img3', 'img4'];
+                    $validImages = [];
+
+                    // Collect only valid (non-empty) images
+                    foreach ($images as $imgKey) {
+                        if (!empty($book[$imgKey])) {
+                            $validImages[] = 'assets/images/' . htmlspecialchars($book[$imgKey]);
+                        }
+                    }
+
+                    // Display thumbnails
+                    foreach ($validImages as $index => $imgSrc) {
+                        echo '
+            <img src="' . $imgSrc . '" alt="Thumbnail ' . ($index + 1) . '"
+                class="w-16 md:w-16 object-cover h-20 md:h-20 cursor-pointer border border-gray-300 rounded-md hover:shadow-md"
+                onclick="changeImage(\'' . $imgSrc . '\')">';
+                    }
+                    ?>
+
+                    <!-- JS for Image Switching -->
                     <script>
                         function changeImage(src) {
                             document.getElementById("mainBookImage").src = src;
@@ -277,10 +288,13 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                     </script>
                 </div>
 
+                <!-- Main Image Section -->
                 <div class="w-full md:w-64 rounded-lg overflow-hidden shadow-lg main-image">
-                    <img id="mainBookImage" src="assets/images/<?= htmlspecialchars($book['img1']); ?>" alt="Book Image"
-                        class="w-full h-full object-cover">
+                    <img id="mainBookImage"
+                        src="<?= !empty($book['img1']) ? 'assets/images/' . htmlspecialchars($book['img1']) : 'assets/images/placeholder.png'; ?>"
+                        alt="Book Image" class="w-full h-full object-cover">
                 </div>
+
             </div>
 
             <!-- Book Details Section -->
@@ -601,7 +615,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
 
                                 </div>
 
-                                <a href="chatboard.php?book_id=<?= $book['id']; ?>" 
+                                <a href="chatboard.php?book_id=<?= $book['id']; ?>"
                                     class="flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 font-medium text-white rounded-md text-sm transition-colors shadow-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -694,7 +708,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                     <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
                     <div class="mt-6">
                         <iframe class="w-full h-64 rounded-lg"
-                        src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
+                            src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
                             allowfullscreen="" loading="lazy"></iframe>
                     </div>
                     <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"

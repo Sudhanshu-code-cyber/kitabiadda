@@ -91,8 +91,15 @@ $message = $_GET['msg'] ?? '';
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .main-container {
@@ -114,11 +121,13 @@ $message = $_GET['msg'] ?? '';
 <body>
     <div class="main-container">
         <div class="form-wrapper">
-            <div class="w-full bg-white shadow-xl max-w-8xl rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+            <div
+                class="w-full bg-white shadow-xl max-w-8xl rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
                 <!-- Left Side - Motivation -->
                 <div class="hidden lg:flex bg-[#3D8D7A] text-white p-10 flex-col justify-center space-y-6">
                     <div class="animate-float mb-8 flex justify-center items-center">
-                        <svg class="book-icon w-32 h-32" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="book-icon w-32 h-32" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
@@ -141,7 +150,8 @@ $message = $_GET['msg'] ?? '';
                         </div>
                     <?php endif; ?>
 
-                    <form action="actions/register_action.php" method="post" class="space-y-5">
+                    <form action="actions/register_action.php" method="post" class="space-y-5" novalidate>
+                        <!-- Full Name -->
                         <div class="input-group">
                             <label class="block text-gray-700 font-medium mb-2">Full Name</label>
                             <div class="relative">
@@ -150,9 +160,11 @@ $message = $_GET['msg'] ?? '';
                                 </div>
                                 <input type="text" name="name" placeholder="Enter your full name"
                                     class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#3D8D7A]">
+                                <p id="nameError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                             </div>
                         </div>
 
+                        <!-- Email & Phone -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div class="input-group">
                                 <label class="block text-gray-700 font-medium mb-2">Email Address</label>
@@ -162,6 +174,7 @@ $message = $_GET['msg'] ?? '';
                                     </div>
                                     <input type="email" name="email" placeholder="your@email.com"
                                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#3D8D7A]">
+                                    <p id="emailError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                                 </div>
                             </div>
 
@@ -173,10 +186,12 @@ $message = $_GET['msg'] ?? '';
                                     </div>
                                     <input type="text" name="contact" placeholder="+1234567890"
                                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#3D8D7A]">
+                                    <p id="contactError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Gender -->
                         <div class="input-group">
                             <label class="block text-gray-700 font-medium mb-2">Gender</label>
                             <div class="relative">
@@ -191,9 +206,11 @@ $message = $_GET['msg'] ?? '';
                                     <option value="other">Other</option>
                                     <option value="prefer-not-to-say">Prefer not to say</option>
                                 </select>
+                                <p id="genderError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                             </div>
                         </div>
 
+                        <!-- Passwords -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div class="input-group">
                                 <label class="block text-gray-700 font-medium mb-2">Password</label>
@@ -205,6 +222,7 @@ $message = $_GET['msg'] ?? '';
                                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#3D8D7A]">
                                 </div>
                                 <p class="text-xs text-gray-500 mt-1">At least 8 characters</p>
+                                <p id="passwordError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                             </div>
 
                             <div class="input-group">
@@ -216,33 +234,110 @@ $message = $_GET['msg'] ?? '';
                                     <input type="password" name="confirm_password" placeholder="Confirm password"
                                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#3D8D7A]">
                                 </div>
+                                <p id="confirmPasswordError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
                             </div>
                         </div>
 
+                        <!-- Terms -->
                         <div class="flex items-center">
                             <input type="checkbox" id="terms" name="terms"
                                 class="rounded border-gray-300 text-[#3D8D7A] focus:ring-[#3D8D7A]">
                             <label for="terms" class="ml-2 text-sm text-gray-600">
-                                I agree to the <a href="#" class="text-[#3D8D7A] hover:underline">Terms of Service</a> and <a
-                                    href="#" class="text-[#3D8D7A] hover:underline">Privacy Policy</a>
+                                I agree to the <a href="#" class="text-[#3D8D7A] hover:underline">Terms of Service</a>
+                                and <a href="#" class="text-[#3D8D7A] hover:underline">Privacy Policy</a>
                             </label>
                         </div>
+                        <p id="termsError" class="error-msg text-red-500 text-sm mt-1 hidden"></p>
 
+                        <!-- Submit -->
                         <button type="submit" name="register"
-                            class="btn-register w-full text-white py-3 rounded-lg font-medium mt-2">
+                            class="btn-register w-full text-white py-3 rounded-lg font-medium mt-2 bg-[#3D8D7A] hover:bg-[#347c6b] transition">
                             Sign Up <i class="fas fa-arrow-right ml-2"></i>
                         </button>
 
+                        <!-- Login Link -->
                         <div class="text-center text-sm text-gray-600 mt-4">
                             Already part of our story? <a href="login.php"
                                 class="text-[#3D8D7A] font-medium hover:underline">Sign in here</a>
                         </div>
                     </form>
+
+                    <!-- ✅ Validation Script -->
+                    <script>
+                        const form = document.querySelector("form");
+                        const name = form.name;
+                        const email = form.email;
+                        const contact = form.contact;
+                        const gender = form.gender;
+                        const password = form.password;
+                        const confirmPassword = form.confirm_password;
+                        const terms = form.terms;
+
+                        form.addEventListener("submit", function (e) {
+                            let valid = true;
+                            document.querySelectorAll(".error-msg").forEach(el => el.classList.add("hidden"));
+                            document.querySelectorAll("input, select").forEach(el => el.classList.remove("border-red-500"));
+
+                            if (name.value.trim() === "") {
+                                showError("nameError", "Full name is required.");
+                                valid = false;
+                            }
+
+                            if (email.value.trim() === "" || !validateEmail(email.value)) {
+                                showError("emailError", "Valid email is required.");
+                                valid = false;
+                            }
+
+                            if (contact.value.trim() === "" || !/^\+?\d{10,15}$/.test(contact.value)) {
+                                showError("contactError", "Valid phone number is required.");
+                                valid = false;
+                            }
+
+                            if (gender.value === "") {
+                                showError("genderError", "Please select your gender.");
+                                valid = false;
+                            }
+
+                            if (password.value.length < 8) {
+                                showError("passwordError", "Password must be at least 8 characters.");
+                                valid = false;
+                            }
+
+                            if (confirmPassword.value !== password.value) {
+                                showError("confirmPasswordError", "Passwords do not match.");
+                                valid = false;
+                            }
+
+                            if (!terms.checked) {
+                                showError("termsError", "You must agree to the terms.");
+                                valid = false;
+                            }
+
+                            if (!valid) e.preventDefault();
+                        });
+
+                        function showError(id, message) {
+                            const el = document.getElementById(id);
+                            el.textContent = message;
+                            el.classList.remove("hidden");
+
+                            const input = el.closest('.relative')?.querySelector('input, select') || el.previousElementSibling?.querySelector('input, select');
+                            if (input) {
+                                input.classList.add("border-red-500");
+                            }
+                        }
+
+                        function validateEmail(email) {
+                            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                        }
+                    </script>
+
+
                 </div>
             </div>
         </div>
     </div>
-   
+
     <?php include_once "includes/footer2.php"; ?>
 </body>
 

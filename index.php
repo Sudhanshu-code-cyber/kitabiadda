@@ -1,3 +1,5 @@
+
+
 <?php include_once "config/connect.php"; ?>
 <?php
 require 'vendor/autoload.php';
@@ -5,7 +7,7 @@ require 'vendor/autoload.php';
 $client = new Google_Client();
 $client->setClientId('642231406648-2do70qjtogm5q4tq82r7t2s14qc0jtgj.apps.googleusercontent.com');
 $client->setClientSecret('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');
-$client->setRedirectUri('http://kitabiadda.com/');
+$client->setRedirectUri('https://kitabiadda.com/');
 $client->addScope(['email', 'profile']);
 
 if (isset($_GET['code'])) {
@@ -184,7 +186,7 @@ if (isset($_GET['code'])) {
     <?php include_once "includes/oldBook.php"; ?>
 
     <!-- Book Sets Section for Old Books (Third Carousel) -->
-    <?php include_once "includes/e-Book.php"; ?>
+    <?php include_once "includes/scienceBooks.php"; ?>
     <?php //include_once "includes/booksetBook.php"; ?>
 
     <!-- Floating Sell Button -->

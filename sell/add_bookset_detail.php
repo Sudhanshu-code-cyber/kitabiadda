@@ -56,10 +56,6 @@ if ($_GET['subcat']) {
 $cat_id = $cat_name['cat_id'];
 $call_cat = mysqli_query($connect, "SELECT * FROM category where id='$cat_id'");
 $cat = mysqli_fetch_assoc($call_cat);
-
-// fetch address details
-$callAdd = $connect->query("select * from user_address where email='$user_email'");
-$add = $callAdd->fetch_array();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,6 +148,7 @@ $add = $callAdd->fetch_array();
 
     <div class="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg mt-20">
 
+
         <form action="../actions/sellBook_action.php" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
             <div class="mb-6">
@@ -159,32 +156,23 @@ $add = $callAdd->fetch_array();
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="relative">
                         <input type="text" name="book_name" placeholder=" " class="input-box border rounded w-full p-3"
-                            data-validate="text" data-min="3" data-msg="Book Name" id="bookName"
-                            oninput="validateField(this)">
+                            id="bookName">
                         <label for="bookName" class="floating-label">Book Name</label>
-                        <div id="bookNameFeedback" class="form-text text-sm "></div>
                     </div>
-
                     <div class="relative">
                         <input type="text" name="book_author" placeholder=" "
-                            class="input-box border rounded w-full p-3" id="author" oninput="validateField(this)"
-                            data-validate="text" data-min="2" data-msg="Author Name">
+                            class="input-box border rounded w-full p-3" id="author">
                         <label for="author" class="floating-label">Author</label>
-                        <div id="authorFeedback" class="form-text text-sm"></div>
                     </div>
-
                     <div class="relative">
                         <input type="number" placeholder=" " name="mrp" class="input-box border rounded w-full p-3"
-                            id="mrp" oninput="validateField(this)" data-validate="number" data-min="50" data-msg="MRP">
+                            id="mrp">
                         <label for="mrp" class="floating-label">MRP</label>
-                        <div id="mrpFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="sell_price"
-                            class="input-box border rounded w-full p-3" id="sellingPrice" oninput="validateField(this)"
-                            data-validate="number" data-msg="Selling Price">
+                            class="input-box border rounded w-full p-3" id="sellingPrice">
                         <label for="sellingPrice" class="floating-label">Selling Price</label>
-                        <div id="sellingPriceFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="pages" class="input-box border rounded w-full p-3"
@@ -193,8 +181,9 @@ $add = $callAdd->fetch_array();
                     </div>
                     <select class="p-3 border rounded w-full" name="book_binding">
                         <option value="">Select Binding</option>
-                        <option value="PaperBack">Paper Back</option>
-                        <option value="Hard Cover" selected>Hard Cover</option>
+                        <option value="Paper Cover">Paper Cover</option>
+                        <option value="Hard Cover">Hard Cover</option>
+                        <!-- <option value="New">New</option> -->
                     </select>
                     <div class="relative">
                         <input type="text" placeholder=" " name="book_category" value="<?= $cat['cat_title'] ?>"
@@ -206,22 +195,16 @@ $add = $callAdd->fetch_array();
                             class="input-box border rounded w-full p-3" id="subcategory" readonly>
                         <label for="subcategory" class="floating-label">Subcategory</label>
                     </div>
+                    <!-- <div class="relative">
+                        <input type="text" placeholder=" " name="language" class="input-box border rounded w-full p-3"
+                            id="language">
+                        <label for="language" class="floating-label">Language</label>
+                    </div> -->
                     <select class="p-3 border rounded w-full" name="language">
                         <option value="">Select language</option>
                         <option value="English">English</option>
                         <option value="Hindi">Hindi</option>
-                        <option value="Urdu">Urdu</option>
-                        <option value="Tamil">Tamil</option>
-                        <option value="Telugu">Telugu</option>
-                        <option value="Kannada">Kannada</option>
-                        <option value="Marathi">Marathi</option>
-                        <option value="Gujarati">Gujarati</option>
-                        <option value="Bengali">Bengali</option>
-                        <option value="Malayalam">Malayalam</option>
-                        <option value="Punjabi">Punjabi</option>
-                        <option value="Arabic">Arabic</option>
-                        <option value="Sanskrit">Sanskrit</option>
-                        <option value="Nepali">Nepali</option>
+                        <!-- <option value="New">New</option> -->
                     </select>
                     <div class="relative">
                         <input type="text" placeholder=" " name="isbn" class="input-box border rounded w-full p-3"
@@ -244,98 +227,39 @@ $add = $callAdd->fetch_array();
                     </select>
                 </div>
             </div>
-            <script>
-                function validateField(input) {
-                    const type = input.getAttribute('data-validate');
-                    const minLength = parseInt(input.getAttribute('data-min')) || 1;
-                    const msg = input.getAttribute('data-msg') || 'Field';
-                    const feedback = document.getElementById(input.id + 'Feedback');
-                    const value = input.value.trim();
-
-                    let isValid = false;
-                    let errorMsg = '';
-
-                    if (type === 'text') {
-                        let textPattern;
-
-                        if (input.id === 'bookName') {
-                            textPattern = /^[a-zA-Z0-9\s\u0900-\u097F,\'\/()]+$/;
-                            isValid = value.length >= minLength && textPattern.test(value);
-                            errorMsg = `${msg} should be at least ${minLength} characters`;
-                        }
-                        else if (input.id === 'author') {
-                            textPattern = /^[a-zA-Z0-9\s\u0900-\u097F,\'\/()]+$/;
-                            isValid = value.length >= minLength && textPattern.test(value);
-                            errorMsg = `${msg} should be letters and at least ${minLength} characters`;
-                        }
-                        else if (input.id === 'description') {
-                            textPattern = /^[a-zA-Z0-9\s\u0900-\u097F,\'\/()]+$/;
-                            isValid = value.length >= minLength && textPattern.test(value);
-                            errorMsg = `Please write at least ${minLength} characters in ${msg}`;
-                        }
-                    }
-
-                    else if (type === 'number') {
-                        const num = parseFloat(value);
-                        isValid = !isNaN(num) && num >= minLength;
-                        errorMsg = `${msg} should be at least ₹${minLength}`;
-                    }
-
-                    else if (input.id === 'contact') {
-                        const phonePattern = /^[6-9]\d{9}$/;
-                        isValid = phonePattern.test(value);
-                        errorMsg = `${msg} should be a valid 10-digit mobile number`;
-                    }
-
-                    // Show feedback
-                    if (isValid) {
-                        input.classList.remove('border-red-500');
-                        input.classList.add('border-green-500');
-                        feedback.innerHTML = `<span class="text-green-600 font-small"></span>`;
-                        feedback.classList.remove('text-red-500');
-                        feedback.classList.add('text-green-600');
-                    } else {
-                        input.classList.remove('border-green-500');
-                        input.classList.add('border-red-500');
-                        feedback.innerHTML = `<span class="text-red-500 font-small">${errorMsg}</span>`;
-                        feedback.classList.remove('text-green-600');
-                        feedback.classList.add('text-red-500');
-                    }
-                }
-            </script>
-
-
 
             <!-- Location Section -->
-            <div class="mb-6 ">
+            <div class="mb-6 bg-white p-6 rounded-lg shadow-sm">
                 <h2 class="text-2xl font-bold text-[var(--primary)] mb-6">Profile Details</h2>
 
                 <!-- Name and Contact -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div class="relative">
                         <input type="text" value="<?= htmlspecialchars($user['name']); ?>" name="name"
-                            class="input-box border rounded w-full p-3" id="name">
+                            class="input-box border border-gray-300 rounded-lg w-full p-3 px-4 focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+                            id="name">
                         <label for="name" class="floating-label">Full Name</label>
                     </div>
                     <div class="relative">
-                        <input type="text" value="<?= htmlspecialchars($add['mobile']); ?>" name="contact"
-                            class="input-box border rounded w-full p-3" id="contact" oninput="validateField(this)"
-                            data-validate="phone" data-min="10" data-msg="Contact">
+                        <input type="text" value="<?= htmlspecialchars($user['contact']); ?>" name="contact"
+                            class="input-box border border-gray-300 rounded-lg w-full p-3 px-4 focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+                            id="contact">
                         <label for="contact" class="floating-label">Contact Number</label>
-                        <div id="contactFeedback" class="form-text text-sm"></div>
                     </div>
                 </div>
-
 
                 <!-- Address Section -->
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-3">Address Details</h3>
-                    <?php
-
+                    <?php 
+                        $callAdd = $connect->query("select * from user_address where email='$user_email'");
+                        $add = $callAdd->fetch_array();
                     if ($callAdd->num_rows > 0): ?>
                         <div class="relative">
                             <textarea name="address" rows="3" id="address"
-                                class="input-box border rounded w-full p-3"><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?></textarea>
+                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4 focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+                                readonly><?= htmlspecialchars($add['landmark'] . ", " . $add['address'] . ", " . $add['locality'] . ", " . $add['city'] . ", " . $add['state'] . ", " . $add['pincode']); ?>
+                    </textarea>
                             <label for="address" class="floating-label">Your Address</label>
                         </div>
                     <?php else: ?>
@@ -358,7 +282,7 @@ $add = $callAdd->fetch_array();
                     <?php endif; ?>
                 </div>
 
-                <!-- Hidden Address Form -->
+                <!-- Hidden Address Form (Initially) -->
                 <div id="addressForm" class="hidden bg-gray-50 p-4 rounded-lg mb-6">
                     <h4 class="text-lg font-medium text-gray-800 mb-4">Add New Address</h4>
                     <div id="newAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -392,11 +316,26 @@ $add = $callAdd->fetch_array();
                                 class="input-box border border-gray-300 rounded-lg w-full p-3 px-4">
                             <label class="floating-label">Pincode</label>
                         </div>
+                        <!-- <div class="md:col-span-2 flex justify-end gap-3 mt-2">
+                            <button type="button" onclick="toggleAddressForm()"
+                                class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                class="px-6 py-2 bg-[var(--primary)] hover:bg-[#2e7a68] text-white rounded-lg font-medium transition-colors" name="add_address">
+                                Save Address
+                            </button>
+                        </div> -->
                     </div>
+                    <?php
+                      
+                    ?>
                 </div>
 
+                <!-- Location Section -->
                 <div class="relative">
-                    <input type="text" placeholder=" " class="input-box border rounded w-full p-3" id="location"
+                    <input type="text" placeholder=" "
+                        class="input-box border border-gray-300 rounded-lg w-full p-3 px-4 pr-12" id="location"
                         readonly>
                     <label for="location" class="floating-label">Your Location</label>
                     <button type="button" onclick="getLocation()"
@@ -405,22 +344,27 @@ $add = $callAdd->fetch_array();
                     </button>
                 </div>
 
+                <!-- Hidden Latitude/Longitude Inputs -->
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
             </div>
 
             <script>
+                // Toggle address form visibility
                 function toggleAddressForm() {
                     const form = document.getElementById('addressForm');
                     form.classList.toggle('hidden');
                 }
 
+                // Handle form submission (you'll need to implement AJAX or form action)
                 document.getElementById('newAddressForm').addEventListener('submit', function (e) {
                     e.preventDefault();
-                    alert('Address saved!');
+                    // Add your form submission logic here
+                    alert('Address saved!'); // Replace with actual save functionality
                     toggleAddressForm();
                 });
 
+                // Geolocation function (unchanged from your original)
                 function getLocation() {
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function (position) {
@@ -439,15 +383,14 @@ $add = $callAdd->fetch_array();
             </script>
 
             <!-- Book Description Section -->
-            <div class="relative">
-                <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="4" id="description"
-                    name="book_description" data-validate="text" data-min="10" data-msg="Book Description"
-                    oninput="validateField(this)"></textarea>
-                <label for="description" class="floating-label">Enter book description...</label>
-                <div id="descriptionFeedback" class="form-text"></div>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book Description</h2>
+                <div class="relative">
+                    <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="4" id="description"
+                        name="book_description"></textarea>
+                    <label for="description" class="floating-label">Enter book description...</label>
+                </div>
             </div>
-
-
 
             <!-- Image Upload Section -->
             <div>
@@ -457,7 +400,7 @@ $add = $callAdd->fetch_array();
                     <label
                         class="border-2 border-[var(--primary)] border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
                         <input type="file" name="image0" class="hidden" onchange="previewImage(event, 0)"
-                            accept="image/*">
+                            accept="image/*" required>
                         <img id="img0" src="" class="hidden w-full h-full object-cover rounded">
                         <span id="addPhotoText0" class="text-[var(--primary)] text-center">
                             <i class="fas fa-camera text-2xl block mb-1"></i>
@@ -497,7 +440,7 @@ $add = $callAdd->fetch_array();
                 </div>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Post Your Ad Button -->
             <div class="text-center mt-8">
                 <button type="submit"
                     class="bg-[var(--primary)] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#2e7a68] transition-colors w-full sm:w-auto"
@@ -506,7 +449,6 @@ $add = $callAdd->fetch_array();
                 </button>
             </div>
         </form>
-
 
     </div>
 
