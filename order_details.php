@@ -41,75 +41,57 @@ $total_items = $items_query->num_rows;
     <link href="./src/output.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="container mx-auto  py-8 max-w-6xl">
         <!-- Header with back button -->
-        <div class="flex justify-between items-center mb-6">
-            <a href="profile.php" class="flex items-center text-blue-600 hover:text-blue-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                        clip-rule="evenodd" />
-                </svg>
-                Back to Orders
-            </a>
-            <?php
-            if ($order['status'] = 1):
+        <nav class="bg-[#3D8D7A] text-white p-4 fixed w-full top-0 z-50 shadow-md">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <a href="javascript:history.back()" class="text-white text-xl md:text-2xl">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <?php if ($order['status'] == 1) { ?>
+                    <button onclick="window.print()"
+                        class="bg-[#3D8D7A] hover:bg-[#337565] text-white font-semibold py-2 px-5 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-300">
+
+                        <!-- Icon (Optional) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 11v8m0 0l3-3m-3 3l-3-3m6-13H9a2 2 0 00-2 2v4h10V6a2 2 0 00-2-2z" />
+                        </svg>
+
+                        Save Page as PDF
+                    </button>
+
+                    </a>
+                <?php }
+
                 ?>
-                <button onclick="generatePDF()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Download Invoice
-                </button>
-            <?php endif; ?>
-        </div>
+
+            </div>
+        </nav>
 
         <!-- Order Summary Card -->
-        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 max-w-4xl mx-auto" id="invoice-content">
+        <div class="bg-white mt-32 md:mt-24 rounded-xl shadow-lg p-4 sm:p-6 mb-6 max-w-4xl mx-auto"
+            id="invoice-content">
             <div class="flex flex-col md:flex-row justify-between mb-6">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Order #<?= $order_id ?></h1>
                     <p class="text-sm text-gray-500">Placed on
-                        <?= date("F j, Y, g:i a", strtotime($order['order_time'])) ?></p>
+                        <?= date("F j, Y, g:i a", strtotime($order['order_time'])) ?>
+                    </p>
+
 
                     <!-- Order Status Badge -->
-                    <?php
-                    $status_class = "";
-                    $status_text = "";
-                    switch ($order['status']) {
-                        case 1:
-                            $status_class = "bg-green-200 text-green-900";
-                            $status_text = "Delivered";
-                            break;
-                        case 2:
-                            $status_class = "bg-orange-200 text-orange-900";
-                            $status_text = "Shipped";
-                            break;
-                        case 3:
-                            $status_class = "bg-yellow-200 text-yellow-900";
-                            $status_text = "In Transit";
-                            break;
-                        case 4:
-                            $status_class = "bg-blue-200 text-blue-900";
-                            $status_text = "Out for Delivery";
-                            break;
-                        default:
-                            $status_class = "bg-gray-200 text-gray-800";
-                            $status_text = "Processing";
-                            break;
-                    }
-                    ?>
-                    <div class="mt-3">
-                        <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <?= $status_class ?>">
-                            <?= $status_text ?>
-                        </span>
-                    </div>
+
+                    <!-- Button to show popup -->
+                    <button onclick="showPopup()"
+                        class="px-4 py-1 bg-orange-500 mt-2 text-white rounded-sm hover:bg-orange-600 transition duration-300">
+                        Show Order Status
+                    </button>
                 </div>
 
                 <div class="mt-5 md:mt-0">
@@ -193,149 +175,138 @@ $total_items = $items_query->num_rows;
 
 
         <!-- Delivery Tracking (if shipped) -->
-        <?php if ($order['status'] > 1): ?>
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Delivery Tracking</h2>
 
-                <div class="relative">
-                    <!-- Timeline -->
-                    <div class="border-l-2 border-gray-200 absolute h-full left-4 top-0"></div>
-
-                    <!-- Timeline Steps -->
-                    <div class="space-y-8 relative">
-                        <!-- Order Placed -->
-                        <div class="flex items-start">
-                            <div class="bg-blue-600 rounded-full h-8 w-8 flex items-center justify-center z-10">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-6">
-                                <h3 class="text-md font-medium text-gray-800">Order Placed</h3>
-                                <p class="text-sm text-gray-600 mt-1">
-                                    <?= date("F j, g:i a", strtotime($order['order_time'])) ?></p>
-                            </div>
-                        </div>
-
-                        <!-- Processing -->
-                        <div class="flex items-start">
-                            <div
-                                class="<?= $order['status'] >= 1 ? 'bg-blue-600' : 'bg-gray-300' ?> rounded-full h-8 w-8 flex items-center justify-center z-10">
-                                <?php if ($order['status'] >= 1): ?>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                <?php endif; ?>
-                            </div>
-                            <div class="ml-6">
-                                <h3 class="text-md font-medium text-gray-800">Processing</h3>
-                                <?php if ($order['status'] >= 1): ?>
-                                    <p class="text-sm text-gray-600 mt-1">
-                                        <?= date("F j, g:i a", strtotime($order['order_time'] . ' +1 day')) ?></p>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Shipped -->
-                        <?php if ($order['status'] >= 2): ?>
-                            <div class="flex items-start">
-                                <div
-                                    class="<?= $order['status'] >= 2 ? 'bg-blue-600' : 'bg-gray-300' ?> rounded-full h-8 w-8 flex items-center justify-center z-10">
-                                    <?php if ($order['status'] >= 2): ?>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="ml-6">
-                                    <h3 class="text-md font-medium text-gray-800">Shipped</h3>
-                                    <p class="text-sm text-gray-600 mt-1">
-                                        <?= date("F j, g:i a", strtotime($order['order_time'] . ' +2 days')) ?></p>
-                                    <p class="text-sm text-gray-600 mt-1">Tracking Number:
-                                        <?= $order['tracking_number'] ?? 'Not available' ?></p>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                        <!-- Delivered -->
-                        <?php if ($order['status'] >= 1): ?>
-                            <div class="flex items-start">
-                                <div
-                                    class="<?= $order['status'] >= 1 ? 'bg-blue-600' : 'bg-gray-300' ?> rounded-full h-8 w-8 flex items-center justify-center z-10">
-                                    <?php if ($order['status'] >= 1): ?>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="ml-6">
-                                    <h3 class="text-md font-medium text-gray-800">Delivered</h3>
-                                    <p class="text-sm text-gray-600 mt-1">
-                                        <?= date("F j, g:i a", strtotime($order['order_time'] . ' +5 days')) ?></p>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
 
-    <script>
-        // PDF Generation
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const element = document.getElementById('invoice-content');
-
-            // Show loading
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<span class="animate-pulse">Generating PDF...</span>';
-            button.disabled = true;
-
-            html2canvas(element, {
-                scale: 2,
-                logging: false,
-                useCORS: true
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210; // A4 width in mm
-                const pageHeight = 295; // A4 height in mm
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-
-                pdf.save(`Invoice_${<?= $order_id ?>}.pdf`);
-
-                // Restore button
-                button.innerHTML = originalText;
-                button.disabled = false;
-            });
-        }
-    </script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+<script>
+    function showPopup() {
+        const popup = document.getElementById('statusPopup');
+        const line = document.getElementById('statusLine');
+        popup.classList.remove('hidden');
+        popup.classList.add('transform', 'translate-y-0', 'transition-all', 'duration-500');
+        line.classList.remove('hidden');
+        line.classList.add('animate-line');
+    }
+
+    function closePopup() {
+        const popup = document.getElementById('statusPopup');
+        popup.classList.add('hidden');
+    }
+</script>
+<style>
+    @keyframes animateLine {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    .animate-line {
+        animation: animateLine 2s forwards;
+    }
+</style>
+
+
+<!-- Order Status Popup -->
+<div id="statusPopup"
+    class="hidden fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white text-black py-4 px-6 text-center text-lg z-50 shadow-xl rounded-lg mt-4">
+    <div>
+        <h2 class="font-semibold text-xl">Order Status</h2>
+        <div id="statusLine" class="h-1 bg-blue-600 mt-4 hidden"></div>
+        <div class="mt-4 space-y-3">
+            <?php
+            if ($order['status'] == 0) { ?>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                    <span>Order Confirmed</span>
+                </div>
+            <?php } elseif ($order['status'] == 1) { ?>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                    <span>Order Confirmed</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                    <span>Preparing for Shipment</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                    <span>Shipped</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-purple-400 rounded-full mr-3"></span>
+                    <span>Out for Delivery</span>
+                </div>
+                <div class="flex items-center justify-start">
+                    <span class="w-4 h-4 bg-teal-400 rounded-full mr-3"></span>
+                    <span>Delivered</span>
+                </div>
+
+
+            <?php } elseif ($order['status'] == 2) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+
+
+            <?php } elseif ($order['status'] == 3) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                <span>Shipped</span>
+            </div>
+
+            <?php } elseif ($order['status'] == 4) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Confirmed</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-blue-400 rounded-full mr-3"></span>
+                <span>Preparing for Shipment</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-green-400 rounded-full mr-3"></span>
+                <span>Shipped</span>
+            </div>
+            <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-purple-400 rounded-full mr-3"></span>
+                <span>Out for Delivery</span>
+            </div>
+
+
+            <?php } ?>
+           
+            
+        </div>
+    </div>
+    <button onclick="closePopup()"
+        class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Close</button>
+</div>
