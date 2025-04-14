@@ -113,7 +113,7 @@
                                 $result = mysqli_query($connect, $query);
                                 $row = mysqli_fetch_assoc($result);
 
-                                $total_revenue = $row['total_revenue']; // कुल बिक्री मूल्य
+                                $total_revenue = $row['total_revenue'];
                                 $query = "SELECT SUM(qty * price) AS total_revenue FROM cart WHERE direct_buy = 2";
 
 
