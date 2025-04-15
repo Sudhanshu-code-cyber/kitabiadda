@@ -316,6 +316,11 @@ $userEmail = $user ? $user['email'] : null;
                         class="block px-3 py-2 text-[#FBFFE4] hover:bg-[#4a9c87] rounded transition-colors">Logout</a>
                 </div>
             </div>
+        <?php elseif (isset($_SESSION['user'])): ?>
+            <a href="admin/index.php"
+                class="block w-full px-4 py-2 mt-2 text-center text-[#3D8D7A] bg-[#FBFFE4] rounded hover:bg-[#e8f5d0] transition-colors">
+                Admin
+            </a>
         <?php else: ?>
             <a href="login.php"
                 class="block w-full px-4 py-2 mt-2 text-center text-[#3D8D7A] bg-[#FBFFE4] rounded hover:bg-[#e8f5d0] transition-colors">

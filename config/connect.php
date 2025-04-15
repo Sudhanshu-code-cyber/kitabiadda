@@ -18,6 +18,15 @@
             return $userData;
     }
 
+     // get user information
+     function getAdminDetails(){
+        global $connect;
+        $email = $_SESSION['admin'];
+        $query = $connect->query("select * from users where email='$email'");
+        $adminData = $query->fetch_array();
+        return $adminData;
+}
+
     // redirect If Not Authentication Function
     function redirectIfNotAuth(){
         if(!isset($_SESSION["user"])){
@@ -28,7 +37,10 @@
 // message 
 function message($mass)
 {
-    echo "<script>alert('$mass')</script>";
+    echo "<script>
+        alert('$mass');
+        history.back();
+    </script>";
 }
 
 function redirect($page){
