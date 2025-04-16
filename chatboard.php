@@ -382,7 +382,7 @@ if (isset($_GET['product_id'])) {
         <div class="chat-window <?= ($book_id && $otherUserInfo && $bookInfo) ? 'block' : 'hidden' ?> md:block bg-white">
             <?php if ($book_id && $otherUserInfo && $bookInfo): ?>
                 <!-- Mobile header with back button -->
-                
+
 
                 <!-- Desktop header -->
                 <div class="md:block border-b sticky top-0 bg-white z-10">
@@ -445,7 +445,11 @@ if (isset($_GET['product_id'])) {
                                     <p><?= htmlspecialchars($msg['message']) ?></p>
                                     <div class="flex justify-between items-end mt-1">
                                         <p class="text-xs <?= $msg['sender_id'] == $user_id ? 'text-white/80' : 'text-gray-500' ?>">
-                                            <?= date('h:i A', strtotime($msg['msg_time'])) ?>
+                                            <?php
+                                            date_default_timezone_set('Asia/Kolkata'); 
+                                            echo date('h:i A', strtotime($msg['msg_time']));
+                                            ?>
+
                                         </p>
 
                                     </div>

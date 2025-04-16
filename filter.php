@@ -65,26 +65,21 @@ $booksQuery = $connect->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Used Books</title>
     <link href="./src/output.css" rel="stylesheet">
-    <link href="./src/output.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <style>
         /* Custom styles */
         .book-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.75rem;
-        }
-
-        @media (min-width: 640px) {
-            .book-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 1rem;
-            }
+            gap: 1rem;
+            padding: 0.5rem;
         }
 
         @media (min-width: 768px) {
             .book-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.5rem;
+                padding: 1rem;
             }
         }
 
@@ -92,16 +87,20 @@ $booksQuery = $connect->query($sql);
             .book-grid {
                 grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: 1.5rem;
+                padding: 1rem;
             }
         }
 
         .book-card {
             height: auto;
             min-height: 0;
+            width: 100%;
         }
 
         .book-image {
             height: 160px;
+            width: 100%;
+            object-fit: cover;
         }
 
         @media (min-width: 640px) {
@@ -111,41 +110,21 @@ $booksQuery = $connect->query($sql);
         }
 
         /* Mobile slider styles */
-        .slider-container {
+        .mobile-slider {
             display: none;
         }
 
-        @media (max-width: 639px) {
-            .slider-container {
-                display: flex;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                scroll-behavior: smooth;
-                gap: 0.75rem;
-                padding: 0.5rem 1rem;
-                margin: 0 -1rem;
+        @media (max-width: 767px) {
+            .mobile-slider {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+                padding: 0.5rem;
             }
 
-            .slider-container .book-card {
-                scroll-snap-align: start;
-                flex: 0 0 calc(50% - 0.5rem);
-                min-width: calc(50% - 0.5rem);
-            }
-
-            .book-grid {
+            .desktop-grid {
                 display: none;
             }
-        }
-
-        /* Hide scrollbar but keep functionality */
-        .slider-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .slider-container {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
         }
     </style>
 </head>
@@ -165,9 +144,8 @@ $booksQuery = $connect->query($sql);
 
         <div class="flex-1">
             <?php if ($booksQuery->num_rows > 0): ?>
-                <!-- Mobile Slider (shows only on mobile) -->
-                <div class="grid grid-cols-2 gap-1 md:hidden px-2">
-
+                <!-- Mobile View (2 books per row) -->
+                <div class="mobile-slider">
                     <?php while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
                         $checkWishlist = $connect->query("SELECT * FROM wishlist WHERE user_id = '$userId' AND book_id = '$bookId'");
@@ -177,23 +155,21 @@ $booksQuery = $connect->query($sql);
                         $sell_price = floatval($book['sell_price']);
                         $percentage = ($mrp > 0 && $sell_price > 0) ? round(($mrp - $sell_price) / $mrp * 100) : 0;
                     ?>
-                        <div
-                            class="bg-white p-3 rounded-lg shadow-md border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl duration-300 ">
-                            <!-- Discount Badge (Smaller on Mobile) -->
-                            <div
-                                class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
+                        <div class="bg-white p-3 rounded-lg shadow-md border border-gray-200 hover:shadow-xl duration-300 relative">
+                            <!-- Discount Badge -->
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-md shadow-md">
                                 <?= round($percentage); ?>% OFF
                             </div>
 
-                            <!-- Wishlist Button (Compact on Mobile) -->
+                            <!-- Wishlist Button -->
                             <form method="POST"
                                 action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
-                                class="absolute top-2.5 sm:top-3 right-2 sm:right-3" onclick="event.stopPropagation();">
+                                class="absolute top-2 right-2" onclick="event.stopPropagation();">
                                 <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                                 <button type="submit" class="cursor-pointer" name="toggle_wishlist">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                        class="size-4 sm:size-6 hover:scale-110 transition">
+                                        class="size-5 hover:scale-110 transition">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                     </svg>
@@ -208,101 +184,82 @@ $booksQuery = $connect->query($sql);
                                 </div>
 
                                 <!-- Book Info -->
-                                <div class="mt-2 sm:mt-3 text-strat">
-                                    <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
+                                <div class="mt-4">
+                                    <h3 class="font-bold text-gray-800 text-sm sm:text-base truncate leading-tight">
                                         <?= $book['book_name']; ?>
-                                    </h2>
-                                    <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                        <p class="text-gray-500 text-sm font-semibold truncate w-30">
-                                            <?= $book['book_author']; ?>
+                                    </h3>
+                                    <p class="text-gray-600 text-xs sm:text-sm mt-1 truncate">
+                                        <?= $book['book_author']; ?>
+                                    </p>
 
-                                        </p>
-                                        <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
-
+                                    <div class="flex items-center justify-between mt-3">
+                                        <div class="flex items-center space-x-2">
+                                            <?php if ($mrp > $sell_price): ?>
+                                                <span class="text-gray-400 text-xs line-through">₹<?= $mrp; ?></span>
+                                            <?php endif; ?>
+                                            <span class="text-[#3D8D7A] font-bold text-sm sm:text-base">₹<?= $sell_price; ?></span>
+                                        </div>
+                                        <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
                                     </div>
-
-
-                                    <!-- Price -->
-                                    <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
-                                        <p class="text-gray-500 line-through text-[10px] sm:text-xs">₹<?= $book['mrp']; ?>/-</p>
-                                        <p class="text-black font-bold text-sm sm:text-lg">₹<?= $book['sell_price']; ?>/-</p>
-                                    </div>
-
-
                                 </div>
                             </a>
 
-                            <!-- Footer (Add to Cart + Rating) -->
+                            <!-- Add to Cart Button -->
                             <?php
                             $email = $_SESSION['user'] ?? null;
-
-
-                            // Step 1: Fetch all cart items for the user
                             $cartItems = [];
-                            $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
-                            while ($item = mysqli_fetch_assoc($callCartItem)) {
-                                $cartItems[] = $item['item_id'];
+                            if ($email) {
+                                $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
+                                while ($item = mysqli_fetch_assoc($callCartItem)) {
+                                    $cartItems[] = $item['item_id'];
+                                }
                             }
-
-                            // Step 2: Inside your book loop, check if it's in the cart
                             $isInCart = in_array($book['id'], $cartItems);
                             ?>
 
-                            <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
-                                class="block group/cart">
-                                <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
-                                    <button
-                                        class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
-
-                                        <!-- Icon -->
-                                        <div class="relative">
-                                            <?php if ($isInCart): ?>
-                                                <!-- Tick Icon for "Go to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            <?php else: ?>
-                                                <!-- Cart Icon for "Add to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <!-- Cart base -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
-                                                    <!-- Check mark -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
-                                                </svg>
-
-
-                                            <?php endif; ?>
-
-                                        </div>
-
-                                        <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
-
-
-                                        <!-- Optional plus icon -->
-                                        <?php if (!$isInCart): ?>
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4 opacity-0 group-hover/cart:opacity-100 transition-opacity duration-200"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <div class="mt-3 border-t border-gray-200 pt-2">
+                                <?php if ($book['version'] == "new"): ?>
+                                    <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
+                                        class="block group/cart">
+                                        <button
+                                            class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+                                            <div class="relative">
+                                                <?php if ($isInCart): ?>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                <?php else: ?>
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-4 h-4 text-white group-hover/cart:-translate-y-1 transition-transform"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
+                                                    </svg>
+                                                <?php endif; ?>
+                                            </div>
+                                            <span><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                        </button>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="chatboard.php?book_id=<?= $book['id'] ?>" class="block">
+                                        <button class="w-full flex items-center justify-center gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white text-xs font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                             </svg>
-                                        <?php endif; ?>
-                                    </button>
-                                </div>
-                            </a>
-
+                                            Chat Seller
+                                        </button>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endwhile; ?>
                 </div>
 
-                <!-- Desktop Grid (shows on tablet/desktop) -->
-                <main class="book-grid hidden md:grid">
+                <!-- Desktop View (5 books per row) -->
+                <div class="desktop-grid book-grid">
                     <?php
-                    // Reset pointer to loop through results again
                     $booksQuery->data_seek(0);
                     while ($book = $booksQuery->fetch_assoc()):
                         $bookId = $book['book_id'];
@@ -313,23 +270,21 @@ $booksQuery = $connect->query($sql);
                         $sell_price = floatval($book['sell_price']);
                         $percentage = ($mrp > 0 && $sell_price > 0) ? round(($mrp - $sell_price) / $mrp * 100) : 0;
                     ?>
-                        <div
-                            class="bg-white p-3 rounded-lg shadow-md border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative hover:shadow-xl duration-300 ">
-                            <!-- Discount Badge (Smaller on Mobile) -->
-                            <div
-                                class="absolute left-2 top-2 bg-red-500 text-white px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold rounded-md shadow-md">
+                        <div class="bg-white p-3 rounded-lg shadow-md border border-gray-200 hover:shadow-xl duration-300 relative">
+                            <!-- Discount Badge -->
+                            <div class="absolute left-2 top-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-md shadow-md">
                                 <?= round($percentage); ?>% OFF
                             </div>
 
-                            <!-- Wishlist Button (Compact on Mobile) -->
+                            <!-- Wishlist Button -->
                             <form method="POST"
                                 action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
-                                class="absolute top-2.5 sm:top-3 right-2 sm:right-3" onclick="event.stopPropagation();">
+                                class="absolute top-2 right-2" onclick="event.stopPropagation();">
                                 <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                                 <button type="submit" class="cursor-pointer" name="toggle_wishlist">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
-                                        class="size-4 sm:size-6 hover:scale-110 transition">
+                                        class="size-5 hover:scale-110 transition">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                     </svg>
@@ -344,96 +299,78 @@ $booksQuery = $connect->query($sql);
                                 </div>
 
                                 <!-- Book Info -->
-                                <div class="mt-2 sm:mt-3 text-strat">
-                                    <h2 class="text-xs sm:text-base font-semibold truncate text-[#3D8D7A]">
+                                <div class="mt-4">
+                                    <h3 class="font-bold text-gray-800 text-sm sm:text-base truncate leading-tight">
                                         <?= $book['book_name']; ?>
-                                    </h2>
-                                    <div class="flex mt-1 justify-between  text-gray-500 text-[10px] sm:text-xs font-semibold">
-                                        <p class="text-gray-500 text-sm font-semibold truncate w-30">
-                                            <?= $book['book_author']; ?>
+                                    </h3>
+                                    <p class="text-gray-600 text-xs sm:text-sm mt-1 truncate">
+                                        <?= $book['book_author']; ?>
+                                    </p>
 
-                                        </p>
-                                        <span class="text-sm text-orange-400 "><?= $book['book_category']; ?></span>
-
+                                    <div class="flex items-center justify-between mt-3">
+                                        <div class="flex items-center space-x-2">
+                                            <?php if ($mrp > $sell_price): ?>
+                                                <span class="text-gray-400 text-xs line-through">₹<?= $mrp; ?></span>
+                                            <?php endif; ?>
+                                            <span class="text-[#3D8D7A] font-bold text-sm sm:text-base">₹<?= $sell_price; ?></span>
+                                        </div>
+                                        <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
                                     </div>
-
-
-                                    <!-- Price -->
-                                    <div class="flex justify-center items-center space-x-1 sm:space-x-2 mt-1">
-                                        <p class="text-gray-500 line-through text-[10px] sm:text-xs">₹<?= $book['mrp']; ?>/-</p>
-                                        <p class="text-black font-bold text-sm sm:text-lg">₹<?= $book['sell_price']; ?>/-</p>
-                                    </div>
-
-
                                 </div>
                             </a>
 
-                            <!-- Footer (Add to Cart + Rating) -->
+                            <!-- Add to Cart Button -->
                             <?php
                             $email = $_SESSION['user'] ?? null;
-
-
-                            // Step 1: Fetch all cart items for the user
                             $cartItems = [];
-                            $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
-                            while ($item = mysqli_fetch_assoc($callCartItem)) {
-                                $cartItems[] = $item['item_id'];
+                            if ($email) {
+                                $callCartItem = mysqli_query($connect, "SELECT item_id FROM cart WHERE email='$email' AND direct_buy=0");
+                                while ($item = mysqli_fetch_assoc($callCartItem)) {
+                                    $cartItems[] = $item['item_id'];
+                                }
                             }
-
-                            // Step 2: Inside your book loop, check if it's in the cart
                             $isInCart = in_array($book['id'], $cartItems);
                             ?>
 
-                            <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
-                                class="block group/cart">
-                                <div class="mt-3 sm:mt-4 border-t border-gray-200 pt-2 sm:pt-3">
-                                    <button
-                                        class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs sm:text-sm font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
-
-                                        <!-- Icon -->
-                                        <div class="relative">
-                                            <?php if ($isInCart): ?>
-                                                <!-- Tick Icon for "Go to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            <?php else: ?>
-                                                <!-- Cart Icon for "Add to Cart" -->
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-white group-hover/cart:-translate-y-1 transition-transform"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <!-- Cart base -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
-                                                    <!-- Check mark -->
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
-                                                </svg>
-
-
-                                            <?php endif; ?>
-
-                                        </div>
-
-                                        <span class="cursor-pointer   "><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
-
-
-                                        <!-- Optional plus icon -->
-                                        <?php if (!$isInCart): ?>
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4 opacity-0 group-hover/cart:opacity-100 transition-opacity duration-200"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <div class="mt-3 border-t border-gray-200 pt-2">
+                                <?php if ($book['version'] == "new"): ?>
+                                    <a href="<?= $isInCart ? 'cart.php' : 'cart.php?add_book=' . $book['id']; ?>"
+                                        class="block group/cart">
+                                        <button
+                                            class="w-full flex items-center justify-center gap-2 <?= $isInCart ? 'bg-green-600 hover:bg-green-700' : 'bg-[#3D8D7A] hover:bg-[#2a6455]' ?> text-white text-xs font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+                                            <div class="relative">
+                                                <?php if ($isInCart): ?>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                <?php else: ?>
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-4 h-4 text-white group-hover/cart:-translate-y-1 transition-transform"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4L7 13zM7 13a1 1 0 100 2 1 1 0 000-2zM17 13a1 1 0 100 2 1 1 0 000-2z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.5l1.5 1.5 3-3" />
+                                                    </svg>
+                                                <?php endif; ?>
+                                            </div>
+                                            <span><?= $isInCart ? 'Go to Cart' : 'Add to Cart'; ?></span>
+                                        </button>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="chatboard.php?book_id=<?= $book['id'] ?>" class="block">
+                                        <button class="w-full flex items-center justify-center gap-2 bg-[#3D8D7A] hover:bg-[#2a6455] text-white text-xs font-medium py-2 px-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                             </svg>
-                                        <?php endif; ?>
-                                    </button>
-                                </div>
-                            </a>
-
+                                            Chat Seller
+                                        </button>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endwhile; ?>
-                </main>
+                </div>
             <?php else: ?>
                 <div class="flex justify-center items-center h-[60vh]">
                     <div class="text-center">
@@ -448,89 +385,6 @@ $booksQuery = $connect->query($sql);
     <?php include_once "includes/footer2.php"; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    <script>
-        // Enhanced touch slider for mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            const slider = document.querySelector('.slider-container');
-            if (!slider) return;
-
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-            let velocity = 0;
-            let animationFrame;
-            let lastTime = 0;
-            const deceleration = 0.95;
-            const minVelocity = 0.1;
-
-            // Mouse events
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-                cancelAnimationFrame(animationFrame);
-            });
-
-            slider.addEventListener('mouseleave', () => {
-                isDown = false;
-                startInertia();
-            });
-
-            slider.addEventListener('mouseup', () => {
-                isDown = false;
-                startInertia();
-            });
-
-            slider.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2;
-                slider.scrollLeft = scrollLeft - walk;
-                velocity = walk;
-            });
-
-            // Touch events
-            slider.addEventListener('touchstart', (e) => {
-                isDown = true;
-                startX = e.touches[0].pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-                cancelAnimationFrame(animationFrame);
-                velocity = 0;
-            });
-
-            slider.addEventListener('touchend', () => {
-                isDown = false;
-                startInertia();
-            });
-
-            slider.addEventListener('touchmove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.touches[0].pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2;
-                slider.scrollLeft = scrollLeft - walk;
-                velocity = walk;
-            });
-
-            // Inertia effect
-            function startInertia() {
-                lastTime = performance.now();
-                animationFrame = requestAnimationFrame(inertia);
-            }
-
-            function inertia(currentTime) {
-                const deltaTime = currentTime - lastTime;
-                lastTime = currentTime;
-
-                if (Math.abs(velocity) > minVelocity) {
-                    slider.scrollLeft -= velocity;
-                    velocity *= deceleration;
-                    animationFrame = requestAnimationFrame(inertia);
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>
