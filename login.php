@@ -163,7 +163,7 @@
                 $client = new Google_Client();
                 $client->setClientId('');
                 $client->setClientSecret('');
-                $client->setRedirectUri('');
+                $client->setRedirectUri('https://kitabiadda.com/');
                 $client->addScope(['email', 'profile']);
 
                 $login_url = $client->createAuthUrl();

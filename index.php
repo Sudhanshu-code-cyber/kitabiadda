@@ -7,7 +7,7 @@ require 'vendor/autoload.php';
 $client = new Google_Client();
 $client->setClientId('');
 $client->setClientSecret('');
-$client->setRedirectUri('');
+$client->setRedirectUri('https://kitabiadda.com/');
 $client->addScope(['email', 'profile']);
 
 if (isset($_GET['code'])) {
