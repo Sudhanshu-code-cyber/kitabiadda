@@ -1,4 +1,4 @@
-<?php include_once '../config/connect.php';
+<?php include_once '../../config/connect.php';
 include_once '../includes/redirectIfNotAdmin.php'; ?>
 
 <!DOCTYPE html>
