@@ -129,7 +129,7 @@ if (isset($_GET['code'])) {
     </style>
 </head>
 
-<body class="bg-gray-50 ">
+<body class="bg-[#FBFFE4]">
     <?php include_once "includes/header.php"; ?>
     <?php include_once "includes/subheader.php"; ?>
 
