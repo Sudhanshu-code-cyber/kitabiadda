@@ -606,6 +606,7 @@ if (isset($_GET['minus_book'])) {
                     <span class="text-sm text-gray-600">Total</span>
                     <span class="text-lg font-bold text-orange-600">₹<?= $totleSellPrice ?></span>
                 </div>
+                
                 <form method="POST" class="ml-2">
                     <button name="order_submit"
                         class="bg-orange-500 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-orange-600 transition-colors duration-200 transform hover:scale-105 active:scale-95">

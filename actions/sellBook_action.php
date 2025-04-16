@@ -97,7 +97,7 @@ if (isset($_POST['submit_book'])) {
 
     // File Upload
     $target_dir = "../assets/images/";
-    $image1 = $image2 = $image3 = $image4 = "";
+    $image1 = $image2 = $image3 = $image4 = $image5 = $image6 = $image7 = "";
 
     function uploadImage($fileInput, $target_dir)
     {
@@ -113,8 +113,11 @@ if (isset($_POST['submit_book'])) {
     $image2 = uploadImage("image1", $target_dir);
     $image3 = uploadImage("image2", $target_dir);
     $image4 = uploadImage("image3", $target_dir);
+    $image5 = uploadImage("image4", $target_dir);
+    $image6 = uploadImage("image5", $target_dir);
+    $image7 = uploadImage("image6", $target_dir);
 
-    $uploaded_images = array_filter([$image1, $image2, $image3, $image4]);
+    $uploaded_images = array_filter([$image1, $image2, $image3, $image4, $image5, $image6, $image7]);
 
     if (count($uploaded_images) < 2) {
         echo "<script>
@@ -133,9 +136,9 @@ if (isset($_POST['submit_book'])) {
     }
     if (mysqli_query($connect, $address_sql)) {
         $sql = "INSERT INTO books 
-            (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, seller_id, version) 
+            (book_name, book_author, mrp, sell_price, book_pages, book_category, book_sub_category, language, isbn, publish_year, quality, book_binding, book_description, img1, img2, img3, img4, img5, img6, img7, seller_id, version) 
             VALUES 
-            ('$book_name', '$book_author', '$mrp', '$sell_price', '$pages', '$book_category', '$book_sub_category', '$language', '$isbn', '$publish_year', '$quality', '$book_binding', '$book_description', '$image1', '$image2', '$image3', '$image4', '$seller_id','old')";
+            ('$book_name', '$book_author', '$mrp', '$sell_price', '$pages', '$book_category', '$book_sub_category', '$language', '$isbn', '$publish_year', '$quality', '$book_binding', '$book_description', '$image1', '$image2', '$image3', '$image4', '$image5', '$image6', '$image7', '$seller_id','old')";
 
 
         if (mysqli_query($connect, $sql)) {
