@@ -1,4 +1,4 @@
-<?php include_once '../../config/connect.php';
+<?php include_once '../config/connect.php';
 include_once '../includes/redirectIfNotAdmin.php'; ?>
 
 <!DOCTYPE html>
@@ -7,7 +7,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read Rainbow (Admin)</title>
+  <title><?= PROJECT_NAME ?> | Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
