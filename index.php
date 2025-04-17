@@ -1,5 +1,57 @@
 <?php include_once "config/connect.php"; ?>
+<?php
+require 'vendor/autoload.php';
 
+$client = new Google_Client();
+$client->setClientId('642231406648-f8v8n91iupaet0c90qfvhrduuo7412d5.apps.googleusercontent.com');
+$client->setClientSecret('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');
+$client->setRedirectUri('http://localhost/kitabiadda/');
+$client->addScope(['email', 'profile']);
+
+if (isset($_GET['code'])) {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    $client->setAccessToken($token['access_token']);
+
+    // Fetch User Data from Google
+    $oauth = new Google_Service_Oauth2($client);
+    $user = $oauth->userinfo->get();
+
+    $google_id = $user->id; 
+    $name = $user->name;
+    $email = $user->email; 
+    $picture = $user->picture; 
+
+    
+    $query = $connect->prepare("SELECT * FROM users WHERE google_id = ?");
+    $query->bind_param("s", $google_id);
+    $query->execute();
+    $result = $query->get_result();
+    $count = $result->num_rows;
+
+    if ($count == 0) {
+       
+        $insert = $connect->prepare("INSERT INTO users (google_id, name, email, dp) VALUES (?, ?, ?, ?)");
+        $insert->bind_param("ssss", $google_id, $name, $email, $picture);
+        if ($insert->execute()) {
+            // $_SESSION['user'] = $email;
+            echo "User successfully added to database!";
+        } else {
+            die("Database Insert Error: " . $insert->error);
+        }
+    } 
+
+    $user_call = mysqli_query($connect, "SELECT * FROM users WHERE email='$email' AND google_id='$google_id'");
+    $numema = mysqli_num_rows($user_call);
+    $emails = mysqli_fetch_assoc($user_call);
+    if ($numema == 1) {
+        $_SESSION['user'] = $email;
+        redirect('index.php');
+    }
+
+    header("Location: index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
