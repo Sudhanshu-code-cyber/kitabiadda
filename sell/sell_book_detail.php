@@ -155,20 +155,14 @@ $add = $callAdd->fetch_array();
         <form action="../actions/sellBook_action.php" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book <?php if ($cat_id == 1) {
-                    echo "Set";
-                } ?>
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book 
                     Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="relative">
                         <input type="text" name="book_name" placeholder=" " class="input-box border rounded w-full p-3"
                             data-validate="text" data-min="3" data-msg="Book Name" id="bookName"
                             oninput="validateField(this)">
-                        <label for="bookName" class="floating-label">Book <?php if ($cat_id == 1) {
-                            echo "Set";
-                        } ?> <?php if ($cat_id == 1) {
-                              echo "Name [ science | maths | etc ] ";
-                          } ?> </label>
+                        <label for="bookName" class="floating-label">Book  </label>
                         <div id="bookNameFeedback" class="form-text text-sm "></div>
                     </div>
 
@@ -176,35 +170,27 @@ $add = $callAdd->fetch_array();
                         <input type="text" name="book_author" placeholder=" "
                             class="input-box border rounded w-full p-3" id="author" oninput="validateField(this)"
                             data-validate="text" data-min="2" data-msg="Author Name">
-                        <label for="author" class="floating-label">Author <?php if ($cat_id == 1) {
-                            echo "[ Kc.Sinha | rd.sharma | etc ]";
-                        } ?></label>
+                        <label for="author" class="floating-label">Author </label>
                         <div id="authorFeedback" class="form-text text-sm"></div>
                     </div>
 
                     <div class="relative">
                         <input type="number" placeholder=" " name="mrp" class="input-box border rounded w-full p-3"
                             id="mrp" oninput="validateField(this)" data-validate="number" data-min="50" data-msg="MRP">
-                        <label for="mrp" class="floating-label">MRP <?php if ($cat_id == 1) {
-                            echo "[ 213 + 433 + 98 = 744 ]";
-                        } ?></label>
+                        <label for="mrp" class="floating-label">MRP </label>
                         <div id="mrpFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="sell_price"
                             class="input-box border rounded w-full p-3" id="sellingPrice" oninput="validateField(this)"
                             data-validate="number" data-msg="Selling Price">
-                        <label for="sellingPrice" class="floating-label">Selling Price <?php if ($cat_id == 1) {
-                            echo "[ 200 + 400 + 80 = 680 ]";
-                        } ?></label>
+                        <label for="sellingPrice" class="floating-label">Selling Price </label>
                         <div id="sellingPriceFeedback" class="form-text text-sm"></div>
                     </div>
                     <div class="relative">
                         <input type="number" placeholder=" " name="pages" class="input-box border rounded w-full p-3"
                             id="pages">
-                        <label for="pages" class="floating-label">Total Pages <?php if ($cat_id == 1) {
-                            echo "[ 20 + 80 + 200 = 300 ]";
-                        } ?></label>
+                        <label for="pages" class="floating-label">Total Pages </label>
                     </div>
                     <select class="p-3 border rounded w-full" name="book_binding">
                         <option value="">Select Binding</option>
@@ -535,9 +521,7 @@ $add = $callAdd->fetch_array();
                 <textarea placeholder=" " class="input-box border rounded w-full p-3" rows="4" id="description"
                     name="book_description" data-validate="text" data-min="10" data-msg="Book Description"
                     oninput="validateField(this)"></textarea>
-                <label for="description" class="floating-label">Enter book description... <?php if ($cat_id == 1) {
-                    echo "[ 1. -> Book1 -> Author -> Mrp -> sell_price -> Page -> ISBN ]";
-                } ?></label>
+                <label for="description" class="floating-label">Enter book description... </label>
                 <div id="descriptionFeedback" class="form-text"></div>
             </div>
 
@@ -588,38 +572,7 @@ $add = $callAdd->fetch_array();
                             <span class="text-xs">Add Photo</span>
                         </span>
                     </label>
-                    <?php if ($cat_id == 1) { ?>
-                        <label
-                            class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
-                            <input type="file" name="image4" class="hidden" onchange="previewImage(event, 4)"
-                                accept="image/*">
-                            <img id="img4" src="" class="hidden w-full h-full object-cover rounded">
-                            <span id="addPhotoText4" class="text-gray-500 text-center">
-                                <i class="fas fa-camera text-2xl block mb-1"></i>
-                                <span class="text-xs">Add Photo</span>
-                            </span>
-                        </label>
-                        <label
-                            class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
-                            <input type="file" name="image5" class="hidden" onchange="previewImage(event, 5)"
-                                accept="image/*">
-                            <img id="img5" src="" class="hidden w-full h-full object-cover rounded">
-                            <span id="addPhotoText5" class="text-gray-500 text-center">
-                                <i class="fas fa-camera text-2xl block mb-1"></i>
-                                <span class="text-xs">Add Photo</span>
-                            </span>
-                        </label>
-                        <label
-                            class="border-2 border-gray-300 border-dashed flex flex-col items-center justify-center p-4 cursor-pointer w-full h-40 sm:h-48 rounded">
-                            <input type="file" name="image6" class="hidden" onchange="previewImage(event, 6)"
-                                accept="image/*">
-                            <img id="img6" src="" class="hidden w-full h-full object-cover rounded">
-                            <span id="addPhotoText6" class="text-gray-500 text-center">
-                                <i class="fas fa-camera text-2xl block mb-1"></i>
-                                <span class="text-xs">Add Photo</span>
-                            </span>
-                        </label>
-                    <?php } ?>
+                    
 
                 </div>
             </div>
