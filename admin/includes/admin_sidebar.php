@@ -33,16 +33,16 @@
       <div class="collapse" id="manageOrderCollapse1">
         <ul class="nav flex-column ms-3">
         <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/orders/recent_order.php">Recent Order</a>
+            <a class="nav-link" href="/admin/orders/recent_order.php">Recent Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/orders/pending_order.php">Pending Order</a>
+            <a class="nav-link" href="/admin/orders/pending_order.php">Pending Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/orders/cancle_product.php">Cancelled Order</a>
+            <a class="nav-link" href="/admin/orders/cancle_product.php">Cancelled Order</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/orders/delevered_order.php">Order Placed</a>
+            <a class="nav-link" href="/admin/orders/delevered_order.php">Order Placed</a>
           </li>
         </ul>
       </div>
@@ -56,17 +56,17 @@
       <div class="collapse" id="manageOrderCollapse2">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/category/view_category.php">View Category</a>
+            <a class="nav-link" href="/admin/category/view_category.php">View Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/category/insert_category.php">Insert
+            <a class="nav-link" href="/admin/category/insert_category.php">Insert
               Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/category/view_subcategory.php">View Sub_Category</a>
+            <a class="nav-link" href="/admin/category/view_subcategory.php">View Sub_Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/category/insert_subcategory.php">Insert
+            <a class="nav-link" href="/admin/category/insert_subcategory.php">Insert
               Sub_Category</a>
           </li>
           <!-- <li class="nav-item">
@@ -84,10 +84,10 @@
       <div class="collapse" id="manageOrderCollapse3">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/books/view_books.php">View Books</a>
+            <a class="nav-link" href="/admin/books/view_books.php">View Books</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/books/insert_books.php">Insert Books</a>
+            <a class="nav-link" href="/admin/books/insert_books.php">Insert Books</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Edit item</a>
@@ -124,7 +124,7 @@
       <div class="collapse" id="manageOrderCollapse5">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/users/user_custmer.php">Users </a>
+            <a class="nav-link" href="/admin/users/user_custmer.php">Users </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Blocked Users</a>
@@ -147,7 +147,7 @@
       <div class="collapse" id="manageOrderCollapse6">
         <ul class="nav flex-column ms-3">
           <li class="nav-item">
-            <a class="nav-link" href="https:/kitabiadda.com/admin/complains.php">Complain </a>
+            <a class="nav-link" href="complains/complains.php">Complain </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Bug Complain</a>
@@ -158,7 +158,7 @@
       </div>
     </li>
     <hr>
-    <a class="nav-link" href="https:/kitabiadda.com/admin/coupon.php">
+    <a class="nav-link" href="coupon.php">
     <i class="bi bi-gear-wide-connected me-2"></i>Manage Coupons
     </a>
 
