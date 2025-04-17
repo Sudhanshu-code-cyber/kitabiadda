@@ -169,7 +169,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
             }
 
             .book-actions {
-                flex-direction: column;
+                
                 gap: 1rem;
                 margin-top: 1rem;
             }
@@ -308,8 +308,9 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                         <h3 class="text-base md:text-lg font-semibold book-author">Author: <span
                                 class="text-[#3D8D7A]"><?= htmlspecialchars($book['book_author']); ?></span></h3>
                     </div>
-                    <div class="relative gap-2 md:gap-4 flex mt-2 md:mt-0 book-actions">
-                        <form method="POST" action="view.php?book_id=<?= $book_id ?>" class="">
+                    <div class="relative gap-2  md:gap-4 flex md:py-5 mt-2 md:mt-0 book-actions">
+                       <div class="flex">
+                       <form method="POST" action="view.php?book_id=<?= $book_id ?>" class="">
                             <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
                             <input type="hidden" name="toggle_wishlist" value="1">
                             <button type="submit"
@@ -323,8 +324,9 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                                 Wishlist
                             </button>
                         </form>
+                       </div>
 
-                        <div class="relative inline-block">
+                        <div class="relative  inline-block">
                             <!-- Share Button -->
                             <button id="shareBtn"
                                 class="flex font-semibold items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
@@ -691,7 +693,10 @@ $address = mysqli_fetch_assoc($callAdd) ?>
             </div>
         </div>
     </div>
-    <?php if ($book['version'] == 'new'): ?>
+
+    <?php
+
+    if ($book['version'] == 'new'  ): ?>
         <?php include_once "includes/recomended_book.php" ?>
     <?php else: ?>
         <div class="p-4 md:p-6">
@@ -717,7 +722,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <span class="font-medium">At:</span> <?= $address['city'] ?>, <?= $address['state'] ?>
+                        <span class="font-medium">At:</span><?= $address['landmark'] ?> , <?= $address['address'] ?> , <?= $address['city'] ?> (<?= $address['pincode'] ?>), <?= $address['state'] ?>
                     </p>
                     <p class="text-gray-700 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
