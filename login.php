@@ -156,8 +156,18 @@
                     <div class="absolute inset-0 border-t border-gray-300"></div>
                     <div class="relative px-4 bg-transparent text-gray-500 text-sm">or continue with</div>
                 </div>
+                <?php
+                require 'vendor/autoload.php';
+                $client = new Google_Client();
+                $client->setClientId('642231406648-f8v8n91iupaet0c90qfvhrduuo7412d5.apps.googleusercontent.com');
+                $client->setClientSecret('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');
+                $client->setRedirectUri('https://kitabiadda.com/');
+                $client->addScope(['email', 'profile']);
+                $login_url = $client->createAuthUrl();
+                ?>
 
-                <a href="#" 
+                <a href="<?= $login_url ?>" 
+                
                     class="social-btn flex items-center justify-center w-full px-4 py-3 rounded-lg">
                     <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                         <path fill="#4285F4" d="M24 9.5c3.19 0 6.07 1.1 8.38 2.93l6.23-6.23C34.92 2.29 29.74 0 24 0 14.68 0 6.72 5.38 2.61 13.24l7.24 5.63C12.21 13.17 17.63 9.5 24 9.5z"/>
