@@ -694,30 +694,81 @@ $address = mysqli_fetch_assoc($callAdd) ?>
     <?php if ($book['version'] == 'new'): ?>
         <?php include_once "includes/recomended_book.php" ?>
     <?php else: ?>
-        <div class="p-5">
-            <div class="flex bg-white p-5 rounded-xl shadow-lg">
-                <div class="w-2/4">
-                    <div>
-                        <h2>Posted On</h2>
-                        <p>Date: <?= date('d M Y', strtotime($book['post_date'])) ?></p>
-                        <p>At: <?= $address['city'] ?> , <?= $address['state'] ?></p>
-                        <p>Near By: <?= $address['locality'] ?> , <?= $address['pincode'] ?></p>
-                    </div>
+        <div class="p-4 md:p-6">
+    <div class="flex flex-col md:flex-row gap-6 bg-white p-5 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <!-- Left Section - Post Details -->
+        <div class="w-full md:w-1/2 space-y-4">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Posted On
+                </h2>
+                <div class="space-y-2 pl-7">
+                    <p class="text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="font-medium">Date:</span> <?= date('d M Y', strtotime($book['post_date'])) ?>
+                    </p>
+                    <p class="text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="font-medium">At:</span> <?= $address['city'] ?>, <?= $address['state'] ?>
+                    </p>
+                    <p class="text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                        <span class="font-medium">Near By:</span> <?= $address['locality'] ?>, <?= $address['pincode'] ?>
+                    </p>
                 </div>
-                <div class="mb-6 bg-gray-100 rounded w-2/4 p-2 ">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Location</h2>
-                    <div class="mt-6">
-                        <iframe class="w-full h-64 rounded-lg"
-                            src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
-                            allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                    <a href="https://www.google.com/maps/place/Vijay+Nagar,+Delhi" target="_blank" rel="noopener noreferrer"
-                        class="text-blue-600 text-sm font-medium inline-block">
-                        <i class="fas fa-external-link-alt mr-1"></i> Open in Maps
+            </div>
+            
+           
+        </div>
+
+        <!-- Right Section - Map -->
+        <div class="w-full md:w-1/2">
+            <div class="bg-gray-50 rounded-xl p-4 h-full">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Location
+                    </h2>
+                    <a href="https://www.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Open in Maps
                     </a>
+                </div>
+                
+                <div class="mt-2 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                    <iframe class="w-full h-64 md:h-72 rounded-lg"
+                        src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
+                        allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                
+                <div class="mt-4 text-sm text-gray-600">
+                    <p class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Exact location details will be shared after booking confirmation
+                    </p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
     <?php endif; ?>
     <?php include_once "includes/footer2.php" ?>
     <script>
