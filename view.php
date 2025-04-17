@@ -727,44 +727,30 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                     </p>
                 </div>
             </div>
-            
-           
         </div>
 
         <!-- Right Section - Map -->
         <div class="w-full md:w-1/2">
-            <div class="bg-gray-50 rounded-xl p-4 h-full">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Location
-                    </h2>
-                    <a href="https://www.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                        Open in Maps
-                    </a>
-                </div>
-                
-                <div class="mt-2 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                    <iframe class="w-full h-64 md:h-72 rounded-lg"
+            <div class="bg-gray-100 rounded-lg p-4 h-full">
+                <h2 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Location
+                </h2>
+                <div class="mt-4 rounded-lg overflow-hidden border border-gray-200">
+                    <iframe class="w-full h-64 rounded-lg"
                         src="https://maps.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>&hl=es&z=14&output=embed"
                         allowfullscreen="" loading="lazy"></iframe>
                 </div>
-                
-                <div class="mt-4 text-sm text-gray-600">
-                    <p class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Exact location details will be shared after booking confirmation
-                    </p>
-                </div>
+                <a href="https://www.google.com/maps?q=<?= $address['lattitude'] ?>,<?= $address['longitude'] ?>" target="_blank" rel="noopener noreferrer"
+                    class="mt-3 text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Open in Maps
+                </a>
             </div>
         </div>
     </div>
