@@ -83,22 +83,24 @@ if (isset($_POST['login'])) {
         }
     } else {
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'error',
-            title: 'Email Not Found!',
-            text: 'This email address is not registered with KitabiAdda.',
-            confirmButtonText: 'Try Another Email',
-            confirmButtonColor: '#d33',
-            backdrop: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'forgetPassword.php';
-            }
-        });
-    });
-</script>";
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Email Not Found!',
+                      text: 'This email address is not registered with KitabiAdda.',
+                      confirmButtonText: 'Try Another Email',
+                      confirmButtonColor: '#d33',
+                      allowOutsideClick: false,
+                      allowEscapeKey: false
+                  }).then(() => {
+                      window.location.href = 'forgetPassword.php';
+                  });
+
+                  // Backup redirect after 6 seconds (fail-safe)
+                  setTimeout(() => {
+                      window.location.href = 'forgetPassword.php';
+                  }, 6000);
+              </script>";
 
 
     }
