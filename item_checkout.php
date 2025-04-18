@@ -661,7 +661,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 window.location.href = "actions/buyMessegeEmail.php"; // Redirect to home page
             });
         </script>
-        ';
+        '; include_once "actions/buyMessegeEmail.php";
         } else {
             echo "❌ Error: " . mysqli_error($connect);
         }
