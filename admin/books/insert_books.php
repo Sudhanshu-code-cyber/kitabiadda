@@ -334,60 +334,39 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     $errors = [];
 
                     $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
-                    if (!preg_match('/^[a-zA-Z0-9\s\-_,.()]+$/', $book_name)) {
-                        $errors[] = "Book name is invalid.";
-                    }
+                   
 
                     $book_author = mysqli_real_escape_string($connect,$_POST['book_author']);
                    
                     $book_binding = $_POST['book_binding'];
 
                     $mrp = trim($_POST['mrp']);
-                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $mrp)) {
-                        $errors[] = "MRP must be a valid number.";
-                    }
+                   
 
                     $sell_price = trim($_POST['sell_price']);
-                    if (!preg_match('/^\d+(\.\d{1,2})?$/', $sell_price)) {
-                        $errors[] = "Sell price must be a valid number.";
-                    }
+                    
 
                     $book_pages = trim($_POST['book_pages']);
-                    if (!preg_match('/^\d+$/', $book_pages)) {
-                        $errors[] = "Book pages must be a whole number.";
-                    }
+                   
 
                     $book_category = $_POST['book_category'];
                     $book_sub_category = $_POST['book_sub_category'];
                     $language = $_POST['language'];
                     $isbn = trim($_POST['isbn']);
-                    if (!preg_match('/^\d{10}(\d{3})?$/', $isbn)) {
-                        $errors[] = "ISBN must be 10 or 13 digits.";
-                    }
+                    
 
                     $publish_year = $_POST['publish_year'];
                     // $quality = $_POST['quality'];
                     $book_quantity = trim($_POST['book_quantity']);
-                    if (!preg_match('/^\d+$/', $book_quantity)) {
-                        $errors[] = "Book quantity must be a valid number.";
-                    }
+                   
 
                     $book_description = mysqli_real_escape_string($connect, $_POST['book_description']);
-                    if (!preg_match('/^.{10,}$/', $book_description)) {
-                        $errors[] = "Description must be at least 10 characters.";
-                    }
+                   
 
                     // $e_book_avl = $_POST['e_book_avl'];
                     // $e_book_price = $_POST['e_book_price'];
                     // $book_rating = $_POST['book_rating'];
                 
-                    // Show errors if any
-                    if (!empty($errors)) {
-                        foreach ($errors as $error) {
-                            echo "<p style='color:red;'>$error</p>";
-                        }
-                        exit;
-                    }
 
                     // image 1 working
                     $image1 = $_FILES['img1']['name'];
