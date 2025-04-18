@@ -83,32 +83,29 @@ if (isset($_POST['login'])) {
         }
     } else {
         echo "
-<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'error',
-            title: 'Email not found!',
-            text: 'This email address is not registered with KitabiAdda.',
-            confirmButtonText: 'Try Another Email',
-            confirmButtonColor: '#d33',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            backdrop: true
-        }).then(function() {
-            window.location.replace('forgetPassword.php');
-        });
-
-        // Extra fallback: force redirect after 5 seconds
-        setTimeout(function() {
-            window.location.replace('forgetPassword.php');
-        }, 5000);
-    });
-</script>
-";
-
-
-
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Email not Registered!',
+                        text: 'This email address is not registered with KitabiAdda.',
+                        confirmButtonText: 'Try Another Email',
+                        confirmButtonColor: '#d33',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        backdrop: true
+                    }).then(function() {
+                        window.location.replace('forgetPassword.php');
+                    });
+            
+                    // Extra fallback: force redirect after 5 seconds
+                    setTimeout(function() {
+                        window.location.replace('forgetPassword.php');
+                    }, 5000);
+                });
+            </script>
+            ";
     }
 
 }
@@ -245,28 +242,54 @@ if (isset($_POST['login'])) {
                     <!-- <p class="text-gray-600 mt-2">Enter your Email to continue</p> -->
                 </div>
 
-                <form action="" method="POST" class="space-y-6">
-                    <!-- Email Input -->
-                    <div class="space-y-4 ">
-                        <label class="block text-gray-700 text-sm font-medium">Enter OTP</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-key text-gray-500"></i>
-                            </div>
-                            <input type="number" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
-                                class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
-                            <input type="hidden" name="otp_verify" value="<?php echo $otp ?>">
-                            <input type="hidden" name="otpEmail" value="<?= $email ?>">
+                <form action="" method="POST" class="space-y-6" onsubmit="return validateOtpMatch()">
+    <!-- Email Input -->
+    <div class="space-y-4">
+        <label class="block text-gray-700 text-sm font-medium">Enter OTP</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-key text-gray-500"></i>
+            </div>
+            <input type="number" id="inputOtp" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
+                class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
+            
+            <!-- Hidden OTP values -->
+            <input type="hidden" id="correctOtp" name="otp_verify" value="<?php echo $otp ?>">
+            <input type="hidden" name="otpEmail" value="<?= $email ?>">
+        </div>
 
-                        </div>
+        <!-- Verify OTP -->
+        <button type="submit" name="verify"
+            class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-medium">
+            Verify OTP
+        </button>
+    </div>
+</form>
 
-                        <!-- Verify OTP -->
-                        <button type="submit" name="verify"
-                            class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-medium">
-                            Verify OTP
-                        </button>
-                    </div>
-                </form>
+<!-- 🔐 JS for OTP match -->
+<script>
+    function validateOtpMatch() {
+        const inputOtp = document.getElementById("inputOtp").value.trim();
+        const correctOtp = document.getElementById("correctOtp").value.trim();
+
+        if (inputOtp !== correctOtp) {
+            // SweetAlert2 for user-friendly alert
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid OTP',
+                text: 'The OTP you entered is incorrect. Please try again.',
+                confirmButtonColor: '#d33',
+            });
+            return false; // ❌ prevent form submission
+        }
+
+        return true; // ✅ OTP matched, allow form submission
+    }
+</script>
+
+<!-- SweetAlert2 CDN (add once on your page if not already added) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
             </div>
         </div>
         <div class="fixed top-20 left-10 w-16 h-16 rounded-full bg-primary opacity-20 blur-xl -z-10"></div>
