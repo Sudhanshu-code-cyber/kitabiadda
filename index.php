@@ -188,7 +188,7 @@ if (isset($_GET['code'])) {
    
 
     <!-- Floating Sell Button -->
-    <a href="sell/sell.php" class="floating-sell-btn flex w-full justify-center items-center xl:hidden md:hidden  ">
+    <a href="sell/sell.php" class="floating-sell-btn flex w-full justify-center  items-center xl:hidden md:hidden  ">
         <button id="sellButton" >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
