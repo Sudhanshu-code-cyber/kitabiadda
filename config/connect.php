@@ -2,7 +2,7 @@
     // $connect = new mysqli("localhost","root", "","kitabiadda") or die("error connecting to database");
 
 
-//  $connect = new mysqli("localhost","adminroot", "X%S4%Xw!O]rO","kitabiadda") or die("error connecting to database");
+ $connect = new mysqli("localhost","adminroot", "X%S4%Xw!O]rO","kitabiadda") or die("error connecting to database");
 
     // project configration
     define("PROJECT_NAME", "KitabiAdda");
