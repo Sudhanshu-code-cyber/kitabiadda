@@ -82,25 +82,31 @@ if (isset($_POST['login'])) {
             echo "❌ Failed to send OTP. Please try again later.";
         }
     } else {
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Email Not Found!',
-                      text: 'This email address is not registered with KitabiAdda.',
-                      confirmButtonText: 'Try Another Email',
-                      confirmButtonColor: '#d33',
-                      allowOutsideClick: false,
-                      allowEscapeKey: false
-                  }).then(() => {
-                      window.location.href = 'forgetPassword.php';
-                  });
+        echo "
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Email not found!',
+            text: 'This email address is not registered with KitabiAdda.',
+            confirmButtonText: 'Try Another Email',
+            confirmButtonColor: '#d33',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            backdrop: true
+        }).then(function() {
+            window.location.replace('forgetPassword.php');
+        });
 
-                  // Backup redirect after 6 seconds (fail-safe)
-                  setTimeout(() => {
-                      window.location.href = 'forgetPassword.php';
-                  }, 6000);
-              </script>";
+        // Extra fallback: force redirect after 5 seconds
+        setTimeout(function() {
+            window.location.replace('forgetPassword.php');
+        }, 5000);
+    });
+</script>
+";
+
 
 
     }
