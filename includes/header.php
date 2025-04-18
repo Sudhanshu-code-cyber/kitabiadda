@@ -6,13 +6,14 @@ if (isset($_SESSION['user'])) {
 $userId = $user ? $user['user_id'] : null;
 $userEmail = $user ? $user['email'] : null;
 ?>
-<div class="flex fixed w-full z-50 top-0 xl:gap-10 lg:gap-[5rem] md:gap-7  items-center bg-[#3D8D7A] px-[5%] py-3">
+<div
+    class="flex fixed w-full z-50 top-0 xl:gap-10 lg:gap-[5rem] md:gap-7 justify-between items-center bg-[#3D8D7A] px-[5%] py-3">
     <!-- Logo -->
     <a href="index.php" class="text-[#FBFFE4] font-bold text-2xl tracking-wide">
         <img src="assets/logo5.png" alt="Logo" class="h-10  object-contain">
     </a>
     <!-- Mobile Menu Button (Hamburger) - Hidden on desktop -->
-    <div class="flex gap-2 ml-[8rem] md:hidden  md:ml-[17rem]">
+    <div class="flex gap-2 md:hidden  md:ml-[17rem]">
         <div id="search-toggle"
             class="flex gap-1 justify-center items-center border rounded-full px-2 py-1 text-[#FBFFE4] font-semibold">
             Search
@@ -22,11 +23,29 @@ $userEmail = $user ? $user['email'] : null;
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
         </div>
+
         <button id="mobile-menu-toggle" class=" text-[#FBFFE4] focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <?php
+            if (isset($_SESSION['user'])):
+                ?>
+                <img class="h-9 me-2 rounded-full border" src="<?php
+                if ($user['dp'] == "") {
+                    echo "assets/defaultUser.webp";
+                } elseif (substr($user['dp'], 0, 5) === 'https') {
+                    echo $user['dp'];
+                } else {
+                    echo "assets/user_dp/" . $user['dp'];
+                }
+                ?>
+                    " alt="user_dp">
+            <?php elseif (isset($_SESSION['admin'])): ?>
+                <img src="assets/defaultUser.webp" class="h-9 bg-white rounded-full border mr-2">
+            <?php else: ?>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            <?php endif; ?>
         </button>
     </div>
 
