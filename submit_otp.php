@@ -242,7 +242,14 @@ if (isset($_POST['login'])) {
                     <!-- <p class="text-gray-600 mt-2">Enter your Email to continue</p> -->
                 </div>
 
-                <form action="" method="POST" class="space-y-6" onsubmit="return validateOtpMatch()">
+                <!-- OTP Sent Message + Timer -->
+<div class="mb-4 text-center">
+    <p class="text-green-600 font-semibold text-lg">OTP is sent</p>
+    <p class="text-gray-700">This OTP will expire in <span id="timer" class="font-bold">05:00</span></p>
+</div>
+
+<!-- Your Form -->
+<form action="" method="POST" class="space-y-6" onsubmit="return validateOtpMatch()">
     <!-- Email Input -->
     <div class="space-y-4">
         <label class="block text-gray-700 text-sm font-medium">Enter OTP</label>
@@ -252,7 +259,7 @@ if (isset($_POST['login'])) {
             </div>
             <input type="number" id="inputOtp" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
-            
+
             <!-- Hidden OTP values -->
             <input type="hidden" id="correctOtp" name="otp_verify" value="<?php echo $otp ?>">
             <input type="hidden" name="otpEmail" value="<?= $email ?>">
@@ -266,29 +273,56 @@ if (isset($_POST['login'])) {
     </div>
 </form>
 
-<!-- 🔐 JS for OTP match -->
+<!-- Timer Script -->
 <script>
-    function validateOtpMatch() {
-        const inputOtp = document.getElementById("inputOtp").value.trim();
-        const correctOtp = document.getElementById("correctOtp").value.trim();
+    let timeLeft = 5 * 60; // 5 minutes in seconds
+    const timerElement = document.getElementById('timer');
 
-        if (inputOtp !== correctOtp) {
-            // SweetAlert2 for user-friendly alert
-            Swal.fire({
-                icon: 'error',
-                title: 'Invalid OTP',
-                text: 'The OTP you entered is incorrect. Please try again.',
-                confirmButtonColor: '#d33',
-            });
-            return false; // ❌ prevent form submission
+    const countdown = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+
+        // Pad with zero if needed
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        timerElement.textContent = `${minutes}:${seconds}`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            alert('OTP has expired. Please request a new one.');
+            // Optional: Disable the form or redirect
+            // document.querySelector('form').reset(); // Reset form
+            // window.location.href = "resendOtp.php"; // Or redirect to resend page
         }
-
-        return true; // ✅ OTP matched, allow form submission
-    }
+    }, 1000);
 </script>
 
-<!-- SweetAlert2 CDN (add once on your page if not already added) -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                <!-- 🔐 JS for OTP match -->
+                <script>
+                    function validateOtpMatch() {
+                        const inputOtp = document.getElementById("inputOtp").value.trim();
+                        const correctOtp = document.getElementById("correctOtp").value.trim();
+
+                        if (inputOtp !== correctOtp) {
+                            // SweetAlert2 for user-friendly alert
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid OTP',
+                                text: 'The OTP you entered is incorrect. Please try again.',
+                                confirmButtonColor: '#d33',
+                            });
+                            return false; // ❌ prevent form submission
+                        }
+
+                        return true; // ✅ OTP matched, allow form submission
+                    }
+                </script>
+
+                <!-- SweetAlert2 CDN (add once on your page if not already added) -->
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             </div>
         </div>
