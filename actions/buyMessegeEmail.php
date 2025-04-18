@@ -1,30 +1,45 @@
 <?php
+$book_namee = $cartItem['book_name'];
+$book_imagee = $cartItem['img1'];
+$book_desc = $cartItem['book_description'];
 $to = $email;
-$subject = "Product Sale Details - KitabiAdda";
+$subject = "Product Purchase Confirmation - KitabiAdda";
 
 // HTML Email Template
 $message = "
 <html>
 <head>
-<title>Product Sale Details</title>
+<title>Product Purchase Confirmation</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f9f9f9;
         padding: 20px;
     }
     .container {
         background-color: #ffffff;
-        padding: 20px;
+        padding: 30px;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        max-width: 600px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        max-width: 650px;
         margin: auto;
+        text-align: center;
+    }
+    .header {
+        background-color: #2c3e50;
+        color: #fff;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+    }
+    .header h2 {
+        margin: 0;
+        font-size: 28px;
     }
     .product-details {
-        border-top: 2px solid #ccc;
-        margin-top: 20px;
+        border-top: 2px solid #ddd;
+        margin-top: 25px;
         padding-top: 20px;
+        text-align: left;
     }
     .product-image {
         max-width: 100%;
@@ -35,8 +50,8 @@ $message = "
     .product-name {
         font-size: 24px;
         font-weight: bold;
-        color: #2c3e50;
-        margin-top: 10px;
+        color: #333;
+        margin-top: 15px;
     }
     .product-price {
         font-size: 20px;
@@ -49,34 +64,46 @@ $message = "
         color: #7f8c8d;
     }
     .footer {
-        margin-top: 20px;
-        font-size: 12px;
+        margin-top: 30px;
+        font-size: 14px;
         color: #888;
+        text-align: center;
+    }
+    .footer a {
+        color: #3498db;
+        text-decoration: none;
     }
 </style>
 </head>
 <body>
 <div class='container'>
-    <h2>Hello,</h2>
-    <p>Thank you for listing your product on <strong>KitabiAdda</strong>.</p>
-    <p>Here are the details of the product you recently sold:</p>
+    <div class='header'>
+        <h2>Thank You for Your Purchase!</h2>
+    </div>
+    <p>Dear Valued Customer,</p>
+    <p>We are thrilled to inform you that your order has been successfully placed on <strong>KitabiAdda</strong>!</p>
+    <p>Here are the details of your recent purchase:</p>
 
     <div class='product-details'>
-        <img src='https://kitabiadda.com/assets/images/wedfew' alt='Product Image' class='product-image'>
-        <p class='product-name'>Product Name: $233</p>
-        <p class='product-price'>Price: ₹$234</p>
+        <img src='https://kitabiadda.com/assets/images/$book_imagee' alt='Product Image' class='product-image'>
+        <p class='product-name'>Product Name: $book_namee</p>
+        <p class='product-price'>Price: ₹$totleSellPrice2</p>
         <p class='product-description'>
-            Description: $23433433wedf.
+            Description: $book_desc.
         </p>
     </div>
 
     <br>
-    <p>Thank you for using <strong>KitabiAdda</strong> to sell your product. We wish you more successful sales!</p>
+    <p>We appreciate your trust in <strong>KitabiAdda</strong> and look forward to serving you again. Your satisfaction is our priority!</p>
     <br>
-    <p>Regards,<br><strong>KitabiAdda Team</strong></p>
+    <p>If you have any questions or concerns, feel free to reach out to our support team.</p>
+
+    <br>
+    <p>Warm regards,<br><strong>KitabiAdda Team</strong></p>
 
     <div class='footer'>
-        <p>If you didn't list this product, please contact support immediately.</p>
+        <p>Need help? <a href='mailto:support@kitabiadda.com'>Contact Support</a></p>
+        <p>If you did not make this purchase, please <a href='mailto:support@kitabiadda.com'>contact us</a> immediately.</p>
     </div>
 </div>
 </body>
@@ -101,13 +128,11 @@ if (mail($to, $subject, $message, $headers)) {
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to home page
+                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to order details page
             });
         </script>
         ';
-    
 } else {
     echo "❌ Failed to send product details. Please try again later.";
 }
-
 ?>
