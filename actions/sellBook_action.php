@@ -8,8 +8,8 @@ if (isset($_SESSION['user'])) {
 $user_email = $user['email'];
 
 if (isset($_POST['submit_book'])) {
-    $book_name = mysqli_real_escape_string($connect,$_POST['book_name']);
-    $book_author = mysqli_real_escape_string($connect,$_POST['book_author']);
+    $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
+    $book_author = mysqli_real_escape_string($connect, $_POST['book_author']);
     $mrp = $_POST['mrp'];
     $sell_price = $_POST['sell_price'];
     $pages = $_POST['pages'];
@@ -21,7 +21,7 @@ if (isset($_POST['submit_book'])) {
     $current_year = date("Y");
     $quality = $_POST['quality'];
     $book_binding = $_POST['book_binding'];
-    $book_description = mysqli_real_escape_string($connect,$_POST['book_description']);
+    $book_description = mysqli_real_escape_string($connect, $_POST['book_description']);
 
 
     if (empty($book_name)) {
@@ -78,7 +78,7 @@ if (isset($_POST['submit_book'])) {
         message("Description must be at least 10 characters long.");
         exit();
     }
-    
+
 
     // Address Details
     $name = $_POST['name'];
@@ -86,7 +86,7 @@ if (isset($_POST['submit_book'])) {
     $email = $user_email;
     $pincode = $_POST['pincode'];
     $locality = $_POST['locality'];
-    $address = mysqli_real_escape_string($connect,$_POST['address']);
+    $address = mysqli_real_escape_string($connect, $_POST['address']);
     $city = $_POST['city'];
     $state = $_POST['state'];
     $landmark = $_POST['landmark'];
@@ -145,6 +145,106 @@ if (isset($_POST['submit_book'])) {
             echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='../index.php';</script>";
         } else {
             echo "<script>alert('Error: " . mysqli_error($connect) . "');</script>";
+
+
+            $to = $email;
+            $subject = "Product Sale Details - KitabiAdda";
+
+            // HTML Email Template
+            $message = "
+        <html>
+        <head>
+            <title>Product Sale Details</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                }
+                .container {
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    max-width: 600px;
+                    margin: auto;
+                }
+                .product-details {
+                    border-top: 2px solid #ccc;
+                    margin-top: 20px;
+                    padding-top: 20px;
+                }
+                .product-image {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 8px;
+                    margin-top: 20px;
+                }
+                .product-name {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #2c3e50;
+                    margin-top: 10px;
+                }
+                .product-price {
+                    font-size: 20px;
+                    color: #27ae60;
+                    margin-top: 5px;
+                }
+                .product-description {
+                    font-size: 16px;
+                    margin-top: 10px;
+                    color: #7f8c8d;
+                }
+                .footer {
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: #888;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Hello,</h2>
+                <p>Thank you for listing your product on <strong>KitabiAdda</strong>.</p>
+                <p>Here are the details of the product you recently sold:</p>
+
+                <div class='product-details'>
+                    <img src='https://via.placeholder.com/500x300' alt='Product Image' class='product-image'>
+                    <p class='product-name'>Product Name: Awesome Book</p>
+                    <p class='product-price'>Price: ₹499</p>
+                    <p class='product-description'>
+                        Description: This is a best-selling book in the genre of Fiction. It's an inspiring tale that
+                        has captivated the hearts of readers across the world.
+                    </p>
+                </div>
+
+                <br>
+                <p>Thank you for using <strong>KitabiAdda</strong> to sell your product. We wish you more successful sales!</p>
+                <br>
+                <p>Regards,<br><strong>KitabiAdda Team</strong></p>
+
+                <div class='footer'>
+                    <p>If you didn't list this product, please contact support immediately.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    ";
+
+            // Headers
+            $headers = "MIME-Version: 1.0\r\n";
+            $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+            $headers .= "From: KitabiAdda <no-reply@kitabiadda.in>\r\n";
+            $headers .= "Reply-To: support@kitabiadda.com\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion();
+
+            // Send Mail
+            if (mail($to, $subject, $message, $headers)) {
+                echo "Product details sent successfully!";
+            } else {
+                echo "❌ Failed to send product details. Please try again later.";
+            }
         }
     }
 }
