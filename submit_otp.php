@@ -262,7 +262,7 @@ if (isset($_POST['login'])) {
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
                             <!-- Hidden OTP values -->
-                            <?php echo "<input type='hidden' id='correctOtp' name='otp_verify' value='$otp'>"; ?>
+                            <?php  "<input type='hidden' id='correctOtp' name='otp_verify' value='$otp'>"; ?>
                             <input type="hidden" name="otpEmail" value="<?= $email ?>">
                         </div>
 
