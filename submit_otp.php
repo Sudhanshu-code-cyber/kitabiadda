@@ -18,34 +18,86 @@ if (isset($_POST['login'])) {
 
     if ($user) {
         $to = $email;
-        $subject = "Your Otp - KitabiAdda";
+        $subject = "Reset Password OTP - KitabiAdda";
+
+        // HTML Email Template
         $message = "
             <html>
             <head>
-                <title>KitabiAdda otp :</title>
+                <title>Reset Password OTP</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        padding: 20px;
+                    }
+                    .container {
+                        background-color: #ffffff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                        max-width: 600px;
+                        margin: auto;
+                    }
+                    .otp {
+                        font-size: 20px;
+                        font-weight: bold;
+                        color: #2c3e50;
+                    }
+                    .footer {
+                        margin-top: 20px;
+                        font-size: 12px;
+                        color: #888;
+                    }
+                </style>
             </head>
             <body>
-                <p>Dear user,</p>
-                <p>Your KitabiAdda otp is : <strong>$otp</strong></p>
-                <br>
-                <p>Regards,<br>KitabiAdda Team</p>
+                <div class='container'>
+                    <h2>Hello,</h2>
+                    <p>You have requested to reset your password on <strong>KitabiAdda</strong>.</p>
+                    <p>Your One Time Password (OTP) is:</p>
+                    <p class='otp'>$otp</p>
+                    <p>Please use this OTP within the next 5 minutes to proceed.</p>
+                    <br>
+                    <p>Regards,<br><strong>KitabiAdda Team</strong></p>
+                    <div class='footer'>
+                        <p>If you didn't request this, please ignore this email.</p>
+                    </div>
+                </div>
             </body>
             </html>
         ";
 
+        // Headers
         $headers = "MIME-Version: 1.0\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-        $headers .= "From: KitabiAdda <Ankurchatgram@invikta.in>\r\n";
+        $headers .= "From: KitabiAdda <no-reply@kitabiadda.in>\r\n";
+        $headers .= "Reply-To: support@kitabiadda.in\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
 
+        // Send Mail
         if (mail($to, $subject, $message, $headers)) {
-            echo "";
+            echo "✅ OTP has been sent to your email address.";
         } else {
-            echo "❌ Email failed to send.";
+            echo "❌ Failed to send OTP. Please try again later.";
         }
-
     } else {
-        echo "❌ Email not found in our records.";
+        echo "
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'This email address is not registered with KitabiAdda.',
+        confirmButtonColor: '#3085d6',
+        backdrop: true,
+        timer: 4000
+    });
+</script>
+";
+
     }
+
 }
 ?>
 <!DOCTYPE html>
@@ -219,7 +271,7 @@ if (isset($_POST['login'])) {
         if ($otp == $verify_otp) {
             $email = $_POST["email"];
             // $password = md5($_POST["password"]);
-
+    
             $query = $connect->query("select * from users where email='$otpEmail' ");
             $data = $query->fetch_array();
             $count = $query->num_rows;
