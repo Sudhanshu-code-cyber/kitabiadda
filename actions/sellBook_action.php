@@ -142,7 +142,7 @@ if (isset($_POST['submit_book'])) {
 
 
         if (mysqli_query($connect, $sql)) {
-            echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='../index.php';</script>";
+            
             $to = $user_email;
             $subject = "Product Sale Details - KitabiAdda";
 
@@ -237,7 +237,7 @@ if (isset($_POST['submit_book'])) {
 
             // Send Mail
             if (mail($to, $subject, $message, $headers)) {
-                // echo "Product details sent successfully!";
+                echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='../index.php';</script>";
             } else {
                 echo "❌ Failed to send product details. Please try again later.";
             }
