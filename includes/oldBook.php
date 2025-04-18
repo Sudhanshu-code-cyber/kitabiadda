@@ -61,7 +61,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                     $address = mysqli_fetch_array($callAdd);
                     ?>
                     <div
-                        class="bg-white p-3 rounded-lg shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
+                        class="bg-white p-3  rounded-lg  shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
 
                         <!-- Discount Badge -->
                         <div
@@ -91,7 +91,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                             </div>
 
                             <!-- Book Info -->
-                            <div class="mt-3 px-2">
+                            <div class="gap-1 mt-3">
                                 <!-- Book Title -->
                                 <h2
                                     class="text-sm sm:text-base font-bold text-gray-800 truncate hover:text-[#3D8D7A] transition-colors">
@@ -141,11 +141,11 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                         <span
-                                            class="truncate max-w-[80px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
+                                            class="truncate max-w-[80px] text-[10px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
                                     </div>
 
-                                    <div class="flex items-center text-xs text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none"
+                                    <div class="flex items-center ml-1 justify-center text-[10px] w-full text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3  w-3 " fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
