@@ -72,7 +72,7 @@ if (isset($_POST['login'])) {
         $headers = "MIME-Version: 1.0\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8\r\n";
         $headers .= "From: KitabiAdda <no-reply@kitabiadda.in>\r\n";
-        $headers .= "Reply-To: support@kitabiadda.in\r\n";
+        $headers .= "Reply-To: support@kitabiadda.com\r\n";
         $headers .= "X-Mailer: PHP/" . phpversion();
 
         // Send Mail
@@ -82,19 +82,7 @@ if (isset($_POST['login'])) {
             echo "❌ Failed to send OTP. Please try again later.";
         }
     } else {
-        echo "
-<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'This email address is not registered with KitabiAdda.',
-        confirmButtonColor: '#3085d6',
-        backdrop: true,
-        timer: 4000
-    });
-</script>
-";
+        echo '<script>window.location.href = "login.php";</script>';
 
     }
 
