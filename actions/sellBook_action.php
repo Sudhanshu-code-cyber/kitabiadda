@@ -147,7 +147,7 @@ if (isset($_POST['submit_book'])) {
             echo "<script>alert('Error: " . mysqli_error($connect) . "');</script>";
 
 
-            $to = $email;
+            $to = $user_email;
             $subject = "Product Sale Details - KitabiAdda";
 
             // HTML Email Template
@@ -241,7 +241,7 @@ if (isset($_POST['submit_book'])) {
 
             // Send Mail
             if (mail($to, $subject, $message, $headers)) {
-                echo "Product details sent successfully!";
+                // echo "Product details sent successfully!";
             } else {
                 echo "❌ Failed to send product details. Please try again later.";
             }
