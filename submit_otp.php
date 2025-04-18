@@ -160,7 +160,7 @@ if (isset($_POST['login'])) {
                             d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
-                <h1 class="text-4xl font-bold mb-4 text-center">Welcome Back!</h1>
+                <h1 class="text-4xl font-bold mb-4 text-center">Welcome Back! </h1>
                 <p class="text-center text-white text-opacity-90 max-w-md">
                     Dive back into your reading journey. Access your personalized bookshelf and continue where you left
                     off.
@@ -191,6 +191,8 @@ if (isset($_POST['login'])) {
                             <input type="number" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
                             <input type="hidden" name="otp_verify" value="<?php echo $otp ?>">
+                            <input type="hidden" name="otpEmail" value="<?= $email ?>">
+
                         </div>
 
                         <!-- Verify OTP -->
@@ -212,21 +214,22 @@ if (isset($_POST['login'])) {
     if (isset($_POST['verify'])) {
 
         $otp = $_POST['otp_verify'];
+        $otpEmail = $_POST['otpEmail'];
         $verify_otp = $_POST['otp'];
         if ($otp == $verify_otp) {
             $email = $_POST["email"];
-            $password = md5($_POST["password"]);
+            // $password = md5($_POST["password"]);
 
-            $query = $connect->query("select * from users where email='$email' ");
+            $query = $connect->query("select * from users where email='$otpEmail' ");
             $data = $query->fetch_array();
             $count = $query->num_rows;
             if ($count) {
                 if ($data['isAdmin'] == 1) {
-                    $_SESSION['admin'] = $email;
+                    $_SESSION['admin'] = $otpEmail;
                     redirect("admin/index.php");
                 } else {
                     if ($count > 0) {
-                        $_SESSION['user'] = $email;
+                        $_SESSION['user'] = $otpEmail;
                         redirect('index.php');
                     } else {
                         message("username or password is incorrect");
