@@ -78,7 +78,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     <th>gender</th>
                     <th>contact</th>
                     <th>Join Date</th>
-                    <!-- <th></th> -->
+                    <th>Time</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -105,8 +105,9 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                       <td><?= $users['name'] ?></td>
                       <td><strong><?= $users['gender'] ?></td>
                       <td><?= $users['contact'] ?></td>
-                      <td>N/A</td>
-
+                      <td><?= date("d-m-Y", strtotime($users['date_time'])) ?></td>
+                      <td><?= date("h:i:s A", strtotime($users['date_time'])) ?>
+                      </td>
                       <td>
                         <a href="" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></a>
                         <a href="" class="btn btn-sm btn-primary">Block</a>
