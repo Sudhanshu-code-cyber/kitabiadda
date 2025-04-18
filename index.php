@@ -138,7 +138,7 @@ if (isset($_GET['code'])) {
             <!-- Carousel Items -->
             <a href="">
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/banner/2.png"
+                    <img src="assets/banner/shop.png"
                         class="absolute block w-full h-full object-fit xl:object-fit xl-contain sm:object-fit md:object-fit md:h-full lg-fit"
                         alt="Slide 1">
                 </div>
@@ -149,12 +149,12 @@ if (isset($_GET['code'])) {
                     alt="Slide 2">
             </div>
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/shop.png"
+                <img src="assets/banner/crs4.png"
                     class="absolute block w-full h-full object-fit xl:object-fit xl-contain sm:object-cover md:h-full"
                     alt="Slide 3">
             </div>
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="assets/banner/crs4.png"
+                <img src="assets/banner/2.png"
                     class="absolute block w-full h-full object-fit xl:object-fit xl-contain sm:object-cover md:h-full"
                     alt="Slide 4">
             </div>
