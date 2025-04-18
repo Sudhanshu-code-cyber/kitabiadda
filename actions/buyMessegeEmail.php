@@ -85,7 +85,7 @@ $message = "
     <p>Here are the details of your recent purchase:</p>
 
     <div class='product-details'>
-        <img src='https://kitabiadda.com/assets/images/$book_imagee' alt='Product Image' class='product-image'>
+        <a href='https://kitabiadda.com/order_details.php?order_id=$last_id' ><img src='https://kitabiadda.com/assets/images/$book_imagee' alt='Product Image' class='product-image'></a>
         <p class='product-name'>Product Name: $book_namee</p>
         <p class='product-price'>Price: ₹$totleSellPrice2</p>
         <p class='product-description'>
