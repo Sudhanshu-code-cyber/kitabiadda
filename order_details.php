@@ -110,7 +110,7 @@ $total_items = $items_query->num_rows;
 
             <!-- Order Items -->
             <div class="border-t border-gray-200 pt-5">
-                <h2 class="text-lg font-semibold text-gray-800 mb-3">Order Items (<?= $total_items ?>)</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-3">Order Items (<?= $total_items ?>) </h2>
                 <div class="space-y-4">
                     <?php
                     $subtotal = 0;
@@ -302,6 +302,15 @@ $total_items = $items_query->num_rows;
             </div>
 
 
+            
+            <?php } elseif ($order['status'] == 5) { ?>
+                <div class="flex items-center justify-start">
+                <span class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></span>
+                <span>Order Canclelled</span>
+            </div>
+            
+
+
             <?php } ?>
            
             
@@ -309,4 +318,6 @@ $total_items = $items_query->num_rows;
     </div>
     <button onclick="closePopup()"
         class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Close</button>
+        
 </div>
+

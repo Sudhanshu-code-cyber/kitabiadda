@@ -4,10 +4,19 @@
         <?php $total_orders = mysqli_query($connect, "SELECT * FROM orders WHERE email='$userEmail' ORDER BY id DESC");
         if ($total_orders->num_rows > 0):
             while ($orders = mysqli_fetch_array($total_orders)): ?>
-                <a href="order_details.php?order_id=<?= $orders['id']; ?>">
-                    <div class="w-full shadow-lg rounded-lg bg-white p-4 sm:p-5 mb-4">
+
+
+                <div class="w-full shadow-lg rounded-lg bg-white p-4 sm:p-5 mb-4">
+                    <?php
+                    if ($orders['status'] != 1) { ?>
+                        <a href="?cancleOrder=<?= $orders['id'] ?>"
+                            class="mt-4  ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700">Cancle</a>
+                    <?php }
+                    ?>
+
+                    <a href="order_details.php?order_id=<?= $orders['id']; ?>">
                         <div class="flex flex-col sm:flex-row justify-between gap-2 mb-3">
-                            <h3 class="text-base sm:text-lg font-bold text-blue-800">#Order ID: <?= $orders['id'] ?></h3>
+                            <h3 class="text-base sm:text-lg font-bold text-blue-800">#Order ID: <?= $orders['id'] ?> </h3>
                             <p class="text-xs sm:text-sm text-gray-800">
                                 <?php $formatted_date = date("d F Y", strtotime($orders['order_time']));
                                 echo $formatted_date; ?>
@@ -33,7 +42,8 @@
                                         <div
                                             class="flex flex-col gap-1 items-start sm:items-center w-full sm:w-auto text-xs sm:text-sm">
                                             <p class="font-semibold text-green-600">🟢 Delivered on
-                                                <?= date("d F Y", strtotime($orders['order_time'])) ?></p>
+                                                <?= date("d F Y", strtotime($orders['order_time'])) ?>
+                                            </p>
                                             <p class="text-gray-600">Your item has been delivered</p>
                                             <p class="text-blue-500 hover:text-blue-700 cursor-pointer">⭐ Rate & Review Product</p>
                                         </div>
@@ -51,8 +61,9 @@
                                 </div>
                             </div>
                         <?php } ?>
-                    </div>
-                </a>
+                    </a>
+                </div>
+
             <?php endwhile;
         else: ?>
             <div class="flex flex-col gap-2 justify-center items-center mt-[10%] px-4 text-center">
@@ -66,3 +77,14 @@
         <?php endif; ?>
     </div>
 </div>
+
+<?php
+if (isset($_GET['cancleOrder'])) {
+    $cancleId = $_GET['cancleOrder'];
+    $cancleQuery = $connect->query("UPDATE orders SET status=5 where id='$cancleId'");
+    if ($cancleQuery) {
+        echo '<script>window.location.href = "profile.php";</script>';
+    }
+}
+
+?>
