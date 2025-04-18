@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($connect, $_POST['email']);
+    
     $otp = $_POST['otp'];
 
     $call_user = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
@@ -215,7 +216,7 @@ if (isset($_POST['login'])) {
     
         <?php
         if (isset($_POST['verify'])) {
-
+            
             $otp = $_POST['otp_verify'];
             $verify_otp = $_POST['otp'];
             if ($otp == $verify_otp) {
