@@ -309,28 +309,28 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                             <div class="col-md-3">
                                 <label for="image1" class="form-label">Image 1</label>
                                 <input type="file" class="form-control" id="image1" name="img1" accept="image/*"
-                                    onchange="previewImage(1)" required>
+                                    onchange="previewImage(1)" >
                                 <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                     style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image2" class="form-label">Image 2</label>
                                 <input type="file" class="form-control" id="image2" name="img2" accept="image/*"
-                                    onchange="previewImage(2)" required>
+                                    onchange="previewImage(2)" >
                                 <img id="preview2" src="../../images/<?= $books_row['img2'] ?>" alt="Image 2 Preview" class="img-fluid mt-2"
                                     style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image3" class="form-label">Image 3</label>
                                 <input type="file" class="form-control" id="image3" name="img3" accept="image/*"
-                                    onchange="previewImage(3)" required>
+                                    onchange="previewImage(3)" >
                                 <img id="preview3" src="../../images/<?= $books_row['img3'] ?>" alt="Image 3 Preview" class="img-fluid mt-2"
                                     style="">
                             </div>
                             <div class="col-md-3">
                                 <label for="image4" class="form-label">Image 4</label>
                                 <input type="file" class="form-control" id="image4" name="img4" accept="image/*"
-                                    onchange="previewImage(4)" required>
+                                    onchange="previewImage(4)" >
                                 <img id="preview4" src="../../images/<?= $books_row['img4'] ?>" alt="Image 4 Preview" class="img-fluid mt-2"
                                     style="">
                             </div>
