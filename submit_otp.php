@@ -77,12 +77,29 @@ if (isset($_POST['login'])) {
 
         // Send Mail
         if (mail($to, $subject, $message, $headers)) {
-            echo "✅ OTP has been sent to your email address.";
+            echo "";
         } else {
             echo "❌ Failed to send OTP. Please try again later.";
         }
     } else {
-        echo '<script>window.location.href = "login.php";</script>';
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Email Not Found!',
+            text: 'This email address is not registered with KitabiAdda.',
+            confirmButtonText: 'Try Another Email',
+            confirmButtonColor: '#d33',
+            backdrop: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'forgetPassword.php';
+            }
+        });
+    });
+</script>";
+
 
     }
 
