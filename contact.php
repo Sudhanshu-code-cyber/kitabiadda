@@ -29,8 +29,8 @@
 
             <div class="space-y-4 text-lg">
                 <p>📍 <strong>Address:</strong> Purnea (Bihar)</p>
-                <p>📞 <strong>Phone:</strong> +91-9876543210</p>
-                <p>✉️ <strong>Email:</strong> kitabiadda@gmail.com</p>
+                <p>📞 <strong>Phone:</strong> +91-8227046826,+91-9708798149,+91-7250407215</p>
+                <p>✉️ <strong>Email:</strong> kitabiadda05@gmail.com</p>
                 <p>🕒 <strong>Working Hours:</strong> Mon - Sat (9:00 AM - 7:00 PM)</p>
             </div>
         </div>
