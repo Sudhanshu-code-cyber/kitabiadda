@@ -206,12 +206,11 @@ if (isset($_POST['submit_book'])) {
                 <p>Here are the details of the product you recently sold:</p>
 
                 <div class='product-details'>
-                    <img src='https://via.placeholder.com/500x300' alt='Product Image' class='product-image'>
-                    <p class='product-name'>Product Name: Awesome Book</p>
-                    <p class='product-price'>Price: ₹499</p>
+                    <img src='https://kitabiadda.com/assets/images/$image1' alt='Product Image' class='product-image'>
+                    <p class='product-name'>Product Name: $book_name</p>
+                    <p class='product-price'>Price: ₹$sell_price</p>
                     <p class='product-description'>
-                        Description: This is a best-selling book in the genre of Fiction. It's an inspiring tale that
-                        has captivated the hearts of readers across the world.
+                        Description: $book_description.
                     </p>
                 </div>
 
