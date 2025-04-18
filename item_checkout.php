@@ -658,7 +658,7 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to home page
+                window.location.href = "actions/buyMessegeEmail.php"; // Redirect to home page
             });
         </script>
         ';
