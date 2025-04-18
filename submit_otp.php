@@ -257,12 +257,12 @@ if (isset($_POST['login'])) {
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-key text-gray-500"></i>
                             </div>
-                            
+
                             <input type="number" id="inputOtp" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
                             <!-- Hidden OTP values -->
-                            <input type="hidden" id="correctOtp" name="otp_verify" value="<?php echo $otp ?>">
+                            <?php echo "<input type='hidden' id='correctOtp' name='otp_verify' value='$otp'>"; ?>
                             <input type="hidden" name="otpEmail" value="<?= $email ?>">
                         </div>
 
