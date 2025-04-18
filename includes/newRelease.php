@@ -89,7 +89,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                         <a href="view.php?book_id=<?= $book['id']; ?>" class="block">
                             <div class="flex justify-center">
                                 <img src="assets/images/<?= $book['img1']; ?>" alt="Book Cover"
-                                    class="w-28 h-40 sm:w-36 sm:h-52 object-cover hover:shadow-xl rounded-md">
+                                    class="w-40 h-40 sm:w-50 sm:h-52 object-cover hover:shadow-xl rounded-md">
                             </div>
 
                             <!-- Book Info -->
@@ -101,14 +101,14 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='new' order by 
                                 <?= $book['book_author']; ?>
                             </p>
                             
-                            <div class="flex items-center justify-between mt-3">
+                            <div class="flex gap-2 items-center justify-between mt-3">
                                 <div class="flex items-center space-x-2">
                                     <?php if ($mrp > $sell_price): ?>
                                     <span class="text-gray-400 text-xs line-through">₹<?= $mrp; ?></span>
                                     <?php endif; ?>
                                     <span class="text-[#3D8D7A] font-bold text-sm sm:text-base">₹<?= $sell_price; ?></span>
                                 </div>
-                                <span class="text-xs px-2 py-1 bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
+                                <span class="text-xs px-2 py-1   truncate bg-gray-100 rounded-full"><?= $book['book_category']; ?></span>
                             </div>
                         </div>
                         </a>

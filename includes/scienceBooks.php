@@ -141,11 +141,11 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE book_category='science'
                                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                         <span
-                                            class="truncate max-w-[80px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
+                                            class="truncate max-w-[80px] text-[10px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
                                     </div>
 
-                                    <div class="flex items-center text-xs text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none"
+                                    <div class="flex items-center ml-1 justify-center text-[10px] w-full text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3  w-3 " fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
