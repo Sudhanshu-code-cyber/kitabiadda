@@ -649,19 +649,9 @@ if (isset($_POST['order_submit']) && isset($_POST['payment']) && $_POST['payment
 
 
         if ($insertOrder) {
-            echo '
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            Swal.fire({
-                title: "✅ Order Confirmed!",
-                text: "Thank you for your order.\\nTotal Amount: ₹' . $totleSellPrice2 . '",
-                icon: "success",
-                confirmButtonText: "OK"
-            }).then(() => {
-                window.location.href = "actions/buyMessegeEmail.php"; // Redirect to home page
-            });
-        </script>
-        '; include_once "actions/buyMessegeEmail.php";
+
+            include_once "actions/buyMessegeEmail.php";
+            
         } else {
             echo "❌ Error: " . mysqli_error($connect);
         }

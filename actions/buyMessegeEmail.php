@@ -92,7 +92,20 @@ $headers .= "X-Mailer: PHP/" . phpversion();
 
 // Send Mail
 if (mail($to, $subject, $message, $headers)) {
-    echo "<script> window.location.href='order_details.php?order_id='.$last_id.'';</script>";
+    echo '
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                title: "✅ Order Confirmed!",
+                text: "Thank you for your order.\\nTotal Amount: ₹' . $totleSellPrice2 . '",
+                icon: "success",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "order_details.php?order_id='.$last_id.'"; // Redirect to home page
+            });
+        </script>
+        ';
+    
 } else {
     echo "❌ Failed to send product details. Please try again later.";
 }
