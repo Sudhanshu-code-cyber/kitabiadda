@@ -143,7 +143,7 @@
                             class="input-field bg-white w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none">
                     </div>
                     <div class="flex justify-end">
-                        <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
+                        <a href="forgetPassword.php" class="text-sm text-primary hover:underline">Forgot password?</a>
                     </div>
                 </div>
 
