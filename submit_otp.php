@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($connect, $_POST['email']);
-    
+
     $otp = $_POST['otp'];
 
     $call_user = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
@@ -188,9 +188,9 @@ if (isset($_POST['login'])) {
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-key text-gray-500"></i>
                             </div>
-                            <input type="number" name="otp"  maxlength="6" placeholder="Enter 6-digit OTP"
+                            <input type="number" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
-                                <input type="hidden" name="otp_verify" value="<?php echo $otp ?>">
+                            <input type="hidden" name="otp_verify" value="<?php echo $otp ?>">
                         </div>
 
                         <!-- Verify OTP -->
@@ -208,26 +208,41 @@ if (isset($_POST['login'])) {
     </div>
     <!-- Floating decorative elements -->
     <?php include_once "includes/footer2.php"; ?>
+    <?php
+    if (isset($_POST['verify'])) {
 
+        $otp = $_POST['otp_verify'];
+        $verify_otp = $_POST['otp'];
+        if ($otp == $verify_otp) {
+            $email = $_POST["email"];
+            $password = md5($_POST["password"]);
 
-
-
-
-    
-        <?php
-        if (isset($_POST['verify'])) {
-            
-            $otp = $_POST['otp_verify'];
-            $verify_otp = $_POST['otp'];
-            if ($otp == $verify_otp) {
-                $_SESSION['user'] = $email;
-                redirect('index.php');
-
+            $query = $connect->query("select * from users where email='$email' ");
+            $data = $query->fetch_array();
+            $count = $query->num_rows;
+            if ($count) {
+                if ($data['isAdmin'] == 1) {
+                    $_SESSION['admin'] = $email;
+                    redirect("admin/index.php");
+                } else {
+                    if ($count > 0) {
+                        $_SESSION['user'] = $email;
+                        redirect('index.php');
+                    } else {
+                        message("username or password is incorrect");
+                        redirect("login.php");
+                    }
+                }
+            } else {
+                message("username or password is incorrect");
+                redirect("../login.php");
             }
+
         }
+    }
 
 
-        ?>
+    ?>
 
 </body>
 
