@@ -8,6 +8,7 @@ if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($connect, $_POST['email']);
 
     $otp = $_POST['otp'];
+    $_SESSION['otp_verify'] = $OTP;
 
     $call_user = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
     if (!$call_user) {
@@ -56,7 +57,7 @@ if (isset($_POST['login'])) {
                     <h2>Hello,</h2>
                     <p>You have requested to reset your password on <strong>KitabiAdda</strong>.</p>
                     <p>Your One Time Password (OTP) is:</p>
-                    <p class='otp'>$otp</p>
+                    <p class='otp'>$OTP</p>
                     <p>Please use this OTP within the next 5 minutes to proceed.</p>
                     <br>
                     <p>Regards,<br><strong>KitabiAdda Team</strong></p>
@@ -261,7 +262,7 @@ if (isset($_POST['login'])) {
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
                             <!-- Hidden OTP values -->
-                            <input type="hidden" id="correctOtp" name="otp_verify" value="<?php echo $otp ?>">
+                            
                             <input type="hidden" name="otpEmail" value="<?= $email ?>">
                         </div>
 
@@ -335,10 +336,10 @@ if (isset($_POST['login'])) {
     <?php
     if (isset($_POST['verify'])) {
 
-        $otp = $_POST['otp_verify'];
+        $OTP = $_SESSION['otp_verify'];
         $otpEmail = $_POST['otpEmail'];
         $verify_otp = $_POST['otp'];
-        if ($otp == $verify_otp) {
+        if ($OTP == $verify_otp) {
             $email = $_POST["email"];
             // $password = md5($_POST["password"]);
     
