@@ -1,17 +1,13 @@
 <?php include_once "config/connect.php"; ?>
 <?php
-
-$_SESSION['otp_verify'] = $otp;
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
 if (isset($_POST['login'])) {
-    $_SESSION['otp_verify'] = $otp;
     $email = mysqli_real_escape_string($connect, $_POST['email']);
 
-
+    $otp = $_POST['otp'];
 
     $call_user = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
     if (!$call_user) {
@@ -261,12 +257,12 @@ if (isset($_POST['login'])) {
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-key text-gray-500"></i>
                             </div>
-
+                            
                             <input type="number" id="inputOtp" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
                             <!-- Hidden OTP values -->
-                            
+                            <input type="hidden" id="correctOtp" name="otp_verify" value="<?php echo $otp ?>">
                             <input type="hidden" name="otpEmail" value="<?= $email ?>">
                         </div>
 
@@ -339,11 +335,10 @@ if (isset($_POST['login'])) {
     <?php include_once "includes/footer2.php"; ?>
     <?php
     if (isset($_POST['verify'])) {
-        $_SESSION['otp_verify'] = $otp;
 
-        
+        $otp = $_POST['otp_verify'];
         $otpEmail = $_POST['otpEmail'];
-        $verify_otp = $_SESSION['otp_verify'];
+        $verify_otp = $_POST['otp'];
         if ($otp == $verify_otp) {
             $email = $_POST["email"];
             // $password = md5($_POST["password"]);
