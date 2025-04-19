@@ -153,7 +153,7 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
             <div class='user-name'>$sender_name</div>
             <div class='offered-price'>$message</div>
             <br>
-            <a href='https://kitabiadda.com/chatboard.php?book_id=$book_id&chat_with=$receiver_id' class='reply-btn'>REPLY NOW</a>
+            <a href='https://kitabiadda.com/chatboard.php?book_id=$book_id&chat_with=$user_id' class='reply-btn'>REPLY NOW</a>
         </div>
 
         <div class='footer'>
