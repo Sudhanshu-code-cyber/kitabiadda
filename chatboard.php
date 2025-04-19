@@ -42,12 +42,70 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
     $receiver_id = $_POST['receiver_id'] ?? null;
 
     if ($book_id && $receiver_id) {
-        $connect->query("INSERT INTO message (sender_id, receiver_id, product_id, message) 
+        // 1. Save Message
+        $send_message = $connect->query("INSERT INTO message (sender_id, receiver_id, product_id, message) 
                          VALUES ('$user_id', '$receiver_id', '$book_id', '$message')");
+
+        // 2. If Insert Success
+        if ($send_message) {
+            // 3. Get Receiver Email
+            $receiver_query = $connect->query("SELECT email, name FROM users WHERE user_id = '$receiver_id'");
+            $receiver = $receiver_query->fetch_assoc();
+            $receiver_email = $receiver['email'];
+            $receiver_name = $receiver['name'];
+
+            // 4. Get Sender Name
+            $sender_query = $connect->query("SELECT name FROM users WHERE user_id = '$user_id'");
+            $sender = $sender_query->fetch_assoc();
+            $sender_name = $sender['name'];
+
+            // fetch book detail 
+            $fetch_book_msg_query = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
+            $book_msg_query = $fetch_book_msg_query->fetch_assoc();
+
+            // 5. Prepare Email
+            $subject = "New Message from $sender_name - KitabiAdda";
+            $email_message = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+                        .container { background-color: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+                        .footer { margin-top: 20px; font-size: 12px; color: #888; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <h3>Hello $receiver_name,</h3>
+                        <p><strong>$sender_name</strong> just sent you a message on <strong>KitabiAdda</strong>:</p>
+                        <blockquote style='background:#f9f9f9; padding:10px; border-left:3px solid #ccc;'>
+                            $message
+                        </blockquote>
+                        <p>Visit your chat board to reply.</p>
+                        <br>
+                        <p>Regards,<br>KitabiAdda Team</p>
+                        <div class='footer'>
+                            <p>This is an automated email. Do not reply.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            ";
+
+            $headers = "MIME-Version: 1.0\r\n";
+            $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+            $headers .= "From: KitabiAdda <no-reply@kitabiadda.in>\r\n";
+
+            // 6. Send Email
+            mail($receiver_email, $subject, $email_message, $headers);
+        }
+
+        // 7. Redirect after message sent
         header("Location: chatboard.php?book_id=$book_id" . ($chat_with ? "&chat_with=$chat_with" : ""));
         exit();
     }
 }
+
 
 // ✅ Handle chat deletion
 if (isset($_GET['delete_chat'])) {
@@ -329,7 +387,7 @@ if (isset($_GET['product_id'])) {
                 <div class="relative divide-y divide-gray-200">
                     <?php foreach ($chatList as $chat):
                         $isActive = ($book_id == $chat['product_id'] && (!$chat_with || $chat_with == $chat['other_user_id']));
-                    ?>
+                        ?>
                         <div class="group relative hover:bg-gray-50 <?= $isActive ? 'bg-gray-100' : '' ?> transition-all">
                             <a href="chatboard.php?book_id=<?= $chat['product_id'] ?>&chat_with=<?= $chat['other_user_id'] ?>"
                                 class="block p-4 pr-10"> <!-- Added pr-10 for delete button space -->
@@ -343,12 +401,14 @@ if (isset($_GET['product_id'])) {
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between">
-                                            <h3 class="font-semibold truncate"><?= htmlspecialchars($chat['other_user_name']) ?></h3>
+                                            <h3 class="font-semibold truncate"><?= htmlspecialchars($chat['other_user_name']) ?>
+                                            </h3>
                                             <span class="text-xs text-gray-500">
                                                 <?= date('h:i A', strtotime($chat['last_message_time'])) ?>
                                             </span>
                                         </div>
-                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat['book_name']) ?></p>
+                                        <p class="text-sm text-gray-600 truncate"><?= htmlspecialchars($chat['book_name']) ?>
+                                        </p>
                                         <p class="text-xs text-gray-500 truncate mt-1">
                                             <?= strlen($chat['last_message']) > 50 ?
                                                 substr(htmlspecialchars($chat['last_message']), 0, 50) . '...' :
@@ -362,8 +422,10 @@ if (isset($_GET['product_id'])) {
                             <a href="?product_id=<?= $chat['product_id'] ?>"
                                 onclick="return confirm('Are you sure you want to delete this chat?');"
                                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-600 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
                             </a>
                         </div>
@@ -379,7 +441,8 @@ if (isset($_GET['product_id'])) {
         </div>
 
         <!-- Chat Window - Hidden on mobile when not viewing a chat -->
-        <div class="chat-window <?= ($book_id && $otherUserInfo && $bookInfo) ? 'block' : 'hidden' ?> md:block bg-white">
+        <div
+            class="chat-window <?= ($book_id && $otherUserInfo && $bookInfo) ? 'block' : 'hidden' ?> md:block bg-white">
             <?php if ($book_id && $otherUserInfo && $bookInfo): ?>
                 <!-- Mobile header with back button -->
 
@@ -392,11 +455,13 @@ if (isset($_GET['product_id'])) {
                                 class="h-10 w-10 rounded-full object-cover border mr-3">
                             <div>
                                 <h3 class="font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></h3>
-                                <p class="text-xs text-gray-500"><?= $otherUserInfo['user_id'] == $bookInfo['seller_id'] ? 'Seller' : 'Buyer' ?></p>
+                                <p class="text-xs text-gray-500">
+                                    <?= $otherUserInfo['user_id'] == $bookInfo['seller_id'] ? 'Seller' : 'Buyer' ?></p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <button id="open-drawer" class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
+                            <button id="open-drawer"
+                                class="px-4 ml-4 py-2 bg-[#3D8D7A] text-white rounded-md hover:bg-[#2c6b5b] transition">
                                 <i class="fas fa-phone mr-2"></i>
                             </button>
                             <a href="chatboard.php" id="close-chat-btn" class="text-red-500 hover:text-red-700 text-sm">
@@ -406,7 +471,8 @@ if (isset($_GET['product_id'])) {
                     </div>
 
                     <!-- Call Drawer -->
-                    <div id="call-drawer" class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+                    <div id="call-drawer"
+                        class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
                         <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
                         <div class="flex flex-col items-center">
                             <img src="assets/user_dp/<?= $otherUserInfo['dp'] ?? 'default-profile.jpg' ?>"
@@ -419,7 +485,8 @@ if (isset($_GET['product_id'])) {
                                     class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
                                     <i class="fas fa-phone mr-2"></i>Call Now
                                 </a>
-                                <button id="close-drawer" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                                <button id="close-drawer"
+                                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                                     <i class="fas fa-times mr-2"></i>Close
                                 </button>
                             </div>
@@ -428,8 +495,7 @@ if (isset($_GET['product_id'])) {
 
                     <div class="px-4 pb-3 flex justify-between items-center border-t pt-2">
                         <div class="flex items-center">
-                            <img src="assets/images/<?= $bookInfo['img1'] ?>"
-                                class="h-10 w-10 rounded border mr-2">
+                            <img src="assets/images/<?= $bookInfo['img1'] ?>" class="h-10 w-10 rounded border mr-2">
                             <span class="font-medium"><?= htmlspecialchars($bookInfo['book_name']) ?></span>
                         </div>
                         <span class="font-bold">₹<?= number_format($bookInfo['sell_price'], 2) ?></span>
@@ -440,13 +506,14 @@ if (isset($_GET['product_id'])) {
                     <?php if ($messages && $messages->num_rows > 0): ?>
                         <?php while ($msg = $messages->fetch_assoc()): ?>
                             <div class="mb-1 flex <?= $msg['sender_id'] == $user_id ? 'justify-end' : 'justify-start' ?>">
-                                <div class="message-bubble px-4 py-2 rounded-lg 
+                                <div
+                                    class="message-bubble px-4 py-2 rounded-lg 
                             <?= $msg['sender_id'] == $user_id ? 'bg-green-500 text-white' : 'bg-white text-gray-800 border border-gray-200' ?>">
                                     <p><?= htmlspecialchars($msg['message']) ?></p>
                                     <div class="flex justify-between items-end mt-1">
                                         <p class="text-xs <?= $msg['sender_id'] == $user_id ? 'text-white/80' : 'text-gray-500' ?>">
                                             <?php
-                                            date_default_timezone_set('Asia/Kolkata'); 
+                                            date_default_timezone_set('Asia/Kolkata');
                                             echo date('h:i A', strtotime($msg['msg_time']));
                                             ?>
 
@@ -497,17 +564,17 @@ if (isset($_GET['product_id'])) {
 
         <script>
             // Handle chat closing
-            document.getElementById('close-chat-btn')?.addEventListener('click', function(e) {
+            document.getElementById('close-chat-btn')?.addEventListener('click', function (e) {
                 e.preventDefault();
                 window.location.href = 'chatboard.php';
             });
 
             // Handle drawer functionality
-            document.getElementById('open-drawer')?.addEventListener('click', function() {
+            document.getElementById('open-drawer')?.addEventListener('click', function () {
                 document.getElementById('call-drawer').classList.remove('translate-x-full');
             });
 
-            document.getElementById('close-drawer')?.addEventListener('click', function() {
+            document.getElementById('close-drawer')?.addEventListener('click', function () {
                 document.getElementById('call-drawer').classList.add('translate-x-full');
             });
 
@@ -520,7 +587,7 @@ if (isset($_GET['product_id'])) {
             }
 
             // Scroll to bottom when page loads
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 scrollToBottom();
 
                 // Auto-refresh messages every 5 seconds
@@ -529,7 +596,7 @@ if (isset($_GET['product_id'])) {
                 const chatWith = urlParams.get('chat_with');
 
                 if (bookId) {
-                    setInterval(function() {
+                    setInterval(function () {
                         fetch(`get_messages.php?book_id=${bookId}&chat_with=${chatWith}`)
                             .then(response => response.json())
                             .then(data => {
