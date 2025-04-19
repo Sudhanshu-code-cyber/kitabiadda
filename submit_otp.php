@@ -244,7 +244,7 @@ if (isset($_POST['login'])) {
 
                 <!-- OTP Sent Message + Timer -->
                 <div class="mb-4 text-center">
-                    <p class="text-green-600 font-semibold text-lg">OTP is sent <?= $email ?></p>
+                    <p class="text-green-600 font-semibold text-lg">OTP is sent Your Email</p>
                     <p class="text-gray-700">This OTP will expire in <span id="timer" class="font-bold">05:00</span></p>
                 </div>
 
