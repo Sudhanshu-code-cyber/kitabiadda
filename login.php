@@ -116,7 +116,9 @@
         <!-- Right Side - Login Form -->
         <div class="w-full md:w-1/2 p-8 bg-secondary md:p-12 flex flex-col justify-center">
             <div class="text-center mb-8">
-                <img src="assets/logo5.png" alt="BookStore Logo" class="h-12 mx-auto mb-2">
+               <a href="https://kitabiadda.com/">
+               <img src="assets/logo5.png" alt="BookStore Logo" class="h-12 mx-auto mb-2">
+               </a>
                 <h2 class="text-2xl font-bold text-gray-800">Login to Your Account</h2>
                 <p class="text-gray-600 mt-2">Enter your details to continue</p>
             </div>
