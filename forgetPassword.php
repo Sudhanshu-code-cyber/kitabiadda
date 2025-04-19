@@ -1,5 +1,8 @@
 <?php include_once "config/connect.php";
 $otp = rand(11111,99999);
+
+$_SESSION['otp_verify'] = $otp;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,7 +146,7 @@ $otp = rand(11111,99999);
                             </div>
                             <input type="email" name="email" id="email" placeholder="your@email.com"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
-                                <?php "<input type='hidden' name='otp' value=' $otp '>" ?>
+                                
                         </div>
                     </div>
                     <!-- Send OTP Button -->

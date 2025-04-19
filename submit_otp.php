@@ -1,5 +1,8 @@
 <?php include_once "config/connect.php"; ?>
 <?php
+
+$_SESSION['otp_verify'] = $otp;
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -262,7 +265,7 @@ if (isset($_POST['login'])) {
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
                             <!-- Hidden OTP values -->
-                            <?php  "<input type='hidden' id='correctOtp' name='otp_verify' value='$otp'>"; ?>
+                            
                             <input type="hidden" name="otpEmail" value="<?= $email ?>">
                         </div>
 
@@ -335,6 +338,7 @@ if (isset($_POST['login'])) {
     <?php include_once "includes/footer2.php"; ?>
     <?php
     if (isset($_POST['verify'])) {
+        $_SESSION['otp_verify'] = $otp;
 
         $otp = $_POST['otp_verify'];
         $otpEmail = $_POST['otpEmail'];
