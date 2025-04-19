@@ -153,7 +153,7 @@
                                         $alternate_phone = $_POST['alternate_phone'];
                                         $home_work = $_POST['home_work'];
 
-                                        $addAddress = $connect->query("UPDATE user_address set name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', alternate_phone='$alternate_phone', home_work='$home_work'");
+                                        $addAddress = $connect->query("UPDATE user_address set name='$name', mobile='$mobile', pincode='$pincode', locality='$locality', address='$address', city='$city', state='$state', landmark='$landmark', alternate_phone='$alternate_phone', home_work='$home_work' where email=$userEmail");
                                         if ($addAddress) {
                                             echo '
                                                             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
