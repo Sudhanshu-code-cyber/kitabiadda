@@ -61,36 +61,107 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
 
             // fetch book detail 
             $fetch_book_msg_query = $connect->query("SELECT * FROM books WHERE id = '$book_id'");
-            $book_msg_query = $fetch_book_msg_query->fetch_assoc();
+            $fetch_book_msg = $fetch_book_msg_query->fetch_assoc();
+            $book_msg_img = $fetch_book_msg['img1'];
+            $book_msg_name = $fetch_book_msg['book_name'];
+            $book_msg_price = $fetch_book_msg['sell_price'];
+
 
             // 5. Prepare Email
             $subject = "New Message from $sender_name - KitabiAdda";
             $email_message = "
-                <html>
-                <head>
-                    <style>
-                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-                        .container { background-color: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
-                        .footer { margin-top: 20px; font-size: 12px; color: #888; }
-                    </style>
-                </head>
-                <body>
-                    <div class='container'>
-                        <h3>Hello $receiver_name,</h3>
-                        <p><strong>$sender_name</strong> just sent you a message on <strong>KitabiAdda</strong>:</p>
-                        <blockquote style='background:#f9f9f9; padding:10px; border-left:3px solid #ccc;'>
-                            $message
-                        </blockquote>
-                        <p>Visit your chat board to reply.</p>
-                        <br>
-                        <p>Regards,<br>KitabiAdda Team</p>
-                        <div class='footer'>
-                            <p>This is an automated email. Do not reply.</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            ";
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .product-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+        .product-price {
+            font-size: 16px;
+            color: green;
+        }
+        .offer-box {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .user-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .offered-price {
+            background: #e0e0e0;
+            padding: 8px 15px;
+            display: inline-block;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .reply-btn {
+            background-color: #2979ff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <img src='https://kitabiadda.com/assets/images/$book_msg_img' alt='Product Image' class='product-img'>
+
+        <div class='product-title'>$book_msg_name</div>
+        <div class='product-price'>₹$book_msg_price</div>
+
+        <div style='margin-top: 10px; font-size: 13px; color: #777;'>from</div>
+
+        <div class='offer-box'>
+            <div style='width:80px;height:80px;background:#ddd;border-radius:5px;margin:auto;'></div>
+            <div class='user-name'>$sender_name</div>
+            <div class='offered-price'>$message</div>
+            <a href='#' class='reply-btn'>REPLY NOW</a>
+        </div>
+
+        <div class='footer'>
+            <p>This is an automated email. Do not reply.</p>
+        </div>
+    </div>
+</body>
+</html>
+";
+
 
             $headers = "MIME-Version: 1.0\r\n";
             $headers .= "Content-type: text/html; charset=UTF-8\r\n";
