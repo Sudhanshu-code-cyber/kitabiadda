@@ -252,19 +252,7 @@ if (isset($_POST['submit_book'])) {
 
             // Send Mail
             if (mail($to, $subject, $message, $headers)) {
-                echo '
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                <script>
-                    Swal.fire({
-                        title: "✅ Your Book Sold Successfully",
-                        text: "Stay Active & inform us When this gets sold",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    }).then(() => {
-                        window.location.href = "../index.php"; // Redirect to home page
-                    });
-                </script>
-                ';
+                echo "<script>alert('Book Ad Posted Successfully!'); window.location.href='../index.php';</script>";
             } else {
                 echo "❌ Failed to send product details. Please try again later.";
             }
