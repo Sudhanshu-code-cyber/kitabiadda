@@ -84,46 +84,42 @@ if (isset($_GET['code'])) {
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Floating Button Styles */
-        .floating-sell-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 50;
-            transition: all 0.3s ease;
-            min-width: show;
-            
-        }
+      /* Floating Button Styles */
+  .floating-sell-btn {
+    position: fixed;
+    z-index: 50;
+    transition: all 0.3s ease;
+   }
 
-        .floating-sell-btn button {
-            background-color: #3D8D7A;
-            color: white;
-            font-weight: bold;
-            padding: 12px 24px;
-            border-radius: 9999px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
+   .floating-sell-btn button {
+    background-color: #3D8D7A;
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
 
-        .floating-sell-btn button:hover {
-            background-color: #2c6a5a;
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-        }
+  .floating-sell-btn button:hover {
+    background-color: #2c6a5a;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+ }
 
-        .floating-sell-btn button svg {
-            margin-right: 8px;
-            height: 24px;
-            width: 24px;
-        }
+ .floating-sell-btn button svg {
+    margin-right: 8px;
+    height: 24px;
+    width: 24px;
+ }
 
-        /* Button scroll effects */
-        .btn-scroll-down {
-            opacity: 0.7;
-            transform: translateY(8px);
-        }
+ /* Button scroll effects */
+ .btn-scroll-down {
+    opacity: 0.7;
+    transform: translateY(8px);
+ }
     </style>
 </head>
 
@@ -187,16 +183,17 @@ if (isset($_GET['code'])) {
     <?php include_once "includes/scienceBooks.php"; ?>
    
 
-    <!-- Floating Sell Button -->
-    <a href="sell/sell.php" class="floating-sell-btn flex w-full justify-center  items-center xl:hidden md:hidden  ">
-        <button id="sellButton" >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+       <!-- Floating Sell Button - Centered Mobile Version -->
+       <a href="sell/sell.php" class="floating-sell-btn fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 xl:hidden md:hidden">
+        <button id="sellButton" class="bg-[#3D8D7A] text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Sell Used Book
         </button>
     </a>
 
+    
     <?php include_once "includes/footer2.php"; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

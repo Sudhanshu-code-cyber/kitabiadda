@@ -597,20 +597,20 @@ if (!isset($_SESSION['user'])) {
                 <!-- paymenttttttttttttttttttttttttttt   pageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
 
 
+                <!-- Desktop version: Show only on sm and above -->
                 <div
-                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
+                    class="hidden sm:flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3 sm:p-4 border shadow-sm rounded-sm mt-3">
                     <!-- Email Confirmation Message -->
                     <p class="text-gray-700 text-sm text-center sm:text-left">
                         Order confirmation email will be sent to
                         <span class="font-bold"><?= $email ?></span>
                     </p>
 
-                    <!-- Continue Button -->
+                    <!-- Desktop Place Order Button -->
                     <button name="order_submit"
                         class="bg-orange-500 text-white font-semibold px-6 py-2 rounded-sm shadow hover:bg-orange-600 w-full sm:w-auto mt-3 sm:mt-0">
                         PLACE ORDER
                     </button>
-                    </form>
                 </div>
 
 
@@ -669,6 +669,23 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </div>
 
+        </div>
+          <!-- Mobile Fixed Bar: Show only on small screens -->
+
+          <div class="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-lg">
+            <div class="flex items-center justify-between px-4 py-3">
+                <div class="flex flex-col">
+                    <span class="text-sm text-gray-600">Total</span>
+                    <span class="text-lg font-bold text-orange-600">₹<?= $totleSellPrice ?></span>
+                </div>
+                
+                <form method="POST" class="ml-2">
+                    <button name="order_submit"
+                        class="bg-orange-500 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-orange-600 transition-colors duration-200 transform hover:scale-105 active:scale-95">
+                        PLACE ORDER
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

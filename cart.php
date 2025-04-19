@@ -107,7 +107,61 @@ if (isset($_GET['minus_book'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <style>
+        /* Mobile sticky footer */
+        @media (max-width: 767px) {
+            .mobile-sticky-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 12px 16px;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                z-index: 100;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .product-list-container {
+                padding-bottom: 80px; /* Add padding to prevent content from being hidden behind sticky footer */
+            }
+            
+            .desktop-price-summary {
+                display: none;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-sticky-footer {
+                display: none;
+            }
+            
+            .desktop-price-summary {
+                display: block;
+            }
+        }
+        
+        /* Custom scrollbar for product list */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3D8D7A;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #2c6a5a;
+        }
+    </style>
 </head>
 
 <body
@@ -126,7 +180,7 @@ if (isset($_GET['minus_book'])) {
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- Product List -->
                 <div class="md:w-2/3">
-                    <div class="w-full bg-white p-6 shadow-lg rounded-t-lg h-[500px] overflow-y-auto">
+                    <div class="w-full bg-white p-6 shadow-lg rounded-t-lg h-auto overflow-y-auto">
                         <div class="space-y-6">
                             <?php
                             $callCartItem = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE cart.email='$email' AND direct_buy=0 ORDER BY cart.id DESC");
@@ -160,7 +214,8 @@ if (isset($_GET['minus_book'])) {
                             <?php } ?>
                         </div>
                     </div>
-                    <div class="flex items-center rounded-b-lg bg-white h-20 border-b pb-4 px-6">
+                    <div class="sm:flex hidden items-center  rounded-b-lg bg-white h-20 border-b pb-4 px-6">
+                   
                         <a href="cart_checkout.php"
                             class="ml-auto px-6 py-3 bg-[#3D8D7A] text-white text-lg font-semibold shadow-md hover:bg-[#13453a] transition">
                             PLACE ORDER
@@ -191,6 +246,17 @@ if (isset($_GET['minus_book'])) {
                         </p>
                         <p class="text-green-700">You will save ₹<?= $totalMrp - $totalSellPrice ?> on this order</p>
                     </div>
+                </div>
+                  <!-- Mobile Sticky Footer -->
+                  <div class="mobile-sticky-footer">
+                    <div class="text-left">
+                        <p class="text-sm text-gray-600">Total</p>
+                        <p class="text-lg font-bold">₹<?= $totalSellPrice ?></p>
+                    </div>
+                    <a href="cart_checkout.php"
+                        class="px-6 py-3 bg-[#3D8D7A] text-white text-lg font-semibold rounded-lg shadow-md hover:bg-[#13453a] transition whitespace-nowrap">
+                        PLACE ORDER
+                    </a>
                 </div>
             </div>
         <?php } else { ?>
