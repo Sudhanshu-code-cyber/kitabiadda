@@ -155,14 +155,14 @@ $add = $callAdd->fetch_array();
         <form action="../actions/sellBook_action.php" method="post" enctype="multipart/form-data">
             <!-- Book Details Section -->
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book 
+                <h2 class="text-2xl font-bold text-[var(--primary)] mb-4">Book
                     Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="relative">
                         <input type="text" name="book_name" placeholder=" " class="input-box border rounded w-full p-3"
                             data-validate="text" data-min="3" data-msg="Book Name" id="bookName"
                             oninput="validateField(this)">
-                        <label for="bookName" class="floating-label">Book  </label>
+                        <label for="bookName" class="floating-label">Book </label>
                         <div id="bookNameFeedback" class="form-text text-sm "></div>
                     </div>
 
@@ -434,9 +434,9 @@ $add = $callAdd->fetch_array();
                         <div class="relative">
                             <input type="text" name="address" id="address" placeholder=" "
                                 class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
-                                data-min="5" data-msg="Street Address" onblur="validateField(this)">
+                                data-min="5" data-msg="Street Address">
                             <label class="floating-label">Street Address</label>
-                            <div id="addressFeedback" class="mt-1 text-sm"></div>
+
                         </div>
                         <div class="relative">
                             <input type="text" name="locality" id="locality" placeholder=" "
@@ -453,11 +453,47 @@ $add = $callAdd->fetch_array();
                             <div id="cityFeedback" class="mt-1 text-sm"></div>
                         </div>
                         <div class="relative">
-                            <input type="text" name="state" id="state" placeholder=" "
-                                class="input-box border border-gray-300 rounded-lg w-full p-3 px-4" data-validate="text"
-                                data-min="2" data-msg="State" onblur="validateField(this)">
-                            <label class="floating-label">State</label>
-                            <div id="stateFeedback" class="mt-1 text-sm"></div>
+                            <select name="state" id="state" class="input-box border rounded w-full p-3">
+                                <option value="" selected>Select State</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
+                                    Daman and Diu</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Ladakh">Ladakh</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Puducherry">Puducherry</option>
+                            </select>
+
                         </div>
                         <div class="relative">
                             <input type="text" name="pincode" id="pincode" placeholder=" "
@@ -572,7 +608,7 @@ $add = $callAdd->fetch_array();
                             <span class="text-xs">Add Photo</span>
                         </span>
                     </label>
-                    
+
 
                 </div>
             </div>

@@ -6,6 +6,9 @@ if (isset($_SESSION['user'])) {
 }
 
 $user_email = $user['email'];
+// fetch address details
+$callAdd = $connect->query("select * from user_address where email='$user_email'");
+$add = $callAdd->fetch_array();
 
 if (isset($_POST['submit_book'])) {
     $book_name = mysqli_real_escape_string($connect, $_POST['book_name']);
@@ -21,7 +24,21 @@ if (isset($_POST['submit_book'])) {
     $current_year = date("Y");
     $quality = $_POST['quality'];
     $book_binding = $_POST['book_binding'];
+    $contact = $_POST['contact'];
     $book_description = mysqli_real_escape_string($connect, $_POST['book_description']);
+
+    // Address Details
+    $name = $_POST['name'];
+    $email = $user_email;
+    $pincode = $_POST['pincode'];
+    $locality = $_POST['locality'];
+    $address = mysqli_real_escape_string($connect, $_POST['address']);
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $landmark = $_POST['landmark'];
+    $seller_id = $user['user_id'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
 
 
     if (empty($book_name)) {
@@ -48,7 +65,7 @@ if (isset($_POST['submit_book'])) {
 
 
     if (empty($pages) || !preg_match("/^[0-9]+$/", $pages) || $pages <= 0) {
-        message("Pages must be a valid positive number.");
+        message("Enter total pages of book");
         exit();
     }
 
@@ -64,37 +81,39 @@ if (isset($_POST['submit_book'])) {
         exit();
     }
 
-    if (empty($quality)) {
-        message("Book Condition is required.");
+    if (empty($contact) || !preg_match("/^[6-9]\d{9}$/", $contact)) {
+        message("Contact must be a valid 10 digit mobile number");
         exit();
     }
 
-    if (empty($book_binding)) {
-        message("Book binding type is required.");
-        exit();
-    }
+    if ($callAdd->num_rows == 0) {
+        if (empty($landmark)) {
+            message("please Add Full Address to continue");
+            exit();
+        }
 
+        if (empty($locality)) {
+            message("please Add Full Address to continue");
+            exit();
+        }
+
+        if (empty($city)) {
+            message("please Add Full Address to continue");
+            exit();
+        }
+        if (empty($state)) {
+            message("please Add Full Address to continue");
+            exit();
+        }
+        if (empty($pincode)) {
+            message("please Add Full Address to continue");
+            exit();
+        }
+    }
     if (empty($book_description) || strlen($book_description) < 10) {
         message("Description must be at least 10 characters long.");
         exit();
     }
-
-
-    // Address Details
-    $name = $_POST['name'];
-    $contact = $_POST['contact'];
-    $email = $user_email;
-    $pincode = $_POST['pincode'];
-    $locality = $_POST['locality'];
-    $address = mysqli_real_escape_string($connect, $_POST['address']);
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $landmark = $_POST['landmark'];
-    $seller_id = $user['user_id'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
-
-
     // File Upload
     $target_dir = "../assets/images/";
     $image1 = $image2 = $image3 = $image4 = "";
@@ -113,9 +132,6 @@ if (isset($_POST['submit_book'])) {
     $image2 = uploadImage("image1", $target_dir);
     $image3 = uploadImage("image2", $target_dir);
     $image4 = uploadImage("image3", $target_dir);
-    // $image5 = uploadImage("image4", $target_dir);
-    // $image6 = uploadImage("image5", $target_dir);
-    // $image7 = uploadImage("image6", $target_dir);
 
     $uploaded_images = array_filter([$image1, $image2, $image3, $image4]);
 
