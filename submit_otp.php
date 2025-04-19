@@ -341,9 +341,9 @@ if (isset($_POST['login'])) {
     if (isset($_POST['verify'])) {
         $_SESSION['otp_verify'] = $otp;
 
-        $otp = $_POST['otp_verify'];
+        
         $otpEmail = $_POST['otpEmail'];
-        $verify_otp = $_POST['otp'];
+        $verify_otp = $_SESSION['otp_verify'];
         if ($otp == $verify_otp) {
             $email = $_POST["email"];
             // $password = md5($_POST["password"]);
