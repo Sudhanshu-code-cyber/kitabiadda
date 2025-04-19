@@ -8,9 +8,10 @@ ini_set('display_errors', 1);
 
 
 if (isset($_POST['login'])) {
+    $_SESSION['otp_verify'] = $otp;
     $email = mysqli_real_escape_string($connect, $_POST['email']);
 
-    $otp = $_POST['otp'];
+
 
     $call_user = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
     if (!$call_user) {
