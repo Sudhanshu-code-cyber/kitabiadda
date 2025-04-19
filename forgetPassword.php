@@ -143,7 +143,7 @@ $otp = rand(11111,99999);
                             </div>
                             <input type="email" name="email" id="email" placeholder="your@email.com"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
-                                <input type='hidden' name='otp' value=' $otp '>
+                                <input type='hidden' name='otp' value='<?= $otp ?>'>
                         </div>
                     </div>
                     <!-- Send OTP Button -->
