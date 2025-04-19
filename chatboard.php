@@ -87,9 +87,10 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .product-img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
+            max-width: 100%;
+                    height: auto;
+                    border-radius: 8px;
+                    margin-top: 20px;
         }
         .product-title {
             font-size: 18px;
@@ -140,10 +141,10 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
 </head>
 <body>
     <div class='container'>
-        <img src='https://kitabiadda.com/assets/images/$book_msg_img' alt='Product Image' class='product-img'>
+        <img src='https://kitabiadda.com/assets/images/$book_msg_img' alt='Book Image' class='product-img'>
 
-        <div class='product-title'>$book_msg_name</div>
-        <div class='product-price'>₹$book_msg_price</div>
+        <div class='product-title'> book Name : $book_msg_name</div>
+        <div class='product-price'>Price : ₹$book_msg_price</div>
 
         <div style='margin-top: 10px; font-size: 13px; color: #777;'>from</div>
 
@@ -152,7 +153,7 @@ if (isset($_POST['send_msg']) && !empty($_POST['message'])) {
             <div class='user-name'>$sender_name</div>
             <div class='offered-price'>$message</div>
             <br>
-            <a href='https://kitabiadda.com/chatboard.php?book_id=$book_id&chat_with=$chat_with' class='reply-btn'>REPLY NOW</a>
+            <a href='https://kitabiadda.com/chatboard.php?book_id=$book_id&chat_with=$receiver_id' class='reply-btn'>REPLY NOW</a>
         </div>
 
         <div class='footer'>
