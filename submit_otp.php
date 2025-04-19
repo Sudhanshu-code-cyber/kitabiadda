@@ -242,13 +242,6 @@ if (isset($_POST['login'])) {
                     <!-- <p class="text-gray-600 mt-2">Enter your Email to continue</p> -->
                 </div>
 
-                <!-- OTP Sent Message + Timer -->
-                <div class="mb-4 text-center">
-                    <p class="text-green-600 font-semibold text-lg">OTP is sent <?= $email ?>  <a href="forgetPassword.php">change</a></p>
-                    <p class="text-gray-700">This OTP will expire in <span id="timer" class="font-bold">05:00</span></p>
-                </div>
-
-                <!-- Your Form -->
                 <form action="" method="POST" class="space-y-6" onsubmit="return validateOtpMatch()">
                     <!-- Email Input -->
                     <div class="space-y-4">
@@ -257,7 +250,6 @@ if (isset($_POST['login'])) {
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-key text-gray-500"></i>
                             </div>
-                            
                             <input type="number" id="inputOtp" name="otp" maxlength="6" placeholder="Enter 6-digit OTP"
                                 class="bg-white w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none" required>
 
@@ -273,33 +265,6 @@ if (isset($_POST['login'])) {
                         </button>
                     </div>
                 </form>
-
-                <!-- Timer Script -->
-                <script>
-                    let timeLeft = 5 * 60; // 5 minutes in seconds
-                    const timerElement = document.getElementById('timer');
-
-                    const countdown = setInterval(() => {
-                        let minutes = Math.floor(timeLeft / 60);
-                        let seconds = timeLeft % 60;
-
-                        // Pad with zero if needed
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-                        timerElement.textContent = `${minutes}:${seconds}`;
-                        timeLeft--;
-
-                        if (timeLeft < 0) {
-                            clearInterval(countdown);
-                            alert('OTP has expired. Please request a new one.');
-                            // Optional: Disable the form or redirect
-                            // document.querySelector('form').reset(); // Reset form
-                            // window.location.href = "resendOtp.php"; // Or redirect to resend page
-                        }
-                    }, 1000);
-                </script>
-
 
                 <!-- 🔐 JS for OTP match -->
                 <script>
