@@ -7,11 +7,11 @@
         $contact = $_POST["contact"];
         $gender = $_POST["gender"];
         $password = $_POST["password"];
-        if(!preg_match("/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/",$name)){
-            message("Incorrect name");
-            redirect("../register.php");
-            exit();
-        }
+        // if(!preg_match("/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/",$name)){
+        //     message("Incorrect name");
+        //     redirect("../register.php");
+        //     exit();
+        // }
         if(!preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",$email)){
             message("Invalid email");
             redirect("../register.php");
