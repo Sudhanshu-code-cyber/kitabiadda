@@ -158,7 +158,7 @@ if (isset($_POST['submit_book'])) {
 
 
         if (mysqli_query($connect, $sql)) {
-
+            
             $to = $user_email;
             $subject = "Product Sale Details - KitabiAdda";
 
@@ -249,9 +249,7 @@ if (isset($_POST['submit_book'])) {
             $headers .= "From: KitabiAdda <no-reply@kitabiadda.in>\r\n";
             $headers .= "Reply-To: support@kitabiadda.com\r\n";
             $headers .= "X-Mailer: PHP/" . phpversion();
-            $last_id_query = mysqli_query($connect, "SELECT id FROM books WHERE email='$email' ORDER BY id DESC LIMIT 1");
-            $row = mysqli_fetch_assoc($last_id_query);
-            $last_id = $row['id'];
+
             // Send Mail
             if (mail($to, $subject, $message, $headers)) {
                 echo '
@@ -263,7 +261,7 @@ if (isset($_POST['submit_book'])) {
                         icon: "success",
                         confirmButtonText: "OK"
                     }).then(() => {
-                        window.location.href = "sellBookDetails.php?sell_id=' . $last_id . '"; // Redirect to home page
+                        window.location.href = "../index.php"; // Redirect to home page
                     });
                 </script>
                 ';
