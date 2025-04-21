@@ -49,7 +49,7 @@ $total_items = $items_query->num_rows;
         <!-- Header with back button -->
         <nav class="bg-[#3D8D7A] text-white p-4 fixed w-full top-0 z-50 shadow-md">
             <div class="container mx-auto flex justify-between items-center px-4">
-                <a href="javascript:history.back()" class="text-white text-xl md:text-2xl">
+                <a href="profile.php" class="text-white text-xl md:text-2xl">
                     <i class="fas fa-arrow-left"></i>
                 </a>
                 <?php if ($order['status'] == 1) { ?>
