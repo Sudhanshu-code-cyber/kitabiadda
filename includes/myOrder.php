@@ -7,24 +7,12 @@
 
 
                 <div class="w-full shadow-lg rounded-lg bg-white p-4 sm:p-5 mb-4">
-                <?php
-    // Handle cancellation logic (example)
-    if (isset($_GET['cancleOrder'])) {
-        $orderId = $_GET['cancleOrder'];
-        // Run your cancellation code here (e.g., update status in DB)
-        // Redirect with a success message
-        header("Location: ?cancelled=true");
-        exit();
-    }
-?>
-
-<!-- Show a message if the order was cancelled -->
-<?php if (isset($_GET['cancelled']) && $_GET['cancelled'] == 'true'): ?>
-    <div class="mt-4 p-3 bg-green-100 text-green-800 rounded-md">
-        Order has been cancelled successfully.
-    </div>
-<?php endif; ?>
-
+                    <?php
+                    if ($orders['status'] != 1) { ?>
+                        <a href="?cancleOrder=<?= $orders['id'] ?>"
+                            class="mt-4  ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700">Cancel</a>
+                    <?php }
+                    ?>
 
                     <a href="order_details.php?order_id=<?= $orders['id']; ?>">
                         <div class="flex flex-col sm:flex-row justify-between gap-2 mb-3">

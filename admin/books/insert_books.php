@@ -173,7 +173,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="isbn" class="form-label">ISBN</label>
-                                    <input type="text" class="form-control" id="isbn" name="isbn" required>
+                                    <input type="text" class="form-control" id="isbn" name="isbn">
                                 </div>
                             </div>
                         </div>
