@@ -352,7 +352,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     $book_category = $_POST['book_category'];
                     $book_sub_category = $_POST['book_sub_category'];
                     $language = $_POST['language'];
-                    $isbn = trim($_POST['isbn']);
+                    $isbn = $_POST['isbn'];
                     
 
                     $publish_year = $_POST['publish_year'];
@@ -389,11 +389,11 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     move_uploaded_file($tmp_image4, "../../assets/images/$image4");
 
                     // check isbn already exist or not
-                    $checkIsbn = $connect->query("select * from books where isbn='$isbn'");
-                    if ($checkIsbn->num_rows > 0) {
-                        message("this isbn is already exist");
-                        exit();
-                    }
+                    // $checkIsbn = $connect->query("select * from books where isbn='$isbn'");
+                    // if ($checkIsbn->num_rows > 0) {
+                    //     message("this isbn is already exist");
+                    //     exit();
+                    // }
 
                     $insert_books = mysqli_query($connect, "INSERT INTO books (book_name,book_author,book_binding,mrp,sell_price,book_pages,book_category,book_sub_category,language,isbn,publish_year,book_quantity,book_description,img1,img2,img3,img4,version) VALUE ('$book_name','$book_author','$book_binding','$mrp','$sell_price','$book_pages','$book_category','$book_sub_category','$language','$isbn','$publish_year','$book_quantity','$book_description','$image1','$image2','$image3','$image4', 'new')");
 
