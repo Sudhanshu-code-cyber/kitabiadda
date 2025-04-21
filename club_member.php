@@ -12,7 +12,15 @@
 
 <body class="bg-yellow-50 text-gray-800 font-sans">
 
-    <section class="py-16 text-center">
+<header class="bg-[#3D8D7A] shadow-md py-4 px-6 flex items-center fixed top-0 left-0 w-full z-50">
+    <a href="javascript:history.back()" class="flex items-center text-green-700 hover:text-green-900 transition">
+        <i class="bi bi-arrow-left text-2xl mr-2 text-white"></i>
+        <span class="text-lg font-medium text-white">Back</span>
+    </a>
+</header>
+
+
+    <section class="py-20 text-center">
         <h2 class="text-4xl font-bold text-green-600 mb-10" data-aos="fade-up">Meet Our Team</h2>
 
         <!-- Mentor Card -->
@@ -42,10 +50,11 @@
                 data-aos="fade-up" data-aos-delay="200">
                 <img src="assets/images/Sudhanshu.jpg" alt="Shudhanshu Kumar"
                     class="w-28 h-28 mx-auto rounded-full object-cover mb-4">
-                <h3 class="text-lg font-semibold">Shudhanshu Kumar</h3>
+                <h3 class="text-lg font-semibold text-green-700">Shudhanshu Kumar</h3>
                 <p class="text-sm text-gray-500 mb-3">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
-                    <a href="https://www.facebook.com/sudhanshu.aaryan.9"><i class="bi bi-facebook hover:text-blue-600"></i></a>
+                    <a href="https://www.facebook.com/sudhanshu.aaryan.9"><i
+                            class="bi bi-facebook hover:text-blue-600"></i></a>
                     <a href="#"><i class="bi bi-instagram hover:text-pink-600"></i></a>
                     <a href="#"><i class="bi bi-linkedin hover:text-blue-700"></i></a>
                 </div>
@@ -56,7 +65,7 @@
                 data-aos="fade-up" data-aos-delay="250">
                 <img src="assets/images/ankur.jpg" alt="Ankur Kumar Jha"
                     class="w-28 h-28 mx-auto rounded-full object-cover mb-4">
-                <h3 class="text-lg font-semibold">Ankur Kumar Jha</h3>
+                <h3 class="text-lg font-semibold text-green-700">Ankur Kumar Jha</h3>
                 <p class="text-sm text-gray-500 mb-3">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
                     <a href="#"><i class="bi bi-facebook hover:text-blue-600"></i></a>
@@ -75,8 +84,8 @@
                 data-aos="fade-up" data-aos-delay="300">
                 <img src="assets/images/rr.jpg" alt="Rishav Ranjan"
                     class="w-28 h-28 mx-auto rounded-full object-cover mb-4">
-                <h3 class="text-lg font-semibold">Rishav Ranjan</h3>
-                <p class="text-sm text-gray-500 mb-3">Developer</p>
+                <h3 class="text-lg font-bold text-green-700">Rishav Ranjan</h3>
+                <p class="text-sm text-gray-500 mb-3 ">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
                     <a href="#"><i class="bi bi-facebook hover:text-blue-600"></i></a>
                     <a href="https://www.instagram.com/imrishav__" target="_blank"><i
@@ -91,7 +100,7 @@
                 data-aos="fade-up" data-aos-delay="350">
                 <img src="assets/images/aman.jpg" alt="Aman Kumar"
                     class="w-28 h-28 mx-auto rounded-full object-cover mb-4">
-                <h3 class="text-lg font-semibold">Aman Kumar</h3>
+                <h3 class="text-lg font-semibold text-green-700">Aman Kumar</h3>
                 <p class="text-sm text-gray-500 mb-3">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
                     <a href="#"><i class="bi bi-facebook hover:text-blue-600"></i></a>
@@ -106,10 +115,11 @@
                 data-aos="fade-up" data-aos-delay="400">
                 <img src="assets/images/vikas.jpg" alt="Vikash Kumar"
                     class="w-28 h-28 mx-auto rounded-full object-cover mb-4">
-                <h3 class="text-lg font-semibold">Vikash Kumar</h3>
-                <p class="text-sm text-gray-500 mb-3">Project Manager</p>
+                <h3 class="text-lg font-semibold text-green-700">Vikash Kumar</h3>
+                <p class="text-sm text-gray-600 mb-3 ">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
-                    <a href="https://www.facebook.com/vikash.aaryan.2025"><i class="bi bi-facebook hover:text-blue-600"></i></a>
+                    <a href="https://www.facebook.com/vikash.aaryan.2025"><i
+                            class="bi bi-facebook hover:text-blue-600"></i></a>
                     <a href=""><i class="bi bi-instagram hover:text-pink-600"></i></a>
                     <a href="#"><i class="bi bi-linkedin hover:text-blue-700"></i></a>
                 </div>
