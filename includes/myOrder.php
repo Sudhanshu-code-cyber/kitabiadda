@@ -5,12 +5,12 @@
         if ($total_orders->num_rows > 0):
             while ($orders = mysqli_fetch_array($total_orders)): ?>
 
-
                 <div class="w-full shadow-lg rounded-lg bg-white p-4 sm:p-5 mb-4">
                     <?php
                     if ($orders['status'] != 1) { ?>
                         <a href="?cancleOrder=<?= $orders['id'] ?>"
-                            class="mt-4  ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700">Cancel</a>
+                            class="mt-4 ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
                     <?php }
                     ?>
 
@@ -83,8 +83,15 @@ if (isset($_GET['cancleOrder'])) {
     $cancleId = $_GET['cancleOrder'];
     $cancleQuery = $connect->query("UPDATE orders SET status=5 where id='$cancleId'");
     if ($cancleQuery) {
-        echo '<script>window.location.href = "profile.php";</script>';
+        echo '<script>
+            alert("Your order has been cancelled successfully!");
+            window.location.href = "profile.php";
+        </script>';
+    } else {
+        echo '<script>
+            alert("Failed to cancel order. Please try again.");
+            window.location.href = "profile.php";
+        </script>';
     }
 }
-
 ?>
