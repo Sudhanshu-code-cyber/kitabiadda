@@ -10,7 +10,7 @@
                     <?php
                     if ($orders['status'] != 1) { ?>
                         <a href="?cancleOrder=<?= $orders['id'] ?>"
-                            class="mt-4  ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700">Cancle</a>
+                            class="mt-4  ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700">Cancel</a>
                     <?php }
                     ?>
 
