@@ -1013,3 +1013,614 @@ $isWishlisted = ($checkWishlist->num_rows > 0);
                 </script>
 
             </div>
+
+
+
+            chatgpt notes
+Page 1: Insert Book Set (for sellers)
+html
+Copy
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book Set</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Add New Book Set</h1>
+            <p class="text-gray-600 mb-6">Provide basic details about your book set. We'll enrich it with more information for buyers.</p>
+            
+            <form id="bookset-form" class="space-y-6">
+                <div>
+                    <label for="set-name" class="block text-sm font-medium text-gray-700 mb-1">Book Set Name*</label>
+                    <input type="text" id="set-name" required 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="e.g., 12th Class NCERT Complete Set">
+                </div>
+                
+                <div>
+                    <label for="set-category" class="block text-sm font-medium text-gray-700 mb-1">Category*</label>
+                    <select id="set-category" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Select a category</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Competitive Exams">Competitive Exams</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Children">Children</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="set-grade" class="block text-sm font-medium text-gray-700 mb-1">Grade/Level (if applicable)</label>
+                    <input type="text" id="set-grade" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="e.g., 12th Grade">
+                </div>
+                
+                <div>
+                    <label for="set-price" class="block text-sm font-medium text-gray-700 mb-1">Price*</label>
+                    <input type="number" id="set-price" required min="0" step="0.01"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="e.g., 999.00">
+                </div>
+                
+                <div>
+                    <label for="set-condition" class="block text-sm font-medium text-gray-700 mb-1">Condition*</label>
+                    <select id="set-condition" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Select condition</option>
+                        <option value="New">New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Poor</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="set-description" class="block text-sm font-medium text-gray-700 mb-1">Brief Description</label>
+                    <textarea id="set-description" rows="3"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="Any additional details about the set"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                    <div class="mt-1 flex items-center">
+                        <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </span>
+                        <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Upload
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Submit Book Set
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('bookset-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const bookSet = {
+                name: document.getElementById('set-name').value,
+                category: document.getElementById('set-category').value,
+                grade: document.getElementById('set-grade').value,
+                price: parseFloat(document.getElementById('set-price').value),
+                condition: document.getElementById('set-condition').value,
+                description: document.getElementById('set-description').value,
+                createdAt: new Date().toISOString(),
+                status: 'pending', // For admin approval
+                enrichedData: null // To be added by admin
+            };
+            
+            // In a real app, you would send this to your backend
+            console.log('Book set submitted:', bookSet);
+            
+            // Store in localStorage for our demo
+            let bookSets = JSON.parse(localStorage.getItem('bookSets') || [];
+            bookSets.push(bookSet);
+            localStorage.setItem('bookSets', JSON.stringify(bookSets));
+            
+            // Show success message
+            alert('Book set submitted successfully! Our team will enrich it with more details before publishing.');
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
+Run HTML
+Page 2: Display Book Set (for buyers)
+html
+Copy
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Set Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Back button -->
+        <a href="bookset-list.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-6">
+            <i class="fas fa-arrow-left mr-2"></i> Back to all book sets
+        </a>
+        
+        <!-- Book Set Details Card -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="md:flex">
+                <!-- Image Section -->
+                <div class="md:w-1/3 p-6 bg-gray-100 flex items-center justify-center">
+                    <img src="https://via.placeholder.com/400x500?text=Book+Set+Cover" alt="Book Set Cover" class="max-h-96 object-contain">
+                </div>
+                
+                <!-- Details Section -->
+                <div class="md:w-2/3 p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-indigo-100 text-indigo-800 mb-2">
+                                Academic
+                            </span>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2">12th Class NCERT Complete Set</h1>
+                            <p class="text-gray-600 mb-4">Complete set of all NCERT textbooks for 12th grade students</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-bold text-indigo-600">₹1,299</p>
+                            <p class="text-sm text-gray-500">Condition: <span class="text-green-600">Like New</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 my-4"></div>
+                    
+                    <!-- Enriched Details -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-3">Set Details</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Grade Level</p>
+                                <p class="font-medium">12th Standard</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Publisher</p>
+                                <p class="font-medium">NCERT</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Publication Year</p>
+                                <p class="font-medium">2023 Edition</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Language</p>
+                                <p class="font-medium">English</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Total Books</p>
+                                <p class="font-medium">8 Books</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Seller Rating</p>
+                                <p class="font-medium">
+                                    <span class="text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </span>
+                                    (4.7)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Books in Set -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-3">Books Included</h2>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fas fa-book text-gray-400 mr-3"></i>
+                                    <span>Physics Part I & II</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-book text-gray-400 mr-3"></i>
+                                    <span>Chemistry Part I & II</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-book text-gray-400 mr-3"></i>
+                                    <span>Mathematics Part I & II</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-book text-gray-400 mr-3"></i>
+                                    <span>Biology</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-book text-gray-400 mr-3"></i>
+                                    <span>English Core</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Seller Info -->
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-3">Seller Information</h2>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="font-medium">BookSmart Seller</p>
+                                    <p class="text-sm text-gray-500">Member since 2022</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex space-x-4">
+                                <button class="flex items-center text-sm text-indigo-600 hover:text-indigo-800">
+                                    <i class="fas fa-envelope mr-2"></i> Contact Seller
+                                </button>
+                                <button class="flex items-center text-sm text-indigo-600 hover:text-indigo-800">
+                                    <i class="fas fa-list mr-2"></i> View Other Listings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <button class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                        </button>
+                        <button class="flex-1 bg-white hover:bg-gray-50 text-indigo-600 py-3 px-4 border border-indigo-300 rounded-md font-medium flex items-center justify-center">
+                            <i class="far fa-heart mr-2"></i> Save for Later
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Information -->
+        <div class="mt-8 bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">About This Book Set</h2>
+                <div class="prose max-w-none">
+                    <p>The 12th Class NCERT Complete Set includes all the essential textbooks required for students in the Science stream. This set is perfect for CBSE and other state board students following the NCERT curriculum.</p>
+                    
+                    <h3 class="text-lg font-medium mt-4">Key Features:</h3>
+                    <ul class="list-disc pl-5">
+                        <li>Latest edition of all NCERT textbooks</li>
+                        <li>Covers all subjects: Physics, Chemistry, Mathematics, Biology, and English</li>
+                        <li>Clear explanations and well-structured content</li>
+                        <li>Includes exercises and solved examples</li>
+                        <li>Perfect condition with no markings or highlights</li>
+                    </ul>
+                    
+                    <h3 class="text-lg font-medium mt-4">Why Buy This Set?</h3>
+                    <p>Purchasing the complete set ensures you have all the required books at a discounted price compared to buying individually. These books are essential for board exam preparation and competitive exams like JEE, NEET, and other entrance tests.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // In a real app, you would fetch these details from your backend
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be replaced with actual data fetching
+            const bookSets = JSON.parse(localStorage.getItem('bookSets')) || [];
+            
+            // For demo purposes, we're just showing the first book set
+            if (bookSets.length > 0) {
+                // You would update the DOM elements with the actual data
+                console.log('Loaded book sets:', bookSets);
+            }
+        });
+    </script>
+</body>
+</html>
+Run HTML
+How This System Works
+1. Seller Submission Flow:
+Sellers provide minimal details (name, category, price, condition)
+
+Form is simple and quick to complete
+
+Submitted data is marked as "pending" for admin review
+
+Admin can later enrich the data with complete details
+
+2. Buyer View Flow:
+Shows comprehensive information about the book set
+
+Includes enriched data added by admin:
+
+Complete list of books in the set
+
+Detailed descriptions
+
+Publisher information
+
+Educational level details
+
+Clean, attractive presentation with images
+
+Seller information and contact options
+
+3. Implementation Notes:
+Backend Integration:
+
+The demo uses localStorage, but in a real app you would:
+
+Store book sets in a database
+
+Have an admin interface to enrich the data
+
+Implement user authentication for sellers
+
+Data Model:
+
+javascript
+Copy
+{
+  id: String,
+  name: String,
+  category: String,
+  grade: String,
+  price: Number,
+  condition: String,
+  description: String,
+  createdAt: Date,
+  status: String, // 'pending', 'approved', 'rejected'
+  enrichedData: {
+    publisher: String,
+    edition: String,
+    language: String,
+    totalBooks: Number,
+    booksIncluded: Array,
+    features: Array,
+    images: Array
+  },
+  sellerInfo: {
+    id: String,
+    name: String,
+    joinDate: Date,
+    rating: Number
+  }
+}
+Next Steps for Full Implementation:
+
+Create a backend API to handle submissions
+
+Build an admin dashboard to manage book sets
+
+Implement user authentication
+
+Add image upload functionality
+
+Create a search/browse page for book sets
+
+This system provides a good balance between making it easy for sellers to submit book sets while providing rich information to buyers.
+
+
+
+
+
+
+
+
+sell/sell.php
+
+
+<?php
+include "../config/connect.php";
+
+if (!isset($_SESSION['user'])) {
+    $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php';
+
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: '🔒 Access Denied!',
+                text: 'Please login first to continue.',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Login Now',
+                denyButtonText: 'Go Back',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                customClass: {
+                    popup: 'my-swal-popup',
+                    title: 'my-swal-title',
+                    confirmButton: 'my-swal-confirm-btn',
+                    denyButton: 'my-swal-deny-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../login.php';
+                } else if (result.isDenied) {
+                    window.location.href = '$previousPage';
+                }
+            });
+
+            setTimeout(() => {
+                window.location.href = '$previousPage';
+            }, 5000);
+        });
+    </script>";
+
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Your Ad</title>
+    <link href="../src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D8D7A;
+            --secondary: #B3D8A8;
+            --background: #FBFFE4;
+            --accent: #A3D1C6;
+        }
+
+        /* Mobile-first responsive styles */
+        @media (max-width: 767px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .category-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid var(--primary);
+                max-height: 40vh;
+                overflow-y: auto;
+            }
+
+            .content-panel {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .nav-title {
+                font-size: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 60vw;
+            }
+
+            .category-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .subcategory-item {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .mobile-hidden {
+                display: none;
+            }
+        }
+
+        /* Tablet styles */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .category-sidebar {
+                width: 35%;
+            }
+
+            .content-panel {
+                width: 65%;
+            }
+        }
+
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            .category-sidebar {
+                width: 30%;
+            }
+
+            .content-panel {
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--background)] font-sans">
+    <!-- Responsive Navbar -->
+    <nav class="bg-[var(--primary)] text-white p-4 fixed w-full top-0 z-50 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="javascript:history.back()" class="text-white text-xl md:text-2xl">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-lg md:text-xl font-bold text-center flex-1 px-2 nav-title">SELL YOUR BOOK</h1>
+            <a href="../index.php" class="text-white text-xl md:text-2xl">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto p-4 md:p-6 mt-16 md:mt-20">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col md:flex-row">
+            <!-- Category Sidebar - Responsive -->
+            <div class="category-sidebar bg-[var(--secondary)] p-3 md:p-4">
+                <h2 class="text-base md:text-lg font-semibold mb-3 text-gray-800">Categories</h2>
+                <hr class="border-gray-300">
+                <ul class="divide-y divide-gray-300">
+                    <?php
+                    $call_cat = mysqli_query($connect, "SELECT * FROM category");
+                    while ($cat = mysqli_fetch_array($call_cat)) { ?>
+                        <a href="?cat=<?= $cat['id'] ?>">
+                            <li class="category-item p-3 md:p-4 hover:bg-[var(--accent)] cursor-pointer transition duration-200 text-gray-800 font-medium text-sm md:text-base">
+                                <?= $cat['cat_title'] ?>
+                            </li>
+                        </a>
+                        <hr class="border-gray-300">
+                    <?php } ?>
+                </ul>
+            </div>
+
+            <!-- Content Panel - Responsive -->
+            <div class="content-panel p-4 md:p-6">
+                <h2 class="text-base md:text-lg font-bold text-[var(--primary)] mb-3 md:mb-4">Select a Subcategory</h2>
+
+                <!-- Subcategory Panel -->
+                <?php if (isset($_GET['cat'])) { ?>
+                    <ul class="divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
+                        <?php
+                        $cat_id = $_GET['cat'];
+                        $call_subcat = mysqli_query($connect, "SELECT * FROM sub_category WHERE cat_id='$cat_id'");
+                        while ($subcat = mysqli_fetch_array($call_subcat)) {
+                            $subcat_id = $subcat['id'];
+                            $link = ($subcat_id == 8) ? "add_bookset_detail.php?subcat=$subcat_id" : "sell_book_detail.php?subcat=$subcat_id";
+                        ?>
+                            <a href="<?= $link ?>">
+                                <li class="p-3 md:p-4 hover:bg-[var(--accent)] cursor-pointer transition duration-200 font-medium text-gray-700 text-sm md:text-base">
+                                    <?= $subcat['sub_cat'] ?>
+                                </li>
+                            </a>
+                        <?php } ?>
+                    </ul>
+                <?php } else { ?>
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-book-open text-4xl mb-4 text-[var(--primary)]"></i>
+                        <p class="text-sm md:text-base">Please select a category from the left sidebar</p>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

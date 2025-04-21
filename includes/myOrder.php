@@ -5,28 +5,22 @@
         if ($total_orders->num_rows > 0):
             while ($orders = mysqli_fetch_array($total_orders)): ?>
 
-
                 <div class="w-full shadow-lg rounded-lg bg-white p-4 sm:p-5 mb-4">
-                <?php
-    // Handle cancellation logic (example)
-    if (isset($_GET['cancleOrder'])) {
-        $orderId = $_GET['cancleOrder'];
-        // Run your cancellation code here (e.g., update status in DB)
-        // Redirect with a success message
-        header("Location: ?cancelled=true");
-        exit();
-    }
-?>
-
-<!-- Show a message if the order was cancelled -->
-<?php if (isset($_GET['cancelled']) && $_GET['cancelled'] == 'true'): ?>
-    <div class="mt-4 p-3 bg-green-100 text-green-800 rounded-md">
-        Order has been cancelled successfully.
-    </div>
-<?php endif; ?>
-
+                    <?php
+                    if ($orders['status'] == 5): ?>
+                        <button class="mt-4 ms-2.5 px-4 py-0.5 bg-gray-400 text-white rounded-lg cursor-default" disabled>
+                            Cancelled
+                        </button>
+                    <?php elseif ($orders['status'] != 1): ?>
+                        <a href="?cancleOrder=<?= $orders['id'] ?>"
+                            class="mt-4 ms-2.5 px-4 py-0.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                            onclick="return confirm('Are you sure you want to cancel this order?')">
+                            Cancel Order
+                        </a>
+                    <?php endif; ?>
 
                     <a href="order_details.php?order_id=<?= $orders['id']; ?>">
+                        <!-- Rest of your order details HTML remains the same -->
                         <div class="flex flex-col sm:flex-row justify-between gap-2 mb-3">
                             <h3 class="text-base sm:text-lg font-bold text-blue-800">#Order ID: <?= $orders['id'] ?> </h3>
                             <p class="text-xs sm:text-sm text-gray-800">
@@ -39,8 +33,7 @@
                         $call_order_item = mysqli_query($connect, "SELECT * FROM cart JOIN books ON cart.item_id = books.id WHERE orders_id='$orders_id'");
                         while ($order_item = mysqli_fetch_array($call_order_item)) { ?>
                             <div class="flex flex-col gap-4 mt-3">
-                                <div
-                                    class="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50 gap-3 sm:gap-0">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-gray-200 p-3 rounded-lg shadow-sm bg-gray-50 gap-3 sm:gap-0">
                                     <div class="flex items-center flex-1 min-w-0">
                                         <img src="assets/images/<?= $order_item['img1'] ?>" alt="item_image"
                                             class="h-16 w-16 sm:h-18 sm:w-18 rounded shadow-sm object-cover">
@@ -51,8 +44,7 @@
                                         </div>
                                     </div>
                                     <?php if ($orders['status'] == 1): ?>
-                                        <div
-                                            class="flex flex-col gap-1 items-start sm:items-center w-full sm:w-auto text-xs sm:text-sm">
+                                        <div class="flex flex-col gap-1 items-start sm:items-center w-full sm:w-auto text-xs sm:text-sm">
                                             <p class="font-semibold text-green-600">🟢 Delivered on
                                                 <?= date("d F Y", strtotime($orders['order_time'])) ?>
                                             </p>
@@ -60,15 +52,11 @@
                                             <p class="text-blue-500 hover:text-blue-700 cursor-pointer">⭐ Rate & Review Product</p>
                                         </div>
                                     <?php elseif ($orders["status"] == 2): ?>
-                                        <span
-                                            class="text-white font-semibold bg-orange-500 rounded px-2 py-1 text-sm sm:text-base">Order
-                                            Shipped</span>
+                                        <span class="text-white font-semibold bg-orange-500 rounded px-2 py-1 text-sm sm:text-base">Order Shipped</span>
                                     <?php elseif ($orders["status"] == 3): ?>
-                                        <span class="text-white font-semibold bg-yellow-600 rounded px-2 py-1 text-sm sm:text-base">In
-                                            Transit</span>
+                                        <span class="text-white font-semibold bg-yellow-600 rounded px-2 py-1 text-sm sm:text-base">In Transit</span>
                                     <?php elseif ($orders["status"] == 4): ?>
-                                        <span class="text-white font-semibold bg-green-600 rounded px-2 py-1 text-sm sm:text-base">Out
-                                            For Delivery</span>
+                                        <span class="text-white font-semibold bg-green-600 rounded px-2 py-1 text-sm sm:text-base">Out For Delivery</span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -95,8 +83,15 @@ if (isset($_GET['cancleOrder'])) {
     $cancleId = $_GET['cancleOrder'];
     $cancleQuery = $connect->query("UPDATE orders SET status=5 where id='$cancleId'");
     if ($cancleQuery) {
-        echo '<script>window.location.href = "profile.php";</script>';
+        echo '<script>
+            alert("Your order #'.$cancleId.' has been cancelled successfully!");
+            window.location.href = "profile.php";
+        </script>';
+    } else {
+        echo '<script>
+            alert("Failed to cancel order. Please try again.");
+            window.location.href = "profile.php";
+        </script>';
     }
 }
-
 ?>
