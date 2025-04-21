@@ -24,7 +24,7 @@
                 <p class="text-sm text-gray-500 mb-4">Mentor <br><span class="italic">A wise and trusted guide and
                         advisor</span></p>
                 <div class="flex justify-center gap-4 text-lg">
-                    <a href="#"><i class="bi bi-facebook hover:text-blue-600"></i></a>
+                    <a href="https://www.facebook.com/codesadiq"><i class="bi bi-facebook hover:text-blue-600"></i></a>
                     <a href="https://www.instagram.com/syedsadiq.cws" target="_blank"><i
                             class="bi bi-instagram hover:text-pink-600"></i></a>
                     <a href="https://www.linkedin.com/in/syedsadiquehussain/" target="_blank"><i
@@ -45,7 +45,7 @@
                 <h3 class="text-lg font-semibold">Shudhanshu Kumar</h3>
                 <p class="text-sm text-gray-500 mb-3">Developer</p>
                 <div class="flex justify-center gap-4 text-lg">
-                    <a href="#"><i class="bi bi-facebook hover:text-blue-600"></i></a>
+                    <a href="https://www.facebook.com/sudhanshu.aaryan.9"><i class="bi bi-facebook hover:text-blue-600"></i></a>
                     <a href="#"><i class="bi bi-instagram hover:text-pink-600"></i></a>
                     <a href="#"><i class="bi bi-linkedin hover:text-blue-700"></i></a>
                 </div>
