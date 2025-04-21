@@ -67,8 +67,8 @@ $add = $callAdd->fetch_array();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Your Ad - Sell Your Book</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title><?= PROJECT_NAME?> Sell Your Book</title>
+    <link href="../src/output.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <style>
         :root {
