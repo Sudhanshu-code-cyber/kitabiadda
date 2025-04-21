@@ -466,7 +466,7 @@ if (isset($_GET['product_id'])) {
                                 class="block p-4 pr-10"> <!-- Added pr-10 for delete button space -->
                                 <div class="flex items-center">
                                     <div class="relative mr-3">
-                                        <img src="assets/user_dp/<?= $chat['other_user_dp'] ?: 'default.jpg' ?>"
+                                        <img src="<?= ($chat['dp']) ? "assets/user_dp/" . $chat['dp'] : "assets/defaultUser.webp"; ?>"
                                             class="h-12 w-12 rounded-full object-cover border">
                                         <?php if ($chat['unread_count'] > 0): ?>
                                             <span class="unread-badge"><?= $chat['unread_count'] ?></span>
@@ -548,7 +548,7 @@ if (isset($_GET['product_id'])) {
                         class="fixed top-0 right-0 z-50 mt-40 w-80 h-screen p-4 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
                         <h2 class="text-lg font-bold text-gray-800 mb-4">Contact Seller</h2>
                         <div class="flex flex-col items-center">
-                            <img src="assets/user_dp/<?= $otherUserInfo['dp'] ?? 'default-profile.jpg' ?>"
+                            <img src="<?= ($otherUserInfo['dp']) ? "assets/user_dp/" . $otherUserInfo['dp'] : "assets/defaultUser.webp"; ?>"
                                 alt="<?= htmlspecialchars($otherUserInfo['name']) ?>"
                                 class="rounded-full mb-3 h-20 w-20 object-cover">
                             <p class="text-lg font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></p>
