@@ -524,7 +524,7 @@ if (isset($_GET['product_id'])) {
                 <div class="md:block border-b sticky top-0 bg-white z-10">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center">
-                            <img src="assets/user_dp/<?= $otherUserInfo['dp'] ?: 'default.jpg' ?>"
+                            <img src="<?= ($otherUserInfo['dp']) ? "assets/user_dp/" . $otherUserInfo['dp'] : "assets/defaultUser.webp"; ?>"
                                 class="h-10 w-10 rounded-full object-cover border mr-3">
                             <div>
                                 <h3 class="font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></h3>
