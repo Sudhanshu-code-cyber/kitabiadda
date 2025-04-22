@@ -46,18 +46,28 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                 <div class="container ">
                     <!-- Search & Filters -->
                     <div class="card p-3 mb-4 shadow-sm align-items-between">
-                        <div class="row g-2 ">
+                        <div class="row g-2">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input type="text" id="liveSearch" class="form-control"
+                                    placeholder="Search by name, email or contact...">
                             </div>
-                            <div class="col-md-4">
-                            
-                            </div>
+                            <div class="col-md-4"></div>
                             <div class="col-md-2 text-end">
-                                <button class="btn btn-outline-secondary">Export</button>
+                                <button class="btn btn-outline-secondary w-100">Export</button>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        document.getElementById("liveSearch").addEventListener("keyup", function () {
+                            let filter = this.value.toLowerCase();
+                            let rows = document.querySelectorAll("table tbody tr");
+
+                            rows.forEach(function (row) {
+                                let text = row.textContent.toLowerCase();
+                                row.style.display = text.includes(filter) ? "" : "none";
+                            });
+                        });
+                    </script>
 
                     <!-- Orders Table with Horizontal Scroll -->
                     <div class="card p-3 shadow-sm">

@@ -15,30 +15,18 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
   <style>
     .user-dp {
       width: 40px;
-      /* इमेज को छोटा करने के लिए */
       height: 40px;
-      /* गोल आकार के लिए */
       object-fit: cover;
-      /* सही aspect ratio बनाए रखने के लिए */
       border: 2px solid #ddd;
-      /* हल्का बॉर्डर */
     }
   </style>
-
-
-
-
 </head>
 
 <body class="bg-light">
 
   <?php include_once "../includes/admin_navbar.php"; ?>
-
-
-
   <div class="full-screen">
     <?php include_once "../includes/admin_sidebar.php"; ?>
-
     <div class="main-content col-8">
       <div class="content flex-grow-1 ">
         <h2>OUR ORDERs...</h2>
@@ -46,24 +34,29 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
         <div class="container ">
           <!-- Search & Filters -->
           <div class="card p-3 mb-4 shadow-sm align-items-between">
-            <div class="row g-2 ">
+            <div class="row g-2">
               <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Search...">
+                <input type="text" id="liveSearch" class="form-control"
+                  placeholder="Search by name, email or contact...">
               </div>
-              <div class="col-md-4">
-                <!-- <select class="form-select">
-                                    <option>Status</option>
-                                    <option>In Progress</option>
-                                    <option>Complete</option>
-                                    <option>Pending</option>
-                                    <option>Delivered</option>
-                                </select> -->
-              </div>
+              <div class="col-md-4"></div>
               <div class="col-md-2 text-end">
-                <button class="btn btn-outline-secondary">Export</button>
+                <button class="btn btn-outline-secondary w-100">Export</button>
               </div>
             </div>
           </div>
+          <script>
+            document.getElementById("liveSearch").addEventListener("keyup", function () {
+              let filter = this.value.toLowerCase();
+              let rows = document.querySelectorAll("table tbody tr");
+
+              rows.forEach(function (row) {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+              });
+            });
+          </script>
+
 
           <!-- Orders Table with Horizontal Scroll -->
           <div class="card p-3 shadow-sm">
@@ -74,7 +67,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     <th>user ID</th>
                     <th>User</th>
                     <th>Name</th>
-                    <!-- <th>Address</th> -->
                     <th>gender</th>
                     <th>contact</th>
                     <th>Join Date</th>
@@ -86,7 +78,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
 
                   <?php $total_users = mysqli_query($connect, "SELECT * FROM users ORDER BY user_id DESC ");
                   while ($users = mysqli_fetch_array($total_users)) { ?>
-
 
                     <tr>
                       <td>#<?= $users['user_id'] ?></td>
@@ -101,7 +92,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                         <strong><?= $users['email'] ?></strong>
                       </td>
 
-
                       <td><?= $users['name'] ?></td>
                       <td><strong><?= $users['gender'] ?></td>
                       <td><?= $users['contact'] ?></td>
@@ -114,11 +104,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
 
                       </td>
                     </tr>
-
-
                   <?php } ?>
-
-
                 </tbody>
               </table>
               <!-- 📌 Bootstrap Modal for DP Popup -->
@@ -146,9 +132,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
   </div>

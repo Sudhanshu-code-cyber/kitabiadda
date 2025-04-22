@@ -46,25 +46,29 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                 <div class="container ">
                     <!-- Search & Filters -->
                     <div class="card p-3 mb-4 shadow-sm align-items-between">
-                        <div class="row g-2 ">
-                            <div class="col-md-6 d-flex ">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <input type="submit" class="btn btn-primary" value="search">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <input type="text" id="liveSearch" class="form-control"
+                                    placeholder="Search by name, email or contact...">
                             </div>
-                            <div class="col-md-4">
-                                <!-- <select class="form-select">
-                                    <option>Status</option>
-                                    <option>In Progress</option>
-                                    <option>Complete</option>
-                                    <option>Pending</option>
-                                    <option>Delivered</option>
-                                </select> -->
-                            </div>
+                            <div class="col-md-4"></div>
                             <div class="col-md-2 text-end">
-                                <button class="btn btn-outline-secondary">Export</button>
+                                <button class="btn btn-outline-secondary w-100">Export</button>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        document.getElementById("liveSearch").addEventListener("keyup", function () {
+                            let filter = this.value.toLowerCase();
+                            let rows = document.querySelectorAll("table tbody tr");
+
+                            rows.forEach(function (row) {
+                                let text = row.textContent.toLowerCase();
+                                row.style.display = text.includes(filter) ? "" : "none";
+                            });
+                        });
+                    </script>
+
 
                     <!-- Orders Table with Horizontal Scroll -->
                     <div class="card p-3 shadow-sm">
@@ -104,11 +108,11 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                                             <td>#<?= $orders['id'] ?></td>
                                             <td>
                                                 <a href="view_this_order.php?order_id=<?= $orders['id'] ?>"><?php
-                                                // अगर $user_dp['dp'] खाली है या सेट नहीं है तो डिफ़ॉल्ट इमेज लगाएं
-                                                $profileImage = !empty($user_dp['dp']) ? "../../assets/user_dp/" . $user_dp['dp'] : "../../assets/defaultUser.webp";
-                                                ?>
-                                                <img src="<?= $profileImage ?>" class="rounded-circle me-2 user-dp">
-                                                <strong><?= $orders['email'] ?></strong></a>
+                                                  // अगर $user_dp['dp'] खाली है या सेट नहीं है तो डिफ़ॉल्ट इमेज लगाएं
+                                                  $profileImage = !empty($user_dp['dp']) ? "../../assets/user_dp/" . $user_dp['dp'] : "../../assets/defaultUser.webp";
+                                                  ?>
+                                                    <img src="<?= $profileImage ?>" class="rounded-circle me-2 user-dp">
+                                                    <strong><?= $orders['email'] ?></strong></a>
                                             </td>
 
 
