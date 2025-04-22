@@ -77,8 +77,8 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                 <p><strong>User:</strong> <?= $user_address['name'] ?> (<?= $email ?>)</p>
                 <p><strong>Mobile:</strong> +91 <?= $user_address['mobile'] ?></p>
                 <p><strong>Address:</strong> <?= $user_address['address'] ?>, <?= $user_address['city'] ?>,
-                    <?= $user_address['state'] ?>, <?= $user_address['landmark'] ?>, <?= $user_address['pincode'] ?>123,
-                    Main Street, New Delhi, India
+                    <!-- <?= $user_address['state'] ?>, <?= $user_address['landmark'] ?>, <?= $user_address['pincode'] ?>123,
+                    Main Street, New Delhi, India -->
                 </p>
                 <p><strong>Total Amount : </strong> <strong>₹<?= $order_detail['total_amount'] ?></strong></p>
                 <p><strong>Order Status:</strong> <?php if ($order_detail['status'] == 0) { ?>

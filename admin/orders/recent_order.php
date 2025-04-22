@@ -47,8 +47,9 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     <!-- Search & Filters -->
                     <div class="card p-3 mb-4 shadow-sm align-items-between">
                         <div class="row g-2 ">
-                            <div class="col-md-6">
+                            <div class="col-md-6 d-flex ">
                                 <input type="text" class="form-control" placeholder="Search...">
+                                <input type="submit" class="btn btn-primary" value="search">
                             </div>
                             <div class="col-md-4">
                                 <!-- <select class="form-select">
@@ -102,12 +103,12 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                                         <tr>
                                             <td>#<?= $orders['id'] ?></td>
                                             <td>
-                                                <?php
+                                                <a href="view_this_order.php?order_id=<?= $orders['id'] ?>"><?php
                                                 // अगर $user_dp['dp'] खाली है या सेट नहीं है तो डिफ़ॉल्ट इमेज लगाएं
                                                 $profileImage = !empty($user_dp['dp']) ? "../../assets/user_dp/" . $user_dp['dp'] : "../../assets/defaultUser.webp";
                                                 ?>
                                                 <img src="<?= $profileImage ?>" class="rounded-circle me-2 user-dp">
-                                                <strong><?= $orders['email'] ?></strong>
+                                                <strong><?= $orders['email'] ?></strong></a>
                                             </td>
 
 
