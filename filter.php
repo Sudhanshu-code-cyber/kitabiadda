@@ -39,12 +39,16 @@ if (!empty($_GET['filter'])) {
 
 // Filter: Search
 if (!empty($_GET['search_book'])) {
-    $search = trim($_GET['search_book']);
-    $search = mysqli_real_escape_string($connect, $_GET['search_book']);
-    if (strlen($search) < 1) {
+    // Trim whitespace BEFORE escaping
+    $raw_search = trim($_GET['search_book']);
+    
+    if (strlen($raw_search) < 1) {
         message("Please enter a search term.");
         redirect("filter.php");
     }
+
+    // Now escape the cleaned input
+    $search = mysqli_real_escape_string($connect, $raw_search);
 
     $sql .= " AND (
         LOWER(book_name) LIKE LOWER('%$search%') OR 
@@ -54,6 +58,7 @@ if (!empty($_GET['search_book'])) {
         LOWER(isbn) LIKE LOWER('%$search%')
     )";
 }
+
 
 $booksQuery = $connect->query($sql);
 ?>
