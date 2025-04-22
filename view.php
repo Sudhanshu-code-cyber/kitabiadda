@@ -604,7 +604,7 @@ $address = mysqli_fetch_assoc($callAdd) ?>
                         <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
                             <!-- Seller Profile Photo -->
                             <div class="flex-shrink-0">
-                                <img src="assets/user_dp/<?= $sellerContact['dp'] ?? 'user_image.avif' ?>"
+                                <img src="<?= ($sellerContact['dp']) ? "assets/user_dp/" . $sellerContact['dp'] : "assets/defaultUser.webp"; ?>"
                                     alt="<?= $sellerContact['name'] ?>" class="rounded-full  h-12 w-12 object-cover">
                             </div>
 

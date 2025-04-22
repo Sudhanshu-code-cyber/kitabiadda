@@ -71,7 +71,9 @@
                                         </div>
                                     </div>
                                     <h3 class="fw-bold mt-2">
-                                        <?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from users ")) ?>
+                                    <?php
+                                        $query = $connect->query("select * from users ");
+                                        echo $total_cart_item = $query->num_rows;?>
                                     </h3>
                                     <span class="up">⬆ 5.27%</span> <small class="text-muted">Since last month</small>
                                 </div>
@@ -89,7 +91,8 @@
                                         </div>
                                     </div>
                                     <h3 class="fw-bold mt-2">
-                                        <?= $total_cart_item = mysqli_num_rows(mysqli_query($connect, "select * from orders")) ?>
+                                        <?php $orderQuery = $connect->query("select * from orders");
+                                        echo $total_cart_item = $orderQuery->num_rows ?>
                                     </h3>
                                     <span class="down">⬇ 1.08%</span> <small class="text-muted">Since last month</small>
                                 </div>
@@ -109,8 +112,8 @@
 
                                 $query = "SELECT SUM(cart.qty * books.sell_price) AS total_revenue FROM cart JOIN books ON cart.item_id = books.id WHERE cart.direct_buy = 2";
 
-                                $result = mysqli_query($connect, $query);
-                                $row = mysqli_fetch_assoc($result);
+                                $result = $connect->query($query);
+                                $row = $result->fetch_assoc();
 
                                 $total_revenue = $row['total_revenue'];
                                 $query = "SELECT SUM(qty * price) AS total_revenue FROM cart WHERE direct_buy = 2";
