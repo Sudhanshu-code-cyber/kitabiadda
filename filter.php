@@ -39,6 +39,7 @@ if (!empty($_GET['filter'])) {
 
 // Filter: Search
 if (!empty($_GET['search_book'])) {
+    $search = trim($_GET['search_book']);
     $search = mysqli_real_escape_string($connect, $_GET['search_book']);
     if (strlen($search) < 1) {
         message("Please enter a search term.");
