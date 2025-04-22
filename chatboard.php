@@ -529,7 +529,8 @@ if (isset($_GET['product_id'])) {
                             <div>
                                 <h3 class="font-semibold"><?= htmlspecialchars($otherUserInfo['name']) ?></h3>
                                 <p class="text-xs text-gray-500">
-                                    <?= $otherUserInfo['user_id'] == $bookInfo['seller_id'] ? 'Seller' : 'Buyer' ?></p>
+                                    <?= $otherUserInfo['user_id'] == $bookInfo['seller_id'] ? 'Seller' : 'Buyer' ?>
+                                </p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
@@ -587,8 +588,13 @@ if (isset($_GET['product_id'])) {
                                         <p class="text-xs <?= $msg['sender_id'] == $user_id ? 'text-white/80' : 'text-gray-500' ?>">
                                             <?php
                                             date_default_timezone_set('Asia/Kolkata');
-                                            echo date('h:i A', strtotime($msg['msg_time']));
+
+                                            $datetime = new DateTime($msg['msg_time'], new DateTimeZone('UTC')); // Assuming time from DB is in UTC
+                                            $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
+
+                                            echo $datetime->format('h:i A');
                                             ?>
+
 
                                         </p>
 
