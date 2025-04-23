@@ -97,13 +97,13 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                       <td><?= $users['contact'] ?></td>
                       <td><?= date("d-m-Y", strtotime($users['date_time'])) ?></td>
                       <td><?php
-                                            date_default_timezone_set('Asia/Kolkata');
+                      date_default_timezone_set('Asia/Kolkata');
 
-                                            $datetime = new DateTime($users['date_time'], new DateTimeZone('UTC')); // Assuming time from DB is in UTC
-                                            $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
+                      $datetime = new DateTime($users['date_time'], new DateTimeZone('UTC')); // Assuming time from DB is in UTC
+                      $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
 
-                                            echo $datetime->format('h:i A');
-                              ?>
+                      echo $datetime->format('h:i A');
+                      ?>
 
                       </td>
                       <td>
