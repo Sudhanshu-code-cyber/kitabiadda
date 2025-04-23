@@ -96,7 +96,15 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                       <td><strong><?= $users['gender'] ?></td>
                       <td><?= $users['contact'] ?></td>
                       <td><?= date("d-m-Y", strtotime($users['date_time'])) ?></td>
-                      <td><?= date("h:i:s A", strtotime($users['date_time'])) ?>
+                      <td><?php
+                                            date_default_timezone_set('Asia/Kolkata');
+
+                                            $datetime = new DateTime($users['date_time'], new DateTimeZone('UTC')); // Assuming time from DB is in UTC
+                                            $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
+
+                                            echo $datetime->format('h:i A');
+                              ?>
+
                       </td>
                       <td>
                         <a href="" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></a>
