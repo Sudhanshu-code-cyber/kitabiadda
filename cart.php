@@ -197,7 +197,9 @@ if (isset($_GET['minus_book'])) {
                                             ₹<?= $cartItem['sell_price'] ?>
                                             <span class="text-gray-500 line-through text-sm">₹<?= $cartItem['mrp'] ?></span>
                                         </p>
+                                        <div>MAX :- <?= $cartItem['book_quantity'] ?></div>
                                     </div>
+                                    
                                     <div class="flex items-center gap-3 bg-gray-100 rounded-md px-3 py-1">
                                         <a href="?minus_book=<?= $cartItem['id'] ?>"
                                             class="text-gray-700 text-xl font-medium px-2 hover:text-black">−</a>

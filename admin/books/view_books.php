@@ -46,7 +46,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                   <th scope="col">sell Price</th>
                   <th scope="col">language</th>
                   <th scope="col">Quality</th>
-                  <th scope="col">Rating</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -63,7 +62,6 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                     <td><?= $book_detail['sell_price'] ?></td>
                     <td><?= $book_detail['language'] ?></td>
                     <td><?= $book_detail['quality'] ?></td>
-                    <td><?= $book_detail['book_rating'] ?></td>
 
                     <td><a href="?delete_book=<?= $book_detail['id']; ?>" class="btn btn-danger btn-sm"><i
                           class="bi bi-trash3"></i></a>
