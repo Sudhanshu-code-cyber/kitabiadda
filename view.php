@@ -636,7 +636,8 @@ $address = mysqli_fetch_assoc($callAdd) ?>
 
                                     <div class="flex flex-col h-[20vh] items-center">
                                         <p class="text-lg font-semibold"><?= htmlspecialchars($sellerContact['name']) ?></p>
-                                        <p class="text-gray-500"><?= htmlspecialchars($sellerContact['contact']) ?></p>
+                                        <p class="text-gray-500"><?= htmlspecialchars(!empty($sellerContact['contact']) ? $sellerContact['contact'] : (!empty($address['mobile']) ? $address['mobile'] : '')) ?>
+                                        </p>
 
                                         <div class="mt-4 space-x-4">
                                             <!-- Call Now Button -->

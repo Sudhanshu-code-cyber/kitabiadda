@@ -106,13 +106,7 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                                     step="0.1" value="<?= $books_row['language'] ?>" readonly>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <input type="text" class="form-control" id="rating" name="book_rating" min="1" max="5"
-                                    step="0.1" value="<?= $books_row['book_rating'] ?>" readonly>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <!-- Category -->
@@ -198,25 +192,25 @@ include_once '../includes/redirectIfNotAdmin.php'; ?>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Thumbnail Image</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../assets/images/<?= $books_row['img1'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 1</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img2'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../assets/images/<?= $books_row['img2'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 2</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img3'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../assets/images/<?= $books_row['img3'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         <div class="col-md-3">
                             <label for="image1" class="form-label">Image 3</label>
                             
-                            <img id="preview1" src="../../images/<?= $books_row['img4'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
+                            <img id="preview1" src="../../assets/images/<?= $books_row['img4'] ?>" alt="Image 1 Preview" class="img-fluid mt-2"
                                 >
                         </div>
                         
