@@ -28,7 +28,7 @@
 
         <div class="main-content">
             <div class="content flex-grow-1 p-4">
-                <h2>Welcome to Read Rainbow</h2>
+                <h2>Welcome to <?= PROJECT_NAME?></h2>
                 <div class="container mt-5">
                     <!-- yaha banao complain wala div  -->
                     <!-- Complaint Section -->
@@ -40,12 +40,15 @@
                         <!-- Complaint 1 -->
                         <div class="col">
                             <div class="card shadow-sm h-100">
+                                <?php
+                                    $callingComplain = $connect->query("select * from contact_us");
+                                    while($comp = $callingComplain->fetch_assoc()):
+                                ?>
                                 <div class="card-body">
-                                    <h5 class="card-title">Ravi Sharma</h5>
-                                    <p class="card-text">📦 <strong>Complaint:</strong> Book not delivered even after 7
-                                        days.</p>
+                                    <h5 class="card-title"><?= $comp['name'];?></h5>
+                                    <p class="card-text">📦 <strong>Complaint:</strong><?= $comp['msg'];?></p>
                                     <p class="card-text"><i class="bi bi-calendar-event"></i> <small
-                                            class="text-muted">2025-04-08</small></p>
+                                            class="text-muted"><?= $comp['msg_time_date'];?></small></p>
                                     <span class="badge bg-warning text-dark mb-3">Pending</span>
                                     <div class="d-flex justify-content-between">
                                         <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i> View</button>
@@ -55,60 +58,11 @@
                                             Delete</button>
                                     </div>
                                 </div>
+                                <?php endwhile;?>
                             </div>
                         </div>
-
-                        <!-- Complaint 2 -->
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">Priya Mehta</h5>
-                                    <p class="card-text">📚 <strong>Complaint:</strong> Received wrong book in the
-                                        order.</p>
-                                    <p class="card-text"><i class="bi bi-calendar-event"></i> <small
-                                            class="text-muted">2025-04-07</small></p>
-                                    <span class="badge bg-danger mb-3">Unresolved</span>
-                                    <div class="d-flex justify-content-between">
-                                        <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i> View</button>
-                                        <button class="btn btn-sm btn-success"><i class="bi bi-check-circle"></i>
-                                            Resolve</button>
-                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>
-                                            Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Complaint 3 -->
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">Aman Verma</h5>
-                                    <p class="card-text">💳 <strong>Complaint:</strong> Payment deducted but order not
-                                        placed.</p>
-                                    <p class="card-text"><i class="bi bi-calendar-event"></i> <small
-                                            class="text-muted">2025-04-06</small></p>
-                                    <span class="badge bg-success mb-3">Resolved</span>
-                                    <div class="d-flex justify-content-between">
-                                        <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i> View</button>
-                                        <button class="btn btn-sm btn-secondary" disabled><i
-                                                class="bi bi-check-circle"></i> Resolved</button>
-                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>
-                                            Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
-
-
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
