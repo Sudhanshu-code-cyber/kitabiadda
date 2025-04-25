@@ -72,7 +72,8 @@ $coutwishlist = mysqli_num_rows($count);
     <?php include_once "includes/header.php"; ?>
 
     <div class="flex flex-col md:flex-row min-h-screen pt-14">
-        <button id="mobileMenuButton" class="md:hidden hidden fixed top-16 right-4 z-30 p-2 bg-[#B3D8A8] rounded-lg shadow">
+        <button id="mobileMenuButton"
+            class="md:hidden hidden fixed top-16 right-4 z-30 p-2 bg-[#B3D8A8] rounded-lg shadow">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -84,15 +85,14 @@ $coutwishlist = mysqli_num_rows($count);
             class="profile-sidebar xl:w-1/4 md:w-1/3 bg-[#B3D8A8] px-4 pt-6 pb-20 flex flex-col items-center md:items-start">
             <div class="w-full flex flex-col items-center md:items-start">
                 <img src="<?php
-                    if($user['dp'] == ""){
-                        echo "assets/defaultUser.webp";
-                    } elseif (substr($user['dp'], 0, 5) === 'https'){
-                        echo $user['dp'] ;
-                    } else {
-                        echo "assets/user_dp/" . $user['dp'] ;
-                    }
-                    ?>"
-                    alt="Profile Picture" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-gray-700">
+                if ($user['dp'] == "") {
+                    echo "assets/defaultUser.webp";
+                } elseif (substr($user['dp'], 0, 5) === 'https') {
+                    echo $user['dp'];
+                } else {
+                    echo "assets/user_dp/" . $user['dp'];
+                }
+                ?>" alt="Profile Picture" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-gray-700">
                 <h1 class="mt-4 text-lg md:text-xl font-semibold text-center md:text-left"><?= $user['name']; ?></h1>
                 <p class="text-gray-800 text-xs md:text-sm text-center md:text-left"><?= $user['email']; ?></p>
             </div>
@@ -220,13 +220,13 @@ $coutwishlist = mysqli_num_rows($count);
                 </svg>
                 <span class="text-xs">Orders</span>
             </button>
-            <button class="mobile-menu-button" onclick="showSection('wishlist')">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            <button class="mobile-menu-button" onclick="showSection('my_selling')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
+                        clip-rule="evenodd" />
                 </svg>
-                <span class="text-xs">Wishlist</span>
+                <span class="text-xs">My Selling</span>
             </button>
             <button class="mobile-menu-button" id="mobileMenuButton" onclick="toggleSidebar()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
