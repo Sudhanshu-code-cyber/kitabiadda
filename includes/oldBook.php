@@ -16,18 +16,18 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
 ?>
 
 <style>
-     .discount-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 </style>
 <section class="mt-10">
     <div class="w-full mx-auto px-[2%]">
@@ -64,24 +64,25 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                         class="bg-white p-3  rounded-lg  shadow-lg border border-gray-200 w-40 sm:w-60 min-w-[10rem] sm:min-w-[14rem] relative transition-transform duration-300 hover:scale-[1.03]">
 
                         <!-- Discount Badge -->
-                        <div
-                            class="absolute left-2 top-2 discount-badge">
+                        <div class="absolute left-2 top-2 discount-badge">
                             <?= round($percentage); ?>% OFF
                         </div>
 
                         <!-- Wishlist Button -->
-                        <form method="POST" action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>" 
-                          class="absolute top-1 right-3 z-10" onclick="event.stopPropagation();">
-                        <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
-                        <button type="submit" name="toggle_wishlist" class="p-1.5 bg-white bg-opacity-80 rounded-full shadow-md hover:scale-110 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
-                                 fill="<?= $isWishlisted ? 'red' : 'none'; ?>" 
-                                 stroke="red" stroke-width="1.5" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" 
-                                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                            </svg>
-                        </button>
-                    </form>
+                        <form method="POST"
+                            action="<?= isset($_SESSION['user']) ? 'actions/wishlistAction.php' : 'login.php'; ?>"
+                            class="absolute top-1 right-3 z-10" onclick="event.stopPropagation();">
+                            <input type="hidden" name="wishlist_id" value="<?= $bookId; ?>">
+                            <button type="submit" name="toggle_wishlist"
+                                class="p-1.5 bg-white bg-opacity-80 rounded-full shadow-md hover:scale-110 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="<?= $isWishlisted ? 'red' : 'none'; ?>" stroke="red" stroke-width="1.5"
+                                    class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            </button>
+                        </form>
 
                         <!-- Book Click Redirect -->
                         <a href="view.php?book_id=<?= $bookId; ?>" class="block">
@@ -124,8 +125,7 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                                             ₹<?= $book['mrp']; ?>
                                         </span>
                                     </div>
-                                    <span
-                                        class="text-[10px] sm:text-xs  text-green-500 sm:px-2 py-0.5 rounded-full">
+                                    <span class="text-[10px] sm:text-xs  text-green-500 sm:px-2 py-0.5 rounded-full">
                                         Save ₹<?= $book['mrp'] - $book['sell_price']; ?>
                                     </span>
                                 </div>
@@ -140,8 +140,10 @@ $booksQuery = $connect->query("SELECT * FROM books WHERE version='old' ORDER BY 
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
-                                        <span
-                                            class="truncate max-w-[80px] text-[10px] sm:max-w-[100px]"><?= $address['city'] ?? 'Unknown'; ?></span>
+                                        <span class="truncate max-w-[80px] text-[10px] sm:max-w-[100px]">
+                                            <?= isset($address['city']) ? $address['city'] : 'Unknown'; ?>
+                                        </span>
+
                                     </div>
 
                                     <div class="flex items-center ml-1 justify-center text-[10px] w-full text-gray-400">
